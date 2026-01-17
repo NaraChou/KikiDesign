@@ -43,7 +43,7 @@ export const Works: React.FC = () => {
             <img 
               src={workImg1} // 這裡必須是大括號包住的變數名
               alt="個人品牌形象官網" 
-              className="w-full h-full object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
             />
             <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -64,7 +64,7 @@ export const Works: React.FC = () => {
             <img 
               src={workImg2} // 這裡必須是大括號包住的變數名
               alt="個人商標與名片" 
-              className="w-full h-full object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
             />
             <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">

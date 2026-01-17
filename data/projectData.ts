@@ -1,14 +1,14 @@
 // 1. 先匯入需要的圖片
-import work1Hero from '../assets/images/work-01.webp';
+import work1Hero from '../assets/images/work-01.webp'; // 作品一的圖片命名為：branding-01.jpg, branding-02.jpg...
 import work1Detail1 from '../assets/images/work-00.png';
 
-import work2Hero from '../assets/images/work-02.png';
+import work2Hero from '../assets/images/work-02.png'; // 作品二的圖片命名為：logo - 01.jpg, logo - 02.jpg...
 import work2Detail1 from '../assets/images/work-00.png';
 // ... 依此類推匯入其他圖片
 
 export const projects = {
   'personal-branding': {
-    id: 'personal-branding',
+    id: 'personal-branding', // <--- 這是 ID
     title: '個人品牌形象官網',
     subtitle: 'Personal Branding Website',
     category: 'Brand Identity / UI/UX',
@@ -21,7 +21,7 @@ export const projects = {
     ]
   },
   'logo-design': {
-    id: 'logo-design',
+    id: 'logo-design', // <--- 這是另一個 ID
     title: '個人商標與名片',
     subtitle: 'Logo & Business Card',
     category: 'Visual Design / Print',

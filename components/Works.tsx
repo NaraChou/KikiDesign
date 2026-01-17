@@ -39,14 +39,14 @@ export const Works: React.FC = () => {
         {/* Work 1 - Linked to Detail Page */}
         <Link to="/work/personal-branding" className="work-card group cursor-pointer block">
           <div className="relative overflow-hidden aspect-4/5 bg-neutral-900">
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
-            <img
-              src={workImg1}
-              alt="個人品牌形象官網"
-              // 將 object-cover 改為 object-contain (完整縮放不切圖) 
-              // 加上 object-center (確保置中)
-              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
-            />
+            {/* 找到這個圖片容器 div */}
+            <div className="relative overflow-hidden aspect-4/5 bg-slate-900/50 rounded-2xl border border-white/5 shadow-inner">
+              <img
+                src={workImg1}
+                alt="個人品牌形象官網"
+                className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+              />
+            </div>
             <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">
                     <span className="text-[10px] text-white">↗</span>

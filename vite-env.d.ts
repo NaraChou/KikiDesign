@@ -1,2 +1,11 @@
 ///<reference types="vite/client" />
-declare const gsap: any;
+
+declare module "*.png";
+declare module "*.jpg";
+declare module "*.jpeg";
+declare module "*.webp";
+
+interface Window {
+    gsap: any;
+    ScrollTrigger: any;
+}

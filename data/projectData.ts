@@ -3,7 +3,7 @@ import work1Hero from '../assets/images/work-01.webp'; // 作品一的圖片命�
 import work1Detail1 from '../assets/images/work-03.webp';
 
 import work2Hero from '../assets/images/work-02.png'; // 作品二的圖片命名為：logo - 01.jpg, logo - 02.jpg...
-import work2Detail1 from '../assets/images/work-00.png';
+import work2Detail1 from '../assets/images/work-03.webp';
 // ... 依此類推匯入其他圖片
 
 export const projects = {

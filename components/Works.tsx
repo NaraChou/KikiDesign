@@ -1,86 +1,112 @@
 // @ts-ignore
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-// 使用剛設定好的 @ 別名
+
+// 匯入圖片 (路徑與副檔名已根據您的現狀調整)
 import workImg1 from '../assets/images/work-01.webp';
 import workImg2 from '../assets/images/work-02.png';
 
 declare const window: any;
 
+// 1. 定義作品資料陣列，將樣式與內容抽離
+const projects = [
+  {
+    id: 'personal-branding',
+    title: '個人品牌形象官網 / Personal Branding Website',
+    subtitle: 'BRAND IDENTITY / 2024',
+    img: workImg1,
+    // Work 1: 藍色調質感背景
+    bgColor: 'bg-slate-900/50',
+    borderColor: 'border-white/5',
+    customClass: '', // 第一個作品不需額外邊距
+    textAlign: 'md:text-left'
+  },
+  {
+    id: 'logo-design',
+    title: '個人商標與名片 / Logo & Business Card',
+    subtitle: 'VISUAL DESIGN / 2025',
+    img: workImg2,
+    // Work 2: 紫色調質感背景
+    bgColor: 'bg-purple-900/10',
+    borderColor: 'border-purple-500/10',
+    customClass: 'md:mt-64', // 保留您原本的錯位設計
+    textAlign: 'text-right md:text-left' // 保留您原本的右對齊
+  }
+];
 
 export const Works: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = window.gsap.context(() => {
-      const cards = document.querySelectorAll('.work-card');
-      cards.forEach((card) => {
-        window.gsap.from(card, {
-          scrollTrigger: { trigger: card, start: "top bottom-=50px" },
-          opacity: 0, 
-          y: 30, 
-          duration: 1.2, 
-          ease: "power2.out"
+    // 確保 gsap 存在後再執行
+    if (window.gsap) {
+      const ctx = window.gsap.context(() => {
+        const cards = document.querySelectorAll('.work-card');
+        cards.forEach((card) => {
+          window.gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start: "top bottom-=50px"
+            },
+            opacity: 0,
+            y: 30,
+            duration: 1.2,
+            ease: "power2.out"
+          });
         });
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+      }, containerRef);
+      return () => ctx.revert();
+    }
   }, []);
 
   return (
     <section id="works" ref={containerRef} className="py-24 md:py-40 px-6 md:px-16 max-w-7xl mx-auto">
+      {/* 標題區塊 */}
       <div className="flex flex-col mb-24 md:mb-48 border-l border-red-500/20 pl-6 md:pl-10">
-        <h3 className="serif-italic text-3xl md:text-4xl mb-4 italic">Portfolio</h3>
+        <h3 className="serif-italic text-3xl md:text-4xl mb-4 italic text-white">Portfolio</h3>
         <p className="text-[9px] tracking-[0.5em] text-[rgba(234,226,214,0.5)] uppercase">Selected Fragments</p>
       </div>
-      
+
+      {/* 作品網格 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-40 items-start">
-        {/* Work 1 - Linked to Detail Page */}
-        <Link to="/work/personal-branding" className="work-card group cursor-pointer block">
-          <div className="relative overflow-hidden aspect-4/5 bg-neutral-900">
-            {/* 找到這個圖片容器 div */}
-            <div className="relative overflow-hidden aspect-4/5 bg-slate-900/50 rounded-2xl border border-white/5 shadow-inner">
+        {projects.map((project) => (
+          <Link
+            key={project.id}
+            to={`/work/${project.id}`}
+            className={`work-card group cursor-pointer block ${project.customClass}`}
+          >
+            {/* 動態圖片容器：結合 object-contain (置中不切圖) 與自定義背景 */}
+            <div className={`relative overflow-hidden aspect-4/5 rounded-2xl border shadow-inner transition-all duration-500 ${project.bgColor} ${project.borderColor}`}>
+
+              {/* 遮罩層 */}
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
+
               <img
-                src={workImg1}
-                alt="個人品牌形象官網"
+                src={project.img}
+                alt={project.title}
+                // 核心修正：object-contain + object-center 確保圖片完整
                 className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
               />
-            </div>
-            <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+
+              {/* 右上角箭頭 */}
+              <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-                    <span className="text-[10px] text-white">↗</span>
+                  <span className="text-[10px] text-white">↗</span>
                 </span>
+              </div>
             </div>
-          </div>
-          <div className="mt-8 md:mt-12 space-y-2">
-            <h4 className="text-xs tracking-[0.4em] font-light uppercase group-hover:text-white transition-colors">個人品牌形象官網 / Personal Branding Website</h4>
-            <p className="text-[9px] text-[rgba(234,226,214,0.5)] tracking-widest italic uppercase">BRAND IDENTITY / 2024</p>
-          </div>
-        </Link>
-        
-        {/* Work 2 - Linked to Detail Page */}
-        <Link to="/work/logo-design" className="work-card group cursor-pointer md:mt-64 block">
-          <div className="relative overflow-hidden aspect-4/5 bg-neutral-900">
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
-            <img
-              src={workImg2}
-              alt="個人商標與名片"
-              // 將 object-cover 改為 object-contain (完整縮放不切圖) 
-              // 加上 object-center (確保置中)
-              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-                    <span className="text-[10px] text-white">↗</span>
-                </span>
+
+            {/* 下方文字資訊：保留您原本的字體大小與間距 */}
+            <div className={`mt-8 md:mt-12 space-y-2 ${project.textAlign}`}>
+              <h4 className="text-xs tracking-[0.4em] font-light uppercase text-white/80 group-hover:text-white transition-colors">
+                {project.title}
+              </h4>
+              <p className="text-[9px] text-[rgba(234,226,214,0.5)] tracking-widest italic uppercase">
+                {project.subtitle}
+              </p>
             </div>
-          </div>
-          <div className="mt-8 md:mt-12 space-y-2 text-right md:text-left">
-            <h4 className="text-xs tracking-[0.4em] font-light uppercase group-hover:text-white transition-colors">個人商標與名片 / Logo & Business Card</h4>
-            <p className="text-[9px] text-[rgba(234,226,214,0.5)] tracking-widest italic uppercase">VISUAL DESIGN / 2025</p>
-          </div>
-        </Link>
+          </Link>
+        ))}
       </div>
     </section>
   );

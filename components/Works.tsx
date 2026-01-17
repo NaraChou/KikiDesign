@@ -15,8 +15,8 @@ const projects = [
     title: '個人品牌形象官網 / Personal Branding Website',
     subtitle: 'BRAND IDENTITY / 2024',
     img: workImg1,
-    // 建議：使用深藍灰色，並加上 p-8 內距
-    bgColor: 'bg-[#1a1c2e]/80 p-8',
+    // 建議：使用深藍灰色，並加上 p-8 內距（深藍灰配上較大內距）
+    bgColor: 'bg-[#1a1c2e]/50 p-6 md:p-10',
     borderColor: 'border-white/10',
     customClass: '',
     textAlign: 'md:text-left'
@@ -26,8 +26,8 @@ const projects = [
     title: '個人商標與名片 / Logo & Business Card',
     subtitle: 'VISUAL DESIGN / 2025',
     img: workImg2,
-    // 建議：深紫色質感
-    bgColor: 'bg-[#2e1a2e]/80 p-8',
+    // 建議：深紫色質感（深紫灰）
+    bgColor: 'bg-[#2e1a2e]/50 p-6 md:p-10',
     borderColor: 'border-white/10',
     customClass: 'md:mt-64',
     textAlign: 'text-right md:text-left'

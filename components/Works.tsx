@@ -17,7 +17,8 @@ const projects = [
     img: workImg1,
     // 建議：使用深藍灰色，並加上 p-8 內距（深藍灰配上較大內距）
     bgColor: 'bg-[#1a1c2e]/50 p-6 md:p-10',
-    borderColor: 'border-white/10',
+    // 加上 group-hover:border-white/30 讓移入時邊框變亮
+    borderColor: 'border-white/10 group-hover:border-white/30',
     customClass: '',
     textAlign: 'md:text-left'
   },
@@ -28,7 +29,8 @@ const projects = [
     img: workImg2,
     // 建議：深紫色質感（深紫灰）
     bgColor: 'bg-[#2e1a2e]/50 p-6 md:p-10',
-    borderColor: 'border-white/10',
+    // 加上 group-hover:border-white/30 讓移入時邊框變亮
+    borderColor: 'border-white/10 group-hover:border-white/30',
     customClass: 'md:mt-64',
     textAlign: 'text-right md:text-left'
   }
@@ -98,7 +100,8 @@ export const Works: React.FC = () => {
 
             {/* 下方文字資訊：保留您原本的字體大小與間距 */}
             <div className={`mt-8 md:mt-12 space-y-2 ${project.textAlign}`}>
-              <h4 className="text-xs tracking-[0.4em] font-light uppercase text-white/80 group-hover:text-white transition-colors">
+              {/* 修改這行：將預設顏色調淡一點 */}
+              <h4 className="text-xs tracking-[0.4em] font-light uppercase text-white/70 group-hover:text-white transition-colors">
                 {project.title}
               </h4>
               <p className="text-[9px] text-[rgba(234,226,214,0.5)] tracking-widest italic uppercase">

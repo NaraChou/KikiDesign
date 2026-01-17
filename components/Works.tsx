@@ -38,13 +38,14 @@ export const Works: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-40 items-start">
         {/* Work 1 - Linked to Detail Page */}
         <Link to="/work/personal-branding" className="work-card group cursor-pointer block">
-          <div className="relative overflow-hidden aspect-[4/5] bg-neutral-900">
+          <div className="relative overflow-hidden aspect-4/5 bg-neutral-900">
             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
             <img
               src={workImg1}
               alt="個人品牌形象官網"
-              // 將 object-cover 改為 object-contain，並確保 object-center
-              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+              // 將 object-cover 改為 object-contain (完整縮放不切圖) 
+              // 加上 object-center (確保置中)
+              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -60,12 +61,14 @@ export const Works: React.FC = () => {
         
         {/* Work 2 - Linked to Detail Page */}
         <Link to="/work/logo-design" className="work-card group cursor-pointer md:mt-64 block">
-          <div className="relative overflow-hidden aspect-[4/5] bg-neutral-900">
+          <div className="relative overflow-hidden aspect-4/5 bg-neutral-900">
             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
-            <img 
-              src={workImg2} // 這裡必須是大括號包住的變數名
-              alt="個人商標與名片" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+            <img
+              src={workImg2}
+              alt="個人商標與名片"
+              // 將 object-cover 改為 object-contain (完整縮放不切圖) 
+              // 加上 object-center (確保置中)
+              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">

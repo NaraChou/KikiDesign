@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // 匯入圖片 (路徑與副檔名已根據您的現狀調整)
 import workImg1 from '../assets/images/work-01.webp';
-import workImg2 from '../assets/images/work-02.png';
+import workImg2 from '../assets/images/work-02.webp';
 
 declare const window: any;
 

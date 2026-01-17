@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import workImg1 from '../assets/images/Gemini_Image_Personal Branding Website_01.png';
+// 使用剛設定好的 @ 別名
+import workImg1 from '@/assets/images/work-01.png';
 export const Works: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,7 @@ export const Works: React.FC = () => {
           <div className="relative overflow-hidden aspect-[4/5] bg-neutral-900">
             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
             <img 
-              src={workImg1} 
+              src={workImg1} // 這裡必須是大括號包住的變數名
               alt="個人品牌形象官網" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
             />

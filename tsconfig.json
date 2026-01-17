@@ -13,7 +13,8 @@
     "types": [
       "node"
     ],
-    "moduleResolution": "bundler",
+    /* 1. 將 bundler 改為 node，解決相容性與找不到 react 的問題 */
+    "moduleResolution": "node",
     "isolatedModules": true,
     "moduleDetection": "force",
     "allowJs": true,
@@ -23,7 +24,7 @@
         "./*"
       ]
     },
-    "allowImportingTsExtensions": true,
+    /* 2. 移除或註解掉舊版不支援的 allowImportingTsExtensions */
     "noEmit": true
   }
 }

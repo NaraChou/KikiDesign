@@ -1,11 +1,9 @@
+// @ts-ignore
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 // 使用剛設定好的 @ 別名
 import workImg1 from '../assets/images/work-01.png';
 import workImg2 from '../assets/images/work-02.png';
-// import workImg3 from '@/assets/images/work-03.png';
-// import workImg4 from '@/assets/images/work-04.png';
-// import workImg5 from '@/assets/images/work-05.png';
 
 declare const window: any;
 

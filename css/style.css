@@ -22,7 +22,12 @@ body {
     font-style: italic;
 }
 /* Vertical Text for Back to Top */
+/* 讓文字變成垂直排列 */
 .vertical-text {
     writing-mode: vertical-rl;
-    text-orientation: mixed;
+    /* 這是關鍵：設定書寫模式為垂直 */
+    text-orientation: upright;
+    /* 確保字母是正的，而不是橫躺的 */
+    letter-spacing: 0.1em;
+    /* 調整字距讓它更好看 */
 }

@@ -1,24 +1,34 @@
 import * as path from 'path';
 import { defineConfig, loadEnv } from 'vite';
-// 如果這行還是紅字，請確保你已經跑過上面的 npm install 指令
-// @ts-ignore
-import tailwindcss from '@tailwindcss/vite' // 新增這行
 // @ts-ignore
 import react from '@vitejs/plugin-react';
+// @ts-ignore - 確保這一行在 import react 附近，並且已經執行過 npm install @tailwindcss/vite
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+
   return {
-    base: '/KikiDesign/', // GitHub 佈署關鍵
+    // 確保這裡的 Repo 名稱大小寫與 GitHub 一致
+    base: '/KikiDesign/',
+
     plugins: [
-      tailwindcss(), // 將 tailwind 放在 react 之前通常更穩定
-      react(),      
+      // 1. Tailwind v4 插件必須放在最前面
+      tailwindcss(),
+      react(),
     ],
+
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'),
+        // 確保路徑解析正確
+        '@': path.resolve(__dirname, './src'),
       }
+    },
+
+    // 建議加上這個，確保打包時能正確處理
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
     }
-    // ... 其他 define 與 server 設定保持不變
   };
 });

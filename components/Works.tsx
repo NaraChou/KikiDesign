@@ -26,8 +26,8 @@ const projects = [
     title: '個人商標與名片 / Logo & Business Card',
     subtitle: 'VISUAL DESIGN / 2025',
     img: workImg2,
-    // Work 2: 紫色調質感背景
-    bgColor: 'bg-purple-900/10',
+    // Work 2: 紫色調質感背景 原bg-purple-900/10
+    bgColor: 'bg-blue-600',
     borderColor: 'border-purple-500/10',
     customClass: 'md:mt-64', // 保留您原本的錯位設計
     textAlign: 'text-right md:text-left' // 保留您原本的右對齊

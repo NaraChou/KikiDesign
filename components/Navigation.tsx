@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 // src/components/Navigation.tsx
-import kikiLogo from '../assets/images/logo-kiki-256.png'; // 匯入您的新 Logo
+import kikiLogo from '../assets/images/logo-kiki-256.png'; // 確保指向 images 資料夾
 
 interface NavigationProps {
   onToggleMenu: () => void;
@@ -38,8 +38,11 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
         <img
           src={kikiLogo}
           alt="棠想視界 Logo"
-          className="w-6 h-6 object-contain" // 設定適合的大小，object-contain 確保不變形
+          className="w-6 h-6 md:w-7 md:h-7 object-contain"
         />
+        <div className="text-sm md:text-base tracking-[0.5em] font-light chinese-art uppercase">
+          棠想視界
+        </div>
       </div>
       
       {/* Desktop Links */}

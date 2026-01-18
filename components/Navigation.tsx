@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+// src/components/Navigation.tsx
+import kikiLogo from '../assets/images/logo-kiki-256.png'; // 匯入您的新 Logo
 
 interface NavigationProps {
   onToggleMenu: () => void;
@@ -32,10 +34,12 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   return (
     <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50 mix-blend-difference text-[#EAE2D6]">
       <div className="flex items-center space-x-4 cursor-pointer" onClick={() => navigate('/')}>
-        <div className="w-[18px] h-[18px] border border-red-500/50 relative rotate-45">
-            <div className="absolute w-1 h-1 bg-[#E63946] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-        </div>
-        <div className="text-sm md:text-base tracking-[0.5em] font-light chinese-art uppercase">棠想視界</div>
+        {/* 替換後的代碼 */}
+        <img
+          src={kikiLogo}
+          alt="棠想視界 Logo"
+          className="w-6 h-6 object-contain" // 設定適合的大小，object-contain 確保不變形
+        />
       </div>
       
       {/* Desktop Links */}
@@ -52,8 +56,8 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
         className="md:hidden flex flex-col space-y-1.5 p-2 cursor-pointer"
         onClick={onToggleMenu}
       >
-        <div className="w-6 h-[1px] bg-white/80"></div>
-        <div className="w-4 h-[1px] bg-white/80 ml-auto"></div>
+        <div className="w-6 h-px bg-white/80"></div>
+        <div className="w-4 h-px bg-white/80 ml-auto"></div>
       </button>
     </nav>
   );

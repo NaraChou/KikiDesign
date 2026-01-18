@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    base: '/KikiDesign/',
+    base: '/KikiDesign/', // 必須與您的 GitHub 倉庫名稱完全一致
     plugins: [
       tailwindcss(), // 確保在 react 之前
       react(),

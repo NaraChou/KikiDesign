@@ -1,6 +1,7 @@
 // 1. 先匯入需要的圖片
 import work1Hero from '../assets/images/work-01.webp'; // 作品一的圖片命名為：branding-01.jpg, branding-02.jpg...
 import work1Detail1 from '../assets/images/work-03.webp';
+import behaviorIndex from '../assets/images/behavior-index.webp';
 
 import work2Hero from '../assets/images/work-02.webp'; // 作品二的圖片命名為：logo - 01.jpg, logo - 02.jpg...
 import work2Detail1 from '../assets/images/work-03.webp';
@@ -17,6 +18,7 @@ export const projects = {
     images: [
       work1Hero,    // 這裡傳遞的是 Vite 處理後的 URL 變數
       work1Detail1,
+      behaviorIndex, // <-- 新增這行變數名（不加引號）
       // ...
     ]
   },

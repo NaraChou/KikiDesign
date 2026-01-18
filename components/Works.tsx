@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 // 匯入圖片 (路徑與副檔名已根據您的現狀調整)
-import workImg1 from '../assets/images/work-01.webp';
-import workImg2 from '../assets/images/work-02.webp';
+import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
+import logoStationery from '../assets/images/logo-branding-stationery.webp';
 
 declare const window: any;
 
@@ -14,7 +14,7 @@ const projects = [
     id: 'personal-branding',
     title: '個人品牌形象官網 / Personal Branding Website',
     subtitle: 'BRAND IDENTITY / 2024',
-    img: workImg1,
+    img: brandingMockupMain,
     // 建議：使用深藍灰色，並加上 p-8 內距（深藍灰配上較大內距）
     bgColor: 'bg-[#1a1c2e]/50 p-6 md:p-10',
     // 加上 group-hover:border-white/30 讓移入時邊框變亮
@@ -26,7 +26,7 @@ const projects = [
     id: 'logo-design',
     title: '個人商標與名片 / Logo & Business Card',
     subtitle: 'VISUAL DESIGN / 2025',
-    img: workImg2,
+    img: logoStationery,
     // 建議：深紫色質感（深紫灰）
     bgColor: 'bg-[#2e1a2e]/50 p-6 md:p-10',
     // 加上 group-hover:border-white/30 讓移入時邊框變亮

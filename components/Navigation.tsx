@@ -47,13 +47,14 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
 
         {/* 垂直文字容器 */}
         <div className="flex flex-col items-start justify-center">
-          {/* 上方：英文名稱 (透過極大字距對齊中文寬度) */}
-          <span className="text-[8px] md:text-[10px] uppercase font-light text-[#E63946] leading-none tracking-[0.65em] opacity-90 -mr-[0.65em]">
+          {/* 上方：英文名稱 - 增加字距以對齊中文寬度 */}
+          {/* 這裡使用 tracking-[0.55em] 並配合 -mr-[0.55em] 確保末端齊平 */}
+          <span className="text-[7px] md:text-[9px] uppercase font-light text-[#E63946] leading-none tracking-[0.55em] -mr-[0.55em] mb-1 opacity-90">
             Kiki Design
           </span>
 
-          {/* 下方：中文名稱 (套用自定義藝術字體類別) */}
-          <span className="chinese-art text-lg md:text-xl text-[#E63946] leading-none mt-1.5">
+          {/* 下方：中文名稱 - 套用您的 .chinese-art 類別 */}
+          <span className="chinese-art text-lg md:text-xl text-[#E63946] leading-none">
             棠想視界
           </span>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-// src/components/Navigation.tsx
-import kikiLogo from '../assets/images/logo-kiki-256.png'; // 確保指向 images 資料夾
+// 1. 先引入圖片檔案
+import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 interface NavigationProps {
   onToggleMenu: () => void;
@@ -31,19 +31,19 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
+// src/components/Navigation.tsx
   return (
-    <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50 mix-blend-difference text-[#EAE2D6]">
-      <div className="flex items-center space-x-4 cursor-pointer" onClick={() => navigate('/')}>
-        {/* 替換後的代碼 */}
+    <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50">
+      {/* 點擊 Logo 回到首頁 */}
+      <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center">
         <img
           src={kikiLogo}
           alt="棠想視界 Logo"
-          className="w-6 h-6 md:w-7 md:h-7 object-contain"
+          // 這裡設定尺寸，w-10 約 40px，您可以根據需求調整成 w-8 或 w-12
+          className="w-10 h-10 md:w-12 md:h-12 object-contain"
+          style={{ backgroundColor: 'transparent' }} // 確保背景不干擾
         />
-        <div className="text-sm md:text-base tracking-[0.5em] font-light chinese-art uppercase">
-          棠想視界
-        </div>
-      </div>
+      </Link>
       
       {/* Desktop Links */}
       <div className="hidden md:flex space-x-12 text-[9px] tracking-[0.4em]">

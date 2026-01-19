@@ -47,12 +47,13 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
 
         {/* 垂直文字容器 */}
         <div className="flex flex-col items-start justify-center">
-          {/* 上方：英文名稱 - 增加字距至 0.8em 以精準對齊中文總寬度 */}
+          {/* 上方：英文名稱 - 透過極大字距精準對齊中文寬度 */}
+          {/* tracking-[0.8em] 撐開長度，-mr-[0.8em] 抵銷最後一個字母的右間距以達成右對齊 */}
           <span className="text-[7px] md:text-[9px] uppercase font-light text-[#E63946] leading-none tracking-[0.8em] -mr-[0.8em] mb-1.5 opacity-90">
             Kiki Design
           </span>
 
-          {/* 下方：中文名稱 - 套用您的 .chinese-art 類別 */}
+          {/* 下方：中文名稱 - 套用您定義的 .chinese-art 藝術字體類別 */}
           <span className="chinese-art text-lg md:text-xl text-[#E63946] leading-none">
             棠想視界
           </span>

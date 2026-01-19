@@ -46,7 +46,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
         />
         {/* 2. 把文字加在 Logo 旁邊 */}
         <span className="text-xl md:text-2xl tracking-[0.3em] font-light text-[#E63946] font-sans">
-          棠想視界
+          棠想視界 KikiDesign
         </span>
       </Link>
       

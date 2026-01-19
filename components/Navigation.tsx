@@ -47,9 +47,8 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
 
         {/* 垂直文字容器 */}
         <div className="flex flex-col items-start justify-center">
-          {/* 上方：英文名稱 - 增加字距以對齊中文寬度 */}
-          {/* 這裡使用 tracking-[0.55em] 並配合 -mr-[0.55em] 確保末端齊平 */}
-          <span className="text-[7px] md:text-[9px] uppercase font-light text-[#E63946] leading-none tracking-[0.55em] -mr-[0.55em] mb-1 opacity-90">
+          {/* 上方：英文名稱 - 增加字距至 0.8em 以精準對齊中文總寬度 */}
+          <span className="text-[7px] md:text-[9px] uppercase font-light text-[#E63946] leading-none tracking-[0.8em] -mr-[0.8em] mb-1.5 opacity-90">
             Kiki Design
           </span>
 

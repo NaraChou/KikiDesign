@@ -36,6 +36,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50">
       {/* 點擊 Logo 回到首頁 */}
       <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center">
+        {/* 1. 這是您的兔子 Logo */}
         <img
           src={kikiLogo}
           alt="棠想視界 Logo"
@@ -43,6 +44,10 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
           className="w-10 h-10 md:w-12 md:h-12 object-contain"
           style={{ backgroundColor: 'transparent' }} // 確保背景不干擾
         />
+        {/* 2. 把文字加在 Logo 旁邊 */}
+        <span className="text-xl md:text-2xl font-bold tracking-widest text-[#E63946]">
+          棠想視界
+        </span>
       </Link>
       
       {/* Desktop Links */}

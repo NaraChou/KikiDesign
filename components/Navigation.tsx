@@ -35,19 +35,28 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   return (
     <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50">
       {/* 點擊 Logo 回到首頁 */}
-      <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center">
-        {/* 1. 這是您的兔子 Logo */}
+      {/* src/components/Navigation.tsx 中的 Link 部分 */}
+
+      <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-4 group">
+        {/* 左側：紅色兔子 Logo */}
         <img
           src={kikiLogo}
-          alt="棠想視界 Logo"
-          // 這裡設定尺寸，w-10 約 40px，您可以根據需求調整成 w-8 或 w-12
-          className="w-10 h-10 md:w-12 md:h-12 object-contain"
-          style={{ backgroundColor: 'transparent' }} // 確保背景不干擾
+          className="w-10 h-10 md:w-12 md:h-12 object-contain transition-transform duration-300 group-hover:scale-110"
+          alt="Logo"
         />
-        {/* 2. 把文字加在 Logo 旁邊 */}
-        <span className="text-xl md:text-2xl tracking-[0.3em] font-light text-[#E63946] font-sans">
-          棠想視界 KikiDesign
-        </span>
+
+        {/* 右側：文字容器 (垂直排列) */}
+        <div className="flex flex-col justify-center leading-none">
+          {/* 上方：英文名稱 (Design) - 建議字級較小且字距拉開 */}
+          <span className="text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-[#E63946] mb-1 font-light opacity-80">
+            Kiki Design
+          </span>
+
+          {/* 下方：中文名稱 (棠想視界) - 主要視覺焦點 */}
+          <span className="text-lg md:text-xl font-medium tracking-[0.2em] text-[#E63946]">
+            棠想視界
+          </span>
+        </div>
       </Link>
       
       {/* Desktop Links */}

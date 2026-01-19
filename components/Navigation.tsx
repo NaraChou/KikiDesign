@@ -38,22 +38,22 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
       {/* src/components/Navigation.tsx 中的 Link 部分 */}
 
       <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-4 group">
-        {/* 左側：紅色兔子 Logo */}
+        {/* Logo 圖示 */}
         <img
           src={kikiLogo}
-          className="w-10 h-10 md:w-12 md:h-12 object-contain transition-transform duration-300 group-hover:scale-110"
+          className="w-10 h-10 md:w-11 md:h-11 object-contain"
           alt="Logo"
         />
 
-        {/* 右側：文字容器 (垂直排列) */}
-        <div className="flex flex-col justify-center leading-none">
-          {/* 上方：英文名稱 (Design) - 建議字級較小且字距拉開 */}
-          <span className="text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-[#E63946] mb-1 font-light opacity-80">
+        {/* 垂直文字容器 */}
+        <div className="flex flex-col items-start justify-center">
+          {/* 上方：英文名稱 (透過極大字距對齊中文寬度) */}
+          <span className="text-[8px] md:text-[10px] uppercase font-light text-[#E63946] leading-none tracking-[0.65em] opacity-90 -mr-[0.65em]">
             Kiki Design
           </span>
 
-          {/* 下方：中文名稱 (棠想視界) - 主要視覺焦點 */}
-          <span className="text-lg md:text-xl font-medium tracking-[0.2em] text-[#E63946]">
+          {/* 下方：中文名稱 (套用自定義藝術字體類別) */}
+          <span className="chinese-art text-lg md:text-xl text-[#E63946] leading-none mt-1.5">
             棠想視界
           </span>
         </div>

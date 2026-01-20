@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-// 1. 先引入圖片檔案（修正：使用 @ 代表 src 資料夾）
-import kikiLogo from '@/assets/images/logo-kiki-main.svg';
+// 1. 先引入圖片檔案
+import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 interface NavigationProps {
   onToggleMenu: () => void;

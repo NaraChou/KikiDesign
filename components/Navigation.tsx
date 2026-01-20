@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-// 1. 引入圖片檔案 (使用相對路徑最穩定)
 import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 interface NavigationProps {
@@ -28,27 +27,35 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
+  // 統一 Logo 樣式（含各斷點），讓各裝置一致
   return (
-    <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50">
-      {/* 左側 Logo 區域 */}
-      <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-4 group">
+    <nav className="fixed top-0 w-full px-6 py-6 md:px-6 md:py-6 flex justify-between items-center z-50">
+      {/* 左側 Logo 區域（電腦/平板與手機一樣） */}
+      <Link
+        to="/"
+        onClick={() => window.scrollTo(0, 0)}
+        className="flex items-center gap-2 group"
+      >
         <img
           src={kikiLogo}
-          className="w-10 h-10 md:w-11 md:h-11 object-contain"
+          className="w-10 h-10 object-contain" // 統一使用 w-10 h-10 全螢幕
           alt="Logo"
         />
-
-        <div className="flex flex-col items-start justify-center">
-          {/* 上方：英文名稱 - 使用變數並確保正確關閉標籤 */}
-          <span 
-            className="uppercase font-light text-[#E63946] leading-none tracking-[0.8em] -mr-[0.8em] mb-1.5 opacity-90"
+        <div className="flex flex-col items-start justify-center ml-0">
+          {/* 英文名稱：維持一致 */}
+          <span
+            className="
+              uppercase font-light text-[#E63946] leading-tight
+              tracking-[0.12em]
+              -mr-[0.12em]
+              mb-0.5 opacity-90
+            "
             style={{ fontSize: 'var(--font-size-base, 7px)' }}
           >
             Kiki Design
           </span>
-
-          {/* 下方：中文名稱 */}
-          <span className="chinese-art text-lg md:text-xl text-[#E63946] leading-none">
+          {/* 中文名稱：維持一致 */}
+          <span className="chinese-art text-base text-[#E63946] leading-tight mt-0">
             棠想視界
           </span>
         </div>

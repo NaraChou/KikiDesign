@@ -6,10 +6,13 @@ interface NavigationProps {
   onToggleMenu: () => void;
 }
 
-// 重新調整左/右側對齊（根據 Footer 寬度及 email 實測結果調整）
-// 可根據 footer demo: 創意 CREATE 左側 76px、Email 右側 72px
-const NAV_LEFT_DESKTOP = 'md:pl-[76px]';    // 和 Footer "CREATE" 左側對齊
-const NAV_RIGHT_DESKTOP = 'md:pr-[72px]';   // 和 Footer email 右側對齊
+// 桌機: Footer 左右對齊，padding 64px for desktop
+const NAV_LEFT_DESKTOP = 'lg:pl-[64px]';
+const NAV_RIGHT_DESKTOP = 'lg:pr-[64px]';
+// 平板 (>=768px, <1024px): Footer 左右對齊 -- 也是64px
+const NAV_LEFT_TABLET = 'md:pl-[64px]';
+const NAV_RIGHT_TABLET = 'md:pr-[64px]';
+const NAV_TOP_MD = 'md:pt-10';
 
 export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   const location = useLocation();
@@ -32,13 +35,15 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-  // 視覺兩邊都內縮：手機保留 px-6，桌機左76px右72px（根據 Footer 規則）
+  // px-6 (mobile)，md:pt-10（平板上方增加），md:pl/pr-[64px]（平板與footer對齊），lg:pl/pr-[64px]（桌機與footer對齊）
   return (
     <nav
       className={`
         fixed top-0 w-full
         px-6 py-6
         flex justify-between items-center z-50
+        ${NAV_TOP_MD}
+        ${NAV_LEFT_TABLET} ${NAV_RIGHT_TABLET}
         ${NAV_LEFT_DESKTOP} ${NAV_RIGHT_DESKTOP}
       `}
     >

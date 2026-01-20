@@ -6,9 +6,10 @@ interface NavigationProps {
   onToggleMenu: () => void;
 }
 
-// 定義左/右側對齊參考（與 Footer 對齊）
-const NAV_LEFT_DESKTOP = 'md:pl-[56px]'; // 跟 footer creat 或 logo 主體對齊，視覺往內縮
-const NAV_RIGHT_DESKTOP = 'md:pr-[52px]'; // 與 exloe574@gmail.com 右邊的 m 對齊 (細節可微調 px)
+// 重新調整左/右側對齊（根據 Footer 寬度及 email 實測結果調整）
+// 可根據 footer demo: 創意 CREATE 左側 76px、Email 右側 72px
+const NAV_LEFT_DESKTOP = 'md:pl-[76px]';    // 和 Footer "CREATE" 左側對齊
+const NAV_RIGHT_DESKTOP = 'md:pr-[72px]';   // 和 Footer email 右側對齊
 
 export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   const location = useLocation();
@@ -31,7 +32,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-  // 視覺兩邊都內縮：手機保留 px-6，桌機左56px右52px（根據 Footer 規則）
+  // 視覺兩邊都內縮：手機保留 px-6，桌機左76px右72px（根據 Footer 規則）
   return (
     <nav
       className={`

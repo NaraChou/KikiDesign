@@ -6,6 +6,10 @@ interface NavigationProps {
   onToggleMenu: () => void;
 }
 
+// 定義左/右側對齊參考（與 Footer 對齊）
+const NAV_LEFT_DESKTOP = 'md:pl-[56px]'; // 跟 footer creat 或 logo 主體對齊，視覺往內縮
+const NAV_RIGHT_DESKTOP = 'md:pr-[52px]'; // 與 exloe574@gmail.com 右邊的 m 對齊 (細節可微調 px)
+
 export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,22 +31,29 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-  // 統一 Logo 樣式（含各斷點），讓各裝置一致
+  // 視覺兩邊都內縮：手機保留 px-6，桌機左56px右52px（根據 Footer 規則）
   return (
-    <nav className="fixed top-0 w-full px-6 py-6 md:px-6 md:py-6 flex justify-between items-center z-50">
-      {/* 左側 Logo 區域（電腦/平板與手機一樣） */}
+    <nav
+      className={`
+        fixed top-0 w-full
+        px-6 py-6
+        flex justify-between items-center z-50
+        ${NAV_LEFT_DESKTOP} ${NAV_RIGHT_DESKTOP}
+      `}
+    >
+      {/* 左側 Logo 區域 */}
       <Link
         to="/"
         onClick={() => window.scrollTo(0, 0)}
         className="flex items-center gap-2 group"
+        tabIndex={0}
       >
         <img
           src={kikiLogo}
-          className="w-10 h-10 object-contain" // 統一使用 w-10 h-10 全螢幕
+          className="w-10 h-10 object-contain"
           alt="Logo"
         />
         <div className="flex flex-col items-start justify-center ml-0">
-          {/* 英文名稱：維持一致 */}
           <span
             className="
               uppercase font-light text-[#E63946] leading-tight
@@ -54,7 +65,6 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
           >
             Kiki Design
           </span>
-          {/* 中文名稱：維持一致 */}
           <span className="chinese-art text-base text-[#E63946] leading-tight mt-0">
             棠想視界
           </span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-// 1. 先引入圖片檔案
-import kikiLogo from '../assets/images/logo-kiki-main.svg';
+// 1. 先引入圖片檔案（修正：使用 @ 代表 src 資料夾）
+import kikiLogo from '@/assets/images/logo-kiki-main.svg';
 
 interface NavigationProps {
   onToggleMenu: () => void;
@@ -31,7 +31,6 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-// src/components/Navigation.tsx
   return (
     <nav className="fixed top-0 w-full px-6 py-6 md:px-16 md:py-10 flex justify-between items-center z-50">
       {/* 點擊 Logo 回到首頁 */}
@@ -48,20 +47,57 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
         {/* 垂直文字容器 */}
         <div className="flex flex-col items-start justify-center">
           {/* 上方：英文名稱 - 透過極大字距精準對齊中文寬度 */}
-          {/* tracking-[0.8em] 撐開長度，-mr-[0.8em] 抵銷最後一個字母的右間距以達成右對齊 */}
-          <span className="text-[7px] md:text-[9px] uppercase font-light text-[#E63946] leading-none tracking-[0.78em] -mr-[0.78em] mb-1.5 opacity-90">
-            Kiki Design
+          {/* 使用自訂的字級 CSS 變數樣式 */}
+          <span
+            className="uppercase font-light text-[#E63946] leading-none tracking-[0.78em] -mr-[0.78em] mb-1.5 opacity-90"
+            style={{
+              fontSize: 'var(--font-size-base)',
+              // md:text-[9px] 對應 font-size-large
+              // 利用 media query 調整
+              // tailwind md: -> 768px
+              // 你也可以寫到全域 css .nav-logo-en 之類，不過這樣 inline style 也明確
+              // 實作如下：
+              '--font-size-large-temp': 'var(--font-size-large)',
+            } as React.CSSProperties}
+          >
+            <span
+              style={{
+                fontSize: 'var(--font-size-base)',
+                // mobile
+                display: 'inline-block'
+              } as React.CSSProperties}
+              className="block md:hidden"
+            >
+              Kiki Design
+            </span>
+            <span
+              style={{
+                fontSize: 'var(--font-size-large)',
+                display: 'none'
+              } as React.CSSProperties}
+              className="hidden md:block"
+            >
+              Kiki Design
+            </span>
           </span>
 
-          {/* 下方：中文名稱 - 套用您定義的 .chinese-art 藝術字體類別 */}
-          <span className="chinese-art text-lg md:text-xl text-[#E63946] leading-none">
+          {/* 下方：中文名稱 - 套用您定義的 .chinese-art 藝術字體類別; 也改為用 CSS 變數 */}
+          <span
+            className="chinese-art text-[#E63946] leading-none"
+            style={{
+              fontSize: 'var(--font-size-large)', // 對應 text-xl
+            }}
+          >
             棠想視界
           </span>
         </div>
       </Link>
       
       {/* Desktop Links */}
-      <div className="hidden md:flex space-x-12 text-[9px] tracking-[0.4em]">
+      <div
+        className="hidden md:flex space-x-12 tracking-[0.4em]"
+        style={{ fontSize: 'var(--font-size-large)' }} // 原本 text-[9px]，這裡用較大版的
+      >
         <a href="#home" onClick={(e) => handleNavClick('#home', e)} className="text-[rgba(234,226,214,0.8)] hover:text-white transition italic">01 / Index</a>
         <a href="#works" onClick={(e) => handleNavClick('#works', e)} className="text-[rgba(234,226,214,0.8)] hover:text-white transition italic">02 / Works</a>
         <a href="#philosophy" onClick={(e) => handleNavClick('#philosophy', e)} className="text-[rgba(234,226,214,0.8)] hover:text-white transition italic">03 / Vision</a>

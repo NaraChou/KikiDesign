@@ -1,11 +1,20 @@
+/* Kiki Design Style: 全站統一標準內容容器 
+   ----------------------------------------------------
+   • 定義 .main-container，限制最大寬度（1280px），自動左右置中
+   • 行動優先：左右 padding 使用 24px，桌機/平板以上則變為 64px
+   • 每個主要組件（Header, Footer, Section...）共同套用，不需每個再另外寫 padding
+   • 強制維持手繪圖（SVG/PNG）比例，object-fit: contain
+   • 這樣版面在視覺上：每條主線都和 Logo、Footer、內容對齊
+*/
 @import "tailwindcss";
+
 :root {
     --bg-color: #0E0C0B; 
     --tang-pink: rgba(230, 57, 70, 0.12); 
     --text-main: #EAE2D6; 
     --text-dim: rgba(234, 226, 214, 0.5);
 
-    /* Font & Spacing Vars */
+    /* 字體與間距變數 */
     --font-family-sans: 'Noto Sans TC', sans-serif;
     --font-family-serif-italic: 'Playfair Display', serif;
     --font-weight-body: 300;
@@ -14,19 +23,15 @@
     --letter-spacing-vertical: 0.1em;
     --line-height-chinese-art: 1.6;
 
-    /* New px vars for spacing/sizing (example) */
     --font-size-base: 12px;
     --font-size-large: 18px;
-    /* extend as needed for actual px values in future */
 
-    /* 「說明註解」：這段 Navigation 會用到與 Footer 一致的 padding。
-    現在將 padding 的數值抽成 CSS 變數（放在全域變數），方便後續全站同步微調。
-    請把下方的 CSS 片段貼到你的全域 style.css（theme 變數區），這樣 Footer 和 Navigation 可以共用：*/
-    --layout-side-padding: 64px;      /* 桌機 / 平板 padding，預設 64px，8px 倍數 */
-    --layout-side-padding-mobile: 24px; /* 行動裝置 padding，預設 24px，8px 倍數 */
-    --navigation-top-padding-tablet: 40px; /* md:pt-10 = 40px */ 
-    /*若需細調，全站只需改這個變數，不需到處找 className 或 style！*/
+    /* RWD 全域內容容器共用變數 */
+    --container-max-width: 80rem; /* 1280px */
+    --container-padding-mobile: 24px; /* 24px (8px*3)，行動裝置 */
+    --container-padding-desktop: 64px; /* 64px (8px*8)，桌機/平板 */
 }
+
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
@@ -35,6 +40,42 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
+
+/* ==== 標準主框線 ====
+   .main-container 負責全站寬度、左右置中與 RWD padding
+   ★ 無論 Header、頁面內容還是 Footer，都盡量直接套用這個 class（語義明確）
+   - max-width: 80rem (1280px)
+   - margin: auto（自動置中）
+   - padding-left/right: mobile/desktop 皆自動切換
+*/
+.main-container {
+    max-width: var(--container-max-width, 80rem);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding-mobile, 24px);
+    padding-right: var(--container-padding-mobile, 24px);
+    width: 100%;
+    box-sizing: border-box;
+    /* 避免內容超出主容器寬度 */
+}
+
+/* 平板以上，加大主容器 padding */
+@media (min-width: 768px) {
+    .main-container {
+        padding-left: var(--container-padding-desktop, 64px);
+        padding-right: var(--container-padding-desktop, 64px);
+    }
+}
+
+/* hand-drawn Image 維持原比例 */
+/* 只要 img class 含 main-logo，object-fit: contain，嚴禁拉伸 */
+img.main-logo,
+img.handdrawn {
+    object-fit: contain !important;
+    aspect-ratio: auto;
+}
+
+/* ==================== 其他視覺設定維持原樣 ==================== */
 .chinese-art {
     font-weight: var(--font-weight-chinese-art);
     letter-spacing: var(--letter-spacing-chinese-art);
@@ -44,23 +85,24 @@ body {
     font-family: var(--font-family-serif-italic);
     font-style: italic;
 }
-/* Vertical Text for Back to Top */
-/* 讓文字變成垂直排列 */
+/* Vertical Text for Back to Top ▷ 垂直排列／日文感 */
 .vertical-text {
     writing-mode: vertical-rl;
-    /* 這是關鍵：設定書寫模式為垂直 */
     text-orientation: upright;
-    /* 確保字母是正的，而不是橫躺的 */
     letter-spacing: var(--letter-spacing-vertical);
-    /* 調整字距讓它更好看 */
 }
-/* 專屬 Navigation Layout 的 RWD Style，建議放到 style.css 或全域 css 檔案中 */    
-    @media (min-width: 768px) {
-        nav {
-          --layout-side-padding-mobile: var(--layout-side-padding);
-          padding-top: var(--navigation-top-padding-tablet, 40px);
-          padding-left: var(--layout-side-padding, 64px);
-          padding-right: var(--layout-side-padding, 64px);
-        }
+
+/* Nav 導覽條的 padding-top（上方內距），RWD 變數控管
+   手機下預設 24px，平板以上 40px（更寬敞） */
+nav {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+@media (min-width: 768px) {
+    nav {
+        padding-top: 40px; /* md:pt-10 = 40px */
+        /* 左右 padding 直接由 .main-container 負責即可，不需再寫 */
     }
-      
+}
+
+/* 提醒：以後新增頁尾、Section 時，直接套 main-container 一致對齊 ! */

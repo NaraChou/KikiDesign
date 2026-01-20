@@ -4,22 +4,36 @@
     --tang-pink: rgba(230, 57, 70, 0.12); 
     --text-main: #EAE2D6; 
     --text-dim: rgba(234, 226, 214, 0.5);
+
+    /* Font & Spacing Vars */
+    --font-family-sans: 'Noto Sans TC', sans-serif;
+    --font-family-serif-italic: 'Playfair Display', serif;
+    --font-weight-body: 300;
+    --font-weight-chinese-art: 100;
+    --letter-spacing-chinese-art: 0.4em;
+    --letter-spacing-vertical: 0.1em;
+    --line-height-chinese-art: 1.6;
+
+    /* New px vars for spacing/sizing (example) */
+    --font-size-base: 16px;
+    --font-size-large: 24px;
+    /* extend as needed for actual px values in future */
 }
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    font-family: 'Noto Sans TC', sans-serif;
-    font-weight: 300;
+    font-family: var(--font-family-sans);
+    font-weight: var(--font-weight-body);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 .chinese-art {
-    font-weight: 100;
-    letter-spacing: 0.4em;
-    line-height: 1.6;
+    font-weight: var(--font-weight-chinese-art);
+    letter-spacing: var(--letter-spacing-chinese-art);
+    line-height: var(--line-height-chinese-art);
 }
 .serif-italic {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-family-serif-italic);
     font-style: italic;
 }
 /* Vertical Text for Back to Top */
@@ -29,6 +43,6 @@ body {
     /* 這是關鍵：設定書寫模式為垂直 */
     text-orientation: upright;
     /* 確保字母是正的，而不是橫躺的 */
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-vertical);
     /* 調整字距讓它更好看 */
 }

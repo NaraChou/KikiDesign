@@ -18,6 +18,14 @@
     --font-size-base: 12px;
     --font-size-large: 18px;
     /* extend as needed for actual px values in future */
+
+    /* 「說明註解」：這段 Navigation 會用到與 Footer 一致的 padding。
+    現在將 padding 的數值抽成 CSS 變數（放在全域變數），方便後續全站同步微調。
+    請把下方的 CSS 片段貼到你的全域 style.css（theme 變數區），這樣 Footer 和 Navigation 可以共用：*/
+    --layout-side-padding: 64px;      /* 桌機 / 平板 padding，預設 64px，8px 倍數 */
+    --layout-side-padding-mobile: 24px; /* 行動裝置 padding，預設 24px，8px 倍數 */
+    --navigation-top-padding-tablet: 40px; /* md:pt-10 = 40px */ 
+    /*若需細調，全站只需改這個變數，不需到處找 className 或 style！*/
 }
 body {
     background-color: var(--bg-color);
@@ -46,3 +54,13 @@ body {
     letter-spacing: var(--letter-spacing-vertical);
     /* 調整字距讓它更好看 */
 }
+/* 專屬 Navigation Layout 的 RWD Style，建議放到 style.css 或全域 css 檔案中 */    
+    @media (min-width: 768px) {
+        nav {
+          --layout-side-padding-mobile: var(--layout-side-padding);
+          padding-top: var(--navigation-top-padding-tablet, 40px);
+          padding-left: var(--layout-side-padding, 64px);
+          padding-right: var(--layout-side-padding, 64px);
+        }
+    }
+      

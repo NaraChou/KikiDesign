@@ -6,26 +6,25 @@ interface NavigationProps {
   onToggleMenu: () => void;
 }
 
-// 桌機: Footer 左右對齊，padding 64px for desktop
-const NAV_LEFT_DESKTOP = 'lg:pl-[64px]';
-const NAV_RIGHT_DESKTOP = 'lg:pr-[64px]';
-// 平板 (>=768px, <1024px): Footer 左右對齊 -- 也是64px
-const NAV_LEFT_TABLET = 'md:pl-[64px]';
-const NAV_RIGHT_TABLET = 'md:pr-[64px]';
-const NAV_TOP_MD = 'md:pt-10';
-
 export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
 
+  /**
+   * 處理「導覽點擊」的視覺效果
+   * - 同頁時做滑動動畫
+   * - 他頁時先回首頁再滑動到指定區塊
+   */
   const handleNavClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
     if (isHome) {
+      // 視覺動態：滑動到指定區塊
       if (window.gsap) {
         window.gsap.to(window, { duration: 1.5, scrollTo: id, ease: "power4.inOut" });
       }
     } else {
+      // 非首頁時，先跳首頁再滑動
       navigate('/');
       setTimeout(() => {
         if (window.gsap) {
@@ -35,18 +34,23 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-  // px-6 (mobile)，md:pt-10（平板上方增加），md:pl/pr-[64px]（平板與footer對齊），lg:pl/pr-[64px]（桌機與footer對齊）
+  // 說明：這裡不再使用 tailwind 的 pl-[64px]，改用全域 CSS 變數，確保 Navigation/Footer 一致化
+  // (行動端：左右 24px；平板/桌機：左右 64px)
+  // 上 padding 也改用變數對應（40px, 代表 pt-10）
+
   return (
     <nav
-      className={`
-        fixed top-0 w-full
-        px-6 py-6
-        flex justify-between items-center z-50
-        ${NAV_TOP_MD}
-        ${NAV_LEFT_TABLET} ${NAV_RIGHT_TABLET}
-        ${NAV_LEFT_DESKTOP} ${NAV_RIGHT_DESKTOP}
-      `}
+      className="fixed top-0 w-full flex justify-between items-center z-50"
+      style={{
+        // 強制全站統一：行動裝置優先
+        paddingLeft: 'var(--layout-side-padding-mobile, 24px)',
+        paddingRight: 'var(--layout-side-padding-mobile, 24px)',
+        paddingTop: '24px',
+        paddingBottom: '24px',
+        // 平板/桌機斷點，這裡會在 style.css 做
+      }}
     >
+    
       {/* 左側 Logo 區域 */}
       <Link
         to="/"
@@ -79,6 +83,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
       
       {/* 右側 Desktop 選單 */}
       <div className="hidden md:flex space-x-12 text-[9px] tracking-[0.4em]">
+        {/* 註解：這裡做 scroll 動畫，視覺上會由選單點擊滑動到區塊 */}
         <a href="#home" onClick={(e) => handleNavClick('#home', e)} className="text-[rgba(234,226,214,0.8)] hover:text-white transition italic">01 / Index</a>
         <a href="#works" onClick={(e) => handleNavClick('#works', e)} className="text-[rgba(234,226,214,0.8)] hover:text-white transition italic">02 / Works</a>
         <a href="#philosophy" onClick={(e) => handleNavClick('#philosophy', e)} className="text-[rgba(234,226,214,0.8)] hover:text-white transition italic">03 / Vision</a>

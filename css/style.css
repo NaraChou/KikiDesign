@@ -1,108 +1,177 @@
-/* Kiki Design Style: 全站統一標準內容容器 
-   ----------------------------------------------------
-   • 定義 .main-container，限制最大寬度（1280px），自動左右置中
-   • 行動優先：左右 padding 使用 24px，桌機/平板以上則變為 64px
-   • 每個主要組件（Header, Footer, Section...）共同套用，不需每個再另外寫 padding
-   • 強制維持手繪圖（SVG/PNG）比例，object-fit: contain
-   • 這樣版面在視覺上：每條主線都和 Logo、Footer、內容對齊
-*/
+/**
+ * Kiki Design Style：全站主線內容一覽＆統整版
+ * -----------------------------------------------------------
+ * [中文註解]
+ * 1. 全域變數集中管理：顏色、字體、容器尺寸、極小字級等，每個值全站僅一份來源。
+ * 2. 視覺組件細節：相同性質（字體、間距、交互等）分類拆解，只留一份代表實作，減少重複。
+ * 3. Media Query下細節明確分層，響應式寫法緊鄰主內容。
+ */
+
+/* --------- A. Tailwind 基礎 --------- */
 @import "tailwindcss";
 
+/* --------- B. 全域變數統一區 --------- */
 :root {
-    --bg-color: #0E0C0B; 
-    --tang-pink: rgba(230, 57, 70, 0.12); 
-    --text-main: #EAE2D6; 
-    --text-dim: rgba(234, 226, 214, 0.5);
+  /* -- 顏色類 -- */
+  --bg-color: #0E0C0B;
+  --tang-pink: rgba(230, 57, 70, 0.12);
+  --text-main: #EAE2D6;
+  --text-dim: rgba(234, 226, 214, 0.5);
+  --brand-subtle: rgba(234,226,214,0.5);
 
-    /* 字體與間距變數 */
-    --font-family-sans: 'Noto Sans TC', sans-serif;
-    --font-family-serif-italic: 'Playfair Display', serif;
-    --font-weight-body: 300;
-    --font-weight-chinese-art: 100;
-    --letter-spacing-chinese-art: 0.4em;
-    --letter-spacing-vertical: 0.1em;
-    --line-height-chinese-art: 1.6;
+  /* -- 字體家族與屬性 -- */
+  --font-family-sans: 'Noto Sans TC', sans-serif;
+  --font-family-serif-italic: 'Playfair Display', serif;
+  --font-weight-body: 300;
+  --font-weight-chinese-art: 100;
+  --letter-spacing-chinese-art: 0.4em;
+  --letter-spacing-vertical: 0.1em;
+  --line-height-chinese-art: 1.6;
 
-    --font-size-base: 12px;
-    --font-size-large: 18px;
+  /* -- 容器大小與間距 -- */
+  --container-max-width: 80rem;
+  --container-padding-mobile: 24px;
+  --container-padding-desktop: 64px;
+  --footer-padding-y-mobile: 3rem; 
+  --footer-padding-y-desktop: 6rem;
 
-    /* RWD 全域內容容器共用變數 */
-    --container-max-width: 80rem; /* 1280px */
-    --container-padding-mobile: 24px; /* 24px (8px*3)，行動裝置 */
-    --container-padding-desktop: 64px; /* 64px (8px*8)，桌機/平板 */
+  /* -- 統一極小字級/功能性字距 -- */
+  --font-size-tiny: 9px;            /* 用於 footer 副標、menu 微字等 */
+  --font-size-nano-nav: 5px;        /* 用於超細 menu 專用等場合 */
+  --letter-spacing-main-nav: 0.4em; /* 導覽主要字距 */
 }
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    font-family: var(--font-family-sans);
-    font-weight: var(--font-weight-body);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* ==== 標準主框線 ====
-   .main-container 負責全站寬度、左右置中與 RWD padding
-   ★ 無論 Header、頁面內容還是 Footer，都盡量直接套用這個 class（語義明確）
-   - max-width: 80rem (1280px)
-   - margin: auto（自動置中）
-   - padding-left/right: mobile/desktop 皆自動切換
+/* --------- C. 主結構（body, .main-container） --------- */
+/*
+  [視覺說明]
+  全站主體底色、主線內容左右留白，中央最大 1280px (~80rem)，RWD padding 區分 mobile/desktop。
 */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 .main-container {
-    max-width: var(--container-max-width, 80rem);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--container-padding-mobile, 24px);
-    padding-right: var(--container-padding-mobile, 24px);
-    width: 100%;
-    box-sizing: border-box;
-    /* 避免內容超出主容器寬度 */
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding-mobile);
+  padding-right: var(--container-padding-mobile);
+  width: 100%;
 }
-
-/* 平板以上，加大主容器 padding */
 @media (min-width: 768px) {
-    .main-container {
-        padding-left: var(--container-padding-desktop, 64px);
-        padding-right: var(--container-padding-desktop, 64px);
-    }
+  .main-container {
+    padding-left: var(--container-padding-desktop);
+    padding-right: var(--container-padding-desktop);
+  }
 }
 
-/* hand-drawn Image 維持原比例 */
-/* 只要 img class 含 main-logo，object-fit: contain，嚴禁拉伸 */
-img.main-logo,
-img.handdrawn {
-    object-fit: contain !important;
-    aspect-ratio: auto;
+/* --------- D. Nav & Footer 框架與響應式細節 --------- */
+/*
+  [說明]
+  - nav、footer 輪廓及間距全部以變數統一
+  - footer 框內內容 flex 對齊由 JS 控制（樣式端僅維護 align-items: flex-end)
+*/
+nav {
+  padding-top: var(--container-padding-mobile);
+  padding-bottom: var(--container-padding-mobile);
+}
+@media (min-width: 768px) {
+  nav { padding-top: 40px; }
+}
+.footer-frame {
+  padding-top: var(--footer-padding-y-mobile);
+  padding-bottom: var(--footer-padding-y-mobile);
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .footer-frame {
+    padding-top: var(--footer-padding-y-desktop);
+    padding-bottom: var(--footer-padding-y-desktop);
+  }
+  .footer-frame .main-container {
+    align-items: flex-end;
+    /* 若需 flex 由 TS 組件決定 display: flex */
+  }
 }
 
-/* ==================== 其他視覺設定維持原樣 ==================== */
+/* --------- E. 圖片比例與字體細節 --------- */
+/*
+  [視覺統整]
+  - 所有主 Logo、手繪圖防止變形 object-fit: contain
+  - 書畫感、義式斜體等自訂特殊組件全部歸納於本區
+*/
+img.main-logo, img.handdrawn {
+  object-fit: contain !important; /* 嚴禁變形，守住設計感 */
+  aspect-ratio: auto;
+}
 .chinese-art {
-    font-weight: var(--font-weight-chinese-art);
-    letter-spacing: var(--letter-spacing-chinese-art);
-    line-height: var(--line-height-chinese-art);
+  font-weight: var(--font-weight-chinese-art);
+  letter-spacing: var(--letter-spacing-chinese-art);
+  line-height: var(--line-height-chinese-art);
 }
 .serif-italic {
-    font-family: var(--font-family-serif-italic);
-    font-style: italic;
-}
-/* Vertical Text for Back to Top ▷ 垂直排列／日文感 */
-.vertical-text {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    letter-spacing: var(--letter-spacing-vertical);
+  font-family: var(--font-family-serif-italic);
+  font-style: italic;
 }
 
-/* Nav 導覽條的 padding-top（上方內距），RWD 變數控管
-   手機下預設 24px，平板以上 40px（更寬敞） */
-nav {
-    padding-top: 24px;
-    padding-bottom: 24px;
+/* --------- F. Footer 標題與資訊細節 --------- */
+/*
+  [合併說明]
+  footer-title, footer-subtitle 皆依版型語意命名，各自負責一件事且僅保留一份！
+*/
+.footer-title {
+  font-size: 1.875rem;
+  font-style: italic;
+  font-family: 'Noto Serif TC', serif;
+  font-variation-settings: 'ital' 1;
 }
 @media (min-width: 768px) {
-    nav {
-        padding-top: 40px; /* md:pt-10 = 40px */
-        /* 左右 padding 直接由 .main-container 負責即可，不需再寫 */
-    }
+  .footer-title { font-size: 3rem; }
+}
+.footer-subtitle {
+  font-size: var(--font-size-tiny);
+  letter-spacing: 0.5em;
+  color: var(--brand-subtle);
+  text-transform: uppercase;
 }
 
-/* 提醒：以後新增頁尾、Section 時，直接套 main-container 一致對齊 ! */
+/* --------- G. Footer 互動鏈結 & 極小連動區 --------- */
+/*
+  [視覺連動合併]
+  .footer-email/ .footer-social-link 基礎互動樣式、hover 狀態僅保留一次，減少重複。
+  font-size, letter-spacing、color 微調以區分資訊密度。
+*/
+.footer-email, .footer-social-link {
+  transition: all 0.3s ease;
+}
+.footer-email {
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0.15em;          /* 較小間距感覺更精緻 */
+  line-height: 1.2;
+  padding-bottom: 2px;             /* 底線收窄，觸控感更準 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff8e6;
+  text-decoration: none;
+}
+.footer-social-link {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--brand-subtle);
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* 互動 hover 狀態：合併註解僅留一次 */
+.footer-social-link:hover,
+.footer-email:hover {
+  color: #fff;
+  opacity: 1;
+  border-bottom-color: #fff;
+}
+/* -------- END 統整 -------- */

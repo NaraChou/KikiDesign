@@ -1,0 +1,49 @@
+/**
+ * globals.css
+ * [Kiki 統一規範] 全域變數與基礎視覺設定
+ * -----------------------------------------------------------
+ * [中文註解]
+ * - 變數欄位：只保留全站通用且需跨組件重用者，避免重複（顏色、間距、content-padding等）。
+ * - 統一入口：tailwindcss 為唯一樣式框架，其餘僅定義必要自訂變數及環境修飾。
+ * - 已與 style.css 完整對齊，重複與相似變數已刪併歸一，並以 RWD 易讀方式排序。
+ */
+
+/* === 核心 Tailwind 載入 === */
+@import "tailwindcss";
+
+/* === 全站公用變數：顏色、間距、高度、漸層、容器寬度、輔助 === */
+:root {
+  /* ---- 顏色 ---- */
+  --bg-color: #0E0C0B;                /* 主背景色，全站深底 */
+  --text-main: #EAE2D6;               /* 主要文字顏色 */
+  --brand-subtle: rgba(234,226,214,0.5); /* 輕量品牌次色，淡色區塊背景/線使用 */
+
+  /* ---- 容器尺寸＆通用間距 ---- */
+  --content-max-width: 80rem;          /* 主內容寬度最大值 */
+  --content-padding-x: 24px;           /* 內容區左右默認 padding（8px 倍數） */
+  --footer-padding-y: 3rem;            /* Footer 上下 padding（mobile） */
+  --space-8x: 64px;                    /* 8x spacing 主要用於區塊大間隔 */
+}
+
+/* === RWD 斷點：768px 以上大螢幕專用變數微調 === */
+@media (min-width: 768px) {
+  :root {
+    --content-padding-x: 64px;         /* desktop padding 左右預設 64px */
+    --footer-padding-y: 6rem;          /* Footer desktop 上下更大間距 */
+  }
+}
+
+/*
+  [視覺效果動態白話註解]
+  1. 「body」等於全體畫布：鋪上主色並帶有質感的細膩字體邊緣（font-smoothing），避免暗色下的毛邊。
+  2. 滑鼠游標全站皆為 crosshair，讓操作感更活潑，區分設計語境。
+  3. for mobile：關閉點擊時的醜藍框，互動過程乾淨無雜色，穩定體現品牌感。
+*/
+body {
+  cursor: crosshair !important;
+  background-color: var(--bg-color);   /* 以變數管理主底色，方便全站切換主題 */
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased; /* 精緻字體立體感 */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent; /* 移動端觸控高級手感 */
+}

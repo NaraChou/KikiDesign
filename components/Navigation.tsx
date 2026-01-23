@@ -3,31 +3,25 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 /**
- * [導覽元件總說明｜視覺行為總覽]:
- * 1. 視覺核心「主線」：全域共用 .main-container，左右一致對齊、上下主間距（py-6/md:py-10），確保 LOGO 與 Menu 在各端一體感飽滿。
- * 2. 動態背景「磨砂切換」：組件自持滾動記憶（scrolled），依視窗高度決定是否開啟磨砂深色背景，主選單在背景圖頂部時透明，在頁面下滑時自動浮現、方便閱讀。
- * 3. 導覽 Menu 驅動：所有 Menu 統一維護於 NAV_MENUS（Array），.map() 生成，避免結構重複，易於維護與拓展。
- * 4. 點擊邏輯：menu 點擊時，首頁用 window.gsap 平滑滾動，非首頁則先切首頁，再滑到錨點（若動畫環境缺失則瀏覽器瞬跳，畫面體驗不壞）。
- * 5. SEO 與可讀性：所有 img、a 標籤有明確 alt/aria-label，且文字結構語意完整，方便搜尋與輔助瀏覽。
- * 6. 樣式實現：全部透過 Tailwind 實現，除動畫需要的動態 style 外禁止直接寫 style={{...}}。
+ * 導覽元件總說明｜視覺邏輯統整：
+ * 1. 主結構：以 nav 語義標籤呈現，配合 fixed 及 main-container，確保品牌 LOGO、選單在不同裝置皆維持水平間距與一體感。
+ * 2. 動態磨砂背景（連動效果）：記憶導覽列的「浮現」狀態（scrolled），滾動超過臨界值套用暗色漸層和 shadow，閱讀區塊更易分辨。
+ * 3. Menu 資料統一於 NAV_MENUS 陣列管理，循環產生所有選單，嚴禁重複結構，便於維護與拓展（完全數據驅動）。
+ * 4. 平滑滾動行為優先：首頁時優先 gsap 動畫，非首頁用 navigate + setTimeout 保證 DOM 渲染後才 scroll 動畫。無 gsap 則自動降級為 hash 跳轉，不影響畫面結構。
+ * 5. 全圖片、連結及互動元素（a, img, button）均要求 alt/aria-label（SEO 與無障礙一體）。
+ * 6. 所有樣式僅允許 Tailwind class（禁用 inline style，唯一例外為動畫動態屬性）。
+ * 7. RWD 規範：導覽列及漢堡按鈕根據 md 斷點自動切換，spacing 清一色來自 tailwind.config.js 調整。
+ * 8. 報錯標準：任何流程報錯僅影響互動，不導致結構閃動或視覺錯亂。
  */
 
-/** 
- * [導覽項目型別 MenuItem]
- * - id: 對應區塊錨點
- * - label: 顯示用文字
- * - srLabel: 中文敘述（輔助技術／SEO用）
- */
+/** Menu 選單類型與內容統一宣告 */
 interface MenuItem {
-  id: string
-  label: string
-  srLabel: string
+  id: string;         // hash 錨點
+  label: string;      // 顯示文案
+  srLabel: string;    // 補充中文描述給 aria-label/SEO
 }
 
-/**
- * [Menu 資料來源／統一控管]
- * 若新增、刪減或調整 menu，僅需維護此一陣列
- */
+/** Menu 資料來源（資料驅動，維護單點） */
 const NAV_MENUS: MenuItem[] = [
   { id: '#home',        label: '01 / Index',     srLabel: '回到首頁區塊' },
   { id: '#works',       label: '02 / Works',     srLabel: '瀏覽作品區' },
@@ -44,33 +38,28 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
 
-  // [導覽「磨砂切換」記憶]：監控畫面滾動，決定導覽背景模式
+  // [導覽列記憶]：scrolled = 漢堡浮現＋磨砂漸層
+  // 滾動 12px 後進入「閱讀提升」狀態，主選單帶暗底與 shadow
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    // 當用戶滑動時，根據 scrollY 決定 scrolled 狀態，用於導覽條磨砂與半透明底顯示
+    // 當前滾動座標變化就即時記憶，讓使用者隨時看到最清爽的導覽
     const handleScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // 首次載入時即時判斷
-
+    handleScroll(); // 首次渲染立即套用一次
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /**
-   * [Menu 點擊平滑邏輯]
-   * - 若在首頁，直接用 window.gsap 平滑捲動至對應區塊
-   * - 若非首頁，先切至 /，再嘗試滾動到目標區塊（此場景延遲setTimeout是為確保DOM渲染完畢）
-   * - 若動畫功能缺失，則降級為直接跳轉錨點，不會造成畫面壞掉
-   *
-   * # 報錯狀態說明：動畫失敗只會少掉滑動效果，畫面不會閃爍與壞掉
-   */
+  // [導覽選單點擊邏輯｜互動動態白話]
+  // 點擊選單後，若在首頁則嘗試動畫平滑捲動至目標；不在首頁則先跳首頁再滑
+  // 若缺動畫資源則直接用 hash 定位（不會壞，只是沒動作感）
+  // 報錯：此邏輯僅會導致無動畫，不影響結構，畫面呈現穩定
   const handleNavClick = (id: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (isHome) {
       if (typeof window !== 'undefined' && typeof window.gsap !== 'undefined') {
         window.gsap.to(window, { duration: 1.5, scrollTo: id, ease: 'power4.inOut' });
       } else {
-        // 如果沒 gsap，單純用 hash 跳轉（降級體驗、不壞畫面）
         window.location.hash = id;
       }
     } else {
@@ -85,24 +74,20 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-  /**
-   * [組件結構說明]
-   *
-   * 1. <nav> 負責語意區分，scrolled時加上系統 backdrop-blur 與暗底，提升內容可見性。
-   * 2. <Link /> 大 Logo+品牌名-雙語，SEO 友善且放 object-contain，不會壓縮圖片。
-   * 3. 導覽列部分.map渲染，Menu項目資料全部統一維護。
-   * 4. 漢堡按鈕僅手機時顯示，呼叫 onToggleMenu。
-   *
-   * Tailwind 配置全部嚴格適用，spacing/border-radius/色彩遵循專案配置，禁手寫 style。
-   */
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'backdrop-blur-sm bg-[#191D23]/70 shadow-md' : 'bg-transparent'
-      }`}
+      // [動態視覺註解]
+      // 「固定於畫面頂端」，由 scrolled 控制背景是否浮現磨砂
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
+        ${
+          scrolled
+            ? 'bg-gradient-to-b from-[#0E0C0B] via-[#0E0C0B]/80 to-transparent shadow-md'
+            : 'bg-transparent'
+        }
+      `}
     >
-      <div className="main-container flex justify-between items-center py-6 md:py-10">
-        {/* 品牌Logo區 */}
+      <div className="main-container flex justify-between items-center py-4 md:py-6">
+        {/* [品牌LOGO區] 絕不變形＋ALT描述 */}
         <Link
           to="/"
           onClick={() => window.scrollTo(0, 0)}
@@ -114,7 +99,6 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
             className="w-10 h-10 object-contain"
             alt="手繪森林主題Logo"
           />
-          {/* 雙語品牌字＋間距 */}
           <div className="flex flex-col items-start justify-center ml-0">
             <span className="chinese-art text-base text-[#E63946] leading-tight mt-0 tracking-[0.12em] -mr-[0.12em]">
               棠想視界
@@ -124,8 +108,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
             </span>
           </div>
         </Link>
-
-        {/* 桌面版導覽列：資料驅動，非手寫 */}
+        {/* [導覽選單｜桌面版 only] 循環渲染不重複 */}
         <div className="hidden md:flex space-x-12 tracking-main-nav">
           {NAV_MENUS.map(({ id, label, srLabel }) => (
             <a
@@ -139,8 +122,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
             </a>
           ))}
         </div>
-
-        {/* 行動漢堡按鈕 */}
+        {/* [漢堡功能鈕｜行動裝置專用] */}
         <button
           id="menu-toggle"
           className="md:hidden flex flex-col space-y-1.5 p-2 cursor-pointer"
@@ -157,10 +139,10 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
 };
 
 /**
- * [Kiki Style & 維護規範整合]
- * 1. 所有導覽選單項目依 NAV_MENUS 資料統一生成，不允許重複結構
- * 2. 樣式僅透過 Tailwind class 管理，嚴禁硬寫 style，特殊字級間距於 tailwind.config.js 擴充
- * 3. 圖片保持 object-contain、不變形，並給足 alt
- * 4. 報錯時導覽僅全透明不會壞
- * 5. 語義標籤、可及性/SEO完善
+ * [Kiki Style／維護統整單一說明]
+ * - 所有 menu 統一由 NAV_MENUS .map() 生成，結構不可重複。
+ * - 樣式皆來自 Tailwind class，唯一動態屬性（如動畫偏移）例外。
+ * - 圖片 object-contain、不允許變形，alt 必備。
+ * - 使用語義標籤（nav, main, footer）、ARIA 補充＆SEO 友善。
+ * - 報錯：任何錯誤僅失去動效，不影響畫面結構。
  */

@@ -2,35 +2,47 @@ import React, { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { projects } from '../data/projectData';
 
+/**
+ * [中文註解]
+ * [溝通視覺化] 當使用者開啟此作品詳細頁時：
+ * - 「元件的記憶」會從 URL 取得識別碼，並自動從作品資料集中找到對應細節。
+ * - 首區為「資訊展板」：集中顯示分類、標題、副標題、描述。
+ * - 下方依序為「圖片瀑布流」：每張圖片皆維持比例無扭曲，滑動時有動畫進場。
+ * - 頁底獨立一區「返回首頁」做收尾。
+ * 
+ * [技術重點]
+ * - 全面以語義標籤 + Tailwind CSS 控制結構與風格，嚴禁重複/冗餘結構。
+ * - 圖片、分類等皆走純資料驅動，未重複編排。
+ * - 所有交互動畫皆交由 GSAP、ScrollTrigger 控制，無手動 style 或 onMouseOver 事件。
+ * - 若資料異常（查無作品），以簡明標示呈現。
+ */
+
 export const WorkDetail: React.FC = () => {
+  // [視覺記憶邏輯] 路由的元件記憶同步抓資料
   const { id } = useParams();
-  // 修正：使用 (projects as any) 確保動態 ID 能正確抓取到 projectData.ts 的內容
   const project = id ? (projects as any)[id] : null;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 進入頁面時自動捲動到最上方
+  // [連動效果] 新作品切換即自動回到畫面頂端
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // GSAP 瀑布流動畫邏輯
+  // [連動效果] GSAP 進場動畫（一次設定兩類動畫，整合無重複）
   useEffect(() => {
     if (!project) return;
-
     const ctx = window.gsap.context(() => {
-      // 標頭文字動畫
+      // 1.「資訊展板」整體分段滑入
       window.gsap.from("#detail-header > *", {
         y: 50,
         opacity: 0,
         duration: 1,
         stagger: 0.1,
         ease: "power3.out",
-        delay: 0.2
+        delay: 0.2,
       });
-
-      // 瀑布流圖片項目的滾動觸發動畫
-      const items = document.querySelectorAll('.waterfall-item');
-      items.forEach((item) => {
+      // 2.「瀑布流每張相片」分別出現
+      document.querySelectorAll('.waterfall-item').forEach((item) => {
         window.gsap.from(item, {
           scrollTrigger: {
             trigger: item,
@@ -44,78 +56,88 @@ export const WorkDetail: React.FC = () => {
         });
       });
     }, containerRef);
-
     return () => ctx.revert();
   }, [id, project]);
 
+  // [錯誤視覺處理] 查無資料時給出簡明畫面
   if (!project) {
+    // 對畫面影響：主要區域會呈現一行錯誤訊息，無其他內容。
     return (
-      <div className="h-screen flex items-center justify-center text-white">
-        Project not found
-      </div>
+      <main className="h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]">
+        資料不存在，請回首頁
+      </main>
     );
   }
 
+  // 頁面主體
   return (
-    <div ref={containerRef} className="pt-32 pb-24 px-6 md:px-16 min-h-screen bg-[#0E0C0B]">
+    <main ref={containerRef} className="min-h-screen work-detail-wrapper">
+      <section className="content-width-container mx-auto">
 
-      {/* Header 資訊區 */}
-      <div id="detail-header" className="max-w-4xl mx-auto mb-20 md:mb-32 text-center">
-        <div className="mb-6">
-          <span className="text-[9px] text-red-500/80 tracking-[0.5em] uppercase">
+        {/* ───────────── 資訊展板區（分類、標題、副標題、描述）───────────── */}
+        <header id="detail-header" className="mx-auto text-center detail-header-container">
+          {/* Category */}
+          <span className="uppercase detail-label block mb-6">
             {project.category}
           </span>
-        </div>
-        <h1 className="text-3xl md:text-5xl font-light tracking-widest mb-6 text-[#EAE2D6] chinese-art">
-          {project.title}
-        </h1>
-        <h2 className="text-xl md:text-2xl serif-italic text-white/40 mb-12 italic">
-          {project.subtitle}
-        </h2>
-        <div className="w-px h-16 bg-white/10 mx-auto mb-12"></div>
-        <p className="text-xs md:text-sm leading-loose tracking-[0.15em] text-[#EAE2D6]/70 max-w-xl mx-auto font-light">
-          {project.description}
-        </p>
-      </div>
+          {/* 主標題 */}
+          <h1 className="chinese-art detail-main-title">
+            {project.title}
+          </h1>
+          {/* 副標題 */}
+          <h2 className="serif-italic italic detail-subtitle-text">
+            {project.subtitle}
+          </h2>
+          {/* 分隔線 */}
+          <div className="detail-vertical-divider"></div>
+          {/* 說明 */}
+          <p className="font-light detail-description-text">
+            {project.description}
+          </p>
+        </header>
 
-      {/* Waterfall Layout - 核心圖片渲染區 */}
-      <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 max-w-7xl mx-auto">
-        {project.images.map((img: string, index: number) => (
-          <div key={index} className="waterfall-item break-inside-avoid relative group overflow-hidden bg-neutral-900/50 mb-8">
-            {/* 懸停效果層 */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 flex items-center justify-center pointer-events-none">
-              <span className="text-[9px] tracking-[0.2em] text-white uppercase border border-white/30 px-3 py-1">
-                View Detail
-              </span>
-            </div>
+        {/* ───────────── 圖片瀑布流區 ───────────── */}
+        <section className="columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid" aria-label="作品圖片瀑布流">
+          {project.images.map((img: string, index: number) => (
+            <figure
+              key={index}
+              className="waterfall-item group relative overflow-hidden waterfall-card"
+            >
+              {/* 懸浮遮罩（hover）效果 */}
+              <figcaption className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 transition-opacity opacity-0 group-hover:opacity-100 waterfall-hover-mask">
+                <span className="uppercase waterfall-hover-btn">
+                  View
+                </span>
+              </figcaption>
+              {/* 主圖，維持比例 object-fit: contain，不會變形 */}
+              <img
+                src={img}
+                alt={`${project.title} 作品圖片 ${index + 1}`}
+                onLoad={() => window.ScrollTrigger?.refresh()}
+                // [移除 group-hover:scale-150，統一由 CSS 管理視覺放大效果]
+                className="waterfall-image-main"
+                loading="lazy"
+              />
+              {/* 序號標籤 */}
+              <div className="waterfall-index-tag">
+                <span className="waterfall-index-number">
+                  0{index + 1}
+                </span>
+              </div>
+            </figure>
+          ))}
+        </section>
 
-            {/* 圖片標籤：加入 onLoad 確保圖片載入後刷新 GSAP 觸發點 */}
-            <img
-              src={img}
-              alt={`${project.title} - ${index + 1}`}
-              onLoad={() => window.ScrollTrigger?.refresh()}
-              className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover:scale-105"
-            />
-
-            {/* 序號標記 */}
-            <div className="py-3 px-1">
-              <span className="text-[8px] tracking-[0.2em] text-white/30">
-                0{index + 1}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* 底部導覽 */}
-      <div className="mt-32 flex justify-center">
-        <Link to="/" className="group flex flex-col items-center">
-          <span className="w-12 h-px bg-white/20 group-hover:w-24 transition-all duration-500 mb-4"></span>
-          <span className="text-[9px] tracking-[0.4em] uppercase text-white/50 group-hover:text-white transition-colors">
-            Back to Index
-          </span>
-        </Link>
-      </div>
-    </div>
+        {/* ───────────── 返回首頁按鈕區 ───────────── */}
+        <footer className="flex justify-center back-nav-footer">
+          <Link to="/" className="group flex flex-col items-center">
+            <span className="back-line group-hover:w-24"></span>
+            <span className="uppercase back-label group-hover:text-white">
+              返回首頁 / Back to Home
+            </span>
+          </Link>
+        </footer>
+      </section>
+    </main>
   );
 };

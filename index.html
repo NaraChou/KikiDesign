@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>棠想視界｜視覺設計師 - KiKi Design</title>
-    
-    <!-- Favicon & Manifest -->
-    <link rel="icon" type="image/svg+xml" href="/logo-kiki-main.svg" />
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="shortcut icon" href="/favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>棠想視界｜視覺設計師 - KiKi Design</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
-    <!-- GSAP Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+  <!-- ===== 圖標與 PWA 設定區（集中統整，避免重覆） ===== -->
+  <!-- 主要 SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/logo-kiki-main.svg" />
+  <!-- 多尺寸 PNG Favicon -->
+  <link rel="icon" type="image/png" sizes="48x48"   href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32"   href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16"   href="/favicon-16x16.png">
+  <!-- Apple 裝置專用 -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <!-- Manifest 與 fallback icon -->
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="shortcut icon" href="/favicon.ico">
 
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.3.1",
-    "react/": "https://esm.sh/react@18.3.1/",
-    "react-dom": "https://esm.sh/react-dom@18.3.1",
-    "react-dom/": "https://esm.sh/react-dom@18.3.1/",
-    "react-router-dom": "https://esm.sh/react-router-dom@6.22.3?external=react,react-dom"
-  }
-}
-</script>
+  <!-- ===== 字型資源統一管理 ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+
+  <!-- ===== 主要樣式（順序：核心 > 全域變數） ===== -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/globals.css">
+
+  <!-- ===== GSAP 動畫主程式與插件（集中歸類） ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+  <!-- ===== React 與 Router ImportMap（集中定義） ===== -->
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.3.1",
+        "react/": "https://esm.sh/react@18.3.1/",
+        "react-dom": "https://esm.sh/react-dom@18.3.1",
+        "react-dom/": "https://esm.sh/react-dom@18.3.1/",
+        "react-router-dom": "https://esm.sh/react-router-dom@6.22.3?external=react,react-dom"
+      }
+    }
+  </script>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+  <div id="root"></div>
+  <script type="module" src="./index.tsx"></script>
 </body>
 </html>

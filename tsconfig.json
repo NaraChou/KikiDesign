@@ -1,39 +1,37 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "experimentalDecorators": true,
-    "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "module": "ESNext",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "skipLibCheck": true,
-    "types": [
-      "node",
-      "vite/client"
-    ],
-    /* 1. 將 bundler 改為 node，解決相容性與找不到 react 的問題 */
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "allowJs": true,
-    "jsx": "react-jsx",
+    // ========= 編譯目標 & 模組設定 (現代瀏覽器 + Vite最佳化) =========
+    "target": "ES2022",                 // 直接輸出 ES2022（與 Vite 設定同步，最適現代瀏覽器）
+    "module": "ESNext",                  // 支援 ESM、Tree-shaking，Vite 預設
+    "moduleResolution": "node",          // 統一使用 node (Bundler) 解析方式，解決 React 尋找問題
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], // TypeScript 認知現代內建物件（含 async/await、瀏覽器 API）
+
+    // ========= TypeScript 行為調控 =========
+    "isolatedModules": true,             // 支援 Vite/Jest 等單檔分析，提升穩定性
+    "moduleDetection": "force",          // 強制每檔案皆視為模組，避免混淆警告
+    "skipLibCheck": true,                // 加速編譯，不檢查 node_modules
+    "noEmit": true,                      // 僅型別檢查，不生成 JS 檔（交由 Vite 處理）
+    "allowJs": true,                     // 支援 JS/TS 混合開發
+
+    // ========= 語法與新語言特性 =========
+    "experimentalDecorators": true,      // 開啟 Decorators 支援（如 mobx、class-validator）
+    "useDefineForClassFields": false,    // 保持 class 欄位定義與舊版一致，兼容 React/Ecosystem
+
+    // ========= React & 專案自訂 =========
+    "jsx": "react-jsx",                  // 新版 JSX 轉譯（無須 import React）
+    "allowSyntheticDefaultImports": true,// 允許預設匯入（多數 npm 套件需要）
+    "esModuleInterop": true,             // CommonJS/ESM 互操作，與 allowSyntheticDefaultImports 並用
+
+    // ========= 型別與自動補全 =========
+    "types": ["node", "vite/client"],    // 預載 node/vite 全域型別，加速編寫
     "paths": {
-      "@/*": [
-        "./*"
-      ]
-    },
-    /* 2. 移除或註解掉舊版不支援的 allowImportingTsExtensions */
-    "noEmit": true
+      "@/*": ["./*"]                     // 項目取用 src/* 資源的別名（與 Vite 設定同步）
+    }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.d.ts",
     "vite.config.ts"
-  ] 
+  ]
 }

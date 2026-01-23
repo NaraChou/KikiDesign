@@ -1,0 +1,184 @@
+/* ============================================================================
+   Works專區樣式表（符合Kiki Design Style標準，資訊分組聚焦、冗餘刪減、視覺結構動態說明）
+   ----------------------------------------------------------------------------
+   註解：本區樣式已依照用途群組、移除重複設定，所有設計細節皆採用 CSS 變數，方便全站統一或覆寫。
+============================================================================ */
+
+/* ===「主要區塊」與「區塊標題」=== */
+
+/*
+  [元件外層容器]
+  - 控制 Portfolio 區塊的上下間距與背景，確保視覺節奏一致
+*/
+#works {
+  padding-top: var(--section-padding-y, 6rem);
+  padding-bottom: var(--section-padding-y, 6rem);
+  background: var(--section-bg-works, transparent);
+}
+
+/*
+  [標題分區] 
+  - 左側紅色細線、標題與副標題上下間距明顯
+  - 響應式左邊距與下方間距（md:pl-10, md:mb-48）
+*/
+.works-section-header {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--work-title-border, rgba(239, 68, 68, 0.20));
+  padding-left: 1.5rem;
+  margin-bottom: 6rem;
+}
+@media (min-width: 768px) {
+  .works-section-header {
+    padding-left: 2.5rem;
+    margin-bottom: 12rem;
+  }
+}
+
+.works-section-title {
+  /* 主標題文字 */
+  color: var(--work-title-color, #fff);
+  margin-bottom: 1rem;
+}
+
+.works-section-label {
+  /* 副標題分段說明，強化 Portfolio 標示性 */
+  text-transform: uppercase;
+  font-size: var(--work-title-label-size, 9px);
+  letter-spacing: var(--work-title-label-spacing, 0.5em);
+  color: var(--brand-subtle, rgba(234,226,214,0.5));
+}
+
+/* ===「作品卡片格線」組 & 卡片本體（包含主圖、遮罩、資訊）=== */
+
+/*
+  [作品排列格線]
+  - 手機單欄，桌面雙欄
+  - 行距 gap 自訂 RWD 變數
+*/
+.works-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--work-grid-gap-mobile, 5rem);
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .works-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/*
+  [作品卡主體]
+  - 皆採相同的比例限制、圓角、陰影、內部padding
+  - 重複 border, radius, shadow 設定整合統一
+*/
+.work-card-inner {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border-radius: 2.2rem;
+  border: 1.5px solid var(--work-card-border, rgba(255,255,255,0.10));
+  padding: var(--work-card-padding, 2rem);
+  box-shadow: var(--work-card-shadow, 0 2px 12px 0 rgba(0,0,0,0.13));
+  transition: border-color 0.4s, box-shadow 0.4s, background-color 0.4s;
+}
+
+/*
+  [主圖遮罩層]（動態變色用於 hover 強化視覺衝擊）
+*/
+.work-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: var(--work-card-overlay, rgba(0,0,0,0.20));
+  transition: background 0.5s;
+}
+.work-card:hover .work-card-overlay {
+  background: rgba(0,0,0,0.1);
+}
+
+/*
+  [作品主圖像]
+  - 保持比例、嚴防圖片變形
+  - 動畫：Hover 放大、opacity 微調
+*/
+.work-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;      /* 保持原始比例不變形 */
+  object-position: center;
+  opacity: 0.9;
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s;
+}
+.work-card:hover .work-card-image {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/*
+  [右上浮動箭頭按鈕]
+  - 按鈕圓形、玻璃化背景、Hover 顯現
+*/
+.work-card-arrow {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.work-card:hover .work-card-arrow {
+  opacity: 1;
+}
+.arrow-circle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--work-card-arrow-border, rgba(255,255,255,0.3));
+  background: var(--work-card-arrow-bg, rgba(0,0,0,0.3));
+  color: var(--work-card-arrow-color, #fff);
+  font-size: 10px;
+}
+
+/* ===「卡片下方文字資訊」=== */
+
+/*
+  [資訊統一區塊]
+  - mt-2rem (md:mt-3rem)
+*/
+.work-card-info {
+  margin-top: 2rem;
+}
+@media (min-width: 768px) {
+  .work-card-info {
+    margin-top: 3rem;
+  }
+}
+
+/*
+  [標題/副標題]
+  - Uppercase/斜體/色彩、間距皆走 CSS 變數統一
+*/
+.work-card-title {
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: var(--work-card-title-size, 12px);
+  letter-spacing: var(--work-card-title-spacing, 0.4em);
+  color: var(--work-card-title-color, rgba(255,255,255,0.7));
+  transition: color 0.3s;
+}
+.work-card:hover .work-card-title {
+  color: #fff;
+}
+.work-card-subtitle {
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: var(--work-card-subtitle-size, 9px);
+  letter-spacing: var(--work-card-subtitle-spacing, 0.25em);
+  color: var(--brand-subtle, rgba(234,226,214,0.5));
+}

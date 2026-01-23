@@ -1,50 +1,52 @@
-// @ts-ignore
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-
-// 匯入圖片 (路徑與副檔名已根據您的現狀調整)
+// [圖片資源集中管理]
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
 
-declare const window: any;
-
-// 1. 定義作品資料陣列，將樣式與內容抽離
+/**
+ * [元件的記憶統合]
+ * - 兩個作品資訊以陣列管理，避免重複結構
+ * - 所有統一與相近屬性集合 ── 顏色、排版、字型與圖片
+ * - 僅保留一個 textAlign 字串，由外部帶入 tailwind className
+ * [註解說明] 這樣能讓資料驅動畫面、視覺樣式寫法更容易維護
+ */
 const projects = [
   {
     id: 'personal-branding',
     title: '個人品牌形象官網 / Personal Branding Website',
     subtitle: 'BRAND IDENTITY / 2024',
     img: brandingMockupMain,
-    // 建議：使用深藍灰色，並加上 p-8 內距（深藍灰配上較大內距）
-    bgColor: 'bg-[#1a1c2e]/50 p-6 md:p-10',
-    // 加上 group-hover:border-white/30 讓移入時邊框變亮
-    borderColor: 'border-white/10 group-hover:border-white/30',
-    customClass: '',
-    textAlign: 'md:text-left'
+    cardBg: 'bg-[var(--work-card-bg1,rgba(26,28,46,0.50))]',
+    textAlign: 'md:text-left',
+    extraClass: '', // 如需額外微調padding/margin
   },
   {
     id: 'logo-design',
     title: '個人商標與名片 / Logo & Business Card',
     subtitle: 'VISUAL DESIGN / 2025',
     img: logoStationery,
-    // 建議：深紫色質感（深紫灰）
-    bgColor: 'bg-[#2e1a2e]/50 p-6 md:p-10',
-    // 加上 group-hover:border-white/30 讓移入時邊框變亮
-    borderColor: 'border-white/10 group-hover:border-white/30',
-    customClass: 'md:mt-64',
-    textAlign: 'text-right md:text-left'
+    cardBg: 'bg-[var(--work-card-bg2,rgba(46,26,46,0.50))]',
+    textAlign: 'text-right md:text-left',
+    extraClass: 'md:mt-64',
   }
 ];
 
+/**
+ * [溝通視覺化：Works 區塊]
+ * - 展示作品一覽，每個作品皆為卡片，動態進場動畫
+ * - 內容排列、字體、比例皆走 Tailwind 樣式，圖片絕不變形
+ * - 「元件的記憶」：每個卡片點擊導向各自詳細頁
+ * - 卡片動畫採 GSAP + ScrollTrigger 實現連動流暢
+ */
 export const Works: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // [連動效果] GSAP 進場動畫：每個「work-card」隨捲動淡進
   useEffect(() => {
-    // 確保 gsap 存在後再執行
     if (window.gsap) {
       const ctx = window.gsap.context(() => {
-        const cards = document.querySelectorAll('.work-card');
-        cards.forEach((card) => {
+        window.gsap.utils.toArray('.work-card').forEach((card: any) => {
           window.gsap.from(card, {
             scrollTrigger: {
               trigger: card,
@@ -62,54 +64,60 @@ export const Works: React.FC = () => {
   }, []);
 
   return (
-    <section id="works" ref={containerRef} className="py-24 md:py-40 px-6 md:px-16 max-w-7xl mx-auto">
-      {/* 標題區塊 */}
-      <div className="flex flex-col mb-24 md:mb-48 border-l border-red-500/20 pl-6 md:pl-10">
-        <h3 className="serif-italic text-3xl md:text-4xl mb-4 italic text-white">Portfolio</h3>
-        <p className="text-[9px] tracking-[0.5em] text-[rgba(234,226,214,0.5)] uppercase">Selected Fragments</p>
-      </div>
+    // [語義化視覺] 用 section 主體包裹，確保 RWD 一致、SEO 友好
+    <section id="works" ref={containerRef} className="py-20 md:py-32 bg-[var(--works-bg,#181A23)]">
+      <div className="content-width-container mx-auto w-full">
+        {/* ────── 區塊標題區（資訊統合）────── */}
+        <header className="text-center mb-12 md:mb-20">
+          {/* 主標題 */}
+          <h2 className="chinese-art font-light italic text-[2rem] md:text-4xl tracking-widest works-section-title">
+            Portfolio
+          </h2>
+          {/* 補充標籤 */}
+          <p className="uppercase mt-2 text-xs tracking-[0.15em] text-[var(--brand-accent,#EF4444)] works-section-label">
+            Selected Fragments
+          </p>
+        </header>
 
-      {/* 作品網格 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-40 items-start">
-        {projects.map((project) => (
-          <Link
-            key={project.id}
-            to={`/work/${project.id}`}
-            className={`work-card group cursor-pointer block ${project.customClass}`}
-          >
-            {/* 動態圖片容器：結合 object-contain (置中不切圖) 與自定義背景 */}
-            <div className={`relative overflow-hidden aspect-4/5 rounded-2xl border shadow-inner transition-all duration-500 ${project.bgColor} ${project.borderColor}`}>
-
-              {/* 遮罩層 */}
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10 duration-500"></div>
-
-              <img
-                src={project.img}
-                alt={project.title}
-                // 核心修正：object-contain + object-center 確保圖片完整
-                className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-              />
-
-              {/* 右上角箭頭 */}
-              <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-                  <span className="text-[10px] text-white">↗</span>
-                </span>
+        {/* ────── 作品組合資源區（資料驅動，無重複結構）────── */}
+        <div className="grid gap-12 md:grid-cols-2 works-grid">
+          {projects.map((p) => (
+            <Link
+              key={p.id}
+              to={`/work/${p.id}`}
+              className={`work-card group relative block transition-transform ${p.extraClass}`}
+              aria-label={`前往${p.title}詳細頁`}
+            >
+              {/* [卡片主體] 背景漸層 + overlay，確保色彩與動畫一致 */}
+              <div className={`overflow-hidden rounded-xl relative shadow-lg ${p.cardBg} pb-10`}>
+                {/* 漸變遮罩效果，營造深淺層次 */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/20 pointer-events-none z-10 work-card-overlay"></div>
+                {/* 主圖：object-fit:contain 絕不變形 */}
+                <img
+                  src={p.img}
+                  alt={`${p.title} 代表作圖像`}
+                  className="work-card-image w-full aspect-[4/3] object-contain transition-transform duration-1000 group-hover:scale-105"
+                  loading="lazy"
+                />
+                {/* 箭頭圈圈放右下角，hover 亮起連動 */}
+                <div className="absolute right-6 bottom-6 z-20 work-card-arrow">
+                  <span className="arrow-circle w-10 h-10 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-white text-lg transition bg-opacity-70 group-hover:bg-white group-hover:text-[var(--brand-accent,#EF4444)]">
+                    ↗
+                  </span>
+                </div>
               </div>
-            </div>
-
-            {/* 下方文字資訊：保留您原本的字體大小與間距 */}
-            <div className={`mt-8 md:mt-12 space-y-2 ${project.textAlign}`}>
-              {/* 修改這行：將預設顏色調淡一點 */}
-              <h4 className="text-xs tracking-[0.4em] font-light uppercase text-white/70 group-hover:text-white transition-colors">
-                {project.title}
-              </h4>
-              <p className="text-[9px] text-[rgba(234,226,214,0.5)] tracking-widest italic uppercase">
-                {project.subtitle}
-              </p>
-            </div>
-          </Link>
-        ))}
+              {/* 作品資料（資訊統一管理） */}
+              <div className={`work-card-info mt-5 px-2 ${p.textAlign}`}>
+                <h3 className="work-card-title font-semibold text-lg md:text-2xl text-[var(--work-card-title,#FDF6ED)] mb-2">
+                  {p.title}
+                </h3>
+                <p className="work-card-subtitle font-light text-xs md:text-base tracking-wider text-[var(--work-card-subtitle,#EAE2D6B2)]">
+                  {p.subtitle}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

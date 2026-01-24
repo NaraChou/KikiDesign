@@ -1,38 +1,34 @@
 import React, { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { projects } from '../data/projectData';
+import { projectsRecord } from '../data/projectData';
 
 /**
- * [中文註解]
- * [溝通視覺化] 當使用者開啟此作品詳細頁時：
- * - 「元件的記憶」會從 URL 取得識別碼，並自動從作品資料集中找到對應細節。
- * - 首區為「資訊展板」：集中顯示分類、標題、副標題、描述。
- * - 下方依序為「圖片瀑布流」：每張圖片皆維持比例無扭曲，滑動時有動畫進場。
- * - 頁底獨立一區「返回首頁」做收尾。
- * 
- * [技術重點]
- * - 全面以語義標籤 + Tailwind CSS 控制結構與風格，嚴禁重複/冗餘結構。
- * - 圖片、分類等皆走純資料驅動，未重複編排。
- * - 所有交互動畫皆交由 GSAP、ScrollTrigger 控制，無手動 style 或 onMouseOver 事件。
- * - 若資料異常（查無作品），以簡明標示呈現。
+ * [中文註解]（新規範資訊統整）
+ * ▍元件視覺邏輯簡述：
+ *  - 進入畫面時讀取ID→找到目標作品→若查無顯示錯誤。
+ *  - 完全依據資料內容產生標題、分類、描述、圖片瀑布流。
+ *  - 動畫效果統一用 GSAP 驅動（scroll/進場），無重複手動 style、事件。
+ *  - 圖片比例與 hover 皆交予 CSS 控管（不手動 class 疊加）。
+ *  - 所有可重覆片段均統一由資料 .map() 循環產生。
+ *  - 返回首頁導向明確，標註語義。
  */
 
 export const WorkDetail: React.FC = () => {
-  // [視覺記憶邏輯] 路由的元件記憶同步抓資料
+  // [元件的記憶] 依據路由URL取得作品id，自動選取對應資料
   const { id } = useParams();
-  const project = id ? (projects as any)[id] : null;
+  const project = id ? projectsRecord[id] : null;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // [連動效果] 新作品切換即自動回到畫面頂端
+  // [連動效果] 每次id變動，畫面自動回頂
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // [連動效果] GSAP 進場動畫（一次設定兩類動畫，整合無重複）
+  // [動畫連動] 統一進場動畫，適用標題區與每張圖片
   useEffect(() => {
     if (!project) return;
     const ctx = window.gsap.context(() => {
-      // 1.「資訊展板」整體分段滑入
+      // header依序動畫
       window.gsap.from("#detail-header > *", {
         y: 50,
         opacity: 0,
@@ -41,7 +37,7 @@ export const WorkDetail: React.FC = () => {
         ease: "power3.out",
         delay: 0.2,
       });
-      // 2.「瀑布流每張相片」分別出現
+      // waterfall圖片進場
       document.querySelectorAll('.waterfall-item').forEach((item) => {
         window.gsap.from(item, {
           scrollTrigger: {
@@ -59,9 +55,9 @@ export const WorkDetail: React.FC = () => {
     return () => ctx.revert();
   }, [id, project]);
 
-  // [錯誤視覺處理] 查無資料時給出簡明畫面
+  // [視覺處理] 查無作品顯示
   if (!project) {
-    // 對畫面影響：主要區域會呈現一行錯誤訊息，無其他內容。
+    // 對畫面影響：整個主區域只會顯示簡明錯誤文字
     return (
       <main className="h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]">
         資料不存在，請回首頁
@@ -69,66 +65,56 @@ export const WorkDetail: React.FC = () => {
     );
   }
 
-  // 頁面主體
+  // [畫面主體] 統一語義標籤與層級，所有結構數據驅動
   return (
-    <main ref={containerRef} className="min-h-screen work-detail-wrapper">
+    <main
+      ref={containerRef}
+      className={`min-h-screen work-detail-wrapper project-${id}`}
+    >
       <section className="content-width-container mx-auto">
 
-        {/* ───────────── 資訊展板區（分類、標題、副標題、描述）───────────── */}
+        {/* ────────── 資訊展板：分類／標題／副標題／描述 ────────── */}
         <header id="detail-header" className="mx-auto text-center detail-header-container">
-          {/* Category */}
-          <span className="uppercase detail-label block mb-6">
-            {project.category}
-          </span>
-          {/* 主標題 */}
-          <h1 className="chinese-art detail-main-title">
-            {project.title}
-          </h1>
-          {/* 副標題 */}
-          <h2 className="serif-italic italic detail-subtitle-text">
-            {project.subtitle}
-          </h2>
-          {/* 分隔線 */}
+          <span className="uppercase detail-label block mb-6">{project.category}</span>
+          <h1 className="chinese-art detail-main-title">{project.title}</h1>
+          <h2 className="serif-italic italic detail-subtitle-text">{project.subtitle}</h2>
           <div className="detail-vertical-divider"></div>
-          {/* 說明 */}
-          <p className="font-light detail-description-text">
-            {project.description}
-          </p>
+          <p className="font-light detail-description-text">{project.description}</p>
         </header>
 
-        {/* ───────────── 圖片瀑布流區 ───────────── */}
-        <section className="columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid" aria-label="作品圖片瀑布流">
-          {project.images.map((img: string, index: number) => (
+        {/* ────────── 圖片瀑布流 ────────── 
+           [重點] 僅由資料生成，每張圖統一風格、SEO alt完善，hover不內嵌group-hover:shadow，權重交由work-detail.css控制
+        */}
+        <section
+          className="columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid"
+          aria-label="作品圖片瀑布流"
+        >
+          {project.images.map((img: string, idx: number) => (
             <figure
-              key={index}
+              key={idx}
               className="waterfall-item group relative overflow-hidden waterfall-card"
             >
-              {/* 懸浮遮罩（hover）效果 */}
+              {/* 懸浮遮罩 */}
               <figcaption className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 transition-opacity opacity-0 group-hover:opacity-100 waterfall-hover-mask">
-                <span className="uppercase waterfall-hover-btn">
-                  View
-                </span>
+                <span className="uppercase waterfall-hover-btn">View</span>
               </figcaption>
-              {/* 主圖，維持比例 object-fit: contain，不會變形 */}
+              {/* 不變形主圖 */}
               <img
                 src={img}
-                alt={`${project.title} 作品圖片 ${index + 1}`}
+                alt={`${project.title} 作品圖片 ${idx + 1}`}
                 onLoad={() => window.ScrollTrigger?.refresh()}
-                // [移除 group-hover:scale-150，統一由 CSS 管理視覺放大效果]
                 className="waterfall-image-main"
                 loading="lazy"
               />
               {/* 序號標籤 */}
               <div className="waterfall-index-tag">
-                <span className="waterfall-index-number">
-                  0{index + 1}
-                </span>
+                <span className="waterfall-index-number">0{idx + 1}</span>
               </div>
             </figure>
           ))}
         </section>
 
-        {/* ───────────── 返回首頁按鈕區 ───────────── */}
+        {/* ────────── 返回首頁連結 ────────── */}
         <footer className="flex justify-center back-nav-footer">
           <Link to="/" className="group flex flex-col items-center">
             <span className="back-line group-hover:w-24"></span>

@@ -1,14 +1,15 @@
-/* ============================================================================
+/* =============================================================================
    Works專區樣式表（符合Kiki Design Style標準，資訊分組聚焦、冗餘刪減、視覺結構動態說明）
-   ----------------------------------------------------------------------------
+   -----------------------------------------------------------------------------
    註解：本區樣式已依照用途群組、移除重複設定，所有設計細節皆採用 CSS 變數，方便全站統一或覆寫。
-============================================================================ */
+============================================================================= */
 
 /* ===「主要區塊」與「區塊標題」=== */
 
 /*
   [元件外層容器]
   - 控制 Portfolio 區塊的上下間距與背景，確保視覺節奏一致
+  - 對畫面動態：維持每個主要區段有獨立的視覺呼吸區，不讓內容壓迫
 */
 #works {
   padding-top: var(--section-padding-y, 6rem);
@@ -17,9 +18,9 @@
 }
 
 /*
-  [標題分區] 
-  - 左側紅色細線、標題與副標題上下間距明顯
-  - 響應式左邊距與下方間距（md:pl-10, md:mb-48）
+  [標題分區]
+  - 桌面版維持左對齊，手機版居中（動態響應式呈現）
+  - 白話註解：視線在桌機版時向左齊，行動端置中方便小螢幕閱讀，強化品牌識別的一致感
 */
 .works-section-header {
   display: flex;
@@ -27,26 +28,48 @@
   border-left: 1px solid var(--work-title-border, rgba(239, 68, 68, 0.20));
   padding-left: 1.5rem;
   margin-bottom: 6rem;
+  align-items: center;         /* 預設（手機）：內容置中 */
+  text-align: center;          /* 預設（手機）：文字置中 */
 }
 @media (min-width: 768px) {
   .works-section-header {
     padding-left: 2.5rem;
     margin-bottom: 12rem;
+    align-items: flex-start;   /* 桌機：左對齊 */
+    text-align: left;          /* 桌機：文字左對齊 */
   }
 }
 
+/*
+  [Works主標題（h2）]
+  - 視覺規則：完全對齊 footer 區的 .footer-title 樣式設計
+  - 白話註解：行動端與副標題同步置中，桌機維持左邊；視覺層級穩定
+  - 增大字母間距，讓 "Portfolio" 頭標更有呼吸感和現代感
+*/
 .works-section-title {
-  /* 主標題文字 */
-  color: var(--work-title-color, #fff);
-  margin-bottom: 1rem;
+    font-size: 2.4rem;
+    font-style: italic;
+    font-family: 'Noto Serif TC', serif;
+    font-variation-settings: 'ital' 1;
+    /* 白話註解：這段讓 Portfolio 標題字母之間更寬，閱讀時感覺更輕鬆寬敞 */
+    letter-spacing: 0.2em;
+    margin-left: 0;
+    margin-right: 0;
 }
 
+/*
+  [副標題 Selected Fragments]
+  - 行動端同步置中，桌機左齊
+  - 強化 Portfolio 區塊辨識度
+*/
 .works-section-label {
   /* 副標題分段說明，強化 Portfolio 標示性 */
   text-transform: uppercase;
   font-size: var(--work-title-label-size, 9px);
   letter-spacing: var(--work-title-label-spacing, 0.5em);
   color: var(--brand-subtle, rgba(234,226,214,0.5));
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* ===「作品卡片格線」組 & 卡片本體（包含主圖、遮罩、資訊）=== */
@@ -55,6 +78,7 @@
   [作品排列格線]
   - 手機單欄，桌面雙欄
   - 行距 gap 自訂 RWD 變數
+  - 動態視覺：RWD 格線自動切換，確保排列美感
 */
 .works-grid {
   display: grid;
@@ -102,6 +126,7 @@
   [作品主圖像]
   - 保持比例、嚴防圖片變形
   - 動畫：Hover 放大、opacity 微調
+  - 對畫面影響：永遠保持 object-fit，Kiki Design Style 核心規定
 */
 .work-card-image {
   width: 100%;
@@ -150,6 +175,7 @@
 /*
   [資訊統一區塊]
   - mt-2rem (md:mt-3rem)
+  - 對畫面動態：RWD 下拉開卡片資訊層次，符合視覺層級
 */
 .work-card-info {
   margin-top: 2rem;
@@ -164,6 +190,17 @@
   [標題/副標題]
   - Uppercase/斜體/色彩、間距皆走 CSS 變數統一
 */
+/* 
+  === 細緻中文標題優化 ===
+  .work-card-info h3
+  - 對畫面動態：確保中文字型在 Chrome/Safari 的渲染更加纖細平滑，增強專業質感
+  - 使用 font-smoothing 技術突破默認瀏覽器渲染厚重感
+*/
+.work-card-info h3 {
+  -webkit-font-smoothing: antialiased; /* 讓 Chrome/Safari 下中文字筆畫細節更柔順，提升專業感 */
+  -moz-osx-font-smoothing: grayscale;  /* macOS 下優化細緻度，對比更柔和 */
+}
+
 .work-card-title {
   text-transform: uppercase;
   font-weight: 300;

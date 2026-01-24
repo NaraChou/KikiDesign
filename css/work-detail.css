@@ -20,6 +20,7 @@
 .detail-header-container {
   max-width: var(--workdetail-header-max-width, 48rem);
   margin-bottom: var(--workdetail-header-mb, 5rem);
+  margin-top: var(--workdetail-header-mt, 5rem);
 }
 /* 作品分類標籤（吸睛紅‧極細體） */
 .detail-label {
@@ -67,6 +68,8 @@
 /* ================== 瀑布流圖片瀏覽 ==================
    [連動效果]
    - 各圖片卡片獨立背景，RWD 間距統一變化；hover 帶動主圖縮放，遮罩透明度平滑切換。
+   [統一圓角設計]
+   - 所有瀑布流卡片（含主圖、遮罩與底部序號）採一致圓角，提升現代整體感。
 */
 /* 圖片列表容器（RWD 最大寬與 GAP 統合） */
 .waterfall-grid {
@@ -74,13 +77,19 @@
   gap: var(--waterfall-gap, 2rem);
   column-gap: var(--waterfall-gap, 2rem);
 }
-/* 單一卡片結構 */
+/* 單一卡片結構（含圓角） */
+/*
+  [視覺動態說明]
+  - 每張卡片加上圓角，使圖片集呈現柔和現代的切角視覺，內容感覺更為聚合、友善。
+*/
 .waterfall-card {
   break-inside: avoid;
   background: var(--waterfall-item-bg, rgba(34,30,29,0.50));
   margin-bottom: var(--waterfall-item-mb, 2rem);
+  border-radius: var(--waterfall-card-radius, 1rem); /* 統一圓角：卡片外框 */
+  overflow: hidden; /* 圓角作用在分享內容 */
 }
-/* 主圖像維持比例、不失真（嚴禁變形）、支援動畫縮放 */
+/* 主圖像維持比例、不失真（嚴禁變形）、支援動畫縮放，圓角延續外框 */
 .waterfall-image-main {
   width: 100%;
   height: auto;
@@ -89,6 +98,7 @@
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   transform: scale(1);
   will-change: transform; /* 動畫流暢優化 */
+  border-radius: var(--waterfall-image-radius, 1rem); /* 主圖圓角一致 */
 }
 /* 卡片 Hover 動效：主圖放大＋亮度微提 */
 .waterfall-card:hover .waterfall-image-main {
@@ -96,24 +106,28 @@
   transform: scale(1.1); /* 放大 110% */
   will-change: transform;
 }
-/* 圖片 Hover 遮罩 */
+/* 圖片 Hover 遮罩，亦帶圓角包覆主圖感覺 */
 .waterfall-hover-mask {
   background: var(--waterfall-hover-bg, rgba(0,0,0,0.40));
   transition: opacity 0.8s ease;
+  border-radius: var(--waterfall-image-radius, 1rem); /* 遮罩同樣圓角包覆 */
 }
 
-/* 滑動標籤統一設計（按鈕/標記） */
+/* 滑動標籤統一設計（按鈕/標記），角落略帶圓角提升細節質感 */
 .waterfall-hover-btn {
   font-size: var(--waterfall-hover-label-size, 9px);
   letter-spacing: var(--waterfall-hover-label-tracking, 0.2em);
   color: var(--waterfall-hover-label-color, #FFF);
   border: var(--waterfall-hover-label-border, 1px solid rgba(255,255,255,0.3));
   padding: var(--waterfall-hover-label-px, 0.75rem 0.45rem);
+  border-radius: 0.5em; /* 軟性按鈕圓角設計 */
 }
 
-/* 圖片底部序號 tag（編號統一樣式） */
+/* 圖片底部序號 tag（編號統一樣式），保持圓角一致性 */
 .waterfall-index-tag {
   padding: var(--waterfall-item-index-py, 0.75rem) var(--waterfall-item-index-px, 0.25rem);
+  border-radius: 0.4em;  /* 序號標籤也呼應大視覺圓角主題 */
+  background: transparent; /* 如有背景色則圓角會明顯 */
 }
 .waterfall-index-number {
   font-size: var(--waterfall-item-index-size, 8px);
@@ -146,6 +160,7 @@
 /* ================== 響應式優化：手機 ==================
    [畫面動態]
    - RWD 下主要容器 padding 縮減，標題縮小，瀑布流間距緊縮。
+   - 卡片圓角、主圖圓角等仍完整保留，統一品牌細節。
 */
 @media (max-width: 768px) {
   .work-detail-wrapper {
@@ -159,5 +174,11 @@
   .waterfall-grid {
     gap: 1rem;
     column-gap: 1rem;
+  }
+  .waterfall-card {
+    border-radius: var(--waterfall-card-radius-mobile, 0.75rem);
+  }
+  .waterfall-image-main, .waterfall-hover-mask {
+    border-radius: var(--waterfall-image-radius-mobile, 0.75rem);
   }
 }

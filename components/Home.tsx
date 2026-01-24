@@ -24,7 +24,7 @@ import { Philosophy } from './Philosophy';
 export const Home: React.FC = () => (
   <main>
     {/* [主內容區：RWD/間距完全統一，利於維護的內容模板] */}
-    <div className="content-width-container flex flex-col gap-32 md:gap-48">
+    <div className="content-width-container flex flex-col md:gap-48">
       {/* 各主要區塊依序掛載，繼承統一寬度與 spacing，絕無多餘 px 控制 */}
       <Hero />
       <Works />

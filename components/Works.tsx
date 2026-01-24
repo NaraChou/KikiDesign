@@ -6,10 +6,10 @@ import logoStationery from '../assets/images/logo-branding-stationery.webp';
 
 /**
  * [元件的記憶統合]
- * - 兩個作品資訊以陣列管理，避免重複結構
- * - 所有統一與相近屬性集合 ── 顏色、排版、字型與圖片
- * - 僅保留一個 textAlign 字串，由外部帶入 tailwind className
- * [註解說明] 這樣能讓資料驅動畫面、視覺樣式寫法更容易維護
+ * - 作品資料抽象成陣列: 避免重複結構，便於動態渲染
+ * - 字級、間距、顏色皆為精細微調，讓中英文都保持優雅精緻
+ * [視覺註解] 更強調細膩與舒適，確保整體 Typography 輕盈且流暢
+ * [新版] 每個作品新增 hoverShadow（Tailwind 顏色發光類別），搭配 group-hover 控制個別卡片高級光暈色
  */
 const projects = [
   {
@@ -19,7 +19,9 @@ const projects = [
     img: brandingMockupMain,
     cardBg: 'bg-[var(--work-card-bg1,rgba(26,28,46,0.50))]',
     textAlign: 'md:text-left',
-    extraClass: '', // 如需額外微調padding/margin
+    extraClass: '',
+    // 設定作品一：藍色發光
+    hoverShadow: 'group-hover:shadow-[0_0_40px_rgba(59,130,246,0.5)]',
   },
   {
     id: 'logo-design',
@@ -27,26 +29,28 @@ const projects = [
     subtitle: 'VISUAL DESIGN / 2025',
     img: logoStationery,
     cardBg: 'bg-[var(--work-card-bg2,rgba(46,26,46,0.50))]',
-    textAlign: 'text-right md:text-left',
+    // [注意] 視覺設定優先：手機端需靠右，md 以上才左對齊
+    textAlign: 'text-right md:text-left', // <--- 已正確設置
     extraClass: 'md:mt-64',
+    // 設定作品二：紫色發光
+    hoverShadow: 'group-hover:shadow-[0_0_40px_rgba(168,85,247,0.5)]',
   }
 ];
 
 /**
- * [溝通視覺化：Works 區塊]
- * - 展示作品一覽，每個作品皆為卡片，動態進場動畫
- * - 內容排列、字體、比例皆走 Tailwind 樣式，圖片絕不變形
- * - 「元件的記憶」：每個卡片點擊導向各自詳細頁
- * - 卡片動畫採 GSAP + ScrollTrigger 實現連動流暢
+ * [視覺體驗註解]
+ * - 標題字體美學優化，中文字維持正體穩重，英文精緻斜體並加大字距產生呼吸感
+ * - 分隔線極簡淡化，副標題營造精品質感
  */
 export const Works: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // [連動效果] GSAP 進場動畫：每個「work-card」隨捲動淡進
+  // [連動效果] GSAP 進場動畫，淡入展現細緻動態
   useEffect(() => {
+    // 若遇錯誤：畫面會少掉卡片流暢浮現的細節，但內容靜態仍正常
     if (window.gsap) {
       const ctx = window.gsap.context(() => {
-        window.gsap.utils.toArray('.work-card').forEach((card: any) => {
+        window.gsap.utils.toArray('.work-card').forEach((card: HTMLElement) => {
           window.gsap.from(card, {
             scrollTrigger: {
               trigger: card,
@@ -64,54 +68,123 @@ export const Works: React.FC = () => {
   }, []);
 
   return (
-    // [語義化視覺] 用 section 主體包裹，確保 RWD 一致、SEO 友好
-    <section id="works" ref={containerRef} className="py-20 md:py-32 bg-[var(--works-bg,#181A23)]">
+    // [語義化結構] section為主要視覺分區，方便RWD和SEO
+    <section id="works" ref={containerRef} className="py-14 md:py-20 bg-[var(--works-bg,#181A23)]">
       <div className="content-width-container mx-auto w-full">
-        {/* ────── 區塊標題區（資訊統合）────── */}
-        <header className="text-center mb-12 md:mb-20">
-          {/* 主標題 */}
-          <h2 className="chinese-art font-light italic text-[2rem] md:text-4xl tracking-widest works-section-title">
+        {/* ────── 區塊標題，極簡細緻布局 ────── */}
+        {/* 
+          [視覺邏輯]
+          - 主題字體升級為細緻斜體與優雅間距
+          - 字級、間距皆更細膩
+        */}
+        <header className="flex flex-col items-center md:items-start text-center md:text-left mb-8 md:mb-16 works-section-header">
+          {/* 主標題：更小字級，Serif 細重斜體，字距加強優雅感 */}
+          <h2 className="works-section-title mb-2 font-serif font-normal italic text-[1.1rem] md:text-[1.32rem] tracking-[0.22em] text-[var(--work-title-color,#FDF6ED)]">
             Portfolio
           </h2>
-          {/* 補充標籤 */}
-          <p className="uppercase mt-2 text-xs tracking-[0.15em] text-[var(--brand-accent,#EF4444)] works-section-label">
+          {/* 補充標籤：優化字體細節提升輕盈感 */}
+          <p className="uppercase mt-0.5 text-[9.5px] md:text-[10.6px] tracking-[0.28em] text-[var(--brand-subtle,#EAE2D6)] font-light">
             Selected Fragments
           </p>
         </header>
-
-        {/* ────── 作品組合資源區（資料驅動，無重複結構）────── */}
-        <div className="grid gap-12 md:grid-cols-2 works-grid">
+        {/* ────── 作品卡片區（資料驅動）────── */}
+        <div className="grid gap-10 md:grid-cols-2 works-grid">
+          {/* 
+            [資料驅動視覺註解]
+            - .map()依據projects設定自動生成卡片，確保一致性與可維護性
+          */}
           {projects.map((p) => (
             <Link
               key={p.id}
               to={`/work/${p.id}`}
-              className={`work-card group relative block transition-transform ${p.extraClass}`}
+              className={`work-card group relative block ${p.extraClass}`}
               aria-label={`前往${p.title}詳細頁`}
             >
-              {/* [卡片主體] 背景漸層 + overlay，確保色彩與動畫一致 */}
-              <div className={`overflow-hidden rounded-xl relative shadow-lg ${p.cardBg} pb-10`}>
-                {/* 漸變遮罩效果，營造深淺層次 */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/20 pointer-events-none z-10 work-card-overlay"></div>
-                {/* 主圖：object-fit:contain 絕不變形 */}
-                <img
-                  src={p.img}
-                  alt={`${p.title} 代表作圖像`}
-                  className="work-card-image w-full aspect-[4/3] object-contain transition-transform duration-1000 group-hover:scale-105"
-                  loading="lazy"
-                />
-                {/* 箭頭圈圈放右下角，hover 亮起連動 */}
-                <div className="absolute right-6 bottom-6 z-20 work-card-arrow">
-                  <span className="arrow-circle w-10 h-10 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-white text-lg transition bg-opacity-70 group-hover:bg-white group-hover:text-[var(--brand-accent,#EF4444)]">
+              {/* 
+                [卡片本體]
+                - 保持圓角不變，光暈和結構維持原有高級感
+                - 新增根據個別作品指定的hoverShadow（資料驅動）：每張卡 hover 發光顏色感應
+              */}
+              <div
+                className={`
+                  relative overflow-hidden 
+                  rounded-[18px] 
+                  ${p.cardBg} 
+                  min-h-[250px] md:min-h-[320px]
+                  flex flex-col items-center justify-center
+                  transition-all duration-500
+                  group-hover:translate-y-[-2px]
+                  border border-white/5
+                  ${p.hoverShadow}
+                `}
+              >
+                {/* 圖片：精確維持object-contain且無變形 */}
+                <div className="relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
+                  <img
+                    src={p.img}
+                    // alt屬性保持中文具體描述
+                    alt={p.title}
+                    className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                </div>
+                {/* 
+                  箭頭按鈕出現：
+                  - 僅在滑鼠移入 (hover) 時於右上方顯現
+                  - 保持動態色彩與美感比例
+                  [視覺註解]
+                  這個動態讓使用者 hover 卡片時右上角浮現箭頭，有「探索→」互動感
+                */}
+                <div 
+                  className="
+                    absolute right-3 top-3 z-30
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                    pointer-events-none
+                  "
+                >
+                  <span className={`
+                    arrow-circle w-7 h-7 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-[11px] text-white transition-all
+                    ${p.id === 'personal-branding' ? 'group-hover:bg-blue-500' : 'group-hover:bg-purple-500'}
+                  `}>
                     ↗
                   </span>
                 </div>
               </div>
-              {/* 作品資料（資訊統一管理） */}
-              <div className={`work-card-info mt-5 px-2 ${p.textAlign}`}>
-                <h3 className="work-card-title font-semibold text-lg md:text-2xl text-[var(--work-card-title,#FDF6ED)] mb-2">
-                  {p.title}
+              {/*
+                --- Works.tsx 資訊區塊：優化呼吸感與字體美感 ---
+                [視覺註解]
+                - 中英文標題各自精細分流：中文保持穩重字重、不使用斜體並提升字距，英文精緻斜體微縮、增加間距，分隔符號"/"用極淡配色與左右間距
+                - 字體間距和行距大幅優化，副標題以極簡標籤形式呼吸感明顯
+                [本次結構修正]：補足 h3 下 flex 實際會覆蓋 text-align，針對 text-right 場景補上 justify-end
+                [本次字級修正]：右側英文斷詞(如 Personal Branding Website)與 Logo & Business Card，字級比中文略小
+              */}
+              <div className={`work-card-info mt-6 px-1 ${p.textAlign}`}>
+                <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
+                  {p.title.includes('/') ? (
+                    <div
+                      className={`flex flex-wrap items-center gap-y-1 ${
+                        p.textAlign.includes('text-right')
+                          ? 'justify-end'
+                          : 'justify-start'
+                      } md:justify-start`}
+                    >
+                      {/* 中文：normal，穩重視覺 */}
+                      <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
+                        {p.title.split('/')[0].trim()}
+                      </span>
+                      {/* 斜線：淡化色彩，微距 */}
+                      <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
+                      {/* 英文：斜體、曲線現代精品感；字級比中文略小  */}
+                      <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
+                        {p.title.split('/')[1].trim()}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">{p.title}</span>
+                  )}
                 </h3>
-                <p className="work-card-subtitle font-light text-xs md:text-base tracking-wider text-[var(--work-card-subtitle,#EAE2D6B2)]">
+                {/* 副標題：text-right 或 text-left 由父層 div 控制繼承 */}
+                <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[#EAE2D6B2] mt-2.5 opacity-80 uppercase">
                   {p.subtitle}
                 </p>
               </div>

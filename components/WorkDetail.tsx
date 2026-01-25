@@ -3,61 +3,59 @@ import { useParams, Link } from 'react-router-dom';
 import { projectsRecord } from '../data/projectData';
 
 /**
- * [中文註解]（新規範資訊統整）
- * ▍元件視覺邏輯簡述：
- *  - 進入畫面時讀取ID→找到目標作品→若查無顯示錯誤。
- *  - 完全依據資料內容產生標題、分類、描述、圖片瀑布流。
- *  - 動畫效果統一用 GSAP 驅動（scroll/進場），無重複手動 style、事件。
- *  - 圖片比例與 hover 皆交予 CSS 控管（不手動 class 疊加）。
- *  - 所有可重覆片段均統一由資料 .map() 循環產生。
- *  - 返回首頁導向明確，標註語義。
+ * [視覺化開發全統整註解]
+ * ▍邏輯總覽 (溝通語言&白話)
+ * 1. 「元件的記憶」：讀取路由 id，查找對應作品，失敗即單純顯示錯誤提示。
+ * 2. 「畫面進場效果」：GSAP 控制標題與圖片依序動態進場，無 handcode style/事件，百分百一致交互靜動分離。
+ * 3. 「資料驅動」：全部重複片段（如圖片、索引標籤、說明欄）皆循環渲染，中英字、分類、圖欄統分歸一 map。
+ * 4. 「結構語義」：header/section/footer語義清楚，SEO 圖片 alt 完整（示意：alt="作品標題 作品圖片 1" 以此類推）。
+ * 5. 「比例維護與樣式分工」：圖片維持 object-fit:contain、aspect-ratio 於 CSS 控管，hover 效果一律 CSS；嚴禁任何覆寫或重複手寫樣式。
+ * 6. 「報錯處置」：查無資料時，只顯示一個置中訊息（視覺影響：畫面留白，顯示友善錯誤，無多餘結構）。
  */
 
 export const WorkDetail: React.FC = () => {
-  // [元件的記憶] 依據路由URL取得作品id，自動選取對應資料
+  // [元件的記憶] 取得路由id，自動查出對應作品
   const { id } = useParams();
   const project = id ? projectsRecord[id] : null;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // [連動效果] 每次id變動，畫面自動回頂
+  // [畫面聯動]：id 變動即自動回到頂部
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // [動畫連動] 統一進場動畫，適用標題區與每張圖片
+  // [連動效果]：進場動畫僅在有作品時觸發，標題/圖片分批動態顯現
   useEffect(() => {
     if (!project) return;
     const ctx = window.gsap.context(() => {
-      // header依序動畫
-      window.gsap.from("#detail-header > *", {
+      window.gsap.from('#detail-header > *', {
         y: 50,
         opacity: 0,
         duration: 1,
         stagger: 0.1,
-        ease: "power3.out",
+        ease: 'power3.out',
         delay: 0.2,
       });
-      // waterfall圖片進場
-      document.querySelectorAll('.waterfall-item').forEach((item) => {
+      document.querySelectorAll('.waterfall-item').forEach(item => {
         window.gsap.from(item, {
           scrollTrigger: {
             trigger: item,
-            start: "top bottom-=100px",
-            toggleActions: "play none none reverse"
+            start: 'top bottom-=100px',
+            toggleActions: 'play none none reverse',
           },
           y: 50,
           opacity: 0,
           duration: 1,
-          ease: "power2.out"
+          ease: 'power2.out',
         });
       });
     }, containerRef);
     return () => ctx.revert();
   }, [id, project]);
 
-  // [視覺處理] 查無作品顯示
+  // [資料查無] 只顯示一則提示，避免多餘結構
   if (!project) {
-    // 對畫面影響：整個主區域只會顯示簡明錯誤文字
+    // 視覺影響：畫面置中大幅留白，只顯示錯誤字樣
     return (
       <main className="h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]">
         資料不存在，請回首頁
@@ -65,15 +63,14 @@ export const WorkDetail: React.FC = () => {
     );
   }
 
-  // [畫面主體] 統一語義標籤與層級，所有結構數據驅動
+  // [主內容結構] header(分類/標題/副標/描述) → section(瀑布流) → footer(返回首頁)
   return (
     <main
       ref={containerRef}
       className={`min-h-screen work-detail-wrapper project-${id}`}
     >
       <section className="content-width-container mx-auto">
-
-        {/* ────────── 資訊展板：分類／標題／副標題／描述 ────────── */}
+        {/* ────── 作品標題與說明區（分類/標題/副標題/描述）────── */}
         <header id="detail-header" className="mx-auto text-center detail-header-container">
           <span className="uppercase detail-label block mb-6">{project.category}</span>
           <h1 className="chinese-art detail-main-title">{project.title}</h1>
@@ -82,8 +79,11 @@ export const WorkDetail: React.FC = () => {
           <p className="font-light detail-description-text">{project.description}</p>
         </header>
 
-        {/* ────────── 圖片瀑布流 ────────── 
-           [重點] 僅由資料生成，每張圖統一風格、SEO alt完善，hover不內嵌group-hover:shadow，權重交由work-detail.css控制
+        {/* ────── 圖片瀑布流區 ────── 
+            - 只用 map 產生，不重複結構
+            - 每張圖皆object-fit:contain, aspect-ratio固定，不變形
+            - alt說明完整
+            - width/height協助佔位，排版穩定
         */}
         <section
           className="columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid"
@@ -94,27 +94,31 @@ export const WorkDetail: React.FC = () => {
               key={idx}
               className="waterfall-item group relative overflow-hidden waterfall-card"
             >
-              {/* 懸浮遮罩 */}
+              {/* 懸浮遮罩: hover 時透明度顯現 */}
               <figcaption className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 transition-opacity opacity-0 group-hover:opacity-100 waterfall-hover-mask">
                 <span className="uppercase waterfall-hover-btn">View</span>
               </figcaption>
-              {/* 不變形主圖 */}
               <img
                 src={img}
                 alt={`${project.title} 作品圖片 ${idx + 1}`}
                 onLoad={() => window.ScrollTrigger?.refresh()}
                 className="waterfall-image-main"
                 loading="lazy"
+                width="800"
+                height="600"
+                // [畫面安定] 固定寬高+CSS aspect-ratio，防止載入跳動
               />
-              {/* 序號標籤 */}
+              {/* 圖片序號標 */}
               <div className="waterfall-index-tag">
-                <span className="waterfall-index-number">0{idx + 1}</span>
+                <span className="waterfall-index-number">
+                  {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                </span>
               </div>
             </figure>
           ))}
         </section>
 
-        {/* ────────── 返回首頁連結 ────────── */}
+        {/* ────── 返回首頁：統一語意，無多餘結構或重複內容 ────── */}
         <footer className="flex justify-center back-nav-footer">
           <Link to="/" className="group flex flex-col items-center">
             <span className="back-line group-hover:w-24"></span>

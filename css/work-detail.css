@@ -1,15 +1,18 @@
 /* ============================================================================
-   WorkDetail 樣式表（結構分區，資訊統整版）
+   WorkDetail 樣式重構（分區邏輯統整，資訊歸檔優先）
+   [視覺經驗白話補充]
+   - 所有間距、顏色與字級統一由 CSS 變數控制，確保全畫面自動連動主題/主色。
+   - 所有 radius/spacing 皆 mobile/desktop 拆分，便於一處同步，結構清晰。
 ============================================================================ */
 
-/* === 基礎：外層背景與排版 === */
+/* === 區塊基礎：外層框架與背色 === */
 .work-detail-wrapper {
   background: var(--detail-bg, #0E0C0B);
   padding-top: var(--section-padding-y, 8rem);
   padding-bottom: var(--section-padding-y, 8rem);
 }
 
-/* === Header 統一資訊組塊 === */
+/* === Header 區域（主標、副標與標籤分組）=== */
 .detail-header-container {
   max-width: var(--workdetail-header-max-width, 48rem);
   margin: var(--workdetail-header-mt, 5rem) auto var(--workdetail-header-mb, 5rem) auto;
@@ -52,7 +55,17 @@
   margin: 0 auto;
 }
 
-/* === 瀑布流卡片組—包含卡片、圖與懸浮 === */
+/* === 卡片瀑布流區（組合結構統整）=== */
+/* 
+  [體感：所有間距、尺寸、radius 及背景均集中變數化，hover、影子等分組歸一，避免分散管理]
+  .waterfall-grid            → 網格基座定義
+  .waterfall-card            → 卡片本體
+  .waterfall-image-main      → 主要圖片統一 object-fit: contain，不強制比例，適應各式長圖或方圖，避免上下多餘留白
+  .waterfall-hover-mask      → 懸浮底色遮罩
+  .waterfall-hover-btn,
+  .waterfall-index-tag,
+  .waterfall-index-number    → 標籤組合歸一說明
+*/
 .waterfall-grid {
   max-width: var(--content-max-width, 80rem);
   gap: var(--waterfall-gap, 2rem);
@@ -76,17 +89,29 @@
     0 0 25px rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
+/**
+ * [中文註解]
+ * 卡片主圖（waterfall-image-main）：
+ * 視覺體驗：移除固定 4:3 → 改為 aspect-ratio: auto，確保不同圖片尺寸（橫圖、直圖、長條網頁案例）都可自然呈現、無上下過多留白。
+ * 同時加上 min-height: 200px，確保骨架載入時畫面不閃爍、佔位感受仍佳。
+ * object-fit: contain 保證圖片內容100%不會被裁切或擠壓變形，優化展現彈性。
+ * 骨架底色仍輕柔微亮，不會讓空圖區塊顯得突兀。
+ */
 .waterfall-image-main {
   width: 100%;
   height: auto;
-  aspect-ratio: var(--workdetail-img-aspect, 4/3);
+  aspect-ratio: auto; /* [已移除4:3強制比例，圖片原生適應，畫面更彈性] */
+  min-height: 200px;  /* [加強UX：每張卡片至少有穩定預佔高度，避免內容閃動] */
   object-fit: contain;
+  /* 骨架底色：極淡呼吸灰塊，載入前提示有內容進行中，符合 Skeleton Loading UX */
+  background: rgba(255, 255, 255, 0.02);
   border-radius: var(--waterfall-image-radius, 1rem);
   margin: 0;
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   transform: scale(1);
   will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
 }
 .waterfall-card:hover .waterfall-image-main {
   filter: brightness(1.1);
@@ -99,7 +124,7 @@
   transition: opacity 0.8s ease;
 }
 
-/* === 卡片輔助與標籤元素統整 === */
+/* === 卡片標籤群（輔助案標、索引、按鈕等歸一）=== */
 .waterfall-hover-btn, .waterfall-index-tag {
   border-radius: 0.5em;
 }
@@ -121,7 +146,7 @@
   color: var(--waterfall-item-index-color, rgba(255,255,255,0.3));
 }
 
-/* === Footer 返回按鈕區組合 === */
+/* === Footer（返回區/水平線）統一 === */
 .back-nav-footer {
   margin-top: var(--workdetail-footer-mt, 8rem);
 }
@@ -140,7 +165,7 @@
   transition: color 0.2s;
 }
 
-/* === 響應式統一（RWD優化）=== */
+/* === 響應式（RWD區塊合併，統一維護）=== */
 @media (max-width: 768px) {
   .work-detail-wrapper {
     padding-top: var(--section-padding-y-mobile, 4rem);
@@ -163,7 +188,7 @@
   }
 }
 
-/* === 品牌主題 hover 光暈（依 project class 指派色）=== */
+/* === 主題 hover 光暈（各品牌色彩分色，歸類一區）=== */
 .project-personal-branding .waterfall-card:hover {
   box-shadow: 
     0 25px 50px rgba(0, 0, 0, 0.6),

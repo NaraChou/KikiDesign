@@ -1,13 +1,12 @@
 /* =============================================================================
-   Works專區總樣式（Kiki Design Style）
-   ─ 分區聚焦、所有設計細節皆以 CSS 變數統一，結構分群、冗餘刪減
+   Works 區樣式統整（Kiki Design Style）
+   ─ 嚴格遵循比例保護、變數管理，結構與功能明確分群，重複屬性整併
 ============================================================================= */
 
-/* === 區塊：外殼 & 標題群 === */
+/* ---【外殼區】Portfolio 主體分層與背景——分明分界，保障視覺呼吸 --- */
 /*
-  #works
-    - 控制整個 Portfolio 區的上下間距與背景，確保每一組視覺呼吸區獨立、畫面不壓迫。
-    - 白話動態: 畫面分層，讓 Portfolio 內容與其它區塊不混雜，各有明顯分野。
+  #works：負責整個 Portfolio 區的上下間距與背景填色，各獨立分層。
+  ─「視覺體驗」：畫面分明分野，滑動時每個版塊不會混雜。
 */
 #works {
   padding-top: var(--section-padding-y, 6rem);
@@ -15,11 +14,10 @@
   background: var(--section-bg-works, transparent);
 }
 
+/* ---【區塊：標題群組】一致性聚合，排版響應式調整 --- */
 /*
-  .works-section-header
-    - 響應式標題置中/左齊，維持品牌標頭一致性。
-    - group: 聚合標題與副標題左右對齊規則，避免重複設定。
-    - 白話: 小螢幕文字自動置中，大螢幕與主要內容齊頭。
+  .works-section-header：負責標題（主/副）群的布局及左右齊；
+  ─「視覺體驗」：小螢幕置中，大螢幕齊主要內容左，提升品牌一體感。
 */
 .works-section-header {
   display: flex;
@@ -40,33 +38,31 @@
 }
 
 /*
-  .works-section-title & .works-section-label
-    - 主標、副標聚合在一起：字距、顏色變數皆集中。
-    - 白話: Portfolio 標頭、子標較寬字距容易閱讀，並同步置中或左齊。
+  .works-section-title, .works-section-label：
+    聚合同類排版屬性，利於維護主題色與字距動態。
+  ─「視覺體驗」：主標題提供聚焦感，副標題與主色互補。
 */
+.works-section-title, .works-section-label {
+  margin: 0;
+}
 .works-section-title {
-  /* 主標題：字距加寬、斜體，強化聚焦 */
   font-size: 2.4rem;
   font-style: italic;
   font-family: 'Noto Serif TC', serif;
   font-variation-settings: 'ital' 1;
   letter-spacing: 0.2em;
-  margin: 0;
 }
 .works-section-label {
-  /* 副標題：固定色，全部大寫，品牌副色強調 */
   text-transform: uppercase;
   font-size: var(--work-title-label-size, 9px);
   letter-spacing: var(--work-title-label-spacing, 0.5em);
   color: var(--brand-subtle, rgba(234,226,214,0.5));
-  margin: 0;
 }
 
-/* === 區塊：作品格線/卡片統一設定（主圖、資訊、hover 效果）=== */
+/* ---【作品格線／卡片區】統一規格，響應式、動態與效能歸檔 --- */
 /*
-  .works-grid
-    - RWD 一欄/二欄切換，gap 及齊頭規則統一。
-    - 白話: 小螢幕一格一列，大螢幕兩欄；間距用變數方便全站調控。
+  .works-grid：統一間距與欄數，確保動態流暢切換排列；
+  ─「視覺體驗」：小螢幕一欄、大螢幕二欄，間距變數集管。
 */
 .works-grid {
   display: grid;
@@ -81,10 +77,9 @@
 }
 
 /*
-  .work-card-inner
-    - 卡片基本格式統合，邊框、圓角、陰影、aspect-ratio、內距全部在此歸檔。
-    - 白話: 每張作品統一格式，動態分層、比例穩定、防止變形。
-    - 修改說明：啟用自訂發光特效（預設無陰影，hover 讀取變數）
+  .work-card-inner：卡片格式一致、陰影效果及動態 GPU 優化歸檔
+  .work-card:hover .work-card-inner：hover 陰影光暈
+  ─「視覺體驗」：統一卡片比例與漸層，滑鼠移入將產生發光立體感
 */
 .work-card-inner {
   position: relative;
@@ -93,24 +88,19 @@
   border-radius: 2.2rem;
   border: 1.5px solid var(--work-card-border, rgba(255,255,255,0.10));
   padding: var(--work-card-padding, 2rem);
-  /* [視覺動態] 初始狀態：卡片靜止時無發光陰影 */
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  /* [動態連動] 陰影和縮放動畫同步流暢切換 */
   transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.4s, background-color 0.4s;
+  will-change: transform, box-shadow;
 }
 .work-card:hover .work-card-inner {
-  /* [連動效果] 滑鼠移入時，卡片以注入的 --card-glow-color 產生 40px 柔和發光，
-     呈現作品主題色調並強化卡片浮雕感。
-     若未定義 --card-glow-color，則無明顯發光（需於 React 組件層動態注入） */
-  box-shadow: 0 0 40px var(--card-glow-color);
+  box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0,0,0,0.5);
 }
 
-/* ----- 卡片主圖 & 動態層覆蓋（Hover聯動）----- */
+/* ---【卡片主圖/罩層/滑入放大光暈】類型統整 --- */
 /*
-  .work-card-overlay
-    - 主圖遮罩（預設微黑），hover 時顏色更淡，強化視差層次。
-  .work-card-image
-    - 主圖嚴格 object-fit: contain，禁止變形；hover 放大微亮。
+  .work-card-overlay：主要作為主圖的遮罩保護，hover 時進行漸淡
+  .work-card-image：所有主圖統整比例與放大互動
+  ─「視覺體驗」：確保圖片絕不變形、遮色層緩和過場
 */
 .work-card-overlay {
   position: absolute;
@@ -125,7 +115,7 @@
 .work-card-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 禁止圖片任何變形 */
+  object-fit: contain; /* 比例優先，不可形變 */
   object-position: center;
   opacity: 0.9;
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s;
@@ -135,12 +125,11 @@
   opacity: 1;
 }
 
-/* ----- 卡片懸浮箭頭（hover 出現）----- */
+/* ---【卡片懸浮箭頭】歸一互動 --- */
 /*
-  .work-card-arrow
-    - 預設隱藏，hover 顯現；按鈕本體玻璃毛玻處理。
-  .arrow-circle
-    - 圓形按鈕、中央排列，重複排版歸一。
+  .work-card-arrow：定位與初始透明，hover 出現
+  .arrow-circle：圓形本體與聚合排版
+  ─「視覺體驗」：輕盈的浮現指示，增強互動引導
 */
 .work-card-arrow {
   position: absolute;
@@ -167,11 +156,12 @@
   font-size: 10px;
 }
 
-/* === 區塊：卡片底部資訊群 === */
+/* ---【卡片底部資訊區（標題、副標、間距、字體優化）】 --- */
 /*
-  .work-card-info
-    - 僅統一 margin-top（手機/桌面），排版一致。
-    - 白話: 卡片內容與主圖有呼吸間隙，整體層級分明。
+  .work-card-info：上邊距響應式歸一
+  .work-card-info h3：字體平滑優化
+  .work-card-title, .work-card-subtitle：上下標聚合，hover 特效收斂
+  ─「視覺體驗」：內容排版呼吸、階層清楚、hover 漸變不突兀
 */
 .work-card-info {
   margin-top: 2rem;
@@ -181,22 +171,16 @@
     margin-top: 3rem;
   }
 }
-/*
-  .work-card-info h3
-    - 字體平滑優化，僅針對中文細節，集中處理。
-*/
 .work-card-info h3 {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*
-  .work-card-title & .work-card-subtitle
-    - 主/副標統整分開（大寫斜體／間距／顏色動態一併管理）
-    - .work-card-title hover 特效同名聲明
-*/
-.work-card-title {
+.work-card-title,
+.work-card-subtitle {
   text-transform: uppercase;
+}
+.work-card-title {
   font-weight: 300;
   font-size: var(--work-card-title-size, 12px);
   letter-spacing: var(--work-card-title-spacing, 0.4em);
@@ -208,7 +192,6 @@
 }
 .work-card-subtitle {
   font-style: italic;
-  text-transform: uppercase;
   font-size: var(--work-card-subtitle-size, 9px);
   letter-spacing: var(--work-card-subtitle-spacing, 0.25em);
   color: var(--brand-subtle, rgba(234,226,214,0.5));

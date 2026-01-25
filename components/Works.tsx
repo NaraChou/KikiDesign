@@ -1,73 +1,89 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-// [圖片資源集中管理]
+// [圖片資源統一管理，所有圖片集中用於驅動渲染]
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
 
 /**
- * [資料歸類與結構優化]
- * 同上說明
+ * [資料結構歸一]
+ * - 每一項作品，只保留有實質差異的資料欄位
+ * - RWD 與互動相關 class，統一集中於這裡，防止散落各處不易維護
+ * - 所有顏色與動態用於資料欄，CSS class 共用，減少類名的重複書寫
  */
-const projectData = [
+const WORKS = [
   {
     id: 'personal-branding',
-    title: '個人品牌形象官網 / Personal Branding Website',
+    titleZH: '個人品牌形象官網',
+    titleEN: 'Personal Branding Website',
     subtitle: 'BRAND IDENTITY / 2024',
     img: brandingMockupMain,
     bg: 'bg-[var(--work-card-bg1,rgba(26,28,46,0.50))]',
     textAlign: 'md:text-left',
+    infoJustify: 'justify-start md:justify-start',
     extraClass: '',
-    shadowColor: 'rgba(59,130,246,0.5)', // 統一資料歸類
-    arrowHoverBg: 'group-hover:bg-blue-500',
+    glow: 'rgba(59,130,246,0.5)',
+    arrowHover: 'group-hover:bg-blue-500',
   },
   {
     id: 'logo-design',
-    title: '個人商標與名片 / Logo & Business Card',
+    titleZH: '個人商標與名片',
+    titleEN: 'Logo & Business Card',
     subtitle: 'VISUAL DESIGN / 2025',
     img: logoStationery,
     bg: 'bg-[var(--work-card-bg2,rgba(46,26,46,0.50))]',
     textAlign: 'text-right md:text-left',
+    infoJustify: 'justify-end md:justify-start',
     extraClass: 'md:mt-64',
-    shadowColor: 'rgba(168,85,247,0.5)',
-    arrowHoverBg: 'group-hover:bg-purple-500',
+    glow: 'rgba(168,85,247,0.5)',
+    arrowHover: 'group-hover:bg-purple-500',
   }
 ];
 
-// [視覺結構動態說明]
-// Kiki Style：1.語義化分區；2.RWD基礎配置一致；3.所有互動細節由 CSS group-hover 管理
+/**
+ * [Kiki Design Style 實踐][完整視覺化白話說明]
+ * ▍結構分層 = 區塊語義 → 卡片表現 → 互動動畫
+ *   1.「元件的記憶」：GSAP 動畫初始化於 section 外層進場，促進視覺流暢。
+ *   2.「視覺分區」：header(標題分流)、grid(卡片自動生成)、卡片獨立資料源。
+ *   3.「語義化」：section/ header / h2 / h3 單純描寫，不重複結構。
+ *   4.「純分流」：中英文主題欄以資料驅動判斷，不再分開手寫。
+ *   5.「比例/非對稱/間距」：所有圖片 object-contain，間距皆依 config、class 體現。
+ */
 export const Works: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  // [連動效果] 卡片進場動畫（淡入與浮現）
+  // [連動效果] 畫面滾動到作品區即逐格漸顯，若報錯則所有卡片無進場動畫（但保留畫面結構）
   useEffect(() => {
-    // 若出現錯誤，畫面的動態流暢進場會消失（靜態內容OK）
-    if (window.gsap) {
-      const ctx = window.gsap.context(() => {
-        window.gsap.utils.toArray('.work-card').forEach((card: HTMLElement) => {
-          window.gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top bottom-=50px"
-            },
-            opacity: 0,
-            y: 30,
-            duration: 1.2,
-            ease: "power2.out"
-          });
+    if (!window.gsap) return; // 報錯影響：畫面靜態進場、欠缺滑順動畫，可以補載 gsap
+    const ctx = window.gsap.context(() => {
+      window.gsap.utils.toArray('.work-card').forEach((card: HTMLElement) => {
+        window.gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom-=50px"
+          },
+          opacity: 0,
+          y: 30,
+          duration: 1.2,
+          ease: "power2.out"
         });
-      }, containerRef);
-      return () => ctx.revert();
-    }
+      });
+    }, sectionRef);
+    return () => ctx.revert();
   }, []);
 
   return (
-    // [語義化結構] section標記內容區
-    <section id="works" ref={containerRef} className="py-14 md:py-20 bg-[var(--works-bg,#181A23)]">
+    // [語義化分區] section：分派此區主題，便於 SEO 與結構統一
+    <section
+      id="works"
+      ref={sectionRef}
+      className="py-14 md:py-20 bg-[var(--works-bg,#181A23)]"
+    >
       <div className="content-width-container mx-auto w-full">
-        {/* --------- 區塊標題與副標題 --------- */}
+        {/* === HEADER 區 — 主標、次標 === */}
         {/* 
-          [視覺行為]
-          主標題字體精緻斜體，中英文字距優雅，副標題淡化強化辨識感
+          [視覺行為白話]
+          - 主標題（斜體）中文與英文各自處理字距、美感
+          - 副標加強輕量層次感
         */}
         <header className="flex flex-col items-center md:items-start text-center md:text-left mb-8 md:mb-16 works-section-header">
           <h2 className="works-section-title mb-2 font-serif font-normal italic text-[1.1rem] md:text-[1.32rem] tracking-[0.22em] text-[var(--work-title-color,#FDF6ED)]">
@@ -77,48 +93,40 @@ export const Works: React.FC = () => {
             Selected Fragments
           </p>
         </header>
-        {/* --------- 作品卡片資料驅動區 --------- */}
+        {/* === GRID 區 — 多卡片動態生成、無硬編重複 === */}
         <div className="grid gap-10 md:grid-cols-2 works-grid">
-          {/* 
-            [資料驅動]
-            - forEach 使用 .map() 動態生成結構，減少一切重複的 HTML 渲染
-            - 分類整理所有 className，集中維護
-          */}
-          {projectData.map((proj) => (
+          {WORKS.map(work => (
             <Link
-              key={proj.id}
-              to={`/work/${proj.id}`}
-              className={`work-card group relative block ${proj.extraClass}`}
-              aria-label={`前往${proj.title}詳細頁`}
-              // [動態注入變數] 以 style 傳遞 glow 顏色給 CSS --card-glow-color
-              style={{ "--card-glow-color": proj.shadowColor } as React.CSSProperties}
+              key={work.id}
+              to={`/work/${work.id}`}
+              className={`work-card group relative block ${work.extraClass}`}
+              aria-label={`前往${work.titleZH} / ${work.titleEN} 詳細頁`}
+              // [資料驅動 glow 色] 用 style 注入 --card-glow-color 給 CSS 處理
+              style={{ '--card-glow-color': work.glow } as React.CSSProperties}
             >
-              {/* --- 卡片主體：維持圓角、光暈、比例 --- */}
+              {/* === 卡片本體 — 相同結構合併統一管理 === */}
               <div
                 className={[
                   "relative overflow-hidden rounded-[18px]",
-                  proj.bg,
+                  work.bg,
                   "min-h-[250px] md:min-h-[320px]",
                   "flex flex-col items-center justify-center",
                   "transition-all duration-500 group-hover:translate-y-[-2px]",
                   "border border-white/5",
-                  "work-card-inner" // 新 class，使用 CSS 處理 hover-glow
+                  "work-card-inner"
                 ].join(' ')}
               >
-                {/* 圖片需維持比例與物件貼齊，不可變形 */}
+                {/* [圖片] — 保持比例與細緻圓角，object-contain 有效維持不變型 */}
                 <div className="relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
                   <img
-                    src={proj.img}
-                    alt={proj.title}
+                    src={work.img}
+                    alt={`${work.titleZH} 代表圖片`}
                     className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]"
                     loading="lazy"
                   />
                 </div>
-                {/* 
-                  箭頭浮現：hover 時顯示且色彩依作品變化 
-                  [視覺化說明] → 畫面動畫引導探索意圖
-                */}
-                <div 
+                {/* [浮動箭頭] — 每卡依資料色動態組合，hover時引導提點探索 */}
+                <div
                   className="
                     absolute right-3 top-3 z-30
                     opacity-0 group-hover:opacity-100 transition-opacity duration-300
@@ -127,45 +135,32 @@ export const Works: React.FC = () => {
                 >
                   <span className={[
                     "arrow-circle w-7 h-7 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-[11px] text-white transition-all",
-                    proj.arrowHoverBg
+                    work.arrowHover
                   ].join(' ')}>
                     ↗
                   </span>
                 </div>
               </div>
-              {/* --- 資訊區塊（標題＋副標題） --- */}
-              {/* 
-                [結構歸併]
-                - 標題支援中英文精緻分流、不重複組件
-                - justify-end, justify-start自動帶入
-              */}
-              <div className={`work-card-info mt-6 px-1 ${proj.textAlign}`}>
+              {/* === 資訊欄 — 標題（中英/分色），副標題統整 === */}
+              <div className={`work-card-info mt-6 px-1 ${work.textAlign}`}>
                 <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
-                  {proj.title.includes('/') ? (
-                    <div
-                      className={`flex flex-wrap items-center gap-y-1 ${
-                        proj.textAlign.includes('text-right')
-                          ? 'justify-end'
-                          : 'justify-start'
-                      } md:justify-start`}
-                    >
-                      {/* 中文主題字 */}
-                      <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
-                        {proj.title.split('/')[0].trim()}
-                      </span>
-                      {/* 分隔斜線 */}
-                      <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
-                      {/* 英文主題字 */}
-                      <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
-                        {proj.title.split('/')[1].trim()}
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">{proj.title}</span>
-                  )}
+                  <div
+                    className={`flex flex-wrap items-center gap-y-1 ${work.infoJustify}`}
+                  >
+                    {/* 中文主題 */}
+                    <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
+                      {work.titleZH}
+                    </span>
+                    {/* 分隔斜線 */}
+                    <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
+                    {/* 英文主題 */}
+                    <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
+                      {work.titleEN}
+                    </span>
+                  </div>
                 </h3>
                 <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[#EAE2D6B2] mt-2.5 opacity-80 uppercase">
-                  {proj.subtitle}
+                  {work.subtitle}
                 </p>
               </div>
             </Link>

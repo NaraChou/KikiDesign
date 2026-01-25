@@ -84,6 +84,7 @@
   .work-card-inner
     - 卡片基本格式統合，邊框、圓角、陰影、aspect-ratio、內距全部在此歸檔。
     - 白話: 每張作品統一格式，動態分層、比例穩定、防止變形。
+    - 修改說明：啟用自訂發光特效（預設無陰影，hover 讀取變數）
 */
 .work-card-inner {
   position: relative;
@@ -92,8 +93,16 @@
   border-radius: 2.2rem;
   border: 1.5px solid var(--work-card-border, rgba(255,255,255,0.10));
   padding: var(--work-card-padding, 2rem);
-  box-shadow: var(--work-card-shadow, 0 2px 12px 0 rgba(0,0,0,0.13));
-  transition: border-color 0.4s, box-shadow 0.4s, background-color 0.4s;
+  /* [視覺動態] 初始狀態：卡片靜止時無發光陰影 */
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  /* [動態連動] 陰影和縮放動畫同步流暢切換 */
+  transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.4s, background-color 0.4s;
+}
+.work-card:hover .work-card-inner {
+  /* [連動效果] 滑鼠移入時，卡片以注入的 --card-glow-color 產生 40px 柔和發光，
+     呈現作品主題色調並強化卡片浮雕感。
+     若未定義 --card-glow-color，則無明顯發光（需於 React 組件層動態注入） */
+  box-shadow: 0 0 40px var(--card-glow-color);
 }
 
 /* ----- 卡片主圖 & 動態層覆蓋（Hover聯動）----- */

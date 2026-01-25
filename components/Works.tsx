@@ -6,10 +6,7 @@ import logoStationery from '../assets/images/logo-branding-stationery.webp';
 
 /**
  * [資料歸類與結構優化]
- * 1. 將重複和結構類似的資訊合併，避免重複定義
- * 2. 同類屬性分組，如 visually 相關 (bg, shadow, textAlign), meta 相關 (title, subtitle, img)
- * 3. 項目資料統一使用單一陣列，動態生成所有結構
- * 4. hoverShadow邏輯統一抽成 colorShadow 欄位，由顏色值自動組成shallow className，提升維護性
+ * 同上說明
  */
 const projectData = [
   {
@@ -87,93 +84,92 @@ export const Works: React.FC = () => {
             - forEach 使用 .map() 動態生成結構，減少一切重複的 HTML 渲染
             - 分類整理所有 className，集中維護
           */}
-          {projectData.map((proj) => {
-            const hoverShadow = `group-hover:shadow-[0_0_40px_${proj.shadowColor}]`; // 同一邏輯採用函式組裝
-            return (
-              <Link
-                key={proj.id}
-                to={`/work/${proj.id}`}
-                className={`work-card group relative block ${proj.extraClass}`}
-                aria-label={`前往${proj.title}詳細頁`}
+          {projectData.map((proj) => (
+            <Link
+              key={proj.id}
+              to={`/work/${proj.id}`}
+              className={`work-card group relative block ${proj.extraClass}`}
+              aria-label={`前往${proj.title}詳細頁`}
+              // [動態注入變數] 以 style 傳遞 glow 顏色給 CSS --card-glow-color
+              style={{ "--card-glow-color": proj.shadowColor } as React.CSSProperties}
+            >
+              {/* --- 卡片主體：維持圓角、光暈、比例 --- */}
+              <div
+                className={[
+                  "relative overflow-hidden rounded-[18px]",
+                  proj.bg,
+                  "min-h-[250px] md:min-h-[320px]",
+                  "flex flex-col items-center justify-center",
+                  "transition-all duration-500 group-hover:translate-y-[-2px]",
+                  "border border-white/5",
+                  "work-card-inner" // 新 class，使用 CSS 處理 hover-glow
+                ].join(' ')}
               >
-                {/* --- 卡片主體：維持圓角、光暈、比例 --- */}
-                <div
-                  className={[
-                    "relative overflow-hidden rounded-[18px]",
-                    proj.bg,
-                    "min-h-[250px] md:min-h-[320px]",
-                    "flex flex-col items-center justify-center",
-                    "transition-all duration-500 group-hover:translate-y-[-2px]",
-                    "border border-white/5",
-                    hoverShadow,
-                  ].join(' ')}
-                >
-                  {/* 圖片需維持比例與物件貼齊，不可變形 */}
-                  <div className="relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
-                    <img
-                      src={proj.img}
-                      alt={proj.title}
-                      className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]"
-                      loading="lazy"
-                    />
-                  </div>
-                  {/* 
-                    箭頭浮現：hover 時顯示且色彩依作品變化 
-                    [視覺化說明] → 畫面動畫引導探索意圖
-                  */}
-                  <div 
-                    className="
-                      absolute right-3 top-3 z-30
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                      pointer-events-none
-                    "
-                  >
-                    <span className={[
-                      "arrow-circle w-7 h-7 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-[11px] text-white transition-all",
-                      proj.arrowHoverBg
-                    ].join(' ')}>
-                      ↗
-                    </span>
-                  </div>
+                {/* 圖片需維持比例與物件貼齊，不可變形 */}
+                <div className="relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
+                  <img
+                    src={proj.img}
+                    alt={proj.title}
+                    className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
                 </div>
-                {/* --- 資訊區塊（標題＋副標題） --- */}
                 {/* 
-                  [結構歸併]
-                  - 標題支援中英文精緻分流、不重複組件
-                  - justify-end, justify-start自動帶入
+                  箭頭浮現：hover 時顯示且色彩依作品變化 
+                  [視覺化說明] → 畫面動畫引導探索意圖
                 */}
-                <div className={`work-card-info mt-6 px-1 ${proj.textAlign}`}>
-                  <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
-                    {proj.title.includes('/') ? (
-                      <div
-                        className={`flex flex-wrap items-center gap-y-1 ${
-                          proj.textAlign.includes('text-right')
-                            ? 'justify-end'
-                            : 'justify-start'
-                        } md:justify-start`}
-                      >
-                        {/* 中文主題字 */}
-                        <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
-                          {proj.title.split('/')[0].trim()}
-                        </span>
-                        {/* 分隔斜線 */}
-                        <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
-                        {/* 英文主題字 */}
-                        <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
-                          {proj.title.split('/')[1].trim()}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">{proj.title}</span>
-                    )}
-                  </h3>
-                  <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[#EAE2D6B2] mt-2.5 opacity-80 uppercase">
-                    {proj.subtitle}
-                  </p>
+                <div 
+                  className="
+                    absolute right-3 top-3 z-30
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                    pointer-events-none
+                  "
+                >
+                  <span className={[
+                    "arrow-circle w-7 h-7 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-[11px] text-white transition-all",
+                    proj.arrowHoverBg
+                  ].join(' ')}>
+                    ↗
+                  </span>
                 </div>
-              </Link>
-            )
-          })}
+              </div>
+              {/* --- 資訊區塊（標題＋副標題） --- */}
+              {/* 
+                [結構歸併]
+                - 標題支援中英文精緻分流、不重複組件
+                - justify-end, justify-start自動帶入
+              */}
+              <div className={`work-card-info mt-6 px-1 ${proj.textAlign}`}>
+                <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
+                  {proj.title.includes('/') ? (
+                    <div
+                      className={`flex flex-wrap items-center gap-y-1 ${
+                        proj.textAlign.includes('text-right')
+                          ? 'justify-end'
+                          : 'justify-start'
+                      } md:justify-start`}
+                    >
+                      {/* 中文主題字 */}
+                      <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
+                        {proj.title.split('/')[0].trim()}
+                      </span>
+                      {/* 分隔斜線 */}
+                      <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
+                      {/* 英文主題字 */}
+                      <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
+                        {proj.title.split('/')[1].trim()}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">{proj.title}</span>
+                  )}
+                </h3>
+                <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[#EAE2D6B2] mt-2.5 opacity-80 uppercase">
+                  {proj.subtitle}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

@@ -46,6 +46,10 @@
   [視覺說明]
   全站主體底色、主線內容左右留白，中央最大 1280px (~80rem)，RWD padding 區分 mobile/desktop。
 */
+/* 
+  [視覺動態註解]
+  這裡用於隱藏原生游標（cursor: none），讓整個網頁畫布上僅呈現自定義圓圈游標，畫面專注且不受系統游標干擾。
+*/
 body {
   background-color: var(--bg-color);
   color: var(--text-main);
@@ -53,7 +57,25 @@ body {
   font-weight: var(--font-weight-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  cursor: none !important; /* 完全隱藏原生游標，僅顯示自定義視覺圓圈 */
 }
+/*
+  [元件的視覺記憶／動態說明]
+  .custom-cursor 如同一個浮動的小圓圈，會隨著滑鼠移動動畫跟隨，不會影響任何點擊或hover反應。
+  使用 mix-blend-mode: difference，確保在深淺背景都能切換對比（黑底會變亮、亮底會變暗），獲得高質感、柔和且帶有高級質感的動態游標體驗。
+*/
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--text-main);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none; /* 關鍵：不干擾點擊與滑鼠事件 */
+  z-index: 9999;
+  transition: transform 0.1s ease-out;
+  mix-blend-mode: difference; /* 讓游標自動因應背景切換亮/暗的特效 */
+}
+
 .main-container {
   max-width: var(--container-max-width);
   margin-left: auto;

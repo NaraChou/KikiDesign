@@ -14,6 +14,41 @@ import ScrollToTop from './components/ScrollToTop';
 import './types';
 
 /**
+ * CustomCursor 自訂游標元件
+ * [中文註解]
+ * ▍視覺上跟隨使用者的滑鼠移動，形成品牌感專屬圓形游標。
+ * ▍僅在桌面版顯示（md 以上才可見），確保手機不被干擾。
+ * ▍動態跟隨 — 游標移動時，即時驅動 <div> 元素移動到滑鼠位置。
+ * ▍本身不吃 pointer 事件，實體無阻 UI 交互。
+ */
+export const CustomCursor = () => {
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // [動態觸發] 游標跟隨，根據滑鼠移動調整位置
+    const moveCursor = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+        cursorRef.current.style.transform = `translate(-50%, -50%)`;
+      }
+    };
+    window.addEventListener('mousemove', moveCursor);
+    return () => window.removeEventListener('mousemove', moveCursor);
+  }, []);
+
+  // [美術細節] 
+  // .custom-cursor 請在全域 CSS 定義（外部設計組控制直徑、混和模式、透明度）
+  return (
+    <div
+      ref={cursorRef}
+      className="custom-cursor pointer-events-none fixed z-[99] hidden md:block"
+      aria-hidden="true"
+    />
+  );
+};
+
+/**
  * AppContent 組件
  * [中文註解]
  * ▍「元件的記憶」：統一管理全站狀態（isMenuOpen），並協調 GSAP 動畫效果。
@@ -34,32 +69,22 @@ function AppContent() {
   }, []);
 
   // [暴力方案 #1] 監聽路徑變化，暫時阻止 GSAP ScrollTrigger 的刷新
-  // 防止 ScrollTrigger.refresh() 在頁面加載完成後將捲動軸拉回去
   useEffect(() => {
     if (!window.ScrollTrigger) return;
-    
-    // 路徑變化時，暫時保存並覆蓋 ScrollTrigger.refresh 方法
     const originalRefresh = window.ScrollTrigger.refresh;
     let isRefreshingBlocked = true;
-    
-    // 暫時覆蓋 refresh 方法，阻止自動刷新
     window.ScrollTrigger.refresh = () => {
       if (!isRefreshingBlocked) {
         originalRefresh.call(window.ScrollTrigger);
       }
     };
-    
-    // 在短暫延遲後恢復 refresh 功能（確保 ScrollToTop 完成後再恢復）
     const restoreTimer = setTimeout(() => {
       isRefreshingBlocked = false;
       window.ScrollTrigger.refresh = originalRefresh;
-      // 恢復後手動刷新一次，確保動畫正常運作
       window.ScrollTrigger.refresh();
     }, 500);
-    
     return () => {
       clearTimeout(restoreTimer);
-      // 清理時恢復原始方法
       if (window.ScrollTrigger) {
         window.ScrollTrigger.refresh = originalRefresh;
       }
@@ -73,7 +98,6 @@ function AppContent() {
       const ctx = window.gsap.context(() => {
         const tl = window.gsap.timeline();
         mainTimeline.current = tl;
-
         // 動畫流程：Loader 條進度 → Loader 消失 → Hero 各元素依序淡入
         tl.to("#loader-progress", { x: "0%", duration: 0.8 })
           .to("#loader", { autoAlpha: 0, duration: 0.8 })
@@ -82,9 +106,8 @@ function AppContent() {
           .to("#hero-line", { width: "60px", duration: 0.8 }, "-=0.8")
           .to("#hero-desc", { opacity: 1, y: 0, duration: 1 }, "-=0.8");
       });
-      return () => ctx.revert(); // 卸載時回復動畫狀態
+      return () => ctx.revert();
     } else {
-      // 內頁 loader 快速消失，不延長等待
       window.gsap.to("#loader", { autoAlpha: 0, duration: 0.5 });
     }
   }, [location.pathname]);
@@ -96,6 +119,8 @@ function AppContent() {
   // [語義化結構] —— <main> 主體、footer 與輔助元件
   return (
     <div className="relative w-full">
+      {/* [全域自訂滑鼠游標渲染] — 視覺動態，僅桌面模式顯示 */}
+      <CustomCursor />
       {/* 動態背景視覺 */}
       <BackgroundEffects />
       {/* 首次進站 Loading 效果 */}

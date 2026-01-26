@@ -10,6 +10,7 @@ import { Home } from './components/Home';
 import { WorkDetail } from './components/WorkDetail';
 import { Footer } from './components/Footer';
 import { BackToTop } from './components/BackToTop';
+import ScrollToTop from './components/ScrollToTop';
 import './types';
 
 /**
@@ -91,6 +92,7 @@ function AppContent() {
 export default function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* [關鍵] 放在這裡，確保每次換頁都先執行捲動到頂部 */}
       <AppContent />
     </Router>
   );

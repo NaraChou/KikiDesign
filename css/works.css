@@ -91,9 +91,48 @@
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.4s, background-color 0.4s;
   will-change: transform, box-shadow;
+  /* [滑鼠追蹤光暈] CSS 變數預設值（中心位置） */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+/* [滑鼠追蹤光暈] 使用偽元素創建跟隨滑鼠的光暈效果 */
+.work-card-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  /* [平滑過渡] 光暈位置和透明度都有過渡效果 */
+  transition: opacity 0.3s ease, background 0.1s ease;
+  border-radius: 2.2rem;
+  /* [滑鼠追蹤光暈] radial-gradient 中心跟隨滑鼠位置 */
+  /* 光暈大小 300px，從中心向外漸變到透明 */
+  background: radial-gradient(
+    circle 300px at var(--mouse-x) var(--mouse-y),
+    var(--card-glow-color) 0%,
+    transparent 60%
+  );
+  z-index: 1;
+  /* [混合模式] 使用 overlay 讓光暈與背景融合 */
+  mix-blend-mode: overlay;
 }
 .work-card:hover .work-card-inner {
+  /* [桌面版] 保留原本的 box-shadow 作為基礎光暈 */
   box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0,0,0,0.5);
+}
+.work-card:hover .work-card-inner::before {
+  /* [桌面版] 顯示跟隨滑鼠的光暈偽元素 */
+  opacity: 0.7;
+}
+/* [手機版] 觸控設備維持原本的全發光狀態，不使用滑鼠追蹤 */
+@media (hover: none) and (pointer: coarse) {
+  .work-card:hover .work-card-inner::before {
+    /* 手機版隱藏滑鼠追蹤光暈，只保留 box-shadow */
+    opacity: 0;
+  }
 }
 
 /* ---【卡片主圖/罩層/滑入放大光暈】類型統整 --- */

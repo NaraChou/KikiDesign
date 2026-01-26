@@ -33,6 +33,39 @@ function AppContent() {
     }
   }, []);
 
+  // [暴力方案 #1] 監聽路徑變化，暫時阻止 GSAP ScrollTrigger 的刷新
+  // 防止 ScrollTrigger.refresh() 在頁面加載完成後將捲動軸拉回去
+  useEffect(() => {
+    if (!window.ScrollTrigger) return;
+    
+    // 路徑變化時，暫時保存並覆蓋 ScrollTrigger.refresh 方法
+    const originalRefresh = window.ScrollTrigger.refresh;
+    let isRefreshingBlocked = true;
+    
+    // 暫時覆蓋 refresh 方法，阻止自動刷新
+    window.ScrollTrigger.refresh = () => {
+      if (!isRefreshingBlocked) {
+        originalRefresh.call(window.ScrollTrigger);
+      }
+    };
+    
+    // 在短暫延遲後恢復 refresh 功能（確保 ScrollToTop 完成後再恢復）
+    const restoreTimer = setTimeout(() => {
+      isRefreshingBlocked = false;
+      window.ScrollTrigger.refresh = originalRefresh;
+      // 恢復後手動刷新一次，確保動畫正常運作
+      window.ScrollTrigger.refresh();
+    }, 500);
+    
+    return () => {
+      clearTimeout(restoreTimer);
+      // 清理時恢復原始方法
+      if (window.ScrollTrigger) {
+        window.ScrollTrigger.refresh = originalRefresh;
+      }
+    };
+  }, [location.pathname]);
+
   // [連動效果] —— 首頁 Hero 與 Loader 動畫
   useEffect(() => {
     // 首頁才執行完整進場動畫，內頁僅快速淡出 loader

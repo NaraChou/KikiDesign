@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 // [圖片資源統一管理，所有圖片集中用於驅動渲染]
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
@@ -52,6 +52,124 @@ const WORKS = [
     arrowHover: 'group-hover:bg-orange-500',
   }
 ];
+
+/**
+ * [滑鼠追蹤卡片組件]
+ * [中文註解]
+ * ▍滑鼠追蹤光暈效果
+ * - 追蹤滑鼠在卡片上的相對位置 (X, Y)
+ * - 將位置傳入 CSS 變數 --mouse-x 和 --mouse-y
+ * - 在手機版（觸控）會自動失效，維持原本的全發光狀態
+ */
+interface WorkCardProps {
+  work: typeof WORKS[0];
+}
+
+const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
+  // [滑鼠追蹤] 為每個卡片建立獨立的滑鼠位置狀態
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  
+  // [滑鼠追蹤處理] 計算滑鼠在卡片上的相對位置（百分比）
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // [觸控檢測] 如果是觸控設備，不執行滑鼠追蹤
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      return;
+    }
+    
+    const card = cardRef.current;
+    if (!card) return;
+    
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    setMousePosition({ x, y });
+  };
+  
+  // [滑鼠離開] 重置到中心位置，恢復全發光狀態
+  const handleMouseLeave = () => {
+    setMousePosition({ x: 50, y: 50 });
+  };
+  
+  return (
+    <Link
+      ref={cardRef}
+      to={`/work/${work.id}`}
+      className={`work-card group relative block ${work.extraClass}`}
+      aria-label={`前往${work.titleZH} / ${work.titleEN} 詳細頁`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      // [資料驅動 glow 色] 用 style 注入 --card-glow-color 給 CSS 處理
+      // [滑鼠追蹤] 注入滑鼠位置 CSS 變數，用於 radial-gradient 光暈效果
+      style={{ 
+        '--card-glow-color': work.glow,
+        '--mouse-x': `${mousePosition.x}%`,
+        '--mouse-y': `${mousePosition.y}%`
+      } as React.CSSProperties}
+    >
+      {/* === 卡片本體 — 相同結構合併統一管理 === */}
+      <div
+        className={[
+          "relative overflow-hidden rounded-[18px]",
+          work.bg,
+          "min-h-[250px] md:min-h-[320px]",
+          "flex flex-col items-center justify-center",
+          "transition-all duration-500 group-hover:translate-y-[-2px]",
+          "border border-white/5",
+          "work-card-inner"
+        ].join(' ')}
+      >
+        {/* [圖片] — 保持比例與細緻圓角，object-contain 有效維持不變型 */}
+        <div className="relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
+          <img
+            src={work.img}
+            alt={`${work.titleZH} 代表圖片`}
+            className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]"
+            loading="lazy"
+          />
+        </div>
+        {/* [浮動箭頭] — 每卡依資料色動態組合，hover時引導提點探索 */}
+        <div
+          className="
+            absolute right-3 top-3 z-30
+            opacity-0 group-hover:opacity-100 transition-opacity duration-300
+            pointer-events-none
+          "
+        >
+          <span className={[
+            "arrow-circle w-7 h-7 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-[11px] text-white transition-all",
+            work.arrowHover
+          ].join(' ')}>
+            ↗
+          </span>
+        </div>
+      </div>
+      {/* === 資訊欄 — 標題（中英/分色），副標題統整 === */}
+      <div className={`work-card-info mt-6 px-1 ${work.textAlign}`}>
+        <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
+          <div
+            className={`flex flex-wrap items-center gap-y-1 ${work.infoJustify}`}
+          >
+            {/* 中文主題 */}
+            <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
+              {work.titleZH}
+            </span>
+            {/* 分隔斜線 */}
+            <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
+            {/* 英文主題 */}
+            <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
+              {work.titleEN}
+            </span>
+          </div>
+        </h3>
+        <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[var(--text-dim)] mt-2.5 uppercase">
+          {work.subtitle}
+        </p>
+      </div>
+    </Link>
+  );
+};
 
 /**
  * [Kiki Design Style 實踐][完整視覺化白話說明]
@@ -110,74 +228,7 @@ export const Works: React.FC = () => {
         {/* === GRID 區 — 多卡片動態生成、無硬編重複 === */}
         <div className="grid gap-10 md:grid-cols-2 works-grid">
           {WORKS.map(work => (
-            <Link
-              key={work.id}
-              to={`/work/${work.id}`}
-              className={`work-card group relative block ${work.extraClass}`}
-              aria-label={`前往${work.titleZH} / ${work.titleEN} 詳細頁`}
-              // [資料驅動 glow 色] 用 style 注入 --card-glow-color 給 CSS 處理
-              style={{ '--card-glow-color': work.glow } as React.CSSProperties}
-            >
-              {/* === 卡片本體 — 相同結構合併統一管理 === */}
-              <div
-                className={[
-                  "relative overflow-hidden rounded-[18px]",
-                  work.bg,
-                  "min-h-[250px] md:min-h-[320px]",
-                  "flex flex-col items-center justify-center",
-                  "transition-all duration-500 group-hover:translate-y-[-2px]",
-                  "border border-white/5",
-                  "work-card-inner"
-                ].join(' ')}
-              >
-                {/* [圖片] — 保持比例與細緻圓角，object-contain 有效維持不變型 */}
-                <div className="relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
-                  <img
-                    src={work.img}
-                    alt={`${work.titleZH} 代表圖片`}
-                    className="max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]"
-                    loading="lazy"
-                  />
-                </div>
-                {/* [浮動箭頭] — 每卡依資料色動態組合，hover時引導提點探索 */}
-                <div
-                  className="
-                    absolute right-3 top-3 z-30
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                    pointer-events-none
-                  "
-                >
-                  <span className={[
-                    "arrow-circle w-7 h-7 flex items-center justify-center rounded-full border border-white/30 bg-black/30 text-[11px] text-white transition-all",
-                    work.arrowHover
-                  ].join(' ')}>
-                    ↗
-                  </span>
-                </div>
-              </div>
-              {/* === 資訊欄 — 標題（中英/分色），副標題統整 === */}
-              <div className={`work-card-info mt-6 px-1 ${work.textAlign}`}>
-                <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
-                  <div
-                    className={`flex flex-wrap items-center gap-y-1 ${work.infoJustify}`}
-                  >
-                    {/* 中文主題 */}
-                    <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">
-                      {work.titleZH}
-                    </span>
-                    {/* 分隔斜線 */}
-                    <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
-                    {/* 英文主題 */}
-                    <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
-                      {work.titleEN}
-                    </span>
-                  </div>
-                </h3>
-                <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[var(--text-dim)] mt-2.5 uppercase">
-                  {work.subtitle}
-                </p>
-              </div>
-            </Link>
+            <WorkCard key={work.id} work={work} />
           ))}
         </div>
       </div>

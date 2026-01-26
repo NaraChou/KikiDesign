@@ -2,6 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
+// [滾動控制] 禁用瀏覽器的自動滾動恢復功能，確保路由切換時由我們自己控制滾動位置
+// 這段代碼必須在應用程式啟動時就生效，放在最頂層
+if ('scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
+
 // 統一引入所有全域樣式，分類明確、避免重複（統整資訊註解）
 import './css/globals.css';        // 全站預設變數、字型、斷點定義
 import './css/style.css';          // 核心架構樣式（含 main-container 與:root 變數）

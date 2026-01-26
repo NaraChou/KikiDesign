@@ -29,6 +29,10 @@ export const WorkDetail: React.FC = () => {
   useEffect(() => {
     if (!project) return;
     
+    // [ScrollTrigger 清理] 讓 GSAP 先殺掉所有的 ScrollTrigger，重新計算座標
+    // 確保動畫是從 0 開始算的，避免前一個頁面的動畫狀態影響
+    window.ScrollTrigger?.getAll().forEach(t => t.kill());
+    
     // [圖片載入檢查] 等待所有圖片載入完成，確保 ScrollTrigger 計算正確
     const initAnimations = () => {
       const ctx = window.gsap.context(() => {
@@ -53,7 +57,7 @@ export const WorkDetail: React.FC = () => {
             ease: 'power2.out',
           });
         });
-        // [動畫初始化後] 立即刷新一次 ScrollTrigger，確保位置正確
+        // [動畫啟動後] 強制重新整理 ScrollTrigger，確保位置正確
         window.ScrollTrigger?.refresh();
       }, containerRef);
       return ctx;
@@ -69,6 +73,7 @@ export const WorkDetail: React.FC = () => {
 
     return () => {
       clearTimeout(timer);
+      // [清理] 組件卸載時清理所有 ScrollTrigger
       if (window.ScrollTrigger) {
         window.ScrollTrigger.getAll().forEach(st => st.kill());
       }

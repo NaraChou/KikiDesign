@@ -115,7 +115,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
               key={id}
               href={id}
               onClick={e => handleNavClick(id, e)}
-              className="text-[12px] text-[rgba(234,226,214,0.8)] hover:text-white transition italic"
+              className="text-[12px] text-[var(--text-dim)] hover:text-white transition italic"
               aria-label={srLabel}
             >
               {label}

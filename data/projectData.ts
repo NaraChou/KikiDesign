@@ -17,6 +17,7 @@ import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import brandingResponsive from '../assets/images/branding-responsive-showcase.webp';
 import brandingUIEducation from '../assets/images/branding-ui-education-app.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
+import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
 
 /**
  * [中文註解] 
@@ -38,6 +39,7 @@ export interface ProjectData {
   visual: {
     cardBg: string,      // 首頁卡片背景（Tailwind class）
     hoverGlow: string,   // 首頁卡片 hover 光暈（Tailwind class）
+    glow: string,        // 作品主題發光顏色（用於 WorkDetail 頁面 hover 效果）
   }
 }
 
@@ -60,7 +62,8 @@ export const projectsList: ProjectData[] = [
     ],
     visual: {
       cardBg: 'bg-[rgba(26,28,46,0.50)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)]'
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)]',
+      glow: 'rgba(59,130,246,0.28)'
     }
   },
   {
@@ -76,7 +79,25 @@ export const projectsList: ProjectData[] = [
     ],
     visual: {
       cardBg: 'bg-[rgba(46,26,46,0.50)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(168,85,247,0.3)]'
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(168,85,247,0.3)]',
+      glow: 'rgba(168,85,247,0.25)'
+    }
+  },
+  {
+    id: 'poster-flyer-design',
+    title: '海報、傳單設計',
+    subtitle: 'Poster and Flyer Design',
+    category: 'Graphic Design / Print',
+    year: '2025',
+    description:
+      '運用大膽的視覺語言與色彩對比，創造具有強烈識別度的平面設計作品。透過版面的節奏感與留白，引導觀者的視線流動，讓資訊層次清晰且富有美感。每一份設計都傳達出品牌或活動的獨特個性。',
+    images: [
+      posterFlyerMain    // 主視覺（可在此新增更多圖片，如：posterFlyerDetail1, posterFlyerDetail2）
+    ],
+    visual: {
+      cardBg: 'bg-[rgba(46,26,26,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(255,127,80,0.3)]',
+      glow: 'rgba(255,127,80,0.3)'
     }
   }
   // ...若有更多作品，請依此格式持續新增

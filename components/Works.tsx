@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 // [圖片資源統一管理，所有圖片集中用於驅動渲染]
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
+import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
 
 /**
  * [資料結構歸一]
@@ -36,6 +37,19 @@ const WORKS = [
     extraClass: 'md:mt-64',
     glow: 'rgba(168,85,247,0.5)',
     arrowHover: 'group-hover:bg-purple-500',
+  },
+  {
+    id: 'poster-flyer-design',
+    titleZH: '海報、傳單設計',
+    titleEN: 'Poster & Flyer Design',
+    subtitle: 'GRAPHIC DESIGN / 2025',
+    img: posterFlyerMain,
+    bg: 'bg-[var(--work-card-bg3,rgba(46,26,26,0.50))]',
+    textAlign: 'md:text-left',
+    infoJustify: 'justify-start md:justify-start',
+    extraClass: '',
+    glow: 'rgba(255,127,80,0.5)',
+    arrowHover: 'group-hover:bg-orange-500',
   }
 ];
 
@@ -159,7 +173,7 @@ export const Works: React.FC = () => {
                     </span>
                   </div>
                 </h3>
-                <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[#EAE2D6B2] mt-2.5 opacity-80 uppercase">
+                <p className="text-[10px] md:text-[11px] font-extralight tracking-[0.4em] text-[var(--text-dim)] mt-2.5 uppercase">
                   {work.subtitle}
                 </p>
               </div>

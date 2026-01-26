@@ -25,32 +25,54 @@ export const WorkDetail: React.FC = () => {
   }, [id]);
 
   // [連動效果]：進場動畫僅在有作品時觸發，標題/圖片分批動態顯現
+  // [ScrollTrigger 同步] 等待圖片載入完成後再初始化動畫，防止動畫錯位
   useEffect(() => {
     if (!project) return;
-    const ctx = window.gsap.context(() => {
-      window.gsap.from('#detail-header > *', {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: 'power3.out',
-        delay: 0.2,
-      });
-      document.querySelectorAll('.waterfall-item').forEach(item => {
-        window.gsap.from(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: 'top bottom-=100px',
-            toggleActions: 'play none none reverse',
-          },
+    
+    // [圖片載入檢查] 等待所有圖片載入完成，確保 ScrollTrigger 計算正確
+    const initAnimations = () => {
+      const ctx = window.gsap.context(() => {
+        window.gsap.from('#detail-header > *', {
           y: 50,
           opacity: 0,
           duration: 1,
-          ease: 'power2.out',
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.2,
         });
-      });
-    }, containerRef);
-    return () => ctx.revert();
+        document.querySelectorAll('.waterfall-item').forEach(item => {
+          window.gsap.from(item, {
+            scrollTrigger: {
+              trigger: item,
+              start: 'top bottom-=100px',
+              toggleActions: 'play none none reverse',
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out',
+          });
+        });
+        // [動畫初始化後] 立即刷新一次 ScrollTrigger，確保位置正確
+        window.ScrollTrigger?.refresh();
+      }, containerRef);
+      return ctx;
+    };
+
+    // [延遲初始化] 等待 DOM 渲染和第一張圖片載入
+    const timer = setTimeout(() => {
+      const ctx = initAnimations();
+      // [額外刷新] 在短暫延遲後再次刷新，確保 lazy loading 圖片位置正確
+      setTimeout(() => window.ScrollTrigger?.refresh(), 300);
+      return () => ctx.revert();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      if (window.ScrollTrigger) {
+        window.ScrollTrigger.getAll().forEach(st => st.kill());
+      }
+    };
   }, [id, project]);
 
   // [資料查無] 只顯示一則提示，避免多餘結構
@@ -64,10 +86,12 @@ export const WorkDetail: React.FC = () => {
   }
 
   // [主內容結構] header(分類/標題/副標/描述) → section(瀑布流) → footer(返回首頁)
+  // [資料驅動 glow 色] 用 style 注入 --detail-glow-color 給 CSS 處理
   return (
     <main
       ref={containerRef}
-      className={`min-h-screen work-detail-wrapper project-${id}`}
+      className="min-h-screen work-detail-wrapper"
+      style={{ '--detail-glow-color': project.visual.glow } as React.CSSProperties}
     >
       <section className="content-width-container mx-auto">
         {/* ────── 作品標題與說明區（分類/標題/副標題/描述）────── */}
@@ -101,12 +125,31 @@ export const WorkDetail: React.FC = () => {
               <img
                 src={img}
                 alt={`${project.title} 作品圖片 ${idx + 1}`}
-                onLoad={() => window.ScrollTrigger?.refresh()}
+                onLoad={() => {
+                  // [ScrollTrigger 同步] 每張圖片載入完成後立即刷新，防止動畫錯位
+                  // 使用 requestAnimationFrame 確保在下一幀刷新，避免頻繁更新
+                  requestAnimationFrame(() => {
+                    window.ScrollTrigger?.refresh();
+                  });
+                }}
+                onError={(e) => {
+                  // [錯誤處理] 圖片載入失敗時顯示替代內容，避免空白
+                  const target = e.currentTarget;
+                  target.style.display = 'none';
+                  console.warn(`圖片載入失敗: ${img}`);
+                  // [錯誤後刷新] 載入失敗時也刷新 ScrollTrigger，避免位置計算錯誤
+                  window.ScrollTrigger?.refresh();
+                }}
                 className="waterfall-image-main"
-                loading="lazy"
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchPriority={idx === 0 ? 'high' : 'low'}
                 width="800"
                 height="600"
                 // [畫面安定] 固定寬高+CSS aspect-ratio，防止載入跳動
+                // [載入優化] 第一張圖優先載入(eager+high)，其他延遲載入(lazy+low)
+                // [效能優化] async 解碼不阻塞主線程，提升頁面流暢度
+                // [ScrollTrigger 同步] onLoad 使用 requestAnimationFrame 優化刷新時機
               />
               {/* 圖片序號標 */}
               <div className="waterfall-index-tag">

@@ -86,8 +86,8 @@
 }
 .waterfall-card:hover {
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    0 0 25px rgba(255, 255, 255, 0.06);
+    0 25px 50px rgba(0, 0, 0, 0.6),
+    0 0 45px var(--detail-glow-color, rgba(255, 255, 255, 0.06));
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 /* 卡片主圖，嚴格維持原比例，防變形，骨架/亮度效果統一 */
@@ -183,14 +183,5 @@
   }
 }
 
-/* === 品牌主題 hover 光暈：依主題顏色獨立分色管理 === */
-.project-personal-branding .waterfall-card:hover {
-  box-shadow:
-    0 25px 50px rgba(0,0,0,0.6),
-    0 0 45px rgba(59,130,246,0.28);
-}
-.project-logo-design .waterfall-card:hover {
-  box-shadow:
-    0 25px 50px rgba(0,0,0,0.5),
-    0 0 35px rgba(168,85,247,0.25);
-}
+/* === 品牌主題 hover 光暈：統一使用 CSS 變數，由 WorkDetail.tsx 動態注入 === */
+/* 已移除 .project-xxx 特定樣式，改用 var(--detail-glow-color) 實現資料驅動 */

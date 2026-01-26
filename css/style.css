@@ -89,24 +89,24 @@ body {
   [視覺體驗註解]
   當使用者滾動頁面時，導航列始終以「毛玻璃」遮罩浮於畫面頂端，確保內容不會與導覽重疊產生干擾。此作法既保護品牌識別(Logo/導覽清晰可讀)，又讓主視覺能淡出於下方，提升整體美感與閱讀性。
   [本次調整重點]
-  導覽列顯性提升，讓背景文字/元件不會穿透。增加毛玻璃強度，並加入 Safari 兼容，伴隨過渡動畫提升高級感。
+  「方案A：優雅的毛玻璃（Glassmorphism）」導入：減弱遮罩透明度，提升毛玻璃精緻度，創造低干擾且清晰的頂端導航視覺。
 */
 nav {
-  position: fixed;                  /* 導覽列浮動在畫面頂部，不隨頁面滾動 */
+  position: fixed;                  /* 導覽列浮動在畫面頂端，不隨頁面滾動 */
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;                    /* 保證在所有內容上層 */
-  /* 
-    [關鍵變更-視覺說明]
-    1. 提高背景遮罩不透明度（0.85），讓下方內容不會被「穿透」。
-    2. backdrop-filter: blur(15px) 與 -webkit-backdrop-filter 讓導覽如同「半實體毛玻璃」浮於畫面頂端，不論底下是圖片或動態主標題，都能確保導航列資訊永遠易讀、辨識強。
-    3. transition 動畫：拉動更換或互動時，背景色過渡不生硬，滲透感覺自然。
-    4. RWD padding 全採變數自動適配，行動裝置體驗一致。
+  /*
+    [優雅毛玻璃效果——視覺動畫動線]
+    - 背景調為低不透明度 (0.7)：此舉讓下方主視覺/圖片有微透感，但仍確保導航資訊「可讀」與「層次突出」。
+    - backdrop-filter: blur(12px) 適中毛玻璃強度，保持內容柔化，視覺更和諧。
+    - Safari 支援 -webkit-backdrop-filter 持續保留，交互過渡不變，創造富有層次感的頂部動線。
+    - RWD padding/動態過渡設定等其餘維持不變，兼顧美感與一致性。
   */
-  background-color: rgba(14, 12, 11, 0.85); 
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px); /* Safari 兼容，加速毛玻璃渲染 */
+  background-color: rgba(14, 12, 11, 0.7);   /* 帶點透明底色，玻璃感提升 */
+  backdrop-filter: blur(12px);               /* 關鍵：適中玻璃模糊，兼容各大瀏覽器 */
+  -webkit-backdrop-filter: blur(12px);       /* Safari 毛玻璃支援 */
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
   transition: background-color 0.3s ease;

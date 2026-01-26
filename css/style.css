@@ -82,35 +82,48 @@ body {
 
 /* --------- D. Nav & Footer 框架與響應式細節 --------- */
 /*
-  [說明]
-  - nav、footer 輪廓及間距全部以變數統一
-  - footer 框內內容 flex 對齊由 JS 控制（樣式端僅維護 align-items: flex-end)
-  - nav 固定於頂部，保有背景防止文字穿透 (毛玻璃效果)
-  [視覺體驗註解]
-  當使用者滾動頁面時，導航列始終以「毛玻璃」遮罩浮於畫面頂端，確保內容不會與導覽重疊產生干擾。此作法既保護品牌識別(Logo/導覽清晰可讀)，又讓主視覺能淡出於下方，提升整體美感與閱讀性。
-  [本次調整重點]
-  「方案A：優雅的毛玻璃（Glassmorphism）」導入：減弱遮罩透明度，提升毛玻璃精緻度，創造低干擾且清晰的頂端導航視覺。
+  [中文註解]
+  ▍導覽列遮罩新設計（漸層黑→透明）：讓頂端 Logo 導覽讀性最高，往下平滑消失  
+  1. 導航列保持常駐（position: fixed），確保頁面滾動時始終在最頂層（z-index:1000）。
+  2. 基礎底色透明度降低（rgba(14,12,11,0.4)），以減弱遮罩壓迫，主視覺更通透。
+  3. 毛玻璃效果(balanced blur)持續開啟，讓內容過渡柔和不上搶。
+  4. *漸層遮罩設計*（mask-image）：頂端100%黑到底（Logo、導航資訊絕對可讀），到85%位置後平滑透明，貼合Kiki風，提升質感與層次。
+  5. 行為視覺說明：滾動頁面時，nav頂端會漸隱讓主圖露出更多，但內容導覽層仍不會消失。
 */
 nav {
-  position: fixed;                  /* 導覽列浮動在畫面頂端，不隨頁面滾動 */
+
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;                    /* 保證在所有內容上層 */
-  /*
-    [優雅毛玻璃效果——視覺動畫動線]
-    - 背景調為低不透明度 (0.7)：此舉讓下方主視覺/圖片有微透感，但仍確保導航資訊「可讀」與「層次突出」。
-    - backdrop-filter: blur(12px) 適中毛玻璃強度，保持內容柔化，視覺更和諧。
-    - Safari 支援 -webkit-backdrop-filter 持續保留，交互過渡不變，創造富有層次感的頂部動線。
-    - RWD padding/動態過渡設定等其餘維持不變，兼顧美感與一致性。
-  */
-  background-color: rgba(14, 12, 11, 0.7);   /* 帶點透明底色，玻璃感提升 */
-  backdrop-filter: blur(12px);               /* 關鍵：適中玻璃模糊，兼容各大瀏覽器 */
-  -webkit-backdrop-filter: blur(12px);       /* Safari 毛玻璃支援 */
+  z-index: 1000;
+
+  /* 1. 基礎背景色（稍微降低透明度，讓漸層來主導視覺） */
+  background-color: rgba(14, 12, 11, 0.4); 
+
+  /* 2. 毛玻璃效果保持開啟 */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* 3. 漸層遮罩關鍵代碼 */
+  /* 讓導覽列從頂部的 100% 黑色（完全顯示）到 85% 位置開始，漸變到 100% 位置變成透明（消失） */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 70%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 85%,
+    transparent 100%
+  );
+
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
-  transition: background-color 0.3s ease;
 }
+
 @media (min-width: 768px) {
   nav { padding-top: 40px; }
 }

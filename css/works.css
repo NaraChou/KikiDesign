@@ -87,7 +87,7 @@
   aspect-ratio: 4/5;
   border-radius: 2.2rem;
   border: 1.5px solid var(--work-card-border, rgba(255,255,255,0.10));
-  padding: var(--work-card-padding, 2rem);
+  padding: var(--work-card-padding, 3.5rem); /* 調整後: 由 2rem 改為 3.5rem，讓圖片更內縮 */
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.4s, background-color 0.4s;
   will-change: transform, box-shadow;
@@ -151,17 +151,50 @@
 .work-card:hover .work-card-overlay {
   background: rgba(0,0,0,0.1);
 }
+
+/* === 理想圖片視差解法：包一層 image-wrapper，確保 overflow:hidden === */
+.work-card-image-wrapper {
+  overflow: hidden; /* 確保圖片動的時候不會超出卡片 */
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* 一般圖片，預設採 contain，不會變形 */
 .work-card-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 比例優先，不可形變 */
+  object-fit: contain;
   object-position: center;
   opacity: 0.9;
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s;
 }
-.work-card:hover .work-card-image {
-  transform: scale(1.05);
+/* [視差效果] 圖片根據滑鼠位置微移，增加深度感 */
+.work-card-image-parallax {
+  width: 100%;
+  height: 100%;
+  max-width: 420px; /* 限制最大寬度，避免圖片過大 */
+  max-height: 520px; /* 選擇性：也可限制最大高度 */
+  object-fit: contain; /* 改為 contain，完整顯示圖片且不裁切 */
+  --parallax-offset-x: 0px;
+  transform: translateX(var(--parallax-offset-x, 0px)) scale(1.02);
+  transition: transform 0.4s ease-out;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.work-card:hover .work-card-image-parallax {
+  /* Hover 時稍微再放大，強化深度效果 */
+  transform: translateX(var(--parallax-offset-x, 0px)) scale(1.1);
   opacity: 1;
+}
+/* [手機版] 觸控設備不使用視差效果，僅縮放 */
+@media (hover: none) and (pointer: coarse) {
+  .work-card-image-parallax {
+    transform: scale(1.05);
+  }
+  .work-card:hover .work-card-image-parallax {
+    transform: scale(1.1);
+  }
 }
 
 /* ---【卡片懸浮箭頭】歸一互動 --- */

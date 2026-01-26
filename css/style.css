@@ -69,20 +69,15 @@ body {
   }
 }
 
-/* === 新增：Hero 專用推擠，確保內容不被導覽列遮擋 === */
-/*
-  [視覺體驗說明]
-  hero-section 區塊一進場就會自動往下「推擠」主內容，確保顯示頭像或招牌主標題時，不會被浮動的導覽列切割遮掩。
-  padding-top 採用 clamp(80px, 15vh, 140px)：動畫地依據不同螢幕高度，手機時只占約80px，桌面大螢幕最多保留140px安全區。此設計讓主視覺空間自適應裝置，永不被 navbar 壓住。
-  min-height: 100vh 讓內容始終鋪滿一屏，版頭不易感覺壓縮。
-  flex / flex-direction 配合內容可垂直置中，讓招呼語與按鈕畫面皆「舒展」於畫布。
-*/
+/* 修正：給予 Hero 區塊足夠的頂部推力，避開固定導航列 */
 .hero-section {
-  padding-top: clamp(80px, 15vh, 140px); /* RWD 動態上邊距，防止內容被導覽列壓住 */
-  min-height: 100vh;                    /* 第一屏鋪滿檢視區高度，主標最大化展現 */
-  display: flex;                        /* 內容進行自動垂直排列 */
-  flex-direction: column;               /* 由上到下慢慢排列各元素 */
-  justify-content: center;              /* 垂直置中主標、次標與CTA等元件 */
+  /* 導航列高度約 80-100px，我們預留安全區 */
+  padding-top: clamp(100px, 20vh, 160px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
 }
 
 /* --------- D. Nav & Footer 框架與響應式細節 --------- */
@@ -93,21 +88,28 @@ body {
   - nav 固定於頂部，保有背景防止文字穿透 (毛玻璃效果)
   [視覺體驗註解]
   當使用者滾動頁面時，導航列始終以「毛玻璃」遮罩浮於畫面頂端，確保內容不會與導覽重疊產生干擾。此作法既保護品牌識別(Logo/導覽清晰可讀)，又讓主視覺能淡出於下方，提升整體美感與閱讀性。
+  [本次調整重點]
+  導覽列顯性提升，讓背景文字/元件不會穿透。增加毛玻璃強度，並加入 Safari 兼容，伴隨過渡動畫提升高級感。
 */
 nav {
   position: fixed;                  /* 導覽列浮動在畫面頂部，不隨頁面滾動 */
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
-  background-color: rgba(14, 12, 11, 0.8); /* 半透明底色，增強導覽可視性 */
-  backdrop-filter: blur(12px);      /* 毛玻璃模糊，避免底部 Hero 字清楚可見造成干擾 */
+  z-index: 1000;                    /* 保證在所有內容上層 */
+  /* 
+    [關鍵變更-視覺說明]
+    1. 提高背景遮罩不透明度（0.85），讓下方內容不會被「穿透」。
+    2. backdrop-filter: blur(15px) 與 -webkit-backdrop-filter 讓導覽如同「半實體毛玻璃」浮於畫面頂端，不論底下是圖片或動態主標題，都能確保導航列資訊永遠易讀、辨識強。
+    3. transition 動畫：拉動更換或互動時，背景色過渡不生硬，滲透感覺自然。
+    4. RWD padding 全採變數自動適配，行動裝置體驗一致。
+  */
+  background-color: rgba(14, 12, 11, 0.85); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); /* Safari 兼容，加速毛玻璃渲染 */
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
-  /* 
-    [動態敘述]
-    導覽列如同一層「輕柔的窗」蓋住內容區，使用者在行動端或桌機滾動也能一眼找到出口，避免 Logo、Menu 配色被底下內容吃掉造成視覺花亂。
-  */
+  transition: background-color 0.3s ease;
 }
 @media (min-width: 768px) {
   nav { padding-top: 40px; }

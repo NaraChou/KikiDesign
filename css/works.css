@@ -76,9 +76,9 @@
 
 /* 
   視覺動態註解：
-  此 ::before 發光層提供卡片 hover 時的環狀光影。調整 z-index: 30（比圖片與 overlay 層更高），
-  可讓光效確保浮在主圖上方，但不會遮住互動連結。
-  調整 radial-gradient 半徑與顏色，提升 Glow 視覺體驗的層次立體感。
+  此 ::before 發光層提供卡片 hover 時的環狀光影。
+  這次擴散半徑縮小（250px），透明區域收窄到 60%，讓光暈層更「內斂」；混合模式改為 soft-light 融合質感，
+  hover 時基礎透明度僅提升到 0.5，讓發光更柔和、輕盈。
 */
 .work-card-inner::before {
   content: '';
@@ -88,21 +88,21 @@
   /* 關鍵修正：將發光層層級提高，確保浮在主圖（z-index: 20）上，但仍在 Link 元件下 */
   z-index: 30;
   opacity: 0;
-  transition: opacity 0.4s ease;
-  /* 動態光暈：半徑/顏色可依設計再微調，質感佳 */
+  /* 光暈柔化：radial-gradient 改為 250px，過渡透明縮到 60%（不再有硬邊）；顏色融合具質感 */
   background: radial-gradient(
-    300px circle at var(--mouse-x) var(--mouse-y),
-    var(--card-glow-color, rgba(255,255,255,0.2)),
-    transparent 80%
+    250px circle at var(--mouse-x) var(--mouse-y),
+    var(--card-glow-color),
+    transparent 60%
   );
-  mix-blend-mode: screen; /* 疊加強化光影，不會造成圖片霧化 */
+  mix-blend-mode: soft-light; /* 質感光暈，不會過亮 */
+  transition: opacity 0.6s ease;
 }
-/* hover 狀態時，讓光暈滑順顯示（命中卡片互動時即觸發） */
+/* hover 狀態時，讓光暈滑順顯示，最高透明度僅設 0.5（避免過於搶眼） */
 .work-card:hover .work-card-inner {
   box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0,0,0,0.5);
 }
 .work-card:hover .work-card-inner::before {
-  opacity: 1;
+  opacity: 0.5;
 }
 @media (hover: none) and (pointer: coarse) {
   .work-card:hover .work-card-inner::before {

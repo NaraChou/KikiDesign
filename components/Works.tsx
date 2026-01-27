@@ -21,7 +21,8 @@ const WORKS = [
     subtitle: 'BRAND IDENTITY / 2024',
     img: brandingMockupMain,
     bg: 'bg-[var(--work-card-bg1,rgba(26,28,46,0.50))]',
-    glow: 'rgba(59,130,246,0.9)',
+    // 主要修正：降低光暈的 alpha 至 0.3，確保卡片 hover 光影不過於強烈，符合細緻視覺風格
+    glow: 'rgba(59,130,246,0.3)', 
     arrowHover: 'group-hover:bg-blue-500',
     ...COMMON_CARD_PROPS,
   },
@@ -60,6 +61,7 @@ interface WorkCardProps {
 // 卡片元件
 const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
   // 滑鼠事件歸類
+  // 設定光暈變數，根據滑鼠位置讓卡片產生連動光影，強化視覺聚焦效果
   const setCardGlowVars = (
     target: HTMLDivElement, x: number, y: number
   ) => {
@@ -67,13 +69,15 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
     target.style.setProperty("--mouse-y", `${y}px`);
     target.style.setProperty("--card-glow-color", work.glow || "rgba(255,255,255,0.15)");
   };
-  
+
+  // 滑鼠移動時，讓光暈根據滑鼠位置動態移動
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
     const { currentTarget: target, clientX, clientY } = e;
     const rect = target.getBoundingClientRect();
     setCardGlowVars(target, clientX - rect.left, clientY - rect.top);
   };
+  // 滑鼠離開時，回到中心光暈，減少視覺跳動
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget: target } = e;
     const rect = target.getBoundingClientRect();
@@ -102,6 +106,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
+        // 統一帶入較柔和的 glow alpha
         '--card-glow-color': work.glow || "rgba(255,255,255,0.15)",
         '--mouse-x': '-500px',
         '--mouse-y': '-500px'
@@ -114,7 +119,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
         tabIndex={-1}
         style={{ display: 'block' }}
       />
-      {/* 卡片主體 */}
+      {/* 卡片主體（內容包裹區，承載動態光暈與圖片等） */}
       <div className={innerCardClasses}>
         <div className="work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
           <img
@@ -124,7 +129,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
             loading="lazy"
           />
         </div>
-        {/* 箭頭提示 */}
+        {/* 箭頭提示，hover 時才顯示，加強互動引導 */}
         <div className="
           absolute right-3 top-3 z-30
           opacity-0 group-hover:opacity-100 transition-opacity duration-300
@@ -133,13 +138,13 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
           <span className={arrowClasses}>↗</span>
         </div>
       </div>
-      {/* 卡片資訊區塊 */}
+      {/* 卡片資訊區塊，手動調整文字對齊與排版，提升可讀性 */}
       <div className={`work-card-info mt-6 px-1 ${work.textAlign}`}>
         <h3 className="text-[0.95rem] md:text-[1.05rem] leading-relaxed uppercase">
           <div
             className={`flex flex-wrap items-center gap-y-1 ${work.infoJustify}`}
           >
-            {/* 主題統一： 中文 / 英文 */}
+            {/* 主題統一： 中文 / 英文 可視化分格 */}
             <span className="font-normal tracking-[0.18em] text-[#FDF6ED]">{work.titleZH}</span>
             <span className="px-2 opacity-30 font-extralight text-[#FDF6ED]">/</span>
             <span className="font-light italic tracking-[0.22em] text-[#FDF6ED]/90 text-[0.8em] md:text-[0.87em]">
@@ -159,7 +164,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
 export const Works: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // GSAP動畫統一管理
+  // GSAP 動畫針對各卡片產生淡入效果，滑動時分批浮現
   useEffect(() => {
     if (!window.gsap) return;
     const ctx = window.gsap.context(() => {

@@ -13,6 +13,15 @@ const COMMON_CARD_PROPS = {
   infoJustify: 'justify-start md:justify-start',
   extraClass: '',
 };
+
+/*
+  【視覺化說明】
+  WORKS 陣列控制每張作品卡片的光暈顏色（glow）：
+    - 主藍色作品 glow: 'rgba(59, 130, 246, 0.4)'
+    - 主紫色作品 glow: 'rgba(168, 85, 247, 0.4)'
+    - 主橘色作品 glow: 'rgba(255, 127, 80, 0.4)'
+  讓色彩飽和度提升，卡片 hover 時光暈更為亮眼突出
+*/
 const WORKS = [
   {
     id: 'personal-branding',
@@ -21,8 +30,8 @@ const WORKS = [
     subtitle: 'BRAND IDENTITY / 2024',
     img: brandingMockupMain,
     bg: 'bg-[var(--work-card-bg1,rgba(26,28,46,0.50))]',
-    // 主要修正：降低光暈的 alpha 至 0.3，確保卡片 hover 光影不過於強烈，符合細緻視覺風格
-    glow: 'rgba(59,130,246,0.3)', 
+    // 光暈顏色：藍色（高度飽和感，hover 聚焦時強化元件主題色）
+    glow: 'rgba(59, 130, 246, 0.4)', // 藍色作品
     arrowHover: 'group-hover:bg-blue-500',
     ...COMMON_CARD_PROPS,
   },
@@ -36,7 +45,8 @@ const WORKS = [
     textAlign: 'text-right md:text-left', // 此卡片右對齊
     infoJustify: 'justify-end md:justify-start',
     extraClass: 'md:mt-64', // 此卡片有額外間距
-    glow: 'rgba(168,85,247,0.4)',
+    // 光暈顏色：紫色（專屬識別，與主題色高度一致）
+    glow: 'rgba(168, 85, 247, 0.4)', // 紫色作品
     arrowHover: 'group-hover:bg-purple-500',
   },
   {
@@ -46,7 +56,8 @@ const WORKS = [
     subtitle: 'GRAPHIC DESIGN / 2025',
     img: posterFlyerMain,
     bg: 'bg-[var(--work-card-bg3,rgba(46,26,26,0.50))]',
-    glow: 'rgba(255,127,80,0.4)',
+    // 光暈顏色：橘色（熱情奔放的視覺氛圍）
+    glow: 'rgba(255, 127, 80, 0.4)', // 橘色作品
     arrowHover: 'group-hover:bg-orange-500',
     ...COMMON_CARD_PROPS,
   }
@@ -60,8 +71,8 @@ interface WorkCardProps {
 
 // 卡片元件
 const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
-  // 滑鼠事件歸類
   // 設定光暈變數，根據滑鼠位置讓卡片產生連動光影，強化視覺聚焦效果
+  // 視覺動態：滑鼠移動時，卡片表層即時拉出不同主題飽和色光暈
   const setCardGlowVars = (
     target: HTMLDivElement, x: number, y: number
   ) => {
@@ -70,21 +81,22 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
     target.style.setProperty("--card-glow-color", work.glow || "rgba(255,255,255,0.15)");
   };
 
-  // 滑鼠移動時，讓光暈根據滑鼠位置動態移動
+  // 觸控設備自動取消滑鼠效果，避免誤觸
+  // 滑鼠移動時，根據位置更新卡片內部光暈焦點
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
     const { currentTarget: target, clientX, clientY } = e;
     const rect = target.getBoundingClientRect();
     setCardGlowVars(target, clientX - rect.left, clientY - rect.top);
   };
-  // 滑鼠離開時，回到中心光暈，減少視覺跳動
+  // 滑鼠移出時，自動回到中心亮點，提升互動自然度
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget: target } = e;
     const rect = target.getBoundingClientRect();
     setCardGlowVars(target, rect.width / 2, rect.height / 2);
   };
 
-  // 共用class統整
+  // 共用 class 統整
   const innerCardClasses = [
     "relative overflow-hidden rounded-[18px]",
     work.bg,
@@ -106,7 +118,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        // 統一帶入較柔和的 glow alpha
+        // 初始化卡片光暈色為本次規格（高飽和度 variant）
         '--card-glow-color': work.glow || "rgba(255,255,255,0.15)",
         '--mouse-x': '-500px',
         '--mouse-y': '-500px'

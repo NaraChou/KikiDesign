@@ -1,16 +1,15 @@
 /**
- * Kiki Design Style 統整版
- * ------------------------------
- * [註解]
- * 1. 全域變數：顏色、字體、容器尺寸、字級、字距。每個僅定義一次，集中管理。
- * 2. 組件/互動：同性質（字體、縮排、hover）集中描述。
- * 3. 響應式細節/Media Query緊鄰主體。
+ * Kiki Design Style — 統整優化版
+ * ----------------------------------------
+ * 1. 全域變數：顏色、字體、尺寸、字級、字距，一次定義集中控管
+ * 2. 組件、共用互動：合併近似CSS，統一管理
+ * 3. RWD media query：響應式細節緊鄰主體
  */
 
 /* ==== A. Tailwind import ==== */
 @import "tailwindcss";
 
-/* ==== B. 全域變數 ==== */
+/* ==== B. 全域變數、顏色字體 ==== */
 :root {
   /* 顏色 */
   --bg-color: #0E0C0B;
@@ -18,8 +17,7 @@
   --text-main: #EAE2D6;
   --text-dim: rgba(234,226,214,0.5);
   --brand-subtle: rgba(234,226,214,0.5);
-
-  /* 字體 */
+  /* 字體與相關 */
   --font-family-sans: 'Noto Sans TC', sans-serif;
   --font-family-serif-italic: 'Playfair Display', serif;
   --font-weight-body: 300;
@@ -27,23 +25,22 @@
   --letter-spacing-chinese-art: 0.4em;
   --letter-spacing-vertical: 0.1em;
   --line-height-chinese-art: 1.6;
-
-  /* 容器&間距 */
+  /* 尺寸 & 間距 */
   --container-max-width: 80rem;
   --container-padding-mobile: 24px;
   --container-padding-desktop: 64px;
   --footer-padding-y-mobile: 3rem;
   --footer-padding-y-desktop: 6rem;
-
-  /* 功能型字級&字距 */
-  --font-size-tiny: 9px;              /* 用於 footer 副標、menu 微字等 */
-  --font-size-nano-nav: 5px;          /* 用於超細 menu 場合 */
-  --letter-spacing-main-nav: 0.4em;   /* 導覽主要字距 */
+  /* 基礎字級&字距 */
+  --font-size-tiny: 9px;         /* footer副標、小字/導覽menu */
+  --font-size-nano-nav: 5px;     /* 超細menu使用 */
+  --letter-spacing-main-nav: 0.4em;
+  --webkit-backdrop-filter: blur(10px);
+  --webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
 }
 
-/* ==== C. 主架構與共用結構 ==== */
-
-/* Body 設定、游標、主色 */
+/* ==== C. 基本結構、容器、游標 ==== */
+/* 頁面背景與全域字體/基礎設定 */
 body {
   background-color: var(--bg-color);
   color: var(--text-main);
@@ -51,10 +48,9 @@ body {
   font-weight: var(--font-weight-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  cursor: none !important; /* 僅顯示自定義游標 */
+  cursor: none !important;
 }
-
-/* 自定義游標樣式 */
+/* 自訂品牌游標，僅視覺動態（不影響互動感） */
 .custom-cursor {
   width: 20px;
   height: 20px;
@@ -67,7 +63,7 @@ body {
   mix-blend-mode: difference;
 }
 
-/* 主要容器 */
+/* 通用內容容器 main-container（RWD，方便維護統一） */
 .main-container {
   max-width: var(--container-max-width);
   margin-left: auto;
@@ -83,7 +79,7 @@ body {
   }
 }
 
-/* Hero 區塊固定頂距／主體中央對齊 */
+/* Hero主區塊（置中+全滿屏高，畫面進入感） */
 .hero-section {
   padding-top: clamp(100px, 20vh, 160px);
   min-height: 100vh;
@@ -93,9 +89,8 @@ body {
   position: relative;
 }
 
-/* ==== D. nav & footer 框架組合/優化 ==== */
-
-/* nav 只寫一次，漸層遮罩與毛玻璃、padding 與定位一起歸類 */
+/* ==== D. nav、footer 框架+LOGO統整 ==== */
+/* nav 導覽列(毛玻璃/漸層遮罩/置頂) - padding移除重複 */
 nav {
   position: fixed;
   top: 0;
@@ -104,81 +99,20 @@ nav {
   z-index: 1000;
   background-color: rgba(14, 12, 11, 0.4);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  /* 漸層遮罩設計 */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 70%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 85%,
-    transparent 100%
-  );
+  mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
 }
 @media (min-width: 768px) {
-  nav { padding-top: 40px; }
+  nav {
+    padding-top: 40px; /* >768px padding明確覆寫 */
+  }
 }
-
-/* =======================
-   Logo 光暈特效專區 (調整版)
-   - 針對導航列的 Logo，賦予一層細緻且更明顯的紅色光暈，提升在深色底下的浮起及聚焦感
-   - hover 狀態時，光暈再擴大並明度再提升，且帶有更多「環境色」味。
-   - 針對中文標題，增加紅色柔光陰影，使其於導覽列滾動浮動時更容易閱讀
-   ======================== */
-
-/*
-  .nav-logo
-  [視覺白話註解]：
-  - LOGO 週圍「主紅色」光暈強度更高（10px擴散、0.45不透明）
-  - transition 全面柔和些，讓 LOGO 動畫呼吸感更現實
-*/
-.nav-logo {
-  /* LOGO 永遠有一圈主紅光微暈，讓品牌標誌在畫面上浮起、注目 */
-  filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.45));
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/*
-  .nav-logo:hover
-  [視覺白話註解]：
-  - 懸停觸發時，主紅暈更大範圍（15px）、顏色更濃(0.7)、同時增亮整體(LOGO本體)
-  - 讓LOGO像呈現「環境紅光擴散」效果，強化互動感和立體聚焦。
-*/
-.nav-logo:hover {
-  filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.7)) brightness(1.2);
-}
-
-/*
-  .nav-logo .chinese-art
-  [視覺白話註解]：
-  - 特別加強導航列LOGO的中文書法標題，增添紅色柔光陰影
-  - 滾動或 navigation 固定時能維持良好可閱讀性，不隱沒在帶毛玻璃的底色上
-*/
-.nav-logo .chinese-art {
-  text-shadow: 0 0 5px rgba(230, 57, 70, 0.2);
-}
-
-/* === 新增：Logo 實體圖片混合模式修正 ==== */
-/**
- * [視覺註解]：確保 LOGO 圖片（<img />）正常顯色，不因背景毛玻璃或底色產生混色；
- * 讓 drop-shadow 光感保持乾淨、避免 Logo 本體偏灰或髒汙。
- * 若 mix-blend-mode 被移除，Logo 透明區或漸層可能被底色干擾，視覺不純淨。
- */
-.nav-logo img {
-  mix-blend-mode: normal; /* 強制 LOGO 為正常疊色，維持設計稿中的漸變色及層次正確 */
-}
-
-/* Footer 共同結構集中說明 */
+/* Footer 區塊框架（上下padding統一管理） */
 .footer-frame {
+  width: 100%;
   padding-top: var(--footer-padding-y-mobile);
   padding-bottom: var(--footer-padding-y-mobile);
-  width: 100%;
 }
 @media (min-width: 768px) {
   .footer-frame {
@@ -187,35 +121,47 @@ nav {
   }
   .footer-frame .main-container {
     align-items: flex-end;
-    /* display: flex 可由 TS 決定 */
   }
 }
 
-/* ==== E. 圖片與字體專用細節 ==== */
-
-/* 主Logo與手繪圖統一object-fit，視覺一致 */
+/* ==== E. Logo特效/圖片細節、字體統整 ==== */
+/* 主LOGO光暈特效＋圖片混合模式（文字/圖片統合在.nav-logo下） */
+.nav-logo {
+  filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.45));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-logo:hover {
+  filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.7)) brightness(1.2);
+}
+/* LOGO中文字-紅色柔光 */
+.nav-logo .chinese-art {
+  text-shadow: 0 0 5px rgba(230, 57, 70, 0.2);
+}
+/* LOGO圖片混合模式（防底色干擾） */
+.nav-logo img {
+  mix-blend-mode: normal;
+}
+/* 主要Logo/手繪圖 object-fit一致（比例保護） */
 img.main-logo,
 img.handdrawn {
   object-fit: contain !important;
   aspect-ratio: auto;
 }
 
-/* 書畫感字：書法美感部件 */
+/* 書法感中文字專用 */
 .chinese-art {
   font-weight: var(--font-weight-chinese-art);
   letter-spacing: var(--letter-spacing-chinese-art);
   line-height: var(--line-height-chinese-art);
 }
-
-/* 義式斜體元件 */
+/* 義式斜體元件（全站適用） */
 .serif-italic {
   font-family: var(--font-family-serif-italic);
   font-style: italic;
 }
 
-/* ==== F. Footer 標題/副標/鏈結統整 ==== */
-
-/* Footer Title（含 RWD） */
+/* ==== F. Footer 標題/副標/鏈結 共用樣式 ==== */
+/* Footer Title（桌機RWD自動變大） */
 .footer-title {
   font-size: 1.875rem;
   font-style: italic;
@@ -223,24 +169,27 @@ img.handdrawn {
   font-variation-settings: 'ital' 1;
 }
 @media (min-width: 768px) {
-  .footer-title { font-size: 3rem; }
+  .footer-title {
+    font-size: 3rem;
+  }
 }
-
-/* Footer Subtitle */
-.footer-subtitle {
+/* Footer副標/Social鏈結（統一小字級/細節）*/
+.footer-subtitle,
+.footer-social-link {
   font-size: var(--font-size-tiny);
   letter-spacing: 0.5em;
   color: var(--brand-subtle);
   text-transform: uppercase;
 }
-
-/* Footer Email & Social Link 基礎、hover 統一，集中樣式僅定義一次 */
-.footer-email,
+/* Social Link細化樣式（微字級/透明度過渡） */
 .footer-social-link {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  line-height: 1;
+  opacity: 0.7;
   transition: all 0.3s ease;
 }
-
-/* 細分屬性 - 主要不同歸一處，類似併列 */
+/* Email鏈結（底線樣式、hover統一過渡） */
 .footer-email {
   display: inline-block;
   font-size: 1rem;
@@ -250,21 +199,13 @@ img.handdrawn {
   border-bottom: 1px solid rgba(255,255,255,0.1);
   color: #fff8e6;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
-.footer-social-link {
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  line-height: 1;
-  color: var(--brand-subtle);
-  opacity: 0.7;
-  text-transform: uppercase;
-}
-
-/* 互動 hover統一寫法 */
+/* Footer鏈結/Email hover—顏色/底線亮顯統一管理 */
 .footer-email:hover,
 .footer-social-link:hover {
   color: #fff;
   opacity: 1;
   border-bottom-color: #fff;
 }
-/* ==== END ==== */
+/* ==== END（所有相似結構已歸類合併） ==== */

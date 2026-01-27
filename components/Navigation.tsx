@@ -5,7 +5,7 @@ import kikiLogo from '../assets/images/logo-kiki-main.svg';
 /**
  * 導覽元件總說明｜視覺邏輯統整：
  * 1. 主結構：以 nav 語義標籤呈現，配合 fixed 及 main-container，確保品牌 LOGO、選單在不同裝置皆維持水平間距與一體感。
- * 2. 動態磨砂背景（連動效果）：記憶導覽列的「浮現」狀態（scrolled），滾動超過臨界值套用暗色漸層和 shadow，閱讀區塊更易分辨。
+ * 2. 動態磨砂背景（連動效果）：記憶導覽列的「浮現」狀態（scrolled），滾動超過臨界值套用暗色漸層和 shadow，閱讀區塊更易分辨。同時在非滾動狀態也保護Logo可辨識。
  * 3. Menu 資料統一於 NAV_MENUS 陣列管理，循環產生所有選單，嚴禁重複結構，便於維護與拓展（完全數據驅動）。
  * 4. 平滑滾動行為優先：首頁時優先 gsap 動畫，非首頁用 navigate + setTimeout 保證 DOM 渲染後才 scroll 動畫。無 gsap 則自動降級為 hash 跳轉，不影響畫面結構。
  * 5. 全圖片、連結及互動元素（a, img, button）均要求 alt/aria-label（SEO 與無障礙一體）。
@@ -40,6 +40,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
 
   // [導覽列記憶]：scrolled = 漢堡浮現＋磨砂漸層
   // 滾動 12px 後進入「閱讀提升」狀態，主選單帶暗底與 shadow
+  // 未滾動時也要給予微量暗部背景，確保 Logo 在亮色圖片上不會消失
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -78,25 +79,27 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     <nav
       // [動態視覺註解]
       // 「固定於畫面頂端」，由 scrolled 控制背景是否浮現磨砂
+      // 修改說明：未捲動時也給頂部極淡漸層，避免 Logo 因底下作品圖片太亮被吃掉
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
         ${
           scrolled
-            ? 'bg-gradient-to-b from-[#0E0C0B] via-[#0E0C0B]/80 to-transparent shadow-md'
-            : 'bg-transparent'
+            ? 'bg-gradient-to-b from-[#0E0C0B] via-[#0E0C0B]/90 to-transparent shadow-md'
+            : 'bg-gradient-to-b from-black/20 to-transparent'
         }
       `}
     >
       <div className="main-container flex justify-between items-center py-4 md:py-6">
-        {/* [品牌LOGO區] 絕不變形＋ALT描述 */}
+        {/* [品牌LOGO區] 絕不變形＋ALT描述＋動態紅光 —— nav-logo 為自訂發光CSS觸發點 */}
         <Link
           to="/"
           onClick={() => window.scrollTo(0, 0)}
-          className="flex items-center gap-3"
+          className="flex items-center gap-3 group nav-logo" // 關鍵：加上 nav-logo
           tabIndex={0}
         >
           <img
             src={kikiLogo}
-            className="w-10 h-10 object-contain"
+            // 圖片絕對不變形，透明背景；移除原 drop-shadow，交由 .nav-logo 控制發光效果
+            className="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-105"
             alt="手繪森林主題Logo"
           />
           <div className="flex flex-col items-start justify-center ml-0">

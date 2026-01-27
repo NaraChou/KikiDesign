@@ -125,6 +125,55 @@ nav {
   nav { padding-top: 40px; }
 }
 
+/* =======================
+   Logo 光暈特效專區 (調整版)
+   - 針對導航列的 Logo，賦予一層細緻且更明顯的紅色光暈，提升在深色底下的浮起及聚焦感
+   - hover 狀態時，光暈再擴大並明度再提升，且帶有更多「環境色」味。
+   - 針對中文標題，增加紅色柔光陰影，使其於導覽列滾動浮動時更容易閱讀
+   ======================== */
+
+/*
+  .nav-logo
+  [視覺白話註解]：
+  - LOGO 週圍「主紅色」光暈強度更高（10px擴散、0.45不透明）
+  - transition 全面柔和些，讓 LOGO 動畫呼吸感更現實
+*/
+.nav-logo {
+  /* LOGO 永遠有一圈主紅光微暈，讓品牌標誌在畫面上浮起、注目 */
+  filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.45));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/*
+  .nav-logo:hover
+  [視覺白話註解]：
+  - 懸停觸發時，主紅暈更大範圍（15px）、顏色更濃(0.7)、同時增亮整體(LOGO本體)
+  - 讓LOGO像呈現「環境紅光擴散」效果，強化互動感和立體聚焦。
+*/
+.nav-logo:hover {
+  filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.7)) brightness(1.2);
+}
+
+/*
+  .nav-logo .chinese-art
+  [視覺白話註解]：
+  - 特別加強導航列LOGO的中文書法標題，增添紅色柔光陰影
+  - 滾動或 navigation 固定時能維持良好可閱讀性，不隱沒在帶毛玻璃的底色上
+*/
+.nav-logo .chinese-art {
+  text-shadow: 0 0 5px rgba(230, 57, 70, 0.2);
+}
+
+/* === 新增：Logo 實體圖片混合模式修正 ==== */
+/**
+ * [視覺註解]：確保 LOGO 圖片（<img />）正常顯色，不因背景毛玻璃或底色產生混色；
+ * 讓 drop-shadow 光感保持乾淨、避免 Logo 本體偏灰或髒汙。
+ * 若 mix-blend-mode 被移除，Logo 透明區或漸層可能被底色干擾，視覺不純淨。
+ */
+.nav-logo img {
+  mix-blend-mode: normal; /* 強制 LOGO 為正常疊色，維持設計稿中的漸變色及層次正確 */
+}
+
 /* Footer 共同結構集中說明 */
 .footer-frame {
   padding-top: var(--footer-padding-y-mobile);

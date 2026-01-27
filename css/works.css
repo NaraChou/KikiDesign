@@ -1,24 +1,16 @@
 /* =============================================================================
    Works 區樣式統整（Kiki Design Style）
-   ─ 嚴格遵循比例保護、變數管理，結構與功能明確分群，重複屬性整併
+   結構分群、同類統整、重複屬性合併
 ============================================================================= */
 
-/* ---【外殼區】Portfolio 主體分層與背景——分明分界，保障視覺呼吸 --- */
-/*
-  #works：負責整個 Portfolio 區的上下間距與背景填色，各獨立分層。
-  ─「視覺體驗」：畫面分明分野，滑動時每個版塊不會混雜。
-*/
+/* === 外殼區 (Section Wrapper) === */
 #works {
   padding-top: var(--section-padding-y, 6rem);
   padding-bottom: var(--section-padding-y, 6rem);
   background: var(--section-bg-works, transparent);
 }
 
-/* ---【區塊：標題群組】一致性聚合，排版響應式調整 --- */
-/*
-  .works-section-header：負責標題（主/副）群的布局及左右齊；
-  ─「視覺體驗」：小螢幕置中，大螢幕齊主要內容左，提升品牌一體感。
-*/
+/* === 區塊：標題群組 統整 === */
 .works-section-header {
   display: flex;
   flex-direction: column;
@@ -36,12 +28,7 @@
     text-align: left;
   }
 }
-
-/*
-  .works-section-title, .works-section-label：
-    聚合同類排版屬性，利於維護主題色與字距動態。
-  ─「視覺體驗」：主標題提供聚焦感，副標題與主色互補。
-*/
+/* 標題主/副 聚合屬性 */
 .works-section-title, .works-section-label {
   margin: 0;
 }
@@ -59,11 +46,7 @@
   color: var(--brand-subtle, rgba(234,226,214,0.5));
 }
 
-/* ---【作品格線／卡片區】統一規格，響應式、動態與效能歸檔 --- */
-/*
-  .works-grid：統一間距與欄數，確保動態流暢切換排列；
-  ─「視覺體驗」：小螢幕一欄、大螢幕二欄，間距變數集管。
-*/
+/* === 作品格線/卡片區 grid === */
 .works-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -76,71 +59,48 @@
   }
 }
 
-/*
-  .work-card-inner：卡片格式一致、陰影效果及動態 GPU 優化歸檔
-  .work-card:hover .work-card-inner：hover 陰影光暈
-  ─「視覺體驗」：統一卡片比例與漸層，滑鼠移入將產生發光立體感
-*/
+/* === 卡片本體 & 光暈聚合 === */
 .work-card-inner {
   position: relative;
   overflow: hidden;
   aspect-ratio: 4/5;
   border-radius: 2.2rem;
   border: 1.5px solid var(--work-card-border, rgba(255,255,255,0.10));
-  padding: var(--work-card-padding, 3.5rem); /* 調整後: 由 2rem 改為 3.5rem，讓圖片更內縮 */
+  padding: var(--work-card-padding, 3.5rem);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.4s, background-color 0.4s;
   will-change: transform, box-shadow;
-  /* [滑鼠追蹤光暈] CSS 變數預設值（中心位置） */
   --mouse-x: 50%;
   --mouse-y: 50%;
 }
-/* [滑鼠追蹤光暈] 使用偽元素創建跟隨滑鼠的光暈效果 */
 .work-card-inner::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   opacity: 0;
-  /* [平滑過渡] 光暈位置和透明度都有過渡效果 */
-  transition: opacity 0.3s ease, background 0.1s ease;
-  border-radius: 2.2rem;
-  /* [滑鼠追蹤光暈] radial-gradient 中心跟隨滑鼠位置 */
-  /* 光暈大小 300px，從中心向外漸變到透明 */
-  background: radial-gradient(
-    circle 300px at var(--mouse-x) var(--mouse-y),
-    var(--card-glow-color) 0%,
-    transparent 60%
-  );
   z-index: 1;
-  /* [混合模式] 使用 overlay 讓光暈與背景融合 */
-  mix-blend-mode: overlay;
+  transition: opacity 0.5s ease;
+  background: radial-gradient(
+    250px circle at var(--mouse-x) var(--mouse-y),
+    var(--card-glow-color),
+    transparent 70%
+  );
+  mix-blend-mode: screen;
 }
 .work-card:hover .work-card-inner {
-  /* [桌面版] 保留原本的 box-shadow 作為基礎光暈 */
   box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0,0,0,0.5);
 }
 .work-card:hover .work-card-inner::before {
-  /* [桌面版] 顯示跟隨滑鼠的光暈偽元素 */
-  opacity: 0.7;
+  opacity: 0.6;
 }
-/* [手機版] 觸控設備維持原本的全發光狀態，不使用滑鼠追蹤 */
 @media (hover: none) and (pointer: coarse) {
   .work-card:hover .work-card-inner::before {
-    /* 手機版隱藏滑鼠追蹤光暈，只保留 box-shadow */
     opacity: 0;
   }
 }
 
-/* ---【卡片主圖/罩層/滑入放大光暈】類型統整 --- */
-/*
-  .work-card-overlay：主要作為主圖的遮罩保護，hover 時進行漸淡
-  .work-card-image：所有主圖統整比例與放大互動
-  ─「視覺體驗」：確保圖片絕不變形、遮色層緩和過場
-*/
+/* === 卡片主圖/罩層統整 === */
 .work-card-overlay {
   position: absolute;
   inset: 0;
@@ -151,30 +111,26 @@
 .work-card:hover .work-card-overlay {
   background: rgba(0,0,0,0.1);
 }
-
-/* === 理想圖片視差解法：包一層 image-wrapper，確保 overflow:hidden === */
 .work-card-image-wrapper {
-  overflow: hidden; /* 確保圖片動的時候不會超出卡片 */
+  overflow: hidden;
   position: relative;
   width: 100%;
   height: 100%;
 }
-/* 一般圖片，預設採 contain，不會變形 */
-.work-card-image {
+.work-card-image,
+.work-card-image-parallax {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+.work-card-image {
   object-position: center;
   opacity: 0.9;
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s;
 }
-/* [視差效果] 圖片根據滑鼠位置微移，增加深度感 */
 .work-card-image-parallax {
-  width: 100%;
-  height: 100%;
-  max-width: 420px; /* 限制最大寬度，避免圖片過大 */
-  max-height: 520px; /* 選擇性：也可限制最大高度 */
-  object-fit: contain; /* 改為 contain，完整顯示圖片且不裁切 */
+  max-width: 420px;
+  max-height: 520px;
   --parallax-offset-x: 0px;
   transform: translateX(var(--parallax-offset-x, 0px)) scale(1.02);
   transition: transform 0.4s ease-out;
@@ -183,11 +139,9 @@
   display: block;
 }
 .work-card:hover .work-card-image-parallax {
-  /* Hover 時稍微再放大，強化深度效果 */
   transform: translateX(var(--parallax-offset-x, 0px)) scale(1.1);
   opacity: 1;
 }
-/* [手機版] 觸控設備不使用視差效果，僅縮放 */
 @media (hover: none) and (pointer: coarse) {
   .work-card-image-parallax {
     transform: scale(1.05);
@@ -197,12 +151,7 @@
   }
 }
 
-/* ---【卡片懸浮箭頭】歸一互動 --- */
-/*
-  .work-card-arrow：定位與初始透明，hover 出現
-  .arrow-circle：圓形本體與聚合排版
-  ─「視覺體驗」：輕盈的浮現指示，增強互動引導
-*/
+/* === 卡片懸浮箭頭/圓形聚合 === */
 .work-card-arrow {
   position: absolute;
   top: 1rem;
@@ -228,13 +177,7 @@
   font-size: 10px;
 }
 
-/* ---【卡片底部資訊區（標題、副標、間距、字體優化）】 --- */
-/*
-  .work-card-info：上邊距響應式歸一
-  .work-card-info h3：字體平滑優化
-  .work-card-title, .work-card-subtitle：上下標聚合，hover 特效收斂
-  ─「視覺體驗」：內容排版呼吸、階層清楚、hover 漸變不突兀
-*/
+/* === 卡片底部資訊區（標題、副標統整）=== */
 .work-card-info {
   margin-top: 2rem;
 }
@@ -247,7 +190,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 .work-card-title,
 .work-card-subtitle {
   text-transform: uppercase;
@@ -272,19 +214,14 @@
 /* === 手機專用：調整卡片 padding/圓角/比例 & 圖片最大化 === */
 @media (max-width: 767px) {
   .work-card-inner {
-    /* 1. 減少手機版的內邊距，讓圖片有空間長大 */
     padding: 1rem !important;
-    /* 2. 調整卡片比例，讓它在手機上稍微扁一點點，避免圖片高度受限 */
     aspect-ratio: 1.1 / 1;
-    /* 3. 圓角稍微縮小一點，更符合小螢幕比例 */
     border-radius: 1.5rem;
   }
   .work-card-inner::before {
-    /* 光暈圓角隨卡片跟著縮小 */
     border-radius: 1.5rem;
   }
   .work-card-image {
-    /* 4. 確保圖片在手機上盡可能放大 */
     max-width: 90%;
     max-height: 90%;
   }

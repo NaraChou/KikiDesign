@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+// 匯入 React 相關與 React Router
+import React, { useRef, useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
-// [視覺結構元件] — 全域 UI 主體（動態背景、導航、主內容、頁腳）
+// 匯入「視覺結構元件」與動態組件
 import { BackgroundEffects } from './components/BackgroundEffects';
 import { Loader } from './components/Loader';
 import { Navigation } from './components/Navigation';
@@ -14,18 +15,14 @@ import ScrollToTop from './components/ScrollToTop';
 import './types';
 
 /**
- * CustomCursor 自訂游標元件
- * [中文註解]
- * ▍視覺上跟隨使用者的滑鼠移動，形成品牌感專屬圓形游標。
- * ▍僅在桌面版顯示（md 以上才可見），確保手機不被干擾。
- * ▍動態跟隨 — 游標移動時，即時驅動 <div> 元素移動到滑鼠位置。
- * ▍本身不吃 pointer 事件，實體無阻 UI 交互。
+ * CustomCursor
+ * ▍品牌圓游標，僅桌面 md+ 顯示，隨滑鼠移動呈現動態視覺
+ * ▍不吃 pointerEvent，不影響實際互動
  */
-export const CustomCursor = () => {
+export const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // [動態觸發] 游標跟隨，根據滑鼠移動調整位置
     const moveCursor = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.left = `${e.clientX}px`;
@@ -37,8 +34,6 @@ export const CustomCursor = () => {
     return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
 
-  // [美術細節] 
-  // .custom-cursor 請在全域 CSS 定義（外部設計組控制直徑、混和模式、透明度）
   return (
     <div
       ref={cursorRef}
@@ -49,34 +44,30 @@ export const CustomCursor = () => {
 };
 
 /**
- * AppContent 組件
- * [中文註解]
- * ▍「元件的記憶」：統一管理全站狀態（isMenuOpen），並協調 GSAP 動畫效果。
- * ▍「連動效果」：根據 pathname 控制初始 Loader 與 Hero 進場動畫，讓首頁與作品內頁有不同的動態節奏。
+ * AppContent
+ * [元件記憶]：統一管理主狀態，協同觸動畫面(動畫/菜單)
+ * [連動效果]：根據路徑進行 Loader/Hero 動畫切換與 ScrollTrigger 統一維護
  */
 function AppContent() {
-  // [元件的記憶] 狀態統一
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // 控制 MobileMenu 顯示狀態
-  const mainTimeline = useRef<any>(null);              // 保存 GSAP 動畫時間軸
-  const location = useLocation();                      // 動態監聽路徑，做動態視覺切換
+  // —— [統合狀態區] ——
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const mainTimeline = useRef<any>(null);
+  const location = useLocation();
 
-  // [連動效果] —— GSAP 外部插件初始化（僅需一次）
+  // —— [GSAP 與插件初始化，僅執行一次] ——
   useEffect(() => {
-    // 若缺少 gsap 插件，將導致所有動畫無法觸發，畫面會變靜態
     if (window.gsap && window.ScrollTrigger && window.ScrollToPlugin) {
       window.gsap.registerPlugin(window.ScrollTrigger, window.ScrollToPlugin);
     }
   }, []);
 
-  // [暴力方案 #1] 監聽路徑變化，暫時阻止 GSAP ScrollTrigger 的刷新
+  // —— [ScrollTrigger 刷新控制，避免切頁動畫斷裂] ——
   useEffect(() => {
     if (!window.ScrollTrigger) return;
     const originalRefresh = window.ScrollTrigger.refresh;
     let isRefreshingBlocked = true;
     window.ScrollTrigger.refresh = () => {
-      if (!isRefreshingBlocked) {
-        originalRefresh.call(window.ScrollTrigger);
-      }
+      if (!isRefreshingBlocked) originalRefresh.call(window.ScrollTrigger);
     };
     const restoreTimer = setTimeout(() => {
       isRefreshingBlocked = false;
@@ -85,20 +76,17 @@ function AppContent() {
     }, 500);
     return () => {
       clearTimeout(restoreTimer);
-      if (window.ScrollTrigger) {
-        window.ScrollTrigger.refresh = originalRefresh;
-      }
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh = originalRefresh;
     };
   }, [location.pathname]);
 
-  // [連動效果] —— 首頁 Hero 與 Loader 動畫
+  // —— [首頁 Loader 與 Hero 動畫統整] ——
   useEffect(() => {
-    // 首頁才執行完整進場動畫，內頁僅快速淡出 loader
     if (location.pathname === '/') {
+      // 首頁完整進場動態流程統一（Loader → Hero 淡入）
       const ctx = window.gsap.context(() => {
         const tl = window.gsap.timeline();
         mainTimeline.current = tl;
-        // 動畫流程：Loader 條進度 → Loader 消失 → Hero 各元素依序淡入
         tl.to("#loader-progress", { x: "0%", duration: 0.8 })
           .to("#loader", { autoAlpha: 0, duration: 0.8 })
           .to("#hero-tag", { opacity: 1, y: 0, duration: 0.8 }, "-=0.2")
@@ -108,34 +96,29 @@ function AppContent() {
       });
       return () => ctx.revert();
     } else {
+      // 非首頁只做 Loader 淡出
       window.gsap.to("#loader", { autoAlpha: 0, duration: 0.5 });
     }
   }, [location.pathname]);
 
-  // [互動邏輯] —— 控制 MobileMenu 開闔狀態
+  // —— [MobileMenu 控制方法統整] ——
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
   const closeMenu = () => setIsMenuOpen(false);
 
-  // [語義化結構] —— <main> 主體、footer 與輔助元件
+  // —— [全結構整合，主動態層級 + 子元件] ——
   return (
     <div className="relative w-full">
-      {/* [全域自訂滑鼠游標渲染] — 視覺動態，僅桌面模式顯示 */}
       <CustomCursor />
-      {/* 動態背景視覺 */}
       <BackgroundEffects />
-      {/* 首次進站 Loading 效果 */}
       <Loader />
-      {/* 導覽列與手機選單 */}
       <Navigation onToggleMenu={toggleMenu} />
       <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
-      {/* 主內容區（動態渲染路由）*/}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/work/:id" element={<WorkDetail />} />
         </Routes>
       </main>
-      {/* 頁腳與輔助回頂按鈕 */}
       <Footer />
       <BackToTop />
     </div>
@@ -143,14 +126,13 @@ function AppContent() {
 }
 
 /**
- * App 元件（全域入口）
- * [中文註解]
- * ▍統一以 HashRouter 包覆，維持 SPA 路由機制
+ * App（全域入口，導入 SPA 機制）
+ * [統一只 export 一個 App]
  */
 export default function App() {
   return (
     <Router>
-      <ScrollToTop /> {/* [關鍵] 放在這裡，確保每次換頁都先執行捲動到頂部 */}
+      <ScrollToTop />
       <AppContent />
     </Router>
   );

@@ -1,25 +1,25 @@
 /**
- * Kiki Design Style：全站主線內容一覽＆統整版
- * -----------------------------------------------------------
- * [中文註解]
- * 1. 全域變數集中管理：顏色、字體、容器尺寸、極小字級等，每個值全站僅一份來源。
- * 2. 視覺組件細節：相同性質（字體、間距、交互等）分類拆解，只留一份代表實作，減少重複。
- * 3. Media Query下細節明確分層，響應式寫法緊鄰主內容。
+ * Kiki Design Style 統整版
+ * ------------------------------
+ * [註解]
+ * 1. 全域變數：顏色、字體、容器尺寸、字級、字距。每個僅定義一次，集中管理。
+ * 2. 組件/互動：同性質（字體、縮排、hover）集中描述。
+ * 3. 響應式細節/Media Query緊鄰主體。
  */
 
-/* --------- A. Tailwind 基礎 --------- */
+/* ==== A. Tailwind import ==== */
 @import "tailwindcss";
 
-/* --------- B. 全域變數統一區 --------- */
+/* ==== B. 全域變數 ==== */
 :root {
-  /* -- 顏色類 -- */
+  /* 顏色 */
   --bg-color: #0E0C0B;
   --tang-pink: rgba(230, 57, 70, 0.12);
   --text-main: #EAE2D6;
-  --text-dim: rgba(234, 226, 214, 0.5);
+  --text-dim: rgba(234,226,214,0.5);
   --brand-subtle: rgba(234,226,214,0.5);
 
-  /* -- 字體家族與屬性 -- */
+  /* 字體 */
   --font-family-sans: 'Noto Sans TC', sans-serif;
   --font-family-serif-italic: 'Playfair Display', serif;
   --font-weight-body: 300;
@@ -28,28 +28,22 @@
   --letter-spacing-vertical: 0.1em;
   --line-height-chinese-art: 1.6;
 
-  /* -- 容器大小與間距 -- */
+  /* 容器&間距 */
   --container-max-width: 80rem;
   --container-padding-mobile: 24px;
   --container-padding-desktop: 64px;
-  --footer-padding-y-mobile: 3rem; 
+  --footer-padding-y-mobile: 3rem;
   --footer-padding-y-desktop: 6rem;
 
-  /* -- 統一極小字級/功能性字距 -- */
-  --font-size-tiny: 9px;            /* 用於 footer 副標、menu 微字等 */
-  --font-size-nano-nav: 5px;        /* 用於超細 menu 專用等場合 */
-  --letter-spacing-main-nav: 0.4em; /* 導覽主要字距 */
+  /* 功能型字級&字距 */
+  --font-size-tiny: 9px;              /* 用於 footer 副標、menu 微字等 */
+  --font-size-nano-nav: 5px;          /* 用於超細 menu 場合 */
+  --letter-spacing-main-nav: 0.4em;   /* 導覽主要字距 */
 }
 
-/* --------- C. 主結構（body, .main-container） --------- */
-/*
-  [視覺說明]
-  全站主體底色、主線內容左右留白，中央最大 1280px (~80rem)，RWD padding 區分 mobile/desktop。
-*/
-/* 
-  [視覺動態註解]
-  這裡用於隱藏原生游標（cursor: none），讓整個網頁畫布上僅呈現自定義圓圈游標，畫面專注且不受系統游標干擾。
-*/
+/* ==== C. 主架構與共用結構 ==== */
+
+/* Body 設定、游標、主色 */
 body {
   background-color: var(--bg-color);
   color: var(--text-main);
@@ -57,25 +51,23 @@ body {
   font-weight: var(--font-weight-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  cursor: none !important; /* 完全隱藏原生游標，僅顯示自定義視覺圓圈 */
+  cursor: none !important; /* 僅顯示自定義游標 */
 }
-/*
-  [元件的視覺記憶／動態說明]
-  .custom-cursor 如同一個浮動的小圓圈，會隨著滑鼠移動動畫跟隨，不會影響任何點擊或hover反應。
-  使用 mix-blend-mode: difference，確保在深淺背景都能切換對比（黑底會變亮、亮底會變暗），獲得高質感、柔和且帶有高級質感的動態游標體驗。
-*/
+
+/* 自定義游標樣式 */
 .custom-cursor {
   width: 20px;
   height: 20px;
   border: 1px solid var(--text-main);
   border-radius: 50%;
   position: fixed;
-  pointer-events: none; /* 關鍵：不干擾點擊與滑鼠事件 */
+  pointer-events: none;
   z-index: 9999;
   transition: transform 0.1s ease-out;
-  mix-blend-mode: difference; /* 讓游標自動因應背景切換亮/暗的特效 */
+  mix-blend-mode: difference;
 }
 
+/* 主要容器 */
 .main-container {
   max-width: var(--container-max-width);
   margin-left: auto;
@@ -91,9 +83,8 @@ body {
   }
 }
 
-/* 修正：給予 Hero 區塊足夠的頂部推力，避開固定導航列 */
+/* Hero 區塊固定頂距／主體中央對齊 */
 .hero-section {
-  /* 導航列高度約 80-100px，我們預留安全區 */
   padding-top: clamp(100px, 20vh, 160px);
   min-height: 100vh;
   display: flex;
@@ -102,33 +93,19 @@ body {
   position: relative;
 }
 
-/* --------- D. Nav & Footer 框架與響應式細節 --------- */
-/*
-  [中文註解]
-  ▍導覽列遮罩新設計（漸層黑→透明）：讓頂端 Logo 導覽讀性最高，往下平滑消失  
-  1. 導航列保持常駐（position: fixed），確保頁面滾動時始終在最頂層（z-index:1000）。
-  2. 基礎底色透明度降低（rgba(14,12,11,0.4)），以減弱遮罩壓迫，主視覺更通透。
-  3. 毛玻璃效果(balanced blur)持續開啟，讓內容過渡柔和不上搶。
-  4. *漸層遮罩設計*（mask-image）：頂端100%黑到底（Logo、導航資訊絕對可讀），到85%位置後平滑透明，貼合Kiki風，提升質感與層次。
-  5. 行為視覺說明：滾動頁面時，nav頂端會漸隱讓主圖露出更多，但內容導覽層仍不會消失。
-*/
-nav {
+/* ==== D. nav & footer 框架組合/優化 ==== */
 
+/* nav 只寫一次，漸層遮罩與毛玻璃、padding 與定位一起歸類 */
+nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-
-  /* 1. 基礎背景色（稍微降低透明度，讓漸層來主導視覺） */
-  background-color: rgba(14, 12, 11, 0.4); 
-
-  /* 2. 毛玻璃效果保持開啟 */
+  background-color: rgba(14, 12, 11, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
-  /* 3. 漸層遮罩關鍵代碼 */
-  /* 讓導覽列從頂部的 100% 黑色（完全顯示）到 85% 位置開始，漸變到 100% 位置變成透明（消失） */
+  /* 漸層遮罩設計 */
   -webkit-mask-image: linear-gradient(
     to bottom,
     black 0%,
@@ -141,14 +118,14 @@ nav {
     black 85%,
     transparent 100%
   );
-
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
 }
-
 @media (min-width: 768px) {
   nav { padding-top: 40px; }
 }
+
+/* Footer 共同結構集中說明 */
 .footer-frame {
   padding-top: var(--footer-padding-y-mobile);
   padding-bottom: var(--footer-padding-y-mobile);
@@ -161,35 +138,35 @@ nav {
   }
   .footer-frame .main-container {
     align-items: flex-end;
-    /* 若需 flex 由 TS 組件決定 display: flex */
+    /* display: flex 可由 TS 決定 */
   }
 }
 
-/* --------- E. 圖片比例與字體細節 --------- */
-/*
-  [視覺統整]
-  - 所有主 Logo、手繪圖防止變形 object-fit: contain
-  - 書畫感、義式斜體等自訂特殊組件全部歸納於本區
-*/
-img.main-logo, img.handdrawn {
-  object-fit: contain !important; /* 嚴禁變形，守住設計感 */
+/* ==== E. 圖片與字體專用細節 ==== */
+
+/* 主Logo與手繪圖統一object-fit，視覺一致 */
+img.main-logo,
+img.handdrawn {
+  object-fit: contain !important;
   aspect-ratio: auto;
 }
+
+/* 書畫感字：書法美感部件 */
 .chinese-art {
   font-weight: var(--font-weight-chinese-art);
   letter-spacing: var(--letter-spacing-chinese-art);
   line-height: var(--line-height-chinese-art);
 }
+
+/* 義式斜體元件 */
 .serif-italic {
   font-family: var(--font-family-serif-italic);
   font-style: italic;
 }
 
-/* --------- F. Footer 標題與資訊細節 --------- */
-/*
-  [合併說明]
-  footer-title, footer-subtitle 皆依版型語意命名，各自負責一件事且僅保留一份！
-*/
+/* ==== F. Footer 標題/副標/鏈結統整 ==== */
+
+/* Footer Title（含 RWD） */
 .footer-title {
   font-size: 1.875rem;
   font-style: italic;
@@ -199,6 +176,8 @@ img.main-logo, img.handdrawn {
 @media (min-width: 768px) {
   .footer-title { font-size: 3rem; }
 }
+
+/* Footer Subtitle */
 .footer-subtitle {
   font-size: var(--font-size-tiny);
   letter-spacing: 0.5em;
@@ -206,39 +185,37 @@ img.main-logo, img.handdrawn {
   text-transform: uppercase;
 }
 
-/* --------- G. Footer 互動鏈結 & 極小連動區 --------- */
-/*
-  [視覺連動合併]
-  .footer-email/ .footer-social-link 基礎互動樣式、hover 狀態僅保留一次，減少重複。
-  font-size, letter-spacing、color 微調以區分資訊密度。
-*/
-.footer-email, .footer-social-link {
+/* Footer Email & Social Link 基礎、hover 統一，集中樣式僅定義一次 */
+.footer-email,
+.footer-social-link {
   transition: all 0.3s ease;
 }
+
+/* 細分屬性 - 主要不同歸一處，類似併列 */
 .footer-email {
   display: inline-block;
   font-size: 1rem;
-  letter-spacing: 0.15em;          /* 較小間距感覺更精緻 */
+  letter-spacing: 0.15em;
   line-height: 1.2;
-  padding-bottom: 2px;             /* 底線收窄，觸控感更準 */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   color: #fff8e6;
   text-decoration: none;
 }
 .footer-social-link {
   font-size: 10px;
-  text-transform: uppercase;
   letter-spacing: 0.3em;
+  line-height: 1;
   color: var(--brand-subtle);
   opacity: 0.7;
-  line-height: 1;
+  text-transform: uppercase;
 }
 
-/* 互動 hover 狀態：合併註解僅留一次 */
-.footer-social-link:hover,
-.footer-email:hover {
+/* 互動 hover統一寫法 */
+.footer-email:hover,
+.footer-social-link:hover {
   color: #fff;
   opacity: 1;
   border-bottom-color: #fff;
 }
-/* -------- END 統整 -------- */
+/* ==== END ==== */

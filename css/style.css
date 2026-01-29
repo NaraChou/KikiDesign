@@ -222,16 +222,42 @@ img.handdrawn {
   background: var(--loader-bg);
 }
 
-/* Loader紅光呼吸動畫 */
+/* 
+  [Loader光暈動畫區塊]
+  - 這個區塊施加於 loader 背景的紅色光暈
+  - opacity 降低 (0.25) 以不影響內容判讀
+  - 背景從漸近漸出現漸層，核心縮窄，避免影響主 Loader 文字可讀性
+  - 模糊值調整 (blur 60px) 讓光效更集中不外擴遮蓋
+  - 並且 opacity 層改為 transition 可做動態漸隱
+  - 注意搭配動畫類別若啟用要再酌增 animation 屬性
+*/
 .loader-glow {
   position: absolute;
   inset: 0;
-  opacity: 0.25;
+  opacity: 0.25; /* 降低整體亮度以確保文字清晰，視覺體驗以細膩為主 */
   border-radius: 9999px;
-  background: var(--brand-accent);
-  filter: blur(80px);
+  /* 利用 radial gradient 讓光暈核心更小、外圍更自然消失 */
+  background: radial-gradient(
+    circle at center,
+    rgba(239, 68, 68, 0.15) 0%,     /* 主色亮點集中於中央 */
+    rgba(0, 0, 0, 0) 70%            /* 黑色無色於70%處迅速淡出 */
+  );
+  filter: blur(60px); /* 微調模糊度，使光暈不至於過度擴張 */
   width: 200px; height: 200px; margin: auto;
   animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;
+  transition: opacity 0.5s ease; /* 加入過度動畫讓變動更自然 */
+}
+
+/* 
+  [Loader 主要提示文字層]
+  - 保持相對定位提升層級，確保無論任何 loader 背景（包含光暈）都能穩定顯示於最上層
+  - z-index 100 高於 loader-glow
+  - text-shadow 加強對比度，跨光暈時字體皆不易被覆蓋或模糊
+*/
+.loader-text {
+  position: relative;
+  z-index: 100;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* 加強視覺層次以及可讀性 */
 }
 
 /* 進度條集合 */

@@ -103,8 +103,13 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* [版權資訊] 列為單獨分組，結構與樣式說明合併統整 */}
-          <div className="border-t border-white/5 w-full md:w-auto text-center md:text-right">
+          {/* 
+            [版權資訊] 列為單獨分組，結構與樣式說明合併統整 
+            ↓↓↓ 增加手機版下方間距，避免貼齊邊緣視覺不清晰
+            tailwind:
+              pb-8 → 下方加大 8*1 = 8px 間距（僅在 mobile，md:pb-0 桌面取消）
+          */}
+          <div className="border-t border-white/5 w-full md:w-auto text-center md:text-right pb-8 md:pb-0">
             <p className="text-[11px] md:text-[12px] tracking-[0.2em] text-white/30 uppercase font-light">
               &copy;&nbsp;2026&nbsp;
               <span className="text-white/50 font-medium">KIKI DESIGN</span>

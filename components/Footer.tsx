@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 /**
  * ============================================================================
@@ -23,12 +23,12 @@ const SOCIAL_LINKS = [
     label: 'LINE',
     srLabel: '使用 LINE 聯絡設計師'
   }
-];
+]
 
 export const Footer: React.FC = () => {
   // [Email 複製狀態記憶]：「元件的記憶」— 控制 Copied! 提示視覺動態
-  const [copied, setCopied] = useState(false);
-  const email = "exloe574@gmail.com";
+  const [copied, setCopied] = useState(false)
+  const email = "exloe574@gmail.com"
 
   /**
    * [Email 複製行為─視覺說明]
@@ -36,11 +36,11 @@ export const Footer: React.FC = () => {
    * 結束後自動隱藏，不影響其他結構。
    */
   const handleCopyEmail = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigator.clipboard.writeText(email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+    e.preventDefault()
+    navigator.clipboard.writeText(email)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     // [Footer 外框]：留白、分隔線結構外層
@@ -103,14 +103,37 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* 
-            [版權資訊] 列為單獨分組，結構與樣式說明合併統整 
+          {/*
+            [版權資訊] 列為單獨分組，結構與樣式說明合併統整
             ↓↓↓ 增加手機版下方間距，避免貼齊邊緣視覺不清晰
+            ▶ 手機重點：在極窄螢幕（~300px）時依然單行視覺不斷行，
+            —— 文字縮得更小、更緊密（text-[10px] & tracking-tight & leading-tight，桌面維持原設計）
             tailwind:
               pb-8 → 下方加大 8*1 = 8px 間距（僅在 mobile，md:pb-0 桌面取消）
+              text-[10px] → 更小字級，只限於行動端
+              tracking-tight → 壓縮字距間隔造成視覺緊湊
+              leading-tight → 行高收緊
           */}
           <div className="border-t border-white/5 w-full md:w-auto text-center md:text-right pb-8 md:pb-0">
-            <p className="text-[11px] md:text-[12px] tracking-[0.2em] text-white/30 uppercase font-light">
+            {/*
+              [RWD 版權列視覺壓縮與字距美感註解]
+              - 在手機裝置（md:以下）將字級降為10px，但字元間距從 tracking-tight 升級為 tracking-[0.11em]（自訂）——
+                這樣在 300px 仍不自動換行，同時仍然有點「呼吸感」不擁擠。
+              - 桌面維持稍大12px及 .2em 字距
+              - 全程 whitespace-nowrap 確保任何螢幕（含極窄 300px）都不換行，防止版權訊息破壞行為。
+              - 若瀏覽器因特定縮放造成單行溢出，會產生水平卷軸但不會中斷字串連貫。
+            */}
+            <p
+              className={`
+                text-[10px] md:text-[12px]
+                tracking-[0.11em] md:tracking-[0.2em]  /* custom: 手機寬度留呼吸空間不擁擠，也不斷行 */
+                leading-tight
+                text-white/30
+                uppercase
+                font-light
+                whitespace-nowrap
+              `}
+            >
               &copy;&nbsp;2026&nbsp;
               <span className="text-white/50 font-medium">KIKI DESIGN</span>
               &nbsp;All Rights Reserved.
@@ -119,5 +142,5 @@ export const Footer: React.FC = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}

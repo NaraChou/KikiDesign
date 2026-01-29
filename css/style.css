@@ -1,54 +1,56 @@
 /**
- * Kiki Design Style — 統整優化版
+ * Kiki Design Style — 精簡重構版
  * ----------------------------------------
- * 利用同質屬性的合併與分類，提升可讀性與維護效率
- * - 全域變數：一次定義集中控管（顏色、字體、尺寸、間距等）
- * - 相似組件/結構：合併歸類，避免重複
- * - RWD細節與主體緊鄰
+ * - 集中變數/結構設定，排除冗餘，分群整理
+ * - 變數命名、組件樣式明確分區
  */
 
-/* ==== A. Tailwind import ==== */
+/* === A. Tailwind import === */
 @import "tailwindcss";
 
-/* ==== B. 全域變數集中控管 ==== */
+/* === B. 全域變數（顏色/字體/尺寸/間距/特效） === */
 :root {
-  /* ===== 顏色 Color ===== */
-  --bg-color: #0E0C0B;                          /* 主背景 */
-  --tang-pink: rgba(230, 57, 70, 0.12);         /* 特色粉 */
-  --text-main: #EAE2D6;                         /* 主要文字色 */
-  --brand-subtle: rgba(234,226,214,0.5);        /* 品牌淡色/次色 */
-
-  /* ===== 字體 Font ===== */
+  /* ------- 顏色 --------- */
+  --bg-color: #0E0C0B;
+  --brand-accent: #EF4444;
+  --tang-pink: rgba(230, 57, 70, 0.12);
+  --text-main: #EAE2D6;
+  --brand-subtle: rgba(234,226,214,0.5);
+  --loader-bg: #0E0C0B;
+  --loader-bar-bg: rgba(255,255,255,0.08);
+  
+  /* ------- 字體 --------- */
   --font-family-sans: 'Noto Sans TC', sans-serif;
   --font-family-serif-italic: 'Playfair Display', serif;
   --font-weight-body: 300;
   --font-weight-chinese-art: 100;
 
-  /* ===== 字級/字距/行高 ===== */
-  --font-size-tiny: 9px;         /* 導覽與footer小字/副標 */
-  --font-size-nano-nav: 5px;     /* 超細menu */
+  /* ------- 字級/字間/行高 ------- */
+  --font-size-tiny: 9px;
+  --font-size-nano: 5px;
   --letter-spacing-main-nav: 0.4em;
   --letter-spacing-chinese-art: 0.4em;
   --letter-spacing-vertical: 0.1em;
   --line-height-chinese-art: 1.6;
 
-  /* ===== 尺寸 & 間距 ===== */
+  /* ------- 尺寸/間距 ----------- */
   --container-max-width: 80rem;
   --container-padding-mobile: 24px;
   --container-padding-desktop: 64px;
   --footer-padding-y-mobile: 3rem;
   --footer-padding-y-desktop: 6rem;
+  --loader-bar-width: 4rem;
 
-  /* ===== 特殊（濾鏡/遮罩）===== */
+  /* ------- 特殊濾鏡/遮罩 ------- */
   --webkit-backdrop-filter: blur(10px);
   --webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
 }
 
-/* ==== C. 網站基本構造、容器、游標 ==== */
-/* --- 全域BODY與游標 --- */
-/* 中文註解：body是全站畫布，統一字體、顏色與隱藏系統游標（自訂游標元件上場） */
+/* === C. 基本結構/全域樣式 === */
+
+/* body/自訂游標 */
 body {
-  background-color: var(--bg-color);
+  background: var(--bg-color);
   color: var(--text-main);
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-body);
@@ -57,10 +59,8 @@ body {
   cursor: none !important;
 }
 
-/* 自訂品牌游標（視覺動態元件，不干擾互動） */
 .custom-cursor {
-  width: 20px;
-  height: 20px;
+  width: 20px; height: 20px;
   border: 1px solid var(--text-main);
   border-radius: 50%;
   position: fixed;
@@ -70,22 +70,21 @@ body {
   mix-blend-mode: difference;
 }
 
-/* --- 滾動條 brand樣式 --- */
-/* 中文註解：高級細滾動條，低調與主題色協調，滑過時稍亮 */
+/* 滾動條(品牌樣式) */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-color); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1); border-radius: 10px;
+}
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
-/* --- 通用內容容器 main-container（RWD）--- */
-/* 中文註解：主要內容區域，左右間距RWD自動切換，確保頁面布局寬度美感 */
+/* 主要內容容器 main-container */
 .main-container {
   max-width: var(--container-max-width);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  width: 100%;
   padding-left: var(--container-padding-mobile);
   padding-right: var(--container-padding-mobile);
-  width: 100%;
 }
 @media (min-width: 768px) {
   .main-container {
@@ -93,7 +92,8 @@ body {
     padding-right: var(--container-padding-desktop);
   }
 }
-/* --- Hero主區塊 --- */
+
+/* Hero主區塊 */
 .hero-section {
   padding-top: clamp(100px, 20vh, 160px);
   min-height: 100vh;
@@ -103,27 +103,23 @@ body {
   position: relative;
 }
 
-/* ==== D. nav / footer / LOGO 樣式歸類 ==== */
-/* --- NAV 導覽列 --- */
-/* 中文註解：頂端fixed+毛玻璃，左右padding依裝置而異，預設自動響應 */
-/* 歸類：padding-top以RWD統一，底層變數呼叫集中；遮罩/blur用變數，方便後續全站調整 */
+/* === D. NAV & FOOTER 規格（RWD細節統整）=== */
+
+/* nav 導覽列 */
 nav {
   position: fixed;
   top: 0; left: 0; width: 100%; z-index: 1000;
-  background-color: rgba(14,12,11,0.4);
+  background: rgba(14,12,11,0.4);
   backdrop-filter: blur(10px);
   mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
 }
 @media (min-width: 768px) {
-  nav {
-    padding-top: 40px; /* 桌機專用固定padding調校 */
-  }
+  nav { padding-top: 40px; }
 }
 
-/* --- FOOTER 通用區塊 --- */
-/* 中文註解：footer統一上下padding，桌機與手機分開管理（細節美感） */
+/* footer 區塊 */
 .footer-frame {
   width: 100%;
   padding-top: var(--footer-padding-y-mobile);
@@ -137,33 +133,27 @@ nav {
   .footer-frame .main-container { align-items: flex-end; }
 }
 
-/* ==== E. LOGO & 字體 統合特效 ==== */
-/* --- LOGO特效：共用一組下拉陰影，Hover強化 --- */
+/* === E. LOGO/字體/圖像 統一特效 === */
+
+/* nav-logo 特效與 hover */
 .nav-logo {
-  filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.45));
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 10px rgba(230,57,70,0.45));
+  transition: filter 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 .nav-logo:hover {
-  filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.7)) brightness(1.2);
+  filter: drop-shadow(0 0 15px rgba(230,57,70,0.7)) brightness(1.2);
 }
-
-/* LOGO中文字副霧光、主LOGO圖像對比例一致化管理 */
-.nav-logo .chinese-art {
-  text-shadow: 0 0 5px rgba(230, 57, 70, 0.2);
-}
-.nav-logo img {
-  mix-blend-mode: normal;
-}
-
-/* LOGO/手繪圖片比例嚴格保護 */
+/* LOGO中文字副霧光/LOGO圖像一般化管理 */
+.nav-logo .chinese-art { text-shadow: 0 0 5px rgba(230,57,70,0.2); }
+.nav-logo img { mix-blend-mode: normal; }
+/* LOGO/手繪圖像統一比例 */
 img.main-logo,
 img.handdrawn {
   object-fit: contain !important;
   aspect-ratio: auto;
 }
 
-/* ==== 字體特殊結構集合 ==== */
-/* 書法中文字、義式斜體，專用組件統一調控 */
+/* 字體結構特殊設定 — 書法中文字/義式斜體 */
 .chinese-art {
   font-weight: var(--font-weight-chinese-art);
   letter-spacing: var(--letter-spacing-chinese-art);
@@ -174,9 +164,9 @@ img.handdrawn {
   font-style: italic;
 }
 
-/* ==== F. Footer 文字/鏈結 分類合併 ==== */
-/* --- Footer標題、副標、鏈結--- */
-/* Footer Title（RWD 自動變大）、Footer副標、社群鏈結合併設計 */
+/* === F. Footer 文字/鏈結 集中合併 === */
+
+/* Footer標題、副標、社群鏈結 集合設計 */
 .footer-title {
   font-size: 1.875rem;
   font-style: italic;
@@ -186,7 +176,7 @@ img.handdrawn {
 @media (min-width: 768px) {
   .footer-title { font-size: 3rem; }
 }
-/* 副標、社群統一色/小字級，社群細化附透明度 (覆蓋細調不用新class) */
+
 .footer-subtitle,
 .footer-social-link {
   font-size: var(--font-size-tiny);
@@ -194,15 +184,15 @@ img.handdrawn {
   color: var(--brand-subtle);
   text-transform: uppercase;
 }
+
 .footer-social-link {
-  font-size: 10px;         /* override for icons/links */
+  font-size: 10px; /* override */
   letter-spacing: 0.3em;
   line-height: 1;
   opacity: 0.7;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
-/* Email鏈結底線與hover效果與上面社群共用管理 */
 .footer-email {
   display: inline-block;
   font-size: 1rem;
@@ -212,13 +202,70 @@ img.handdrawn {
   border-bottom: 1px solid rgba(255,255,255,0.1);
   color: #fff8e6;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
-/* 所有Footer鏈結hover: 色彩明亮/底線加粗統一處理 */
 .footer-email:hover,
 .footer-social-link:hover {
   color: #fff;
   opacity: 1;
   border-bottom-color: #fff;
 }
-/* ==== END（所有合併分層歸類完畢） ==== */
+
+/* === G. Loader 視覺集合 === */
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--loader-bg);
+}
+
+/* Loader紅光呼吸動畫 */
+.loader-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  border-radius: 9999px;
+  background: var(--brand-accent);
+  filter: blur(80px);
+  width: 200px; height: 200px; margin: auto;
+  animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+
+/* 進度條集合 */
+.loader-bar-container {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  width: var(--loader-bar-width);
+  height: 1px;
+  background: var(--loader-bar-bg);
+}
+.loader-bar-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%; width: 100%;
+  transform: translateX(-100%);
+  background: var(--brand-accent);
+}
+
+/* Loader 口號 */
+.loader-slogan {
+  text-transform: uppercase;
+  margin-top: 2rem;
+  font-size: var(--font-size-tiny);
+  letter-spacing: 0.8em;
+  opacity: 0.3;
+  color: var(--brand-subtle);
+  font-weight: 200;
+}
+
+/* Pulse動畫（針對 loader-glow） */
+@keyframes pulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.1; }
+}
+
+/* === END === */

@@ -317,3 +317,39 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
   }
 }
 /* === END: 樣式結構分明、RWD與細節集約管理 === */
+
+
+/* --- 1. 箭頭位置優化：增加一點點呼吸感 --- */
+.work-card .absolute.right-4.top-4 {
+  right: 1.25rem; /* 稍微往內移一點 */
+  top: 1.25rem;
+}
+
+/* --- 2. 平板端細節修正 (768px - 1024px) --- */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* 標題行高放寬，避免放大後中英文黏在一起 */
+  #works .work-card-info h3 .flex {
+    gap: 0.6rem; 
+  }
+  /* 調整圖片卡片比例，防止在某些平板尺寸下顯得過長 */
+  .work-card-inner {
+    aspect-ratio: 1.2 / 1; 
+  }
+  /* 增加資訊區與卡片的間距，視覺更清爽 */
+  .work-card-info {
+    margin-top: 2.2rem;
+  }
+}
+
+/* --- 3. 圖片微調：確保 Logo 類型作品不會撐滿邊緣 --- */
+.work-card-image {
+  padding: 10%; /* 給圖片一個緩衝墊，視覺上更精緻 */
+}
+
+/* --- 4. 桌機端字體微調 (1025px+) --- */
+@media (min-width: 1025px) {
+  /* 確保雙欄模式下，Card 2 的 mt-32 讓整體動態感更強 */
+  .lg\:mt-32 {
+    margin-top: 8rem;
+  }
+}

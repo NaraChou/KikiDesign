@@ -1,33 +1,38 @@
 /**
- * A. React/Router 核心導入
- *    - 負責元件邏輯記憶、動態效果觸發
- *    - 資料結構與主視覺素材集中管理
+ * A. 核心導入與主圖資源集中管理
+ *   - 控制元件的記憶、動態效果與主視覺素材統一維護
+ *   - 管理主圖讓日後易於擴充與更動
  */
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/works.css'; // 需指向 works.css 以掛載本區樣式
+import '../css/works.css';
 
-// B. 主圖資源集中管理（避免硬編、方便日後統一維護）
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
 import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
 
 /**
- * C. 主要資料結構（WORKS）與共用屬性集中
- *    - 統整對齊/排版/自定 class，避免重複
- *    - 將相同屬性統一，只針對不同細項再額外標註
- *    - 所有互動樣式純交由 tailwind + works.css 控制（不使用 inline style 除非變數）
+ * B. 資料結構與類型統一管理
+ *   - 將共通樣式與屬性交由資料層統整，減少重複與易讀可維護
+ *   - 將左右對齊配置歸納於同一區段，僅不同部分額外標註
  */
-const CARD_ALIGN = {
-  textAlign: 'text-left',  // A1. 預設資訊左對齊（排版語意用） 
-  infoJustify: 'justify-start',
-};
-const CARD_ALIGN_RIGHT = {
-  textAlign: 'text-right', // A2. 特定卡片右對齊
-  infoJustify: 'justify-end',
+const ALIGN_CONFIG = {
+  left: { textAlign: "text-left", infoJustify: "justify-start" },
+  right: { textAlign: "text-right", infoJustify: "justify-end" },
 };
 
-const WORKS = [
+const WORKS: {
+  id: string;
+  titleZH: string;
+  titleEN: string;
+  subtitle: string;
+  img: string;
+  bg: string;
+  glow: string;
+  extraClass?: string;
+  textAlign: string;
+  infoJustify: string;
+}[] = [
   {
     id: 'personal-branding',
     titleZH: '個人品牌形象官網',
@@ -36,9 +41,8 @@ const WORKS = [
     img: brandingMockupMain,
     bg: 'bg-[var(--work-card-bg1,rgba(26,28,46,0.50))]',
     glow: 'rgba(59, 130, 246, 0.4)',
-    arrowHover: 'group-hover:bg-blue-500',
     extraClass: '',
-    ...CARD_ALIGN,
+    ...ALIGN_CONFIG.left,
   },
   {
     id: 'logo-design',
@@ -48,9 +52,8 @@ const WORKS = [
     img: logoStationery,
     bg: 'bg-[var(--work-card-bg2,rgba(46,26,46,0.50))]',
     glow: 'rgba(168, 85, 247, 0.4)',
-    arrowHover: 'group-hover:bg-purple-500',
-    extraClass: 'lg:mt-32', // 大型桌機時由 works.css 處理視覺落差
-    ...CARD_ALIGN_RIGHT,
+    extraClass: 'lg:mt-32',
+    ...ALIGN_CONFIG.right,
   },
   {
     id: 'poster-flyer-design',
@@ -60,43 +63,44 @@ const WORKS = [
     img: posterFlyerMain,
     bg: 'bg-[var(--work-card-bg3,rgba(46,26,26,0.50))]',
     glow: 'rgba(255, 127, 80, 0.4)',
-    arrowHover: 'group-hover:bg-orange-500',
     extraClass: '',
-    ...CARD_ALIGN,
+    ...ALIGN_CONFIG.left,
   },
 ];
 
 /**
- * D. 型別定義（方便閱讀/未來資料擴充）
+ * C. 型別定義與 WorkCard 組件
+ *   - 型別集中於此，享有自動推斷與擴充彈性
+ *   - WorkCard負責動態聚光、主圖顯示、資訊區排版
  */
 type WorkType = typeof WORKS[number];
+
 interface WorkCardProps {
   work: WorkType;
 }
 
 /**
- * E. WorkCard 卡片組件
- *    - 負責卡片單元：動態聚光、圖片顯示、資訊/箭頭
- *    - 註解翻譯視覺記憶行為
+ * D. WorkCard 卡片元件（結構清晰、樣式歸於 works.css，動態都用記憶法說明）
  */
 const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
-  // [視覺化記憶] 控制 CSS 變數以實現卡片光暈聚焦（滑鼠追蹤），預設回中央
+  // [視覺記憶] 動態聚光效果（滑鼠追蹤）及樣式控制
   const setCardGlowVars = (target: HTMLDivElement, x: number, y: number) => {
+    // 控制卡片上的 CSS 變數，使主圖動態聚焦於滑鼠座標
     target.style.setProperty("--mouse-x", `${x}px`);
     target.style.setProperty("--mouse-y", `${y}px`);
-    target.style.setProperty("--card-glow-color", work.glow || "rgba(255,255,255,0.15)");
+    target.style.setProperty("--card-glow-color", work.glow);
   };
 
-  // [動態聚光] 滑鼠移動於卡片範圍時移動聚光焦點
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return; // 行動裝置不處理聚光
+    // 行動裝置不處理聚光避免效能負擔
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
     const { currentTarget: target, clientX, clientY } = e;
     const rect = target.getBoundingClientRect();
     setCardGlowVars(target, clientX - rect.left, clientY - rect.top);
   };
 
-  // [還原聚光] 滑鼠離開時，聚焦回卡片中心點
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    // 滑鼠離開回到卡片中心
     const { currentTarget: target } = e;
     const rect = target.getBoundingClientRect();
     setCardGlowVars(target, rect.width / 2, rect.height / 2);
@@ -104,14 +108,14 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
 
   return (
     <div
-      className={`work-card ${work.extraClass} group relative block`}
+      className={`work-card ${work.extraClass ?? ''} group relative block`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      // 動態變數交由聚光控制，禁用其它 inline style
+      // [動態記憶] 卡片聚光 CSS 變數初始化，聚焦中心，顏色回預設
       style={{
-        '--card-glow-color': work.glow || "rgba(255,255,255,0.15)",
-        '--mouse-x': '50%',
-        '--mouse-y': '50%',
+        "--card-glow-color": work.glow,
+        "--mouse-x": "50%",
+        "--mouse-y": "50%",
       } as React.CSSProperties}
     >
       <Link
@@ -119,7 +123,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
         className="absolute inset-0 z-40"
         aria-label={work.titleZH}
       />
-      {/* F. 卡片主體：視覺結構與動態樣式全部移至 works.css（object-fit: contain 保證主圖不變形） */}
+      {/* [結構] 卡片圖區域，所有比例/aspect-ratio 由 object-contain 與 CSS 控制，無變形風險 */}
       <div className={`work-card-inner ${work.bg} transition-all duration-500 group-hover:translate-y-[-2px]`}>
         <div className="work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
           <img
@@ -130,16 +134,12 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
             decoding="async"
           />
         </div>
-        {/* 
-          [互動箭頭區] 提示使用者可點擊進入更多細節
-          視覺行為：預設隱藏，滑鼠進入卡片時淡入。顏色類別只以 work.arrowHover 控制 hover 狀態的背景色，不進行多餘 style 計算。
-        */}
-        <div className="absolute right-4 top-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          {/* 這裡只需傳入 work.arrowHover 來控制 hover 時的背景色顏色 */}
-          <span className={`arrow-circle ${work.arrowHover}`}>↗</span>
+        {/* [結構] 互動箭頭全交由 CSS 控制視覺，不使用動態 Tailwind */}
+        <div className="work-card-arrow-wrapper absolute right-4 top-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          <span className="arrow-circle">↗</span>
         </div>
       </div>
-      {/* G. 資訊區域：依 textAlign 決定資訊對齊（左 or 右），語義分層 */}
+      {/* [結構] 資訊區（左右對齊）語義化分層 */}
       <div className={`work-card-info ${work.textAlign}`}>
         <h3 className="uppercase">
           <div className="title-group">
@@ -157,15 +157,14 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
 };
 
 /**
- * H. Works 主區塊
- *    - 主場景容器 ref 綁定動畫
- *    - 結構 > 標題群組 > 網格
- *    - 動畫刷新、RWD 實作交由 works.css 處理
+ * E. Works主場景區（結構與動畫邏輯統一於此）
+ *   - section 層包裹 > 標題群 > 作品網格
+ *   - 動畫進場效果僅於 GSAP 啟動一次，用於卡片同步動畫
  */
 export const Works: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // [動畫記憶] 元件初次載入，啟動 gsap 進場動畫，保證畫面滾動時卡片連動效果不會錯位
+  // [視覺動態記憶] gsap 進場動畫初始化，確保滾動時卡片連動效果正確同步
   useEffect(() => {
     if (!window.gsap) return;
     const ctx = window.gsap.context(() => {
@@ -185,16 +184,15 @@ export const Works: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // [結構渲染] 標題群(header)已完全移除 md:items-center/md:items-start 等 Tailwind 置中或 flex類別，由 works.css 主導所有垂直&橫向對齊
   return (
     <section id="works" ref={sectionRef}>
       <div className="content-width-container mx-auto w-full">
-        {/* I. 區塊標題群：視覺階層資訊。注意：header 上不應有 md:items-center 等置中類名，全部交由 CSS 控制。 */}
+        {/* [結構] 區塊標題群（階層分明，不綁定Flex對齊由CSS主導） */}
         <header className="works-section-header">
           <h2 className="works-section-title">Portfolio</h2>
           <p className="works-section-label">Selected Fragments</p>
         </header>
-        {/* J. 作品網格（結構/樣式全數由 works.css、tailwind 處理） */}
+        {/* [結構] 作品網格，資料驅動渲染，無重複HTML */}
         <div className="works-grid">
           {WORKS.map(work => (
             <WorkCard key={work.id} work={work} />
@@ -206,8 +204,9 @@ export const Works: React.FC = () => {
 };
 
 /**
- * K. 響應式統一說明（RWD 統合說明）：
- *    - 本模組所有 RWD 斷點、間距、排版動作皆交由 works.css、tailwind 於尾端 RWD 區統一管理
- *    - 保證主圖比例/aspect-ratio，無任何位移或變形風險（由 object-contain、works.css 控管）
- *    - 所有 spacing 統一以 tailwind spacing config or 8px 為單位
+ * F. 樣式/RWD管理區（總結）
+ *   - 所有間距與RWD排版由 works.css與Tailwind統一管理
+ *   - 主圖與圖片皆以 object-contain與max-* 控管比例防止變形
+ *   - 間距統一採用Tailwind配置或8px倍數
+ *   - 本區無!important，所有結構/邏輯分流與樣式分流
  */

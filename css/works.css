@@ -104,10 +104,16 @@ D. 作品卡片本體/光暈聚合
 .work-card:hover .work-card-inner::before {
   opacity: 0.35;
 }
-/* 主題色依卡片類型分派（無 !important，使用變數） */
-.work-card[id="personal-branding"] { --theme-color: rgba(59, 130, 246, 0.5); }
-.work-card[id="logo-design"] { --theme-color: rgba(168, 85, 247, 0.5); }
-.work-card[id="poster-flyer-design"] { --theme-color: rgba(255, 127, 80, 0.5); }
+/* 主題色依卡片類型分派（改用全域色票變數） */
+.work-card[id="personal-branding"] { 
+  --theme-color: var(--color-personal-branding); 
+}
+.work-card[id="logo-design"] { 
+  --theme-color: var(--color-logo-design); 
+}
+.work-card[id="poster-flyer-design"] { 
+  --theme-color: var(--color-visual-design); 
+}
 
 /* -----------------------------------------------------------------------------
 E. 卡片主圖/覆蓋層控制
@@ -268,6 +274,9 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
   }
   .title-zh {
     font-size: 1.5rem;
+    white-space: nowrap;  /*文字防爆-防止未來萬一有一個作品標題超長*/
+    text-overflow: ellipsis; /*文字防爆*/
+    overflow: hidden; /*文字防爆*/
   }
   .title-en {
     font-size: 1.1rem;

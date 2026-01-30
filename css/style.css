@@ -1,50 +1,13 @@
 /**
- * Kiki Design Style — 重構整合版
- * ========================================
- * - 結構/功能分群，冗餘合併，順序統整(A~G)
- * - RWD統一於各區block最下方
- * - 備註精簡並歸類同一類型
+ * style.css
+ * [Kiki Design Style] 結構與動態邏輯版
+ * 已將全域變數移至 globals.css
  */
 
-/* === A. Tailwind & 基本變數 (顏色/字體/間距等) === */
+/* === A. Tailwind 載入 === */
 @import "tailwindcss";
-/* 全域變數整合 */
-:root {
-  /* 顏色 */
-  --bg-color: #0E0C0B;
-  --text-main: #EAE2D6;
-  --brand-accent: #EF4444;
-  --brand-subtle: rgba(234,226,214,0.5);
-  --tang-pink: rgba(230, 57, 70, 0.12);
-  --loader-bg: #0E0C0B;
-  --loader-bar-bg: rgba(255,255,255,0.08);
 
-  /* 字體/字重/字距/行高 */
-  --font-family-sans: 'Noto Sans TC', sans-serif;
-  --font-family-serif-italic: 'Playfair Display', serif;
-  --font-weight-body: 300;
-  --font-weight-chinese-art: 100;
-  --font-size-tiny: 9px;
-  --font-size-nano: 5px;
-  --letter-spacing-main-nav: 0.4em;
-  --letter-spacing-chinese-art: 0.4em;
-  --letter-spacing-vertical: 0.1em;
-  --line-height-chinese-art: 1.6;
-
-  /* 尺寸/間距 */
-  --container-max-width: 80rem;
-  --container-padding-mobile: 24px;
-  --container-padding-desktop: 64px;
-  --footer-padding-y-mobile: 3rem;
-  --footer-padding-y-desktop: 6rem;
-  --loader-bar-width: 4rem;
-
-  /* 濾鏡/遮罩 */
-  --webkit-backdrop-filter: blur(10px);
-  --webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
-}
-
-/* === B. 全域結構/樣式 (body/容器/滾動條/自訂游標等) === */
+/* === B. 全域結構/樣式 === */
 body {
   background: var(--bg-color);
   color: var(--text-main);
@@ -85,7 +48,8 @@ body {
   padding-left: var(--container-padding-mobile);
   padding-right: var(--container-padding-mobile);
 }
-/* Hero主區塊 */
+
+/* Hero 主區塊 */
 .hero-section {
   padding-top: clamp(100px, 20vh, 160px);
   min-height: 100vh;
@@ -94,7 +58,7 @@ body {
   justify-content: center;
   position: relative;
 }
-/* ======================== RWD (B類相關) ========================= */
+
 @media (min-width: 768px) {
   .main-container {
     padding-left: var(--container-padding-desktop);
@@ -102,8 +66,7 @@ body {
   }
 }
 
-/* === C. Navbar & Footer 全域結構/樣式 === */
-/* Navbar 固定頂部/濾鏡遮罩/背景透明/間距 */
+/* === C. Navbar & Footer 結構 === */
 nav {
   position: fixed;
   top: 0; left: 0; width: 100%; z-index: 1000;
@@ -113,24 +76,22 @@ nav {
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
 }
-/* Footer 框架與RWD間距統一 */
+
 .footer-frame {
   width: 100%;
   padding-top: var(--footer-padding-y-mobile);
   padding-bottom: var(--footer-padding-y-mobile);
 }
-/* ======================== RWD (C類) ========================= */
+
 @media (min-width: 768px) {
   nav { padding-top: 40px;}
   .footer-frame {
     padding-top: var(--footer-padding-y-desktop);
     padding-bottom: var(--footer-padding-y-desktop);
   }
-  .footer-frame .main-container { align-items: flex-end; }
 }
 
-/* === D. LOGO/字體/圖像共通樣式 === */
-/* nav-logo與特效 */
+/* === D. LOGO/圖像樣式 === */
 .nav-logo {
   filter: drop-shadow(0 0 10px rgba(230,57,70,0.45));
   transition: filter 0.4s cubic-bezier(0.4,0,0.2,1);
@@ -138,18 +99,14 @@ nav {
 .nav-logo:hover {
   filter: drop-shadow(0 0 15px rgba(230,57,70,0.7)) brightness(1.2);
 }
-/* LOGO下中文字霧光+圖像混合統一*/
 .nav-logo .chinese-art { text-shadow: 0 0 5px rgba(230,57,70,0.2);}
-.nav-logo img { mix-blend-mode: normal;}
 
-/* LOGO/手繪圖image尺寸統一 */
 img.main-logo,
 img.handdrawn {
   object-fit: contain !important;
   aspect-ratio: auto;
 }
 
-/* 字體結構：書法中文字/義式斜體 */
 .chinese-art {
   font-weight: var(--font-weight-chinese-art);
   letter-spacing: var(--letter-spacing-chinese-art);
@@ -160,15 +117,13 @@ img.handdrawn {
   font-style: italic;
 }
 
-/* === E. Footer 文字/鏈結設計 === */
-/* Footer 標題 */
+/* === E. Footer 鏈結設計 === */
 .footer-title {
   font-size: 1.875rem;
   font-style: italic;
   font-family: 'Noto Serif TC', serif;
   font-variation-settings: 'ital' 1;
 }
-/* Footer 副標題/社群鏈結 共用設計 */
 .footer-subtitle,
 .footer-social-link {
   font-size: var(--font-size-tiny);
@@ -176,71 +131,46 @@ img.handdrawn {
   color: var(--brand-subtle);
   text-transform: uppercase;
 }
-/* 社群鏈結進一步定義 */
 .footer-social-link {
   font-size: 10px;
   letter-spacing: 0.3em;
-  line-height: 1;
   opacity: 0.7;
   transition: all 0.3s;
 }
-/* Footer信箱 */
 .footer-email {
   display: inline-block;
   font-size: 1rem;
   letter-spacing: 0.15em;
-  line-height: 1.2;
   padding-bottom: 2px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   color: #fff8e6;
-  text-decoration: none;
   transition: all 0.3s;
 }
-/* 鏈結hover */
 .footer-email:hover,
 .footer-social-link:hover {
   color: #fff;
   opacity: 1;
   border-bottom-color: #fff;
 }
-/* ================= RWD (E類) ================ */
+
 @media (min-width: 768px) {
   .footer-title { font-size: 3rem;}
 }
-/* 利用 ID 提高權重，精準控制 768-800px 區間與手機版同步 */
+
+/* 768-800px 特殊對齊方案 */
 @media (min-width: 768px) and (max-width: 800px) {
-  /* 1. 強制主容器轉為垂直堆疊 */
   #contact div.max-w-screen-2xl.flex.md\:flex-row {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-
-  /* 2. 左側標語群組：增加下邊距防止與上方擠壓 */
-  #contact div.mb-12.md\:mb-0 {
-    margin-bottom: 3rem;
-  }
-
-  /* 3. 右側資訊群組：改為置中排列 */
-  #contact div.flex.flex-col.md\:items-end {
-    align-items: center;
-  }
-
-  /* 4. Email 提示字對齊調整 */
-  #contact span.absolute.md\:text-right {
-    text-align: center;
-  }
-
-  /* 5. 版權資訊區塊：寬度撐滿並置中 */
-  #contact div.border-t.w-full.md\:w-auto {
-    width: 100%;
-    text-align: center;
-    padding-bottom: 2rem;
-  }
+  #contact div.mb-12.md\:mb-0 { margin-bottom: 3rem; }
+  #contact div.flex.flex-col.md\:items-end { align-items: center; }
+  #contact span.absolute.md\:text-right { text-align: center; }
+  #contact div.border-t.w-full.md\:w-auto { width: 100%; text-align: center; padding-bottom: 2rem; }
 }
 
 /* === F. Loader 視覺區塊 === */
-/* Loader外層包裹/整頁覆蓋/置中 */
 .loader-wrapper {
   position: fixed;
   inset: 0;
@@ -250,34 +180,23 @@ img.handdrawn {
   align-items: center;
   background: var(--loader-bg);
 }
-/* Loader光暈動畫 */
 .loader-glow {
   position: absolute;
   inset: 0;
-  opacity: 0.25; /* 降低整體亮度以確保文字清晰 */
+  opacity: 0.25;
   border-radius: 9999px;
-  background: radial-gradient(
-    circle at center,
-    rgba(239, 68, 68, 0.15) 0%,
-    rgba(0, 0, 0, 0) 70%
-  );
+  background: radial-gradient(circle at center, rgba(239, 68, 68, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
   filter: blur(60px);
   width: 200px;
   height: 200px;
   margin: auto;
   animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;
-  transition: opacity 0.5s ease;
 }
-/* Loader 文字提示層 */
 .loader-text {
   position: relative;
   z-index: 100;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.3em;
 }
-/* 進度條 */
 .loader-bar-container {
   position: relative;
   overflow: hidden;
@@ -288,12 +207,10 @@ img.handdrawn {
 }
 .loader-bar-fill {
   position: absolute;
-  top: 0; left: 0;
-  height: 100%; width: 100%;
+  top: 0; left: 0; height: 100%; width: 100%;
   transform: translateX(-100%);
   background: var(--brand-accent);
 }
-/* Loader口號 */
 .loader-slogan {
   text-transform: uppercase;
   margin-top: 2rem;
@@ -303,9 +220,8 @@ img.handdrawn {
   color: var(--brand-subtle);
   font-weight: 200;
 }
-/* 光暈動畫Keyframe */
+
 @keyframes pulse {
   0%, 100% { opacity: 0.25; }
   50% { opacity: 0.1; }
 }
-/* === END === */

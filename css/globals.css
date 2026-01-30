@@ -1,49 +1,93 @@
 /**
  * globals.css
- * [Kiki 統一規範] 全域變數與基礎視覺設定
- * -----------------------------------------------------------
- * [中文註解]
- * - 變數欄位：只保留全站通用且需跨組件重用者，避免重複（顏色、間距、content-padding等）。
- * - 統一入口：tailwindcss 為唯一樣式框架，其餘僅定義必要自訂變數及環境修飾。
- * - 已與 style.css 完整對齊，重複與相似變數已刪併歸一，並以 RWD 易讀方式排序。
+ * [Kiki Design System] 全域變數控管與基礎視覺配置（A~F 分區）
+ * ----------------------------------------------------------------------------
+ * A. Tailwind 載入            - 框架統一入口、禁止其他 CSS reset
+ * B. 顏色色票（基礎/品牌/輔助）- 含主色、主字、品牌標、輔助色
+ * C. 字體排版                 - 字族、字重、字級、字距、行高
+ * D. 尺寸與間距               - 容器幅度、padding、footer間隔等
+ * E. 視覺修飾效果             - backdrop、mask、動態色
+ * F. 主畫布設定（body）        - 背景、顏色、全站互動型游標、font-smoothing、行動端 tap 效果
+ * ----------------------------------------------------------------------------
+ * [維護說明]
+ * - 只保留需於多組件間通用、或需由 JS/Theme 切換的全域變數
+ * - 重複或多餘設定已刪併，依設計主題分 A~F 明確歸類
+ * - 移除舊 content-padding-x 變數，所有內容左右間距請使用 container-padding-[mobile|desktop]
+ * - RWD 只使用必要的 @media，所有數值盡量為 8px倍數或明確用途
  */
 
-/* === 核心 Tailwind 載入 === */
+/* === A. 核心 Tailwind 載入 === */
 @import "tailwindcss";
 
-/* === 全站公用變數：顏色、間距、高度、漸層、容器寬度、輔助 === */
+/* === B. 顏色色票：站內主基調、作品系列、輔助 === */
 :root {
-  /* ---- 顏色 ---- */
-  --bg-color: #0E0C0B;                /* 主背景色，全站深底 */
-  --text-main: #EAE2D6;               /* 主要文字顏色 */
-  --brand-subtle: rgba(234,226,214,0.5); /* 輕量品牌次色，淡色區塊背景/線使用 */
+  /* 主要顏色系統 */
+  --bg-color: #0E0C0B;                        /* 主畫布底色（全站深底） */
+  --text-main: #EAE2D6;                       /* 主要字體顏色 */
+  --brand-accent: #EF4444;                    /* 標註/強調用品牌紅 */
+  --brand-subtle: rgba(234,226,214,0.5);      /* 淡色系品牌輔助 */
+  --tang-pink: rgba(230, 57, 70, 0.12);       /* 特殊用淡粉色（作品 hover光暈等） */
 
-  /* ---- 容器尺寸＆通用間距 ---- */
-  --content-max-width: 80rem;          /* 主內容寬度最大值 */
-  --content-padding-x: 24px;           /* 內容區左右默認 padding（8px 倍數） */
-  --footer-padding-y: 3rem;            /* Footer 上下 padding（mobile） */
-  --space-8x: 64px;                    /* 8x spacing 主要用於區塊大間隔 */
+  /* 作品分類專屬主題色 */
+  --color-personal-branding: rgba(59, 130, 246, 0.5);  /* 專業藍 */
+  --color-logo-design: rgba(168, 85, 247, 0.5);        /* 創意紫 */
+  --color-visual-design: rgba(255, 127, 80, 0.5);      /* 活力橘 */
+  --color-brand-gold: rgba(234, 226, 214, 0.5);        /* 品牌金（同 brand-subtle，可視需求合併） */
+
+  /* Loader/特殊色 */
+  --loader-bg: #0E0C0B;                         /* Loader 全屏背景色 */
+  --loader-bar-bg: rgba(255,255,255,0.08);      /* Loader 進度條底色 */
 }
 
-/* === RWD 斷點：768px 以上大螢幕專用變數微調 === */
+/* === C. 字體及排版 === */
+:root {
+  --font-family-sans: 'Noto Sans TC', sans-serif;             /* 主要無襯線體 */
+  --font-family-serif-italic: 'Playfair Display', serif;      /* 品牌襯線體 */
+  --font-weight-body: 300;                                    /* 主要字重 */
+  --font-weight-chinese-art: 100;                             /* 藝術中文字重用於大標題 */
+  --font-size-tiny: 9px;                                      /* Mini字 */
+  --font-size-nano: 5px;
+  --letter-spacing-main-nav: 0.4em;
+  --letter-spacing-chinese-art: 0.4em;
+  --letter-spacing-vertical: 0.1em;
+  --line-height-chinese-art: 1.6;
+}
+
+/* === D. 尺寸與間距 === */
+:root {
+  --container-max-width: 80rem;              /* 主內容區最大寬度 */
+  --container-padding-mobile: 24px;          /* 行動裝置左右 padding (8px倍數) */
+  --container-padding-desktop: 64px;         /* 桌機左右 padding  */
+  --footer-padding-y-mobile: 3rem;           /* Footer 上下 padding（行動） */
+  --footer-padding-y-desktop: 6rem;          /* Footer 上下（桌機） */
+  --loader-bar-width: 4rem;                  /* loader 條寬 */
+  --space-8x: 64px;                          /* 8x spacing，主要區塊間隔使用 */
+}
+
+/* === E. 視覺修飾/特效管理 === */
+:root {
+  --webkit-backdrop-filter: blur(10px);        /* 各浮層背景模糊主設定 */
+  --webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
+}
+
+/* === F. RWD 尺寸自動化：針對桌機進行變數微調 === */
 @media (min-width: 768px) {
   :root {
-    --content-padding-x: 64px;         /* desktop padding 左右預設 64px */
-    --footer-padding-y: 6rem;          /* Footer desktop 上下更大間距 */
+    --container-padding-mobile: 64px;          /* 桌機版移除 content-padding-x，主用 container-padding */
+    --footer-padding-y-mobile: 6rem;           /* 桌機版 footer 上下更大間距，直接複寫變數 */
   }
 }
 
-/*
-  [視覺效果動態白話註解]
-  1. 「body」等於全體畫布：鋪上主色並帶有質感的細膩字體邊緣（font-smoothing），避免暗色下的毛邊。
-  2. 滑鼠游標全站皆為 crosshair，讓操作感更活潑，區分設計語境。
-  3. for mobile：關閉點擊時的醜藍框，互動過程乾淨無雜色，穩定體現品牌感。
+/* [視覺動態行為註解]
+   1. body 相當於全體「視覺畫布」—顧及底色、主字顏色即全站第一印象。
+   2. 游標以 crosshair，加強互動聚焦與設計語境。
+   3. 行動環境去除 tap 藍框，滑順過渡。
 */
 body {
   cursor: crosshair !important;
-  background-color: var(--bg-color);   /* 以變數管理主底色，方便全站切換主題 */
+  background-color: var(--bg-color);       /* 畫布底色由變數驅動，利於全站換主題 */
   color: var(--text-main);
-  -webkit-font-smoothing: antialiased; /* 精緻字體立體感 */
+  -webkit-font-smoothing: antialiased;     /* 立體邊緣防止毛邊 */
   -moz-osx-font-smoothing: grayscale;
-  -webkit-tap-highlight-color: transparent; /* 移動端觸控高級手感 */
+  -webkit-tap-highlight-color: transparent;/* 移動端操作高級感 */
 }

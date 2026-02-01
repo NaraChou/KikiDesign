@@ -1,4 +1,4 @@
-# Logs
+# A. 開發過程產生日誌檔案（Logs）
 logs
 *.log
 npm-debug.log*
@@ -7,16 +7,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# B. 專案產物與暫存資料（Build & Output）
 node_modules
 dist
 dist-ssr
-*.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# C. 環境組態檔（.env files） Environment variables
+*.local
+.env
+.env.local
+.env.*.local
+
+# D. 編輯器與 IDE 設定檔案（Editor & IDE）
+.vscode/*                 # 忽略 vscode 資料夾
+!.vscode/extensions.json  # 唯獨例外：同步 vscode 擴充套件設定
 .idea
 .DS_Store
+
+# E. Visual Studio/VSCode 相關暫存檔（Microsoft Project Files）
 *.suo
 *.ntvs*
 *.njsproj

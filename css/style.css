@@ -71,7 +71,7 @@ nav {
   position: fixed;
   top: 0; left: 0; width: 100%; z-index: 1000;
   background: rgba(14,12,11,0.4);
-  backdrop-filter: blur(10px);
+  backdrop-filter: var(--webkit-backdrop-filter); 
   mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
@@ -84,7 +84,10 @@ nav {
 }
 
 @media (min-width: 768px) {
-  nav { padding-top: 40px;}
+  nav { 
+    padding-top: var(--nav-padding-y);
+    padding-bottom: var(--nav-padding-y);
+  }
   .footer-frame {
     padding-top: var(--footer-padding-y-desktop);
     padding-bottom: var(--footer-padding-y-desktop);

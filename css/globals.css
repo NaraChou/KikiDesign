@@ -58,6 +58,7 @@
   --container-max-width: 80rem;              /* 主內容區最大寬度 */
   --container-padding-mobile: 24px;          /* 行動裝置左右 padding (8px倍數) */
   --container-padding-desktop: 64px;         /* 桌機左右 padding  */
+  --nav-padding-y: 20px; 
   --footer-padding-y-mobile: 3rem;           /* Footer 上下 padding（行動） */
   --footer-padding-y-desktop: 6rem;          /* Footer 上下（桌機） */
   --loader-bar-width: 4rem;                  /* loader 條寬 */
@@ -73,7 +74,7 @@
 /* === F. RWD 尺寸自動化：針對桌機進行變數微調 === */
 @media (min-width: 768px) {
   :root {
-    --container-padding-mobile: 64px;          /* 桌機版移除 content-padding-x，主用 container-padding */
+    /* 這裡只放「真正需要」隨裝置切換的通用變數 */
     --footer-padding-y-mobile: 6rem;           /* 桌機版 footer 上下更大間距，直接複寫變數 */
   }
 }

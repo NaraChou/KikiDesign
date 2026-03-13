@@ -173,6 +173,7 @@ export const Works: React.FC = () => {
           scrollTrigger: {
             trigger: card,
             start: "top bottom-=50px",
+            invalidateOnRefresh: true,
           },
           opacity: 0,
           y: 30,

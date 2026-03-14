@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * [MobileMenu 元件 / 統合版資訊註解]
@@ -38,20 +39,35 @@ function splitLabel(label: string) {
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
-    // [進場連動效果]：選單開關會產生 transform-Y 動畫，控制視覺滑入滑出（style 不負責色彩/字級，只管理動態座標）
     if (menuRef.current) {
       menuRef.current.style.transform = isOpen ? 'translateY(0)' : 'translateY(-100%)';
     }
   }, [isOpen]);
 
-  // [點選行為連動]：所有導覽連結點擊後，收起選單並 GSAP 平滑滾動（無 JS 靜態色切換）
+  // [點選行為連動]：首頁直接 GSAP 滾動；非首頁先導回首頁再滾動
   const handleLinkClick = (targetHref: string, e: React.MouseEvent) => {
     e.preventDefault();
     onClose();
-    if (window.gsap) {
-      window.gsap.to(window, { duration: 1.5, scrollTo: targetHref, ease: 'power4.inOut' });
+    if (isHome) {
+      if (window.gsap) {
+        window.gsap.to(window, { duration: 1.5, scrollTo: targetHref, ease: 'power4.inOut' });
+      } else {
+        window.location.hash = targetHref;
+      }
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        if (window.gsap) {
+          window.gsap.to(window, { duration: 0, scrollTo: targetHref });
+        } else {
+          window.location.hash = targetHref;
+        }
+      }, 100);
     }
   };
 

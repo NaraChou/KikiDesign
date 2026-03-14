@@ -28,6 +28,12 @@ import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
  * - images：陣列，順序即為展示順序
  * - visual：首頁卡片 bg 與 hover 光暈統合歸為一組，便於主題色切換與擴展
  */
+export interface ProjectImage {
+  src: string,
+  caption?: string,    // 選填說明文字，有值才在 lightbox 顯示
+  coverOnly?: boolean, // true = 只用於首頁卡片封面，作品詳情頁不顯示
+}
+
 export interface ProjectData {
   id: string,
   title: string,
@@ -35,11 +41,11 @@ export interface ProjectData {
   category: string,
   year: string,
   description: string,
-  images: string[],
+  images: ProjectImage[],
   visual: {
-    cardBg: string,      // 首頁卡片背景（Tailwind class）
-    hoverGlow: string,   // 首頁卡片 hover 光暈（Tailwind class）
-    glow: string,        // 作品主題發光顏色（用於 WorkDetail 頁面 hover 效果）
+    cardBg: string,
+    hoverGlow: string,
+    glow: string,
   }
 }
 
@@ -52,13 +58,19 @@ export const projectsList: ProjectData[] = [
     category: 'Brand Identity / UI/UX',
     year: '2024',
     description:
-      '以極簡主義為核心，運用 GSAP 動畫打造流暢的視覺體驗。透過深色調與留白，展現設計師獨特的美學視角，讓網站不只是資訊的載體，更是個人特質的數位延伸。',
+      '為身心靈教育品牌「行韋邏輯」建立一套找到自己的視覺語言。品牌核心為協助個人探索天賦、找尋自我定位，視覺以藍色為主調——象徵正義、和平與自我價值，輔以深色背景提升質感，在活潑與穩重之間建立屬於品牌的視覺平衡。',
     images: [
-      brandingMockupMain,    // 主視覺
-      brandingAICover,       // 封面備圖
-      brandingResponsive,    // 響應式頁面
-      brandingUIEducation,   // APP UI 展示
-      brandingDarkUI         // 深色登陸頁
+      { src: brandingMockupMain, coverOnly: true },
+      { src: brandingAICover, coverOnly: true },
+      {
+        src: brandingResponsive,
+        caption: '2024 年以 Wix 建置初版，讓品牌快速完成視覺落地。',
+      },
+      { src: brandingUIEducation, coverOnly: true },
+      {
+        src: brandingDarkUI,
+        caption: '2025 年以 Vibe Coding 重新開發第二版，維持視覺品質的前提下，大幅降低每月平台費用。對創業初期的品牌而言，成本控制本身也是設計決策的一環。',
+      },
     ],
     visual: {
       cardBg: 'bg-[rgba(26,28,46,0.50)]',
@@ -75,7 +87,7 @@ export const projectsList: ProjectData[] = [
     description:
       '靈感源自於「棠」字與幾何線條的解構重組。標準字設計融合了傳統書法的氣韻與現代無襯線體的俐落。名片選用進口美術紙，輔以燙金工藝，在觸感與視覺上傳遞職人精神。',
     images: [
-      logoStationery
+      { src: logoStationery },
     ],
     visual: {
       cardBg: 'bg-[rgba(46,26,46,0.50)]',
@@ -92,7 +104,7 @@ export const projectsList: ProjectData[] = [
     description:
       '運用大膽的視覺語言與色彩對比，創造具有強烈識別度的平面設計作品。透過版面的節奏感與留白，引導觀者的視線流動，讓資訊層次清晰且富有美感。每一份設計都傳達出品牌或活動的獨特個性。',
     images: [
-      posterFlyerMain    // 主視覺（可在此新增更多圖片，如：posterFlyerDetail1, posterFlyerDetail2）
+      { src: posterFlyerMain },
     ],
     visual: {
       cardBg: 'bg-[rgba(46,26,26,0.50)]',

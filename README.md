@@ -1,20 +1,53 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 棠想視界 KIKI DESIGN
 
-# Run and deploy your AI Studio app
+> 視覺設計・品牌規劃・數位創作
 
-This contains everything you need to run your app locally.
+🔗 **線上作品集：** [narachou.github.io/KikiDesign](https://narachou.github.io/KikiDesign/)
 
-View your app in AI Studio: https://ai.studio/apps/drive/1MeFEDF1D7MliYWhsCES8FJZvklzXxmuY
+---
 
-## Run Locally
+## 關於此專案
 
-**Prerequisites:**  Node.js
+這是我的個人視覺設計作品集網站，用於展示品牌識別、平面設計與網頁視覺等作品。
 
+網站由我獨立設計與開發，從視覺風格到程式架構皆親自完成。
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+
+## 技術架構
+
+- **框架：** React 18 + TypeScript
+- **建置工具：** Vite
+- **動畫：** GSAP + ScrollTrigger
+- **樣式：** Tailwind CSS + 自訂 CSS 變數
+- **部署：** GitHub Pages
+
+---
+
+## 本機執行
+
+```bash
+# 安裝套件
+npm install
+
+# 開發模式
+npm run dev
+
+# 建置
+npm run build
+
+# 部署至 GitHub Pages
+npm run deploy
+```
+
+---
+
+## 聯絡
+
+- **Email：** exloe574@gmail.com
+- **Facebook：** [棠想視界](https://www.facebook.com/profile.php?id=100066728660644)
+- **LINE：** 0979-291-388
+
+---
+
+*Create with Soul.*

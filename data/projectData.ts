@@ -16,6 +16,11 @@ import brandingDarkUI from '../assets/images/branding-dark-ui-landing.webp';
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import brandingResponsive from '../assets/images/branding-responsive-showcase.webp';
 import brandingUIEducation from '../assets/images/branding-ui-education-app.webp';
+import logoKiki2025 from '../assets/images/logo-kiki-2025.webp';
+import logoKiki2025Brand from '../assets/images/logo-kiki-2025-brand.webp';
+import logoKiki2020 from '../assets/images/logo-kiki-2020.webp';
+import namecardKiki2020 from '../assets/images/namecard-kiki-2020.webp';
+import logoKikiCoasterMockup from '../assets/images/logo-kiki-coaster-mockup.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
 import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
 
@@ -83,11 +88,30 @@ export const projectsList: ProjectData[] = [
     title: '個人商標與名片',
     subtitle: 'Logo & Business Card',
     category: 'Visual Design / Print',
-    year: '2025',
+    year: '2020 – 2025',
     description:
-      '靈感源自於「棠」字與幾何線條的解構重組。標準字設計融合了傳統書法的氣韻與現代無襯線體的俐落。名片選用進口美術紙，輔以燙金工藝，在觸感與視覺上傳遞職人精神。',
+      '以女兒英文名 Kiki 與自身溫和如兔的個性為起點，將「K」字母與兔子造型融合，打造棠想視界的品牌標誌。2020 年初版採活潑的橙紅漸層，傳遞熱情與創造力；2025 年重新優化，以書法筆觸融合兔子側臉，褪去裝飾、保留神韻，讓品牌隨著設計者一同成長。',
     images: [
-      { src: logoStationery },
+      {
+        src: logoKiki2025,
+        caption: '2025 優化版 Logo，書法筆觸融合兔子側臉，線條更精練，品牌氣質趨於沉穩。',
+      },
+      {
+        src: logoKiki2025Brand,
+        caption: '2025 品牌視覺完整呈現，霓虹光暈強化識別記憶點。',
+      },
+      {
+        src: namecardKiki2020,
+        caption: '2020 名片設計，正面 Logo 置中，背面以大 K 字裁切構圖，資訊層次分明。',
+      },
+      {
+        src: logoKiki2020,
+        caption: '2020 初版 Logo，K 字融合兔子造型，橙紅漸層傳遞熱情與活力。',
+      },
+      {
+        src: logoKikiCoasterMockup,
+        caption: 'Logo 應用延伸，燙印於杯墊 mockup，驗證圖形在實體物料上的耐用性。',
+      },
     ],
     visual: {
       cardBg: 'bg-[rgba(46,26,46,0.50)]',

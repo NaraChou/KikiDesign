@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import '../css/works.css';
 
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
-import logoKiki2025 from '../assets/images/logo-kiki-2025.webp';
+import logoKiki2025Mockup from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
 import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
 
 /**
@@ -49,7 +49,7 @@ const WORKS: {
     titleZH: '個人商標與名片',
     titleEN: 'Logo & Business Card',
     subtitle: 'VISUAL DESIGN / 2025',
-    img: logoKiki2025,
+    img: logoKiki2025Mockup,
     bg: 'bg-[var(--work-card-bg2,rgba(46,26,46,0.50))]',
     glow: 'rgba(168, 85, 247, 0.4)',
     extraClass: 'lg:mt-32',

@@ -20,6 +20,8 @@ import logoKiki2025 from '../assets/images/logo-kiki-2025.webp';
 import logoKiki2025Brand from '../assets/images/logo-kiki-2025-brand.webp';
 import logoKiki2020 from '../assets/images/logo-kiki-2020.webp';
 import namecardKiki2020 from '../assets/images/namecard-kiki-2020.webp';
+import namecardKiki2025Front from '../assets/images/namecard-kiki-2025-front.webp';
+import namecardKiki2025Back from '../assets/images/namecard-kiki-2025-back.webp';
 import logoKikiCoasterMockup from '../assets/images/logo-kiki-coaster-mockup.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
 import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
@@ -92,6 +94,14 @@ export const projectsList: ProjectData[] = [
     description:
       '以女兒英文名 Kiki 與自身溫和如兔的個性為起點，將「K」字母與兔子造型融合，打造棠想視界的品牌標誌。2020 年初版採活潑的橙紅漸層，傳遞熱情與創造力；2025 年重新優化，以書法筆觸融合兔子側臉，褪去裝飾、保留神韻，讓品牌隨著設計者一同成長。',
     images: [
+      {
+        src: namecardKiki2025Front,
+        caption: '2025 新版名片正面，2025 Logo 置於深黑底色，細邊框設計增添精緻感，與品牌官網調性完全統一。',
+      },
+      {
+        src: namecardKiki2025Back,
+        caption: '2025 新版名片反面，視覺設計 / Vibe Coding / AI 協作實案，完整呈現個人能力範圍。',
+      },
       {
         src: logoKiki2025,
         caption: '2025 優化版 Logo，書法筆觸融合兔子側臉，線條更精練，品牌氣質趨於沉穩。',

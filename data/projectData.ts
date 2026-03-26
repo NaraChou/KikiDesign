@@ -28,6 +28,9 @@ import logoStationery from '../assets/images/logo-branding-stationery.webp';
 import posterRabbitBearRecruitment from '../assets/images/poster-rabbit-bear-recruitment.webp';
 import posterRabbitBearOnsite from '../assets/images/poster-rabbit-bear-onsite.webp';
 import edmBehaviorLogic from '../assets/images/edm-behavior-logic.webp';
+import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
+import ecommerceFemininePink from '../assets/images/ecommerce-feminine-pink-portrait.webp';
+import ecommerceLuxuryGold from '../assets/images/ecommerce-luxury-gold-landscape.webp';
 
 /**
  * [中文註解] 
@@ -158,6 +161,34 @@ export const projectsList: ProjectData[] = [
     }
   },
   // ...若有更多作品，請依此格式持續新增
+  {
+    id: 'ecommerce-visual-design',
+    title: '電商視覺設計',
+    subtitle: 'E-commerce Visual Design',
+    category: 'Graphic Design / E-commerce',
+    year: '2025',
+    description:
+      '同一產品、三種視覺語言——這是電商設計的核心挑戰。為精省便利館設計同款產品的多風格素材，從居家藍調的生活感、女性粉嫩的夢幻感，到質感精品的奢華感，用色彩、排版與氛圍精準對應不同受眾的購買心理。',
+    images: [
+      {
+        src: ecommerceHomeConvenience,
+        caption: '藍灰色調呈現生活實用感，版面清晰理性，訴求母嬰日用品的信賴感。',
+      },
+      {
+        src: ecommerceFemininePink,
+        caption: '粉色系搭配飄逸翅膀意象，營造夢幻輕盈氛圍，吸引女性消費者的情感共鳴。',
+      },
+      {
+        src: ecommerceLuxuryGold,
+        caption: '金色緞面背景強化精品感，舞台式產品陳列提升品牌價值感。',
+      },
+    ],
+    visual: {
+      cardBg: 'bg-[rgba(26,46,26,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(234,179,8,0.3)]',
+      glow: 'rgba(234,179,8,0.3)',
+    }
+  },
 ];
 
 /**

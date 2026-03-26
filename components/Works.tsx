@@ -10,6 +10,8 @@ import '../css/works.css';
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoKiki2025Mockup from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
 import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
+import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
+import ecommerceMockup from '../assets/images/ecommerce-mockup.webp';
 
 /**
  * B. 資料結構與類型統一管理
@@ -65,6 +67,17 @@ const WORKS: {
     glow: 'rgba(255, 127, 80, 0.4)',
     extraClass: '',
     ...ALIGN_CONFIG.left,
+  },
+  {
+    id: 'ecommerce-visual-design',
+    titleZH: '電商視覺設計',
+    titleEN: 'E-commerce Visual Design',
+    subtitle: 'GRAPHIC DESIGN / 2025',
+    img: ecommerceMockup,
+    bg: 'bg-[rgba(26,46,26,0.50)]',
+    glow: 'rgba(234, 179, 8, 0.4)',
+    extraClass: 'lg:mt-32',
+    ...ALIGN_CONFIG.right,
   },
 ];
 

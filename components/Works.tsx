@@ -9,7 +9,7 @@ import '../css/works.css';
 
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoKiki2025Mockup from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
-import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
+import posterMockupMain from '../assets/images/poster-mockup-main.webp';
 import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
 import ecommerceMockup from '../assets/images/ecommerce-mockup.webp';
 
@@ -62,7 +62,7 @@ const WORKS: {
     titleZH: '海報設計',
     titleEN: 'Poster Design',
     subtitle: 'GRAPHIC DESIGN / 2025',
-    img: posterFlyerMain,
+    img: posterMockupMain,
     bg: 'bg-[var(--work-card-bg3,rgba(46,26,26,0.50))]',
     glow: 'rgba(255, 127, 80, 0.4)',
     extraClass: '',

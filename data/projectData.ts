@@ -20,8 +20,6 @@ import logoKiki2025 from '../assets/images/logo-kiki-2025.webp';
 import logoKiki2025Brand from '../assets/images/logo-kiki-2025-brand.webp';
 import logoKiki2020 from '../assets/images/logo-kiki-2020.webp';
 import namecardKiki2020 from '../assets/images/namecard-kiki-2020.webp';
-import namecardKiki2025Front from '../assets/images/namecard-kiki-2025-front.webp';
-import namecardKiki2025Back from '../assets/images/namecard-kiki-2025-back.webp';
 import namecardMockupConcrete from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
 import namecardMockupFoam from '../assets/images/namecard-kiki-2025-mockup-foam.webp';
 import logoKikiCoasterMockup from '../assets/images/logo-kiki-coaster-mockup.webp';
@@ -98,27 +96,15 @@ export const projectsList: ProjectData[] = [
     images: [
       {
         src: namecardMockupConcrete,
-        caption: '2025 新版名片正反面完整呈現，深色名片搭配幾何水泥底座，質感與品牌調性一致。',
+        caption: '2025 名片正/反面，置於深黑底色，細邊框設計增添精緻感。',
       },
       {
         src: namecardMockupFoam,
-        caption: '2025 新版名片實際應用情境，深底烙印效果強化品牌識別。',
-      },
-      {
-        src: namecardKiki2025Front,
-        caption: '2025 名片正面，2025 Logo 置於深黑底色，細邊框設計增添精緻感。',
-      },
-      {
-        src: namecardKiki2025Back,
-        caption: '2025 名片反面，視覺設計 / Vibe Coding / AI 協作實案，完整呈現個人能力範圍。',
-      },
-      {
-        src: logoKiki2025,
-        caption: '2025 優化版 Logo，書法筆觸融合兔子側臉，線條更精練，品牌氣質趨於沉穩。',
+        caption: '2025 名片正/反面，置於淺白底色，更增添視覺上的層次感。',
       },
       {
         src: logoKiki2025Brand,
-        caption: '2025 品牌視覺完整呈現，霓虹光暈強化識別記憶點。',
+        caption: '2025 優化版 Logo，書法筆觸融合兔子側臉，線條更精練，霓虹光暈強化識別記憶點。',
       },
       {
         src: namecardKiki2020,

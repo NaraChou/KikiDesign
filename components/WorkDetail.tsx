@@ -145,7 +145,7 @@ export const WorkDetail: React.FC = () => {
                 className="waterfall-image-main"
                 loading={idx === 0 ? 'eager' : 'lazy'}
                 decoding="async"
-                fetchpriority={idx === 0 ? 'high' : 'low'}
+                fetchPriority={idx === 0 ? 'high' : 'low'}
                 width="800"
                 height="600"
               />

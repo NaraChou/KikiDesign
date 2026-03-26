@@ -56,9 +56,9 @@ const WORKS: {
     ...ALIGN_CONFIG.right,
   },
   {
-    id: 'poster-flyer-design',
-    titleZH: '海報、傳單設計',
-    titleEN: 'Poster & Flyer Design',
+    id: 'poster-design',
+    titleZH: '海報設計',
+    titleEN: 'Poster Design',
     subtitle: 'GRAPHIC DESIGN / 2025',
     img: posterFlyerMain,
     bg: 'bg-[var(--work-card-bg3,rgba(46,26,26,0.50))]',

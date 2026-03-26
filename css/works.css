@@ -111,7 +111,7 @@ D. 作品卡片本體/光暈聚合
 .work-card[id="logo-design"] { 
   --theme-color: var(--color-logo-design); 
 }
-.work-card[id="poster-flyer-design"] { 
+.work-card[id="poster-design"] { 
   --theme-color: var(--color-visual-design); 
 }
 

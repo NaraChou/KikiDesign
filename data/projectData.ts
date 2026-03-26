@@ -24,7 +24,10 @@ import namecardMockupConcrete from '../assets/images/namecard-kiki-2025-mockup-c
 import namecardMockupFoam from '../assets/images/namecard-kiki-2025-mockup-foam.webp';
 import logoKikiCoasterMockup from '../assets/images/logo-kiki-coaster-mockup.webp';
 import logoStationery from '../assets/images/logo-branding-stationery.webp';
-import posterFlyerMain from '../assets/images/poster-flyer-main.webp';
+// 新增：海報作品相關圖像資源
+import posterRabbitBearRecruitment from '../assets/images/poster-rabbit-bear-recruitment.webp';
+import posterRabbitBearOnsite from '../assets/images/poster-rabbit-bear-onsite.webp';
+import edmBehaviorLogic from '../assets/images/edm-behavior-logic.webp';
 
 /**
  * [中文註解] 
@@ -126,22 +129,34 @@ export const projectsList: ProjectData[] = [
     }
   },
   {
-    id: 'poster-flyer-design',
-    title: '海報、傳單設計',
-    subtitle: 'Poster and Flyer Design',
+    id: 'poster-design',
+    title: '海報設計',
+    subtitle: 'Poster Design',
     category: 'Graphic Design / Print',
     year: '2025',
+    // [中文註解] 本段敘述了視覺素材如何根據客戶、產業、溝通目的做出對應調整，強調設計因應不同品牌和目標的動態性，目的是讓畫面呈現「內容服務於視覺，視覺服務於溝通」的流動感
     description:
-      '運用大膽的視覺語言與色彩對比，創造具有強烈識別度的平面設計作品。透過版面的節奏感與留白，引導觀者的視線流動，讓資訊層次清晰且富有美感。每一份設計都傳達出品牌或活動的獨特個性。',
+      '為不同產業客戶量身設計宣傳物料，根據品牌調性與目標受眾調整視覺語言。從親子教育機構的活潑招生海報，到身心靈課程的資訊型長圖 EDM，每一份設計都從溝通目的出發，讓視覺服務於內容。',
     images: [
-      { src: posterFlyerMain },
+      {
+        src: posterRabbitBearRecruitment,
+        caption: '親子工作室招生海報，以暖黃色調搭配卡通角色，傳遞親切感與活力，吸引目標客群注意。'
+      },
+      {
+        src: posterRabbitBearOnsite,
+        caption: '實際張貼於店面玻璃門，驗證設計在真實場景中的辨識度與視覺效果。'
+      },
+      {
+        src: edmBehaviorLogic,
+        caption: '身心靈課程宣傳長圖，資訊量大但層次分明，藍色主調呼應品牌識別，引導讀者視線由上至下流動。'
+      }
     ],
     visual: {
       cardBg: 'bg-[rgba(46,26,26,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(255,127,80,0.3)]',
       glow: 'rgba(255,127,80,0.3)'
     }
-  }
+  },
   // ...若有更多作品，請依此格式持續新增
 ];
 

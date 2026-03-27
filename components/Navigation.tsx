@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 /**
  * [導覽元件統整說明]
@@ -81,23 +80,27 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
       `}
     >
       <div className="main-container flex justify-between items-center py-4 md:py-6">
-        {/* [LOGO區] 絕不變形 + ALT + 動態發光（group-hover:） */}
-        <Link
-          to="/"
-          onClick={() => window.scrollTo(0, 0)}
-          className="flex items-center gap-3 group nav-logo"
-          tabIndex={0}
-        >
-          <img
-            src={kikiLogo}
-            className="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-105"
-            alt="手繪森林主題Logo"
-          />
+        {/* [LOGO區] 保持 w-12 h-12 容器，這是確保字體不跑偏的關鍵 */}
+        <Link to="/" className="flex items-center space-x-4 group" aria-label="回到首頁">
+          {/* 保持 w-12 h-12 容器，這是確保字體不跑偏的關鍵 */}
+          <div className="relative w-12 h-12 flex-shrink-0">
+            <img
+              src="logo-kiki-sm.png"
+              /* 讓瀏覽器根據設備解析度自動選擇圖片 */
+              srcSet="logo-kiki-sm.png 1x, logo-kiki-md.png 2x, logo-kiki-512.png 3x"
+              alt="Kiki Design 棠想視界"
+              /* w-full h-full 確保圖片乖乖待在 48px 的格子裡 */
+              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+              loading="eager"
+              // @ts-ignore
+              fetchPriority="high"
+            />
+          </div>
           <div className="flex flex-col items-start justify-center ml-0">
-            <span className="chinese-art text-base text-[#E63946] leading-tight mt-0 tracking-[0.12em] -mr-[0.12em]">
+            <span className="chinese-art text-base text-[var(--brand-accent)] leading-tight mt-0 tracking-[0.12em] -mr-[0.12em]">
               棠想視界
             </span>
-            <span className="uppercase font-light text-[#E63946] leading-tight tracking-[0.12em] -mr-[0.12em] mb-0.5 opacity-90 text-[12px]">
+            <span className="uppercase font-light text-[var(--brand-accent)] leading-tight tracking-[0.12em] -mr-[0.12em] mb-0.5 opacity-90 text-[12px]">
               Kiki Design
             </span>
           </div>

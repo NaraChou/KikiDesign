@@ -23,6 +23,7 @@ export const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // [動態互動] 滑鼠移動時，圓游標自動跟隨座標，在畫面上飄移
     const moveCursor = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.left = `${e.clientX}px`;
@@ -56,6 +57,7 @@ function AppContent() {
 
   // —— [GSAP 與插件初始化，僅執行一次] ——
   useEffect(() => {
+    // [動畫資源初始化] 頁面載入時只註冊一次，避免多次 register
     if (window.gsap && window.ScrollTrigger && window.ScrollToPlugin) {
       window.gsap.registerPlugin(window.ScrollTrigger, window.ScrollToPlugin);
     }
@@ -63,6 +65,7 @@ function AppContent() {
 
   // —— [ScrollTrigger 刷新控制，避免切頁動畫斷裂] ——
   useEffect(() => {
+    // [切頁優化] 強制等待路徑切換後 0.5 秒再刷新 ScrollTrigger，避免動畫重排
     if (!window.ScrollTrigger) return;
     const originalRefresh = window.ScrollTrigger.refresh;
     let isRefreshingBlocked = true;
@@ -80,32 +83,34 @@ function AppContent() {
     };
   }, [location.pathname]);
 
-  // —— [首頁 Loader 與 Hero 動畫統整] ——
+  // —— [首頁 Loader 與 Hero 動畫精簡優化版] ——
   useEffect(() => {
+    // [進場動畫邏輯] 只在首頁網址時才運行完整流程
     if (location.pathname === '/') {
-      // 首頁完整進場動態流程統一（Loader → Hero 淡入）
-      // [動畫說明] Hero 下劃線 #hero-line 改以 scaleX 動畫伸展，確保長度動畫更細緻、不影響比例
+      // 首頁動畫流程：Loader → Hero 各元素漸進現身（全部動作精簡/縮短且避免 reflow）
+      // [動畫說明] 下劃線統一用 scaleX，所有秒數壓縮，內容銜接極緊湊
       const ctx = window.gsap.context(() => {
         const tl = window.gsap.timeline();
         mainTimeline.current = tl;
-        // [動畫變更] Loader bar 與 Loader 淡出時間加速, Hero Tag 0.4s 更早浮現
-        // --------- 這裡根據需求將動畫時間及重疊點數值調整如下 ---------
-        tl.to("#loader-progress", { x: "0%", duration: 0.3 }) // 加速進度條，create 敏捷感
-          .to("#loader", { autoAlpha: 0, duration: 0.3 })     // 加速 Loader 消失，畫面更利落
-          .to("#hero-tag", { opacity: 1, y: 0, duration: 0.4 }, "-=0.2") // Tag 更早顯現，節奏明快
-          .to("#hero-title", { opacity: 1, y: 0, duration: 1.2 }, "-=0.5")
-          // ★ 改為使用 scaleX 動畫避免寬度直接改變導致不穩定
+
+        // ------ 精簡動畫時間＆reflow 修正版本 ------
+        tl.to("#loader-progress", { x: "0%", duration: 0.3 }) // 進度條動畫：0.3秒收尾
+          .to("#loader", { autoAlpha: 0, duration: 0.3 })     // Loader 統一 0.3 秒淡出
+          .to("#hero-tag", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2") // Tag 提早 0.2 秒進場
+          .to("#hero-title", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4") // title 重疊更緊
+          // 只用 scaleX 拉線（避免 layout reflow），從 0 拉至 1
           .fromTo(
             "#hero-line",
             { scaleX: 0 },
-            { scaleX: 1, transformOrigin: "left", duration: 0.8 },
-            "-=0.8"
+            { scaleX: 1, transformOrigin: "left", duration: 0.6 }, // 0.6 秒拉線
+            "-=0.6"
           )
-          .to("#hero-desc", { opacity: 1, y: 0, duration: 1 }, "-=0.8");
+          .to("#hero-desc", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6"); // 最終說明 0.8 秒淡入
       });
       return () => ctx.revert();
-    } else {
-      // 非首頁只做 Loader 淡出
+    }
+    // [非首頁處理] 僅淡出 Loader，不執行額外動畫
+    else {
       window.gsap.to("#loader", { autoAlpha: 0, duration: 0.5 });
     }
   }, [location.pathname]);

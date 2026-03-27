@@ -83,34 +83,41 @@ function AppContent() {
     };
   }, [location.pathname]);
 
-  // —— [首頁 Loader 與 Hero 動畫精簡優化版] ——
+  // —— [首頁 Loader 與 Hero 動畫精簡優化版：修正強制自動重排] ——
   useEffect(() => {
     // [進場動畫邏輯] 只在首頁網址時才運行完整流程
+    // 技巧：用 requestAnimationFrame 避開主執行緒高峰，減少 reflow
     if (location.pathname === '/') {
-      // 首頁動畫流程：Loader → Hero 各元素漸進現身（全部動作精簡/縮短且避免 reflow）
-      // [動畫說明] 下劃線統一用 scaleX，所有秒數壓縮，內容銜接極緊湊
-      const ctx = window.gsap.context(() => {
-        const tl = window.gsap.timeline();
-        mainTimeline.current = tl;
+      // 中文註解：利用 requestAnimationFrame 確保動畫在瀏覽器準備「繪製」時進行，視覺更流暢（避免瞬間強制重排，讓 #hero-line 拉線動作純 GPU 驅動）
+      const animationFrame = requestAnimationFrame(() => {
+        const ctx = window.gsap.context(() => {
+          const tl = window.gsap.timeline();
+          mainTimeline.current = tl;
 
-        // ------ 精簡動畫時間＆reflow 修正版本 ------
-        tl.to("#loader-progress", { x: "0%", duration: 0.3 }) // 進度條動畫：0.3秒收尾
-          .to("#loader", { autoAlpha: 0, duration: 0.3 })     // Loader 統一 0.3 秒淡出
-          .to("#hero-tag", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2") // Tag 提早 0.2 秒進場
-          .to("#hero-title", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4") // title 重疊更緊
-          // 只用 scaleX 拉線（避免 layout reflow），從 0 拉至 1
-          .fromTo(
-            "#hero-line",
-            { scaleX: 0 },
-            { scaleX: 1, transformOrigin: "left", duration: 0.6 }, // 0.6 秒拉線
-            "-=0.6"
-          )
-          .to("#hero-desc", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6"); // 最終說明 0.8 秒淡入
+          // 精簡動畫且所有動畫盡量用 transform，利用 GPU
+          tl.to("#loader-progress", { x: "0%", duration: 0.3 }) // 進度條動畫：0.3秒收尾
+            .to("#loader", { autoAlpha: 0, duration: 0.3 }) // Loader 統一 0.3 秒淡出
+            .to("#hero-tag", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2") // Tag 提早 0.2 秒進場
+            .to("#hero-title", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4") // title 重疊更緊
+            .fromTo(
+              "#hero-line",
+              { scaleX: 0 },
+              // 只用 transform，不觸發 layout，新增 force3D 啟用 GPU
+              { 
+                scaleX: 1,
+                transformOrigin: "left",
+                duration: 0.6,
+                force3D: true // GPU 加速，避免 reflow
+              },
+              "-=0.6"
+            )
+            .to("#hero-desc", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6"); // 最終說明 0.8 秒淡入
+        });
       });
-      return () => ctx.revert();
-    }
-    // [非首頁處理] 僅淡出 Loader，不執行額外動畫
-    else {
+      // 卸載時清掉 animationFrame
+      return () => cancelAnimationFrame(animationFrame);
+    } else {
+      // [非首頁處理] 僅淡出 Loader，不執行額外動畫
       window.gsap.to("#loader", { autoAlpha: 0, duration: 0.5 });
     }
   }, [location.pathname]);

@@ -38,14 +38,20 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="shortcut icon" href="favicon.ico">
 
-  <!-- ===== 字型資源統一管理（優化：確保 &display=swap 字體不阻塞初渲染） ===== -->
+  <!-- ===== 字型資源統一管理（非同步載入，完全解除渲染阻塞） ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400&family=Playfair+Display:ital,wght@1,400&display=swap"
-    rel="stylesheet"
-    media="print"
-    onload="this.media='all'">
+  <!-- 非同步動態注入字體：確保不阻塞 loader/首次 render -->
+  <script>
+    // 透過 JS 非同步注入，讓 Loader 與首屏完全不等待 Google Fonts
+    window.addEventListener('DOMContentLoaded', function() {
+      var fontLink = document.createElement('link');
+      fontLink.rel = 'stylesheet';
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400&family=Playfair+Display:ital,wght@1,400&display=swap';
+      fontLink.media = 'all';
+      document.head.appendChild(fontLink);
+    });
+  </script>
 
   <!-- ===== 主要樣式（順序：核心 > 全域變數） ===== -->
   <link rel="stylesheet" href="css/style.css">
@@ -53,7 +59,7 @@
   <link rel="stylesheet" href="css/works.css">
   <link rel="stylesheet" href="css/work-detail.css">
 
-  <!-- ===== GSAP 動畫主程式與插件（集中歸類） ===== -->
+  <!-- ===== GSAP 動畫主程式與插件（全部強制用 defer，嚴禁阻塞頁面解析） ===== -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>

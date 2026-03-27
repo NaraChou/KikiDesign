@@ -88,9 +88,10 @@ function AppContent() {
       const ctx = window.gsap.context(() => {
         const tl = window.gsap.timeline();
         mainTimeline.current = tl;
-        tl.to("#loader-progress", { x: "0%", duration: 0.8 })
-          .to("#loader", { autoAlpha: 0, duration: 0.8 })
-          .to("#hero-tag", { opacity: 1, y: 0, duration: 0.8 }, "-=0.2")
+        // [動畫變更] Loader bar 與 Loader 淡出時間加速, Hero Tag 0.5s 更早浮現
+        tl.to("#loader-progress", { x: "0%", duration: 0.4 }) // 0.8 -> 0.4，加速進度條推進帶來更敏捷的切換感
+          .to("#loader", { autoAlpha: 0, duration: 0.4 })     // 0.8 -> 0.4，Loader 較快淡出不影響 Hero 露出
+          .to("#hero-tag", { opacity: 1, y: 0, duration: 0.5 }, "-=0.3") // 0.8 -> 0.5，-0.2變-0.3，Tag 更早浮現
           .to("#hero-title", { opacity: 1, y: 0, duration: 1.2 }, "-=0.5")
           // ★ 改為使用 scaleX 動畫避免寬度直接改變導致不穩定
           .fromTo(

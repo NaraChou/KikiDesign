@@ -84,6 +84,7 @@ function AppContent() {
   useEffect(() => {
     if (location.pathname === '/') {
       // 首頁完整進場動態流程統一（Loader → Hero 淡入）
+      // [動畫說明] Hero 下劃線 #hero-line 改以 scaleX 動畫伸展，確保長度動畫更細緻、不影響比例
       const ctx = window.gsap.context(() => {
         const tl = window.gsap.timeline();
         mainTimeline.current = tl;
@@ -91,7 +92,13 @@ function AppContent() {
           .to("#loader", { autoAlpha: 0, duration: 0.8 })
           .to("#hero-tag", { opacity: 1, y: 0, duration: 0.8 }, "-=0.2")
           .to("#hero-title", { opacity: 1, y: 0, duration: 1.2 }, "-=0.5")
-          .to("#hero-line", { width: "60px", duration: 0.8 }, "-=0.8")
+          // ★ 改為使用 scaleX 動畫避免寬度直接改變導致不穩定
+          .fromTo(
+            "#hero-line",
+            { scaleX: 0 },
+            { scaleX: 1, transformOrigin: "left", duration: 0.8 },
+            "-=0.8"
+          )
           .to("#hero-desc", { opacity: 1, y: 0, duration: 1 }, "-=0.8");
       });
       return () => ctx.revert();

@@ -163,7 +163,7 @@
 /* === 響應式覆寫（手機 RWD，統一於此）=== */
 @media (max-width: 768px) {
   .work-detail-wrapper {
-    padding-top: var(--section-padding-y-mobile, 4rem);
+    padding-top: calc(var(--nav-height, 4rem) + var(--section-padding-y-mobile, 2rem));
     padding-bottom: var(--section-padding-y-mobile, 4rem);
   }
   .detail-main-title {

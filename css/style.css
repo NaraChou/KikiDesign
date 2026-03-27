@@ -1,24 +1,36 @@
 /**
- * style.css
- * [Kiki Design Style] 結構與動態邏輯版
- * 已將全域變數移至 globals.css
+ * style.css — Kiki Design Style
+ * ============================================================
+ * A. Tailwind 載入
+ * B. 主畫布補充（cursor / scrollbar）
+ * C. 自訂游標
+ * D. 容器結構
+ * E. 導覽列
+ * F. Footer
+ * G. 品牌字型工具類
+ * H. Logo 視覺
+ * I. Loader
+ * Z. RWD
+ * ============================================================
+ * 說明：
+ * - body 基礎色 / font 由 globals.css 定義，此處只補充
+ *   cursor / overflow-x / font-family 等結構性設定
+ * - 不使用 !important，優先序由選擇器特異性管理
+ * ============================================================
  */
 
-/* === A. Tailwind 載入 === */
+/* ── A. Tailwind 載入 ────────────────────────────────────── */
 @import "tailwindcss";
 
-/* === B. 全域結構/樣式 === */
+/* ── B. 主畫布補充 ───────────────────────────────────────── */
 body {
-  background: var(--bg-color);
-  color: var(--text-main);
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-body);
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  cursor: none !important;
+  cursor: none;
 }
 
-/* 自訂游標 */
+/* ── C. 自訂游標（桌機） ─────────────────────────────────── */
 .custom-cursor {
   width: 20px;
   height: 20px;
@@ -31,16 +43,7 @@ body {
   mix-blend-mode: difference;
 }
 
-/* 滾動條 */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-color);}
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
-
-/* 主內容容器 */
+/* ── D. 容器結構 ─────────────────────────────────────────── */
 .main-container {
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -48,84 +51,38 @@ body {
   padding-left: var(--container-padding-mobile);
   padding-right: var(--container-padding-mobile);
 }
-
-/* Hero 主區塊 */
-.hero-section {
-  padding-top: clamp(100px, 20vh, 160px);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
+.content-width-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding-left: var(--container-padding-mobile);
+  padding-right: var(--container-padding-mobile);
 }
 
-@media (min-width: 768px) {
-  .main-container {
-    padding-left: var(--container-padding-desktop);
-    padding-right: var(--container-padding-desktop);
-  }
-}
-
-/* === C. Navbar & Footer 結構 === */
+/* ── E. 導覽列 ───────────────────────────────────────────── */
 nav {
   position: fixed;
-  top: 0; left: 0; width: 100%; z-index: 1000;
-  background: rgba(14,12,11,0.4);
-  backdrop-filter: var(--webkit-backdrop-filter); 
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(14, 12, 11, 0.4);
+  backdrop-filter: var(--webkit-backdrop-filter);
   mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
 }
 
+/* ── F. Footer ───────────────────────────────────────────── */
 .footer-frame {
   width: 100%;
   padding-top: var(--footer-padding-y-mobile);
   padding-bottom: var(--footer-padding-y-mobile);
 }
-
-@media (min-width: 768px) {
-  nav { 
-    padding-top: var(--nav-padding-y);
-    padding-bottom: var(--nav-padding-y);
-  }
-  .footer-frame {
-    padding-top: var(--footer-padding-y-desktop);
-    padding-bottom: var(--footer-padding-y-desktop);
-  }
-}
-
-/* === D. LOGO/圖像樣式 === */
-.nav-logo {
-  filter: drop-shadow(0 0 10px rgba(230,57,70,0.45));
-  transition: filter 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.nav-logo:hover {
-  filter: drop-shadow(0 0 15px rgba(230,57,70,0.7)) brightness(1.2);
-}
-.nav-logo .chinese-art { text-shadow: 0 0 5px rgba(230,57,70,0.2);}
-
-img.main-logo,
-img.handdrawn {
-  object-fit: contain !important;
-  aspect-ratio: auto;
-}
-
-.chinese-art {
-  font-weight: var(--font-weight-chinese-art);
-  letter-spacing: var(--letter-spacing-chinese-art);
-  line-height: var(--line-height-chinese-art);
-}
-.serif-italic {
-  font-family: var(--font-family-serif-italic);
-  font-style: italic;
-}
-
-/* === E. Footer 鏈結設計 === */
 .footer-title {
   font-size: 1.875rem;
   font-style: italic;
   font-family: 'Noto Serif TC', serif;
-  font-variation-settings: 'ital' 1;
 }
 .footer-subtitle,
 .footer-social-link {
@@ -138,16 +95,16 @@ img.handdrawn {
   font-size: 10px;
   letter-spacing: 0.3em;
   opacity: 0.7;
-  transition: all 0.3s;
+  transition: color 0.3s, opacity 0.3s;
 }
 .footer-email {
   display: inline-block;
   font-size: 1rem;
   letter-spacing: 0.15em;
   padding-bottom: 2px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff8e6;
-  transition: all 0.3s;
+  transition: color 0.3s, border-bottom-color 0.3s;
 }
 .footer-email:hover,
 .footer-social-link:hover {
@@ -156,24 +113,34 @@ img.handdrawn {
   border-bottom-color: #fff;
 }
 
-@media (min-width: 768px) {
-  .footer-title { font-size: 3rem;}
+/* ── G. 品牌字型工具類 ───────────────────────────────────── */
+.chinese-art {
+  font-weight: var(--font-weight-chinese-art);
+  letter-spacing: var(--letter-spacing-chinese-art);
+  line-height: var(--line-height-chinese-art);
+}
+.serif-italic {
+  font-family: var(--font-family-serif-italic);
+  font-style: italic;
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
-/* 768-800px 特殊對齊方案 */
-@media (min-width: 768px) and (max-width: 800px) {
-  #contact div.max-w-screen-2xl.flex.md\:flex-row {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  #contact div.mb-12.md\:mb-0 { margin-bottom: 3rem; }
-  #contact div.flex.flex-col.md\:items-end { align-items: center; }
-  #contact span.absolute.md\:text-right { text-align: center; }
-  #contact div.border-t.w-full.md\:w-auto { width: 100%; text-align: center; padding-bottom: 2rem; }
+/* ── H. Logo 視覺 ────────────────────────────────────────── */
+.nav-logo {
+  filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.45));
+  transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-logo:hover {
+  filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.7)) brightness(1.2);
+}
+.nav-logo .chinese-art {
+  text-shadow: 0 0 5px rgba(230, 57, 70, 0.2);
 }
 
-/* === F. Loader 視覺區塊 === */
+/* ── I. Loader ───────────────────────────────────────────── */
 .loader-wrapper {
   position: fixed;
   inset: 0;
@@ -193,12 +160,7 @@ img.handdrawn {
   width: 200px;
   height: 200px;
   margin: auto;
-  animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;
-}
-.loader-text {
-  position: relative;
-  z-index: 100;
-  letter-spacing: 0.3em;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .loader-bar-container {
   position: relative;
@@ -210,7 +172,10 @@ img.handdrawn {
 }
 .loader-bar-fill {
   position: absolute;
-  top: 0; left: 0; height: 100%; width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   transform: translateX(-100%);
   background: var(--brand-accent);
 }
@@ -224,7 +189,65 @@ img.handdrawn {
   font-weight: 200;
 }
 
+/* 捲動條 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 0.25; }
   50% { opacity: 0.1; }
+}
+
+/* ── Z. RWD ──────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .main-container,
+  .content-width-container {
+    padding-left: var(--container-padding-desktop);
+    padding-right: var(--container-padding-desktop);
+  }
+  nav {
+    padding-top: var(--nav-padding-y);
+    padding-bottom: var(--nav-padding-y);
+  }
+  .footer-frame {
+    padding-top: var(--footer-padding-y-desktop);
+    padding-bottom: var(--footer-padding-y-desktop);
+  }
+  .footer-title {
+    font-size: 3rem;
+  }
+}
+
+/* 768-800px Footer 特殊對齊 */
+@media (min-width: 768px) and (max-width: 800px) {
+  #contact div.max-w-screen-2xl.flex.md\:flex-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  #contact div.mb-12.md\:mb-0 {
+    margin-bottom: 3rem;
+  }
+  #contact div.flex.flex-col.md\:items-end {
+    align-items: center;
+  }
+  #contact span.absolute.md\:text-right {
+    text-align: center;
+  }
+  #contact div.border-t.w-full.md\:w-auto {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 2rem;
+  }
 }

@@ -1,31 +1,26 @@
 /**
-==============================================================================
-Works（Kiki Design Style） 標準結構
-A. 區塊外殼
-B. 標題群組（區塊標題/副標題）
-C. 主要作品格線
-D. 作品卡片/光暈聚合
-E. 主圖&覆蓋層
-F. 卡片資訊群（標題/副標題/說明）
-G. 對齊控制
-Z. RWD 響應專區
-==============================================================================
-*/
+ * works.css — Kiki Design Style
+ * ============================================================
+ * A. 區塊外殼
+ * B. 標題群組
+ * C. 作品格線
+ * D. 作品卡片 / 光暈
+ * E. 卡片主圖層
+ * F. 卡片資訊群
+ * G. 對齊控制
+ * H. 箭頭互動
+ * Z. RWD（手機 → 平板 → 桌機 → 觸控）
+ * ============================================================
+ */
 
-/* -----------------------------------------------------------------------------
-A. 區塊外殼（Section Wrapper）
-[視覺記憶] 控制外部留白與背景色，保持內容上下一致性
------------------------------------------------------------------------------ */
+/* ── A. 區塊外殼 ─────────────────────────────────────────── */
 #works {
   padding-top: var(--section-padding-y, 6rem);
   padding-bottom: var(--section-padding-y, 6rem);
   background: var(--section-bg-works, transparent);
 }
 
-/* -----------------------------------------------------------------------------
-B. 標題群組（標題、標籤）結構統整
-[動態調整] 標題、標籤預設置中，平板桌機靠左，裝飾線條 RWD 自動切換
------------------------------------------------------------------------------ */
+/* ── B. 標題群組 ─────────────────────────────────────────── */
 .works-section-header {
   display: flex;
   flex-direction: column;
@@ -43,20 +38,16 @@ B. 標題群組（標題、標籤）結構統整
   font-size: 2.4rem;
   font-style: italic;
   font-family: 'Noto Serif TC', serif;
-  font-variation-settings: 'ital' 1;
   letter-spacing: 0.2em;
 }
 .works-section-label {
   text-transform: uppercase;
   font-size: var(--work-title-label-size, 9px);
   letter-spacing: var(--work-title-label-spacing, 0.5em);
-  color: var(--brand-subtle, rgba(234,226,214,0.5));
+  color: var(--brand-subtle, rgba(234, 226, 214, 0.5));
 }
 
-/* -----------------------------------------------------------------------------
-C. 主要作品格線
-[布局記憶] 單欄手機、雙欄桌機，gap 間隔統一集中
------------------------------------------------------------------------------ */
+/* ── C. 作品格線 ─────────────────────────────────────────── */
 .works-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -64,24 +55,25 @@ C. 主要作品格線
   align-items: start;
 }
 
-/* -----------------------------------------------------------------------------
-D. 作品卡片本體/光暈聚合
-[動態體驗] 卡片光暈動態、邊框與立體過渡，聚光 source 跟隨滑鼠感知
------------------------------------------------------------------------------ */
+/* ── D. 作品卡片 / 光暈 ──────────────────────────────────── */
 .work-card-inner {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4 / 5;
   border-radius: 2.2rem;
-  border: 1.5px solid var(--work-card-border, rgba(255,255,255,0.10));
+  border: 1.5px solid var(--work-card-border, rgba(255, 255, 255, 0.10));
   padding: var(--work-card-padding, 3.5rem);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.4s, background-color 0.4s;
+  transition:
+    box-shadow 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.4s,
+    background-color 0.4s;
   will-change: transform, box-shadow;
   --mouse-x: 50%;
   --mouse-y: 50%;
 }
-/* 光暈聚合：聚焦亮暈跟隨滑鼠 */
+/* 聚光亮暈跟隨滑鼠 */
 .work-card-inner::before {
   content: '';
   position: absolute;
@@ -97,58 +89,31 @@ D. 作品卡片本體/光暈聚合
   mix-blend-mode: screen;
   transition: opacity 0.5s ease;
 }
-/* Hover 狀態：卡片外發光感 & 聚合淡入 */
 .work-card:hover .work-card-inner {
-  box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0, 0, 0, 0.5);
 }
 .work-card:hover .work-card-inner::before {
   opacity: 0.35;
 }
-/* 主題色依卡片類型分派（改用全域色票變數） */
-.work-card[id="personal-branding"] { 
-  --theme-color: var(--color-personal-branding); 
-}
-.work-card[id="logo-design"] { 
-  --theme-color: var(--color-logo-design); 
-}
-.work-card[id="poster-design"] { 
-  --theme-color: var(--color-visual-design); 
-}
 
-/* -----------------------------------------------------------------------------
-E. 卡片主圖/覆蓋層控制
-[物件保護] aspect-ratio 固定及 object-fit: contain，圖片永不變形
------------------------------------------------------------------------------ */
-.work-card-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  background: var(--work-card-overlay, rgba(0,0,0,0.20));
-  transition: background 0.5s;
-}
+/* ── E. 卡片主圖層 ───────────────────────────────────────── */
 .work-card-image-wrapper {
   overflow: hidden;
   position: relative;
   width: 100%;
   height: 100%;
 }
-.work-card-image,
-.work-card-image-parallax {
+.work-card-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-.work-card-image {
   object-position: center;
+  padding: 10%;
   opacity: 0.9;
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s;
-  object-fit: contain; /* 補這行，確保圖片不因容器比例而拉伸變形 */
 }
 
-/* -----------------------------------------------------------------------------
-F. 卡片資訊群（標題、英文、Subtitle）
-[組織記憶] 文字群組/間距/類型聚合；動態字級由RWD統一調節
------------------------------------------------------------------------------ */
+/* ── F. 卡片資訊群 ───────────────────────────────────────── */
 .work-card-info {
   margin-top: 1.5rem;
   display: flex;
@@ -173,7 +138,7 @@ F. 卡片資訊群（標題、英文、Subtitle）
   font-size: 0.85rem;
   font-style: italic;
   letter-spacing: 0.12em;
-  color: rgba(253,246,237,0.8);
+  color: rgba(253, 246, 237, 0.8);
 }
 .title-divider {
   display: none;
@@ -182,14 +147,11 @@ F. 卡片資訊群（標題、英文、Subtitle）
   font-style: italic;
   font-size: 9px;
   letter-spacing: 0.25em;
-  color: var(--brand-subtle, rgba(234,226,214,0.5));
+  color: var(--brand-subtle, rgba(234, 226, 214, 0.5));
   margin-top: 0.6rem;
 }
 
-/* -----------------------------------------------------------------------------
-G. 對齊控制（資料連動）
-[元件聯動] 依據 props 設定決定資訊區左右對齊、群組水平垂直定位
------------------------------------------------------------------------------ */
+/* ── G. 對齊控制 ─────────────────────────────────────────── */
 .work-card-info.text-left {
   align-items: flex-start;
   text-align: left;
@@ -205,10 +167,11 @@ G. 對齊控制（資料連動）
   align-items: flex-end;
 }
 
-/* -----------------------------------------------------------------------------
-H. 箭頭區塊（互動引導）
-[動態細節] 包含光暈互動，顯著移動與顏色變化
------------------------------------------------------------------------------ */
+/* ── H. 箭頭互動 ─────────────────────────────────────────── */
+.work-card .absolute.right-4.top-4 {
+  right: 1.25rem;
+  top: 1.25rem;
+}
 .arrow-circle {
   width: 2.2rem;
   height: 2.2rem;
@@ -227,21 +190,18 @@ H. 箭頭區塊（互動引導）
 }
 .work-card:hover .arrow-circle {
   color: #fff;
-  background-color: var(--theme-color);
+  background-color: var(--card-glow-color);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translate(0, 0) scale(1);
 }
 
-/* =============================================================================
-Z. RWD 響應優先區（所有結構之下，統一分流）
-手機 => 平板 => 桌機 => 超寬屏裝置
-============================================================================= */
+/* ── Z. RWD ──────────────────────────────────────────────── */
 
-/* 手機專屬（最大767px） */
+/* 手機（≤767px） */
 @media (max-width: 767px) {
   .work-card-inner {
     padding: 1rem;
-    aspect-ratio: 1.1/1;
+    aspect-ratio: 1.1 / 1;
     border-radius: 1.5rem;
   }
   .work-card-inner::before {
@@ -253,7 +213,7 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
   }
 }
 
-/* 平板/桌機標題區左側裝飾線條（768px↑） */
+/* 平板以上（≥768px）：標題左對齊 + 裝飾線 */
 @media (min-width: 768px) {
   .works-section-header {
     align-items: flex-start;
@@ -264,19 +224,19 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
   }
 }
 
-/* 平板區間特化（768~1024px） */
+/* 平板（768px–1024px）：卡片資訊放大 */
 @media (min-width: 768px) and (max-width: 1024px) {
   .work-card-info {
-    margin-top: 2rem;
+    margin-top: 2.2rem;
   }
   .work-card-info .title-group {
     gap: 0.5rem;
   }
   .title-zh {
     font-size: 1.5rem;
-    white-space: nowrap;  /*文字防爆-防止未來萬一有一個作品標題超長*/
-    text-overflow: ellipsis; /*文字防爆*/
-    overflow: hidden; /*文字防爆*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   .title-en {
     font-size: 1.1rem;
@@ -286,16 +246,9 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
     margin-top: 1rem;
     letter-spacing: 0.4em;
   }
-  /* 只留這一段（底部補丁整併） */
-  #works .work-card-info h3 .flex {
-    gap: 0.6rem; 
-  }
-  .work-card-info {
-    margin-top: 2.2rem;
-  }
 }
 
-/* 桌機寬雙欄（960px↑） */
+/* 桌機雙欄（≥960px） */
 @media (min-width: 960px) {
   .works-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -303,7 +256,7 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
   }
 }
 
-/* 桌機加強（1025px↑） */
+/* 桌機加強（≥1025px）：標題橫排 */
 @media (min-width: 1025px) {
   .work-card-info {
     margin-top: 3rem;
@@ -325,32 +278,14 @@ Z. RWD 響應優先區（所有結構之下，統一分流）
   .title-en {
     font-size: 0.85rem;
   }
+  .lg\:mt-32 {
+    margin-top: 8rem;
+  }
 }
 
-/* 觸控裝置光暈禁用 */
+/* 觸控裝置：停用光暈 */
 @media (hover: none) and (pointer: coarse) {
   .work-card:hover .work-card-inner::before {
     opacity: 0;
-  }
-}
-/* === END: 樣式結構分明、RWD與細節集約管理 === */
-
-
-/* --- 1. 箭頭位置優化：增加一點點呼吸感 --- */
-.work-card .absolute.right-4.top-4 {
-  right: 1.25rem; /* 稍微往內移一點 */
-  top: 1.25rem;
-}
-
-/* --- 3. 圖片微調：確保 Logo 類型作品不會撐滿邊緣 --- */
-.work-card-image {
-  padding: 10%; /* 給圖片一個緩衝墊，視覺上更精緻 */
-}
-
-/* --- 4. 桌機端字體微調 (1025px+) --- */
-@media (min-width: 1025px) {
-  /* 確保雙欄模式下，Card 2 的 mt-32 讓整體動態感更強 */
-  .lg\:mt-32 {
-    margin-top: 8rem;
   }
 }

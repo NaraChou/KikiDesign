@@ -87,7 +87,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
             <img
               src="logo-kiki-sm.png"
               /* 讓瀏覽器根據設備解析度自動選擇圖片 */
-              srcSet="logo-kiki-sm.png 1x, logo-kiki-md.png 2x, logo-kiki-512.png 3x"
+              srcSet="logo-kiki-sm.png 1x, logo-kiki-md.png 2x"
               alt="Kiki Design 棠想視界"
               /* w-full h-full 確保圖片乖乖待在 48px 的格子裡 */
               className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"

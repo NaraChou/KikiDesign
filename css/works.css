@@ -39,6 +39,7 @@
   font-style: italic;
   font-family: 'Noto Serif TC', serif;
   letter-spacing: 0.2em;
+  font-weight: 200;
 }
 .works-section-label {
   text-transform: uppercase;
@@ -131,7 +132,7 @@
 }
 .title-zh {
   font-size: 1.1rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   color: #FDF6ED;
 }
 .title-en {
@@ -145,7 +146,7 @@
 }
 .work-card-subtitle {
   font-style: italic;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.25em;
   color: var(--brand-subtle, rgba(234, 226, 214, 0.5));
   margin-top: 0.6rem;

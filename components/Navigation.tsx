@@ -92,7 +92,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
               /* w-full h-full 確保圖片乖乖待在 48px 的格子裡 */
               className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
               loading="eager"
-              fetchpriority="high"
+              fetchPriority="high"
             />
           </div>
           <div className="flex flex-col items-start justify-center ml-0">

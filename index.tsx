@@ -8,10 +8,10 @@ if ('scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
 }
 
-// 統一引入所有全域樣式，分類明確、避免重複（統整資訊註解）
-import './css/globals.css';        // 全站預設變數、字型、斷點定義
-import './css/style.css';          // 核心架構樣式（含 main-container 與:root 變數）
-import './css/works.css';          // 作品一覽專區
+// CSS 載入順序：globals（變數定義）必須在 style 之前，確保變數可用
+import './css/globals.css';        // CSS 變數定義（顏色、字型、間距）
+import './css/style.css';          // 全站結構樣式（依賴上方變數）
+import './css/works.css';          // 作品列表專區
 import './css/work-detail.css';    // 作品詳細頁專區
 
 /**

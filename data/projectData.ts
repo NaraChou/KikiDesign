@@ -16,15 +16,12 @@ import brandingDarkUI from '../assets/images/branding-dark-ui-landing.webp';
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import brandingResponsive from '../assets/images/branding-responsive-showcase.webp';
 import brandingUIEducation from '../assets/images/branding-ui-education-app.webp';
-import logoKiki2025 from '../assets/images/logo-kiki-2025.webp';
 import logoKiki2025Brand from '../assets/images/logo-kiki-2025-brand.webp';
 import logoKiki2020 from '../assets/images/logo-kiki-2020.webp';
 import namecardKiki2020 from '../assets/images/namecard-kiki-2020.webp';
 import namecardMockupConcrete from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
 import namecardMockupFoam from '../assets/images/namecard-kiki-2025-mockup-foam.webp';
 import logoKikiCoasterMockup from '../assets/images/logo-kiki-coaster-mockup.webp';
-import logoStationery from '../assets/images/logo-branding-stationery.webp';
-// 新增：海報作品相關圖像資源
 import posterRabbitBearRecruitment from '../assets/images/poster-rabbit-bear-recruitment.webp';
 import posterRabbitBearOnsite from '../assets/images/poster-rabbit-bear-onsite.webp';
 import edmBehaviorLogic from '../assets/images/edm-behavior-logic.webp';

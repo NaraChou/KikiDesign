@@ -53,11 +53,7 @@
     });
   </script>
 
-  <!-- ===== 主要樣式（順序：核心 > 全域變數） ===== -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/globals.css">
-  <link rel="stylesheet" href="css/works.css">
-  <link rel="stylesheet" href="css/work-detail.css">
+  <!-- ===== 主要樣式由 Vite 統一透過 index.tsx import 管理，此處不重複載入 ===== -->
 
   <!-- ===== GSAP 動畫主程式與插件（全部強制用 defer，嚴禁阻塞頁面解析） ===== -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

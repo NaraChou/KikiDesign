@@ -91,20 +91,27 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 /* 卡片主圖，嚴格維持原比例，防變形，骨架/亮度效果統一 */
+/* 
+  .waterfall-image-main：作品詳情頁瀑布流主圖
+  - 視覺化敘述：
+    這個區塊讓圖片在卡片內維持完美的原圖比例，無論橫式或直式都不會被壓縮或裁切，並且在頁面排版時優先考慮美感與流暢體驗。
+    同時加上效能優化 CSS，讓很多張作品圖同時出現時，畫面滾動不會卡頓。
+*/
 .waterfall-image-main {
   width: 100%;
-  height: auto;
-  aspect-ratio: auto; /* 保留原圖比例，體驗多元 */
-  min-height: 200px;  /* 保底佔位，高度統一，避免卡片閃爍 */
-  object-fit: contain; /* 視覺美感優先，永不壓縮/裁切內容 */
-  background: rgba(255,255,255,0.02); /* Skeleton UX */
-  border-radius: var(--waterfall-image-radius, 1rem);
-  margin: 0;
-  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transform: scale(1);
-  will-change: transform;
-  image-rendering: -webkit-optimize-contrast;
-  backface-visibility: hidden;
+  height: auto;         /* 高度自動與寬度等比縮放，無拉伸 */
+  display: block;       /* 消除圖片底下常見1px白縫 */
+  /* ---- UX & 效能兼顧 ---- */
+  min-height: 150px;    /* 降低保底高度，減少直式圖拉長，不會過高閃爍 */
+  aspect-ratio: auto;   /* 瀏覽器自動根據圖檔比例決定卡片比例 */
+  content-visibility: auto; /* 讓未入畫面的圖不用馬上計算排版，滾動超順 */
+  /* ---- 視覺美感保護（Kiki Style）---- */
+  object-fit: contain;  /* 徹底防止變形，每張圖都「完整呈現」於卡片區 */
+  background: rgba(255,255,255,0.02); /* 淺灰透明底，未載入前避免突兀 */
+  border-radius: var(--waterfall-image-radius, 1rem); /* 統一圓角風格 */
+  transition:
+    transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.8s ease;   /* 懸浮時平滑放大與亮度提升 */
 }
 /* 懸浮視覺效果 */
 .waterfall-card:hover .waterfall-image-main {

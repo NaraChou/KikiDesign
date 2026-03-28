@@ -146,8 +146,6 @@ export const WorkDetail: React.FC = () => {
                 loading={idx === 0 ? 'eager' : 'lazy'}
                 decoding="async"
                 fetchPriority={idx === 0 ? 'high' : 'low'}
-                width="800"
-                height="600"
               />
               <div className="waterfall-index-tag">
                 <span className="waterfall-index-number">

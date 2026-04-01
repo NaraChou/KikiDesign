@@ -28,6 +28,10 @@ import edmBehaviorLogic from '../assets/images/edm-behavior-logic.webp';
 import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
 import ecommerceFemininePink from '../assets/images/ecommerce-feminine-pink-portrait.webp';
 import ecommerceLuxuryGold from '../assets/images/ecommerce-luxury-gold-landscape.webp';
+import practiceComp01 from '../assets/images/practice-comp-01.webp';
+import practiceComp02 from '../assets/images/practice-comp-02.webp';
+import practiceCompCloud from '../assets/images/practice-comp-cloud.webp';
+import practiceCompElephant from '../assets/images/practice-comp-elephant.webp';
 
 /**
  * [中文註解] 
@@ -40,8 +44,9 @@ import ecommerceLuxuryGold from '../assets/images/ecommerce-luxury-gold-landscap
  */
 export interface ProjectImage {
   src: string,
-  caption?: string,    // 選填說明文字，有值才在 lightbox 顯示
-  coverOnly?: boolean, // true = 只用於首頁卡片封面，作品詳情頁不顯示
+  caption?: string,       // 選填說明文字，有值才在 lightbox 顯示
+  coverOnly?: boolean,    // true = 只用於首頁卡片封面，作品詳情頁不顯示
+  practiceCategory?: string, // 練習專區分類標籤（如 'composition'、'ui'、'typography'...）
 }
 
 export interface ProjectData {
@@ -52,6 +57,7 @@ export interface ProjectData {
   year: string,
   description: string,
   images: ProjectImage[],
+  tabs?: string[],  // 選填，有值則啟用頁內標籤篩選（練習專區專用）
   visual: {
     cardBg: string,
     hoverGlow: string,
@@ -184,6 +190,30 @@ export const projectsList: ProjectData[] = [
       cardBg: 'bg-[rgba(26,46,26,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(234,179,8,0.3)]',
       glow: 'rgba(234,179,8,0.3)',
+    }
+  },
+  {
+    id: 'practice-lab',
+    title: '視覺實驗室',
+    subtitle: 'Visual Lab',
+    category: 'Practice / Experiment',
+    year: '2020 – Now',
+    description:
+      '持續練習是設計師的核心修煉。這裡收錄各類視覺實驗與自主練習作品，橫跨影像合成、UI 設計、排版、字體、Logo 與插圖等領域，記錄每一次嘗試與突破的過程。',
+    tabs: ['Logo', '插圖', '排版設計', '字體', '影像合成', 'UI'],
+    images: [
+      // 首頁卡片封面（待替換為專屬封面圖）
+      { src: practiceComp01, coverOnly: true },
+      // 影像合成
+      { src: practiceComp01, practiceCategory: '影像合成', caption: '武俠風格遊戲宣傳視覺合成，水墨氛圍與角色動態結合。' },
+      { src: practiceComp02, practiceCategory: '影像合成', caption: '古塔入湖夜景合成，以冷調光線與水面倒影營造沉靜氛圍。' },
+      { src: practiceCompCloud, practiceCategory: '影像合成', caption: '雲端奇幻場景合成，粉調光感與夢境意象的視覺敘事。' },
+      { src: practiceCompElephant, practiceCategory: '影像合成', caption: '大象解構合成，以流沙粒子效果呈現自然與力量的張力。' },
+    ],
+    visual: {
+      cardBg: 'bg-[rgba(26,26,36,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(139,92,246,0.3)]',
+      glow: 'rgba(139,92,246,0.3)',
     }
   },
 ];

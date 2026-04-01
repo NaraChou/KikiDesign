@@ -25,6 +25,7 @@
   max-width: var(--workdetail-header-max-width, 48rem);
   margin: var(--workdetail-header-mt, 5rem) auto var(--workdetail-header-mb, 5rem) auto;
 }
+
 /* 標籤文字（案型標/小標） */
 .detail-label {
   display: inline-block;
@@ -34,8 +35,10 @@
   margin-bottom: var(--workdetail-header-label-mb, 1.5rem);
   opacity: 0.8;
 }
+
 /* 主/副標，整併共同字重，細分尺寸/顏色 */
-.detail-main-title, .detail-subtitle-text {
+.detail-main-title,
+.detail-subtitle-text {
   font-weight: 300;
 }
 .detail-main-title {
@@ -49,6 +52,7 @@
   color: var(--workdetail-subtitle-color, rgba(255,255,255,0.4));
   margin-bottom: var(--workdetail-subtitle-mb, 3rem);
 }
+
 /* 垂直分隔條 */
 .detail-vertical-divider {
   width: 1px;
@@ -56,6 +60,7 @@
   background: var(--logo-color,rgba(230, 57, 70, 0.3));
   margin: 0 auto var(--workdetail-divider-mb, 3rem);
 }
+
 /* 簡介文字 */
 .detail-description-text {
   font-size: var(--workdetail-desc-size, 0.82rem);
@@ -71,6 +76,7 @@
   max-width: var(--content-max-width, 80rem);
   gap: var(--waterfall-gap, 2rem);
 }
+
 .waterfall-card {
   break-inside: avoid;
   background: transparent;
@@ -90,34 +96,30 @@
     0 0 45px var(--detail-glow-color, rgba(255, 255, 255, 0.06));
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 /* 卡片主圖，嚴格維持原比例，防變形，骨架/亮度效果統一 */
-/* 
-  .waterfall-image-main：作品詳情頁瀑布流主圖
-  - 視覺化敘述：
-    這個區塊讓圖片在卡片內維持完美的原圖比例，無論橫式或直式都不會被壓縮或裁切，並且在頁面排版時優先考慮美感與流暢體驗。
-    同時加上效能優化 CSS，讓很多張作品圖同時出現時，畫面滾動不會卡頓。
-*/
 .waterfall-image-main {
   width: 100%;
-  height: auto;         /* 高度自動與寬度等比縮放，無拉伸 */
-  display: block;       /* 消除圖片底下常見1px白縫 */
-  /* ---- UX & 效能兼顧 ---- */
-  min-height: 150px;    /* 降低保底高度，減少直式圖拉長，不會過高閃爍 */
-  aspect-ratio: auto;   /* 瀏覽器自動根據圖檔比例決定卡片比例 */
-  content-visibility: auto; /* 讓未入畫面的圖不用馬上計算排版，滾動超順 */
-  /* ---- 視覺美感保護（Kiki Style）---- */
-  object-fit: contain;  /* 徹底防止變形，每張圖都「完整呈現」於卡片區 */
-  background: rgba(255,255,255,0.02); /* 淺灰透明底，未載入前避免突兀 */
-  border-radius: var(--waterfall-image-radius, 1rem); /* 統一圓角風格 */
-  transition:
-    transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 0.8s ease;   /* 懸浮時平滑放大與亮度提升 */
+  height: auto;
+  aspect-ratio: auto;
+  min-height: 200px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--waterfall-image-radius, 1rem);
+  margin: 0;
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: scale(1);
+  will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
 }
+
 /* 懸浮視覺效果 */
 .waterfall-card:hover .waterfall-image-main {
   filter: brightness(1.1);
   transform: scale(1.05);
 }
+
 /* 懸浮底色遮罩統整 */
 .waterfall-hover-mask {
   background: var(--waterfall-hover-bg, rgba(0,0,0,0.40));
@@ -261,4 +263,53 @@
   background: var(--brand-accent, #EF4444);
   margin-top: 0.6rem;
   opacity: 0.85;
+}
+
+/* ── 練習專區：標籤列 ─────────────────────────────────────── */
+.practice-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0 auto 4rem;
+  max-width: var(--workdetail-header-max-width, 48rem);
+}
+.practice-tab-btn {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(234, 226, 214, 0.5);
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+.practice-tab-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(234, 226, 214, 0.9);
+}
+.practice-tab-btn.active {
+  border-color: var(--brand-accent, #EF4444);
+  color: var(--brand-accent, #EF4444);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ── 練習專區：灰階 → hover 全彩 ─────────────────────────── */
+.practice-grayscale {
+  filter: grayscale(80%) brightness(0.85);
+  transition: filter 0.5s ease;
+}
+.practice-image-card:hover .practice-grayscale {
+  filter: grayscale(0%) brightness(1);
+}
+
+/* ── 練習專區：無結果提示 ────────────────────────────────── */
+.practice-empty {
+  text-align: center;
+  padding: 4rem 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.2em;
+  color: rgba(234, 226, 214, 0.3);
 }

@@ -22,8 +22,8 @@ export const Philosophy: React.FC = () => (
       // 全域 padding 控制（mobile/desktop 皆可由媒體查詢調控）
       paddingTop: 'var(--section-padding-y, 10rem)',
       paddingBottom: 'var(--section-padding-y, 10rem)',
-      // 背景顏色主題統一由 :root 控管（Kiki Design Style）
-      background: 'var(--section-bg-philosophy, #0A0908)',
+      // 修正後的背景色：確保與全站底色一致，消除色塊感
+      background: 'var(--section-bg-philosophy, #0E0C0B)',
     }}
   >
     {/* [結構對齊] 所有內容皆包於 content-width-container，確保所有主區內容左右線條絕對一致 */}

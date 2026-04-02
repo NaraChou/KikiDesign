@@ -20,6 +20,7 @@ export const WorkDetail: React.FC = () => {
 
   const [lightbox, setLightbox] = useState<ProjectImage | null>(null);
   const [activeTab, setActiveTab] = useState<string>('全部');
+  const isTabSwitched = useRef(false); // 追蹤是否為使用者主動切換，初次不執行淡入
 
   const isPractice = Boolean(project?.tabs?.length);
 
@@ -40,6 +41,7 @@ export const WorkDetail: React.FC = () => {
   // [切換標籤動畫]
   const handleTabChange = (tab: string) => {
     if (tab === activeTab) return;
+    isTabSwitched.current = true;
     if (gridRef.current && window.gsap) {
       window.gsap.to(gridRef.current.querySelectorAll('.waterfall-item'), {
         opacity: 0,
@@ -55,8 +57,9 @@ export const WorkDetail: React.FC = () => {
     }
   };
 
-  // [切換標籤後淡入]
+  // [切換標籤後淡入：僅在使用者主動切換時執行，初次載入不干擾 ScrollTrigger]
   useEffect(() => {
+    if (!isTabSwitched.current) return;
     if (!gridRef.current || !window.gsap) return;
     window.gsap.fromTo(
       gridRef.current.querySelectorAll('.waterfall-item'),
@@ -68,6 +71,7 @@ export const WorkDetail: React.FC = () => {
   // [id 變動回頂]
   useEffect(() => {
     window.scrollTo(0, 0);
+    isTabSwitched.current = false;
     setActiveTab('全部');
   }, [id]);
 
@@ -146,7 +150,7 @@ export const WorkDetail: React.FC = () => {
 
         {/* ── 標籤列（練習專區限定）── */}
         {isPractice && (
-          <div className="practice-tabs" role="group" aria-label="作品分類篩選">
+          <div className="practice-tabs" aria-label="作品分類篩選">
             {tabList.map(tab => (
               <button
                 key={tab}

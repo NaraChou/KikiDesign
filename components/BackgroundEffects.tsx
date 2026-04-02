@@ -42,8 +42,8 @@ export const BackgroundEffects: React.FC = () => {
             width: 'var(--blur-bg-size)',
             height: 'var(--blur-bg-size)',
             filter: `blur(var(--blur-bg-blur))`,
-            // 透明度降至 0.05，桌機有氛圍感，手機不染橘
-            background: 'radial-gradient(circle, rgba(230, 57, 70, 0.05) 0%, transparent 70%)',
+            // 透明度降至 0.05--->0，桌機有氛圍感，手機不染橘
+            background: 'radial-gradient(circle, rgba(230, 57, 70, 0) 0%, transparent 70%)',
             aspectRatio: '1/1',
             ...style
           }}

@@ -221,10 +221,10 @@ export const projectsList: ProjectData[] = [
       // 首頁卡片封面（待替換為專屬封面圖）
       { src: practiceLabCover, coverOnly: true },
       // 影像合成
-      { src: practiceComp01, practiceCategory: '影像合成', caption: '武俠風格遊戲宣傳視覺合成，水墨氛圍與角色動態結合。' },
-      { src: practiceComp02, practiceCategory: '影像合成', caption: '古塔入湖夜景合成，以冷調光線與水面倒影營造沉靜氛圍。' },
-      { src: practiceCompCloud, practiceCategory: '影像合成', caption: '雲端奇幻場景合成，粉調光感與夢境意象的視覺敘事。' },
-      { src: practiceCompElephant, practiceCategory: '影像合成', caption: '大象解構合成，以流沙粒子效果呈現自然與力量的張力。' },
+      { src: practiceComp01, practiceCategory: '影像合成', caption: '「影武者」手遊宣傳視覺：以武俠風格為核心，運用水墨煙霧特效與角色動態捕捉進行合成，練習虛實結合的氛圍營造與強烈明暗對比。' },
+      { src: practiceComp02, practiceCategory: '影像合成', caption: '「幽湖古塔」場景合成：練習多圖層光影融合技術，以冷調月光與精準的水面倒影模擬，營造沉靜且具神祕感的超現實夜景空間。' },
+      { src: practiceCompCloud, practiceCategory: '影像合成', caption: '「雲端夢境」奇幻敘事視覺：運用粉紫色調的光感擴散與柔焦處理，將夢境意象具象化，練習高動態範圍（HDR）色彩調和與多媒材元素統整。' },
+      { src: practiceCompElephant, practiceCategory: '影像合成', caption: '「大地之靈」解構視覺實驗：以流沙粒子特效呈現大象主體，運用細節筆刷與遮罩技術模擬沙化過程，探索自然生命力與解構美學的視覺張力。' },
       // Logo
       { src: practiceLogoHejia, practiceCategory: 'Logo', caption: '合家小食屋品牌識別設計：以篆書圓形印章為概念，融合「小琉球」為核心標誌，搭配傳統條紋圖騰，同步延伸五款產品包裝配色（原味、黑糖、海苔、煉乳、草莓），建立完整的視覺識別系統。' },
       // 插圖

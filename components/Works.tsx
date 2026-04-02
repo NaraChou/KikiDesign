@@ -85,7 +85,7 @@ const WORKS: {
     id: 'practice-lab',
     titleZH: '視覺實驗室',
     titleEN: 'Visual Lab',
-    subtitle: 'PRACTICE / 2020 – NOW',
+    subtitle: 'PRACTICE / 2017 – 2026',
     img: practiceLabCover,
     bg: 'bg-[rgba(26,26,36,0.50)]',
     glow: 'rgba(139, 92, 246, 0.4)',

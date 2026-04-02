@@ -13,6 +13,7 @@ import posterMockupMain from '../assets/images/poster-mockup-main.webp';
 import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
 import ecommerceMockup from '../assets/images/ecommerce-mockup.webp';
 import practiceComp01 from '../assets/images/practice-comp-01.webp';
+import practiceLabCover from '../assets/images/practice-lab-cover.webp';
 
 /**
  * B. 資料結構與類型統一管理
@@ -85,7 +86,7 @@ const WORKS: {
     titleZH: '視覺實驗室',
     titleEN: 'Visual Lab',
     subtitle: 'PRACTICE / 2020 – NOW',
-    img: practiceComp01,
+    img: practiceLabCover,
     bg: 'bg-[rgba(26,26,36,0.50)]',
     glow: 'rgba(139, 92, 246, 0.4)',
     extraClass: '',

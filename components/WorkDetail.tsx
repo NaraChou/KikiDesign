@@ -146,7 +146,7 @@ export const WorkDetail: React.FC = () => {
 
         {/* ── 標籤列（練習專區限定）── */}
         {isPractice && (
-          <div className="practice-tabs" aria-label="作品分類篩選">
+          <div className="practice-tabs" role="group" aria-label="作品分類篩選">
             {tabList.map(tab => (
               <button
                 key={tab}

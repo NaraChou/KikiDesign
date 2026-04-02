@@ -49,10 +49,15 @@
   --container-max-width: 80rem;
   --container-padding-mobile: 24px;
   --container-padding-desktop: 64px;
+  --nav-height: 5rem;        /* 導覽列高度，供 work-detail-wrapper padding-top 使用 */
   --nav-padding-y: 20px;
   --footer-padding-y-mobile: 3rem;
   --footer-padding-y-desktop: 6rem;
   --loader-bar-width: 4rem;
+  /* BackgroundEffects 光暈尺寸 */
+  --blur-bg-size: 600px;
+  --blur-bg-blur: 120px;
+  --blur-bg-offset: 200px;
 }
 
 /* ── E. 視覺修飾效果 ─────────────────────────────────────── */

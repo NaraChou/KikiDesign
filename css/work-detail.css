@@ -266,6 +266,7 @@
 }
 
 /* ── 練習專區：標籤列 ─────────────────────────────────────── */
+/* 使用 div[role="group"] 而非 nav，避免瀏覽器將其視為頁面導覽區塊 */
 .practice-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -273,6 +274,7 @@
   gap: 0.6rem;
   margin: 0 auto 4rem;
   max-width: var(--workdetail-header-max-width, 48rem);
+  position: static; /* 明確宣告非 fixed/absolute，防止脫離文件流 */
 }
 .practice-tab-btn {
   font-size: 9px;

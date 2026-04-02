@@ -32,6 +32,22 @@ import practiceComp01 from '../assets/images/practice-comp-01.webp';
 import practiceComp02 from '../assets/images/practice-comp-02.webp';
 import practiceCompCloud from '../assets/images/practice-comp-cloud.webp';
 import practiceCompElephant from '../assets/images/practice-comp-elephant.webp';
+import practiceLabCover from '../assets/images/practice-lab-cover.webp';
+import practiceLogoHejia from '../assets/images/practice-logo-hejia.webp';
+import practiceIllustZodiac from '../assets/images/practice-illust-zodiac.webp';
+import practiceIllustRabbit from '../assets/images/practice-illust-rabbit.webp';
+import practiceFontLight from '../assets/images/practice-font-light.webp';
+import practiceFontAudi from '../assets/images/practice-font-audi.webp';
+import practiceUiCharacter from '../assets/images/practice-ui-character.webp';
+import practiceUiGame from '../assets/images/practice-ui-game.webp';
+import practiceLayoutDmFront from '../assets/images/practice-layout-dm-front.webp';
+import practiceLayoutDmBack from '../assets/images/practice-layout-dm-back.webp';
+import practiceLayoutCol2_01 from '../assets/images/practice-layout-col2-01.webp';
+import practiceLayoutCol2_02 from '../assets/images/practice-layout-col2-02.webp';
+import practiceLayoutCol3_01 from '../assets/images/practice-layout-col3-01.webp';
+import practiceLayoutPoster01 from '../assets/images/practice-layout-poster-01.webp';
+import practiceLayoutPoster02 from '../assets/images/practice-layout-poster-02.webp';
+
 
 /**
  * [中文註解] 
@@ -203,12 +219,32 @@ export const projectsList: ProjectData[] = [
     tabs: ['Logo', '插圖', '排版設計', '字體', '影像合成', 'UI'],
     images: [
       // 首頁卡片封面（待替換為專屬封面圖）
-      { src: practiceComp01, coverOnly: true },
+      { src: practiceLabCover, coverOnly: true },
       // 影像合成
       { src: practiceComp01, practiceCategory: '影像合成', caption: '武俠風格遊戲宣傳視覺合成，水墨氛圍與角色動態結合。' },
       { src: practiceComp02, practiceCategory: '影像合成', caption: '古塔入湖夜景合成，以冷調光線與水面倒影營造沉靜氛圍。' },
       { src: practiceCompCloud, practiceCategory: '影像合成', caption: '雲端奇幻場景合成，粉調光感與夢境意象的視覺敘事。' },
       { src: practiceCompElephant, practiceCategory: '影像合成', caption: '大象解構合成，以流沙粒子效果呈現自然與力量的張力。' },
+      // Logo & 排版
+      { src: practiceLogoHejia, practiceCategory: 'Logo', caption: '合家品牌識別設計：Mockup 應用與幾何標誌。' },
+      { src: practiceLogoHejia, practiceCategory: '排版設計', caption: '品牌應用版式研究。' },
+      // 字體系列
+      { src: practiceFontAudi, practiceCategory: '字體', caption: '字體設計練習：Audi 視覺風格研究' },
+      { src: practiceFontLight, practiceCategory: '字體', caption: 'PS 直播課：光效字體設計' },
+      // 插圖系列
+      { src: practiceIllustRabbit, practiceCategory: '插圖', caption: '插圖練習：兔子主題視覺' },
+      { src: practiceIllustZodiac, practiceCategory: '插圖', caption: '插圖練習：12 星座系列設計' },
+      // UI
+      { src: practiceUiCharacter, practiceCategory: 'UI', caption: '遊戲 UI：萌系角色屬性介面設計。' },
+      { src: practiceUiGame, practiceCategory: 'UI', caption: '遊戲場景與系統介面風格研究。' },
+      // 排版設計 (Layout)
+      { src: practiceLayoutDmFront, practiceCategory: '排版設計', caption: '三折頁 DM 設計：正面版面配置。' },
+      { src: practiceLayoutDmBack, practiceCategory: '排版設計', caption: '三折頁 DM 設計：背面內容資訊排版。' },
+      { src: practiceLayoutCol2_01, practiceCategory: '排版設計', caption: '雜誌版式：兩欄式圖文編排練習(01)。' },
+      { src: practiceLayoutCol2_02, practiceCategory: '排版設計', caption: '雜誌版式：兩欄式圖文編排練習(02)。' },
+      { src: practiceLayoutCol3_01, practiceCategory: '排版設計', caption: '資訊排版：三欄式結構化設計。' },
+      { src: practiceLayoutPoster01, practiceCategory: '排版設計', caption: '海報設計：1MB 視覺實驗系列(01)。' },
+      { src: practiceLayoutPoster02, practiceCategory: '排版設計', caption: '海報設計：1MB 視覺實驗系列(02)。' },
     ],
     visual: {
       cardBg: 'bg-[rgba(26,26,36,0.50)]',

@@ -213,7 +213,7 @@ export const projectsList: ProjectData[] = [
     title: '視覺實驗室',
     subtitle: 'Visual Lab',
     category: 'Practice / Experiment',
-    year: '2020 – Now',
+    year: '2017 – 2026',
     description:
       '持續練習是設計師的核心修煉。這裡收錄各類視覺實驗與自主練習作品，橫跨影像合成、UI 設計、排版、字體、Logo 與插圖等領域，記錄每一次嘗試與突破的過程。',
     tabs: ['Logo', '插圖', '排版設計', '字體', '影像合成', 'UI'],
@@ -225,26 +225,25 @@ export const projectsList: ProjectData[] = [
       { src: practiceComp02, practiceCategory: '影像合成', caption: '古塔入湖夜景合成，以冷調光線與水面倒影營造沉靜氛圍。' },
       { src: practiceCompCloud, practiceCategory: '影像合成', caption: '雲端奇幻場景合成，粉調光感與夢境意象的視覺敘事。' },
       { src: practiceCompElephant, practiceCategory: '影像合成', caption: '大象解構合成，以流沙粒子效果呈現自然與力量的張力。' },
-      // Logo & 排版
-      { src: practiceLogoHejia, practiceCategory: 'Logo', caption: '合家品牌識別設計：Mockup 應用與幾何標誌。' },
-      { src: practiceLogoHejia, practiceCategory: '排版設計', caption: '品牌應用版式研究。' },
-      // 字體系列
-      { src: practiceFontAudi, practiceCategory: '字體', caption: '字體設計練習：Audi 視覺風格研究' },
-      { src: practiceFontLight, practiceCategory: '字體', caption: 'PS 直播課：光效字體設計' },
-      // 插圖系列
-      { src: practiceIllustRabbit, practiceCategory: '插圖', caption: '插圖練習：兔子主題視覺' },
-      { src: practiceIllustZodiac, practiceCategory: '插圖', caption: '插圖練習：12 星座系列設計' },
+      // Logo
+      { src: practiceLogoHejia, practiceCategory: 'Logo', caption: '合家小食屋品牌識別設計：以篆書圓形印章為概念，融合「小琉球」為核心標誌，搭配傳統條紋圖騰，同步延伸五款產品包裝配色（原味、黑糖、海苔、煉乳、草莓），建立完整的視覺識別系統。' },
+      // 插圖
+      { src: practiceIllustRabbit, practiceCategory: '插圖', caption: '「2017 野餐樂天地」活動插圖：以手繪風格描繪兔子角色與野餐場景，融合童趣插畫與活動資訊，傳遞輕鬆歡樂的品牌氛圍。' },
+      { src: practiceIllustZodiac, practiceCategory: '插圖', caption: '「猜猜我們是什麼星座？」12 星座系列插圖：以一致的黑色小妖怪「歐罵罵O-mama」造型詮釋十二星座特徵，每個角色透過細節差異傳遞各星座個性，兼顧系列感與辨識度。' },
+      // 字體
+      { src: practiceFontAudi, practiceCategory: '字體', caption: 'PS 字體設計：以奧迪車燈尾燈的格紋材質為靈感，結合金屬邊框與鏡面倒影，詮釋 AUDI 品牌的高規格質感。' },
+      { src: practiceFontLight, practiceCategory: '字體', caption: 'PS 光效字體設計：運用星際光暈與霓虹發光效果，呈現「NaRa Chou」文字的夢幻宇宙感，練習圖層混合模式與光效控制。' },
       // UI
-      { src: practiceUiCharacter, practiceCategory: 'UI', caption: '遊戲 UI：萌系角色屬性介面設計。' },
-      { src: practiceUiGame, practiceCategory: 'UI', caption: '遊戲場景與系統介面風格研究。' },
-      // 排版設計 (Layout)
-      { src: practiceLayoutDmFront, practiceCategory: '排版設計', caption: '三折頁 DM 設計：正面版面配置。' },
-      { src: practiceLayoutDmBack, practiceCategory: '排版設計', caption: '三折頁 DM 設計：背面內容資訊排版。' },
-      { src: practiceLayoutCol2_01, practiceCategory: '排版設計', caption: '雜誌版式：兩欄式圖文編排練習(01)。' },
-      { src: practiceLayoutCol2_02, practiceCategory: '排版設計', caption: '雜誌版式：兩欄式圖文編排練習(02)。' },
-      { src: practiceLayoutCol3_01, practiceCategory: '排版設計', caption: '資訊排版：三欄式結構化設計。' },
-      { src: practiceLayoutPoster01, practiceCategory: '排版設計', caption: '海報設計：1MB 視覺實驗系列(01)。' },
-      { src: practiceLayoutPoster02, practiceCategory: '排版設計', caption: '海報設計：1MB 視覺實驗系列(02)。' },
+      { src: practiceUiCharacter, practiceCategory: 'UI', caption: '手遊 UI 設計：「禮包酷」角色屬性頁面。以清新海灘場景為背景，搭配 3D 萌系忍者主角，練習遊戲系統介面的角色展示版面與按鈕配置。' },
+      { src: practiceUiGame, practiceCategory: 'UI', caption: '手遊設定介面 UI 設計：以森林奇幻場景為背景，設計圓角餅乾色系的 SETTINGS 彈窗，包含音效音樂滑桿與語言選擇，練習遊戲 UI 的色彩系統與互動元件規格。' },
+      // 排版設計
+      { src: practiceLayoutDmFront, practiceCategory: '排版設計', caption: '品茶三折頁 DM 正面：以水墨茶湯意象為主視覺，中式書法標題搭配留白構圖，練習傳統文化品牌的版面氛圍營造。' },
+      { src: practiceLayoutDmBack, practiceCategory: '排版設計', caption: '品茶三折頁 DM 背面：資訊密集型排版練習，三欄佈局整合圖文說明、功效介紹與聯絡資訊，練習閱讀動線的引導與視覺層次的建立。' },
+      { src: practiceLayoutCol2_01, practiceCategory: '排版設計', caption: '甜心蛋糕兩欄版式（明亮版）：左側主視覺照片、右側品牌文字，粉色系配色搭配裝飾字體，練習食品品牌的輕盈活潑排版風格。' },
+      { src: practiceLayoutCol2_02, practiceCategory: '排版設計', caption: '甜心蛋糕兩欄版式（深色版）：深棕底色搭配書法字體，與明亮版形成明暗對比，練習同一品牌在不同調性下的視覺語言轉換。' },
+      { src: practiceLayoutCol3_01, practiceCategory: '排版設計', caption: '品茶三欄版式：封面主視覺、品牌 Logo 與資訊文字三欄並排，以水墨插圖貫穿整體，練習中式風格排版的比例分配與裝飾元素整合。' },
+      { src: practiceLayoutPoster01, practiceCategory: '排版設計', caption: '海報設計：「認養代替購買」公益活動。金色書法大字搭配深灰底，印章式構圖強化儀式感，練習中文字體設計在海報主視覺中的比重拿捏。' },
+      { src: practiceLayoutPoster02, practiceCategory: '排版設計', caption: '機油產品包裝設計：日系賽車風格排版，中英日文資訊層次整合，紅黑底色搭配動感插圖，練習高密度資訊在視覺設計中的秩序感建立。' },
     ],
     visual: {
       cardBg: 'bg-[rgba(26,26,36,0.50)]',

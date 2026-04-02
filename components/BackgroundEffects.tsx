@@ -34,19 +34,18 @@ const GLOW_BLURS = [
 export const BackgroundEffects: React.FC = () => {
   return (
     <>
-      {/* [視覺化註解] 用資料統一渲染所有光暈特效，確保邏輯可維護與一致 */}
       {GLOW_BLURS.map(({ key, style }) => (
         <div
           key={key}
           className="fixed rounded-full -z-10 pointer-events-none"
-          // [動態 style] 只輸出變動屬性，其餘保持共用
           style={{
             width: 'var(--blur-bg-size)',
             height: 'var(--blur-bg-size)',
             filter: `blur(var(--blur-bg-blur))`,
-            background: 'radial-gradient(circle, var(--tang-pink) 0%, transparent 70%)',
-            aspectRatio: '1/1', // [視覺註解] 圓形不能變形
-            ...style // 輸出對應的位置屬性（top/left/bottom/right）
+            // 透明度降至 0.05，桌機有氛圍感，手機不染橘
+            background: 'radial-gradient(circle, rgba(230, 57, 70, 0.05) 0%, transparent 70%)',
+            aspectRatio: '1/1',
+            ...style
           }}
         />
       ))}

@@ -6,13 +6,10 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ mode }) => {
-  /// 💡 改用這個判斷：只有當環境變數中有 GITHUB_ACTIONS 時才使用子路徑
-  // Vercel 佈署時不會有這個變數，所以會自動切換到 '/'
-  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
-
+  
   return {
-   // 如果是 GitHub Actions 打包就用 '/KikiDesign/'，其他（Vercel/本地）一律用 '/'
-   base: isGitHubPages ? '/KikiDesign/' : '/',
+    // 💡 既然 GitHub 轉為隱私且主打 Vercel，直接統一用根目錄
+    base: '/',
     plugins: [
       tailwindcss(), // 確保在 react 之前
       react(),

@@ -12,8 +12,8 @@ import logoKiki2025Mockup from '../assets/images/namecard-kiki-2025-mockup-concr
 import posterMockupMain from '../assets/images/poster-mockup-main.webp';
 import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
 import ecommerceMockup from '../assets/images/ecommerce-mockup.webp';
-import practiceComp01 from '../assets/images/practice-comp-01.webp';
 import practiceLabCover from '../assets/images/practice-lab-cover.webp';
+import aiLabCover from '../assets/images/ai-lab-cover.webp';
 
 /**
  * B. 資料結構與類型統一管理
@@ -91,6 +91,17 @@ const WORKS: {
     glow: 'rgba(139, 92, 246, 0.4)',
     extraClass: '',
     ...ALIGN_CONFIG.left,
+  },
+  {
+    id: 'ai-lab',
+    titleZH: 'AI 數位效率實驗室',
+    titleEN: 'AI Technology Lab',
+    subtitle: 'AI APPLICATION / 2025 – 2026',
+    img: aiLabCover,
+    bg: 'bg-[rgba(10,20,35,0.55)]',
+    glow: 'rgba(56, 189, 248, 0.4)',
+    extraClass: 'lg:mt-32',
+    ...ALIGN_CONFIG.right,
   },
 ];
 

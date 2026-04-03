@@ -47,6 +47,10 @@ import practiceLayoutCol2_02 from '../assets/images/practice-layout-col2-02.webp
 import practiceLayoutCol3_01 from '../assets/images/practice-layout-col3-01.webp';
 import practiceLayoutPoster01 from '../assets/images/practice-layout-poster-01.webp';
 import practiceLayoutPoster02 from '../assets/images/practice-layout-poster-02.webp';
+import aiLabCover from '../assets/images/ai-lab-cover.webp';
+import aiToolFortune from '../assets/images/ai-tool-fortune.webp';
+import aiToolAccounting from '../assets/images/ai-tool-accounting.webp';
+import aiSlideBehaviorLogic from '../assets/images/ai-slide-behavior-logic.webp';
 
 
 /**
@@ -249,6 +253,42 @@ export const projectsList: ProjectData[] = [
       cardBg: 'bg-[rgba(26,26,36,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(139,92,246,0.3)]',
       glow: 'rgba(139,92,246,0.3)',
+    }
+  },
+  {
+    id: 'ai-lab',
+    title: 'AI 數位效率實驗室',
+    subtitle: 'AI Technology Lab',
+    category: 'AI Application / Business Presentation',
+    year: '2025 – Now',
+    description:
+      '設計師不只是執行視覺——更是定義流程的人。這裡記錄以 AI 為協作核心的實驗成果：從數字密碼排盤 Web App 的指令優化，到客製化記帳系統的前後端串接，再到商業簡報的視覺邏輯重構。每個作品都是一次「設計思維 × 開發能力 × AI 協作」的實戰探索。',
+    tabs: ['數位工具開發', '商業簡報視覺'],
+    images: [
+      // 首頁卡片封面
+      { src: aiLabCover, coverOnly: true },
+      // 數位工具開發
+      {
+        src: aiToolFortune,
+        practiceCategory: '數位工具開發',
+        caption: '數字密碼排盤 Web App：行為邏輯品牌專屬工具。透過 AI 指令優化複雜邏輯推演，實現輸入生日資訊後即時產生命盤解析結果，大幅縮短人工計算時間，提升服務效率與客戶體驗。',
+      },
+      {
+        src: aiToolAccounting,
+        practiceCategory: '數位工具開發',
+        caption: '個人客製化記帳系統 App 介面：「Family Finance」以使用者行為為核心設計，透過 AI 協作撰寫前端邏輯並串接 Supabase 雲端資料庫，解決市售軟體無法精準對接個人財務分類的痛點，圓餅圖即時呈現各支出類別比例。',
+      },
+      // 商業簡報視覺
+      {
+        src: aiSlideBehaviorLogic,
+        practiceCategory: '商業簡報視覺',
+        caption: '行韋邏輯品牌核心視覺提案：以扇形放射結構整合品牌創辦人學經歷、核心服務與品牌理念，運用 AI 輔助生成識別元素並以網格系統重新建構資訊層次，將複雜的品牌思維轉化為直覺且具說服力的商業演說架構。',
+      },
+    ],
+    visual: {
+      cardBg: 'bg-[rgba(10,20,35,0.55)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(56,189,248,0.3)]',
+      glow: 'rgba(56,189,248,0.3)',
     }
   },
 ];

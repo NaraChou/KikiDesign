@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kiki-design.vercel.app/sitemap.xml

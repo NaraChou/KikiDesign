@@ -6,10 +6,12 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
+  // 檢查是否正在 Vercel 環境中佈署
+  const isVercel = process.env.VERCEL === 'true';
 
   return {
-    base: '/', // 修正：將 /KikiDesign/ 改為 /
+    // 💡 自動判斷：如果是 Vercel 就用根目錄 '/'，否則用 GitHub 的 '/KikiDesign/'
+    base: isVercel ? '/' : '/KikiDesign/',
     plugins: [
       tailwindcss(), // 確保在 react 之前
       react(),

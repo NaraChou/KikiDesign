@@ -162,7 +162,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
       />
       {/* [結構] 卡片圖區域，所有比例/aspect-ratio 由 object-contain 與 CSS 控制，無變形風險 */}
       <div className={`work-card-inner ${work.bg} transition-all duration-500 group-hover:translate-y-[-2px]`}>
-        <div className="work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center p-6 md:p-8">
+        <div className="work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center">
           <img
             src={work.img}
             alt={work.titleZH}

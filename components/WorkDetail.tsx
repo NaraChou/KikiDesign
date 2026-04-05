@@ -9,6 +9,12 @@ import { LAYOUT } from '../styles/layout';
  * Lightbox 開啟時以 body 加上 scroll-lock class 鎖捲動，不直接改 inline overflow。
  */
 
+// [B-0] GSAP 白名單（此區 class/id 永不 refactor，供動畫 hook 使用）
+const GSAP_SELECTORS = {
+  waterfallItem: 'waterfall-item',  // WorkDetail GSAP target — querySelectorAll('.waterfall-item')
+  waterfallCard: 'waterfall-card',  // WorkDetail GSAP target — hover/scroll 動畫錨點
+} as const;
+
 // [B] 樣式常數（基礎類別在前，同一字串內 RWD 類別置於末端）
 const STYLES = {
   wrapperEmpty: 'h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]',
@@ -17,7 +23,7 @@ const STYLES = {
   header: 'mx-auto text-center detail-header-container',
   label: 'uppercase detail-label block mb-6',
   grid: 'columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid',
-  figure: 'waterfall-item group relative overflow-hidden waterfall-card cursor-pointer',
+  figureUI: 'group relative overflow-hidden cursor-pointer',
   hoverMask:
     'absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 transition-opacity opacity-0 group-hover:opacity-100 waterfall-hover-mask',
   footer: 'flex justify-center back-nav-footer',
@@ -185,7 +191,7 @@ export const WorkDetail: React.FC = () => {
           {filteredImages.map((image: ProjectImage, idx: number) => (
             <figure
               key={`${activeTab}-${idx}`}
-              className={`${STYLES.figure}${isPractice ? ' practice-image-card' : ''}`}
+              className={`${GSAP_SELECTORS.waterfallItem} ${GSAP_SELECTORS.waterfallCard} ${STYLES.figureUI}${isPractice ? ' practice-image-card' : ''}`}
               onClick={() => setLightbox(image)}
               role="button"
               tabIndex={0}

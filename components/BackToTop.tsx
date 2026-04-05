@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -8,10 +9,10 @@ import React, { useEffect, useRef } from 'react';
 // [B] 樣式常數（基礎在前，字串末端為 RWD）
 const STYLES = {
   wrapper:
-    'fixed z-[70] group flex flex-col items-center right-6 bottom-8 transition-opacity duration-500 opacity-0 pointer-events-none',
+    'fixed flex flex-col items-center right-6 bottom-8 z-[70] group opacity-0 pointer-events-none transition-opacity duration-500',
   line:
-    'w-px transition-all duration-500 bg-[rgba(230,57,70,0.5)] rounded-[1.5px] h-12 group-hover:h-16',
-  caption: 'vertical-text uppercase mt-4 text-[8px] tracking-[0.4em] text-[var(--text-dim)]',
+    'w-px h-12 rounded-[1.5px] bg-[rgba(230,57,70,0.5)] transition-all duration-500 group-hover:h-16',
+  description: 'vertical-text mt-4 uppercase text-[8px] tracking-[0.4em] text-[var(--text-dim)]',
 } as const;
 
 // [C] 元件主體
@@ -51,7 +52,7 @@ export const BackToTop: React.FC = () => {
       className={STYLES.wrapper}
     >
       <div className={STYLES.line} aria-hidden="true" />
-      <span className={STYLES.caption} aria-hidden="true">
+      <span className={STYLES.description} aria-hidden="true">
         Top
       </span>
     </button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/works.css';
+import { LAYOUT } from '../styles/layout';
 
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
 import logoKiki2025Mockup from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
@@ -92,7 +93,7 @@ const STYLES = {
   titleDivider: 'title-divider',
   titleSecondary: 'title-en',
   description: 'work-card-subtitle',
-  container: 'content-width-container mx-auto w-full',
+  container: LAYOUT.container,
   grid: 'works-grid',
 } as const;
 

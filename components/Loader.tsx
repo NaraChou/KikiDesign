@@ -1,6 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import kikiLogo from '../assets/images/logo-kiki-main.svg';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -9,7 +10,7 @@ import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 // [B] 樣式常數（RWD 類別置於字串末端）
 const STYLES = {
-  container: 'content-width-container w-full flex flex-col items-center text-center',
+  container: `${LAYOUT.colCenter} text-center`,
   logoStack: 'relative mb-12 flex items-center justify-center',
   logoImage: 'w-16 h-16 relative z-10',
 } as const;

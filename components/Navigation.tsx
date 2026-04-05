@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';  
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -35,7 +36,7 @@ const STYLES = {
     'uppercase font-light text-[var(--brand-accent)] leading-tight tracking-[0.12em] -mr-[0.12em] mb-0.5 opacity-90 text-[12px]',
   menu: 'hidden md:flex space-x-12 tracking-main-nav',
   menuLink: 'text-[12px] text-[var(--text-dim)] hover:text-white transition italic',
-  toggle: 'md:hidden flex flex-col space-y-1.5 p-2 cursor-pointer',
+  toggle: 'flex flex-col space-y-1.5 p-2 cursor-pointer md:hidden',
   toggleBar: 'w-6 h-px bg-white/80',
   toggleBarShort: 'w-4 h-px bg-white/80 ml-auto',
 } as const;

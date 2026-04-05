@@ -1,4 +1,5 @@
 import React from 'react';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -9,7 +10,7 @@ import React from 'react';
 const STYLES = {
   wrapper:
     'min-h-screen flex flex-col justify-center items-center pt-10 text-center relative bg-transparent',
-  container: 'content-width-container flex flex-col items-center justify-center w-full',
+  container: `${LAYOUT.colCenter} justify-center`,
   tag: 'serif-italic block text-[10px] md:text-xs text-red-500/80 opacity-0 tracking-[0.5em] uppercase mb-8',
   title: 'chinese-art text-4xl md:text-7xl opacity-0 leading-tight mb-12',
   titleAccent: 'font-normal opacity-90',

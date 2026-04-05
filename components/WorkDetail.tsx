@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { projectsRecord, ProjectImage } from '../data/projectData';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -12,7 +13,7 @@ import { projectsRecord, ProjectImage } from '../data/projectData';
 const STYLES = {
   wrapperEmpty: 'h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]',
   wrapper: 'min-h-screen work-detail-wrapper',
-  container: 'content-width-container mx-auto',
+  container: LAYOUT.container,
   header: 'mx-auto text-center detail-header-container',
   label: 'uppercase detail-label block mb-6',
   grid: 'columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid',

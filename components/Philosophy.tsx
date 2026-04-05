@@ -1,4 +1,5 @@
 import React from 'react';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -7,7 +8,7 @@ import React from 'react';
 
 // [B] 樣式常數（字串末端為 RWD）
 const STYLES = {
-  container: 'content-width-container w-full text-center',
+  container: LAYOUT.colCenterText,
   description: 'text-lg md:text-3xl leading-[2.2] font-extralight italic',
   breakMd: 'hidden md:block',
 } as const;

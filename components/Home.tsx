@@ -2,6 +2,7 @@ import React from 'react';
 import { Hero } from './Hero';
 import { Works } from './Works';
 import { Philosophy } from './Philosophy';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -10,7 +11,7 @@ import { Philosophy } from './Philosophy';
 
 // [B] 樣式常數（RWD 類別置於字串末端）
 const STYLES = {
-  container: 'content-width-container flex flex-col md:gap-48',
+  container: LAYOUT.homeStack,
 } as const;
 
 // [C] 元件主體

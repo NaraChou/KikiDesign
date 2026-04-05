@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { LAYOUT } from '../styles/layout';
 
 /**
  * [A] 視覺資訊備註
@@ -16,7 +17,7 @@ const menuLinks: Array<{ id: string; href: string; label: string }> = [
 
 const STYLES = {
   wrapper: 'mobile-menu',
-  container: 'content-width-container w-full flex flex-col items-center space-y-8',
+  container: `${LAYOUT.colCenter} space-y-8`,
   linkRow: 'flex items-end gap-1 font-light italic tracking-[0.2em] transition-colors',
   linkZh: 'text-sm md:text-lg',
   linkEn: 'text-xs md:text-base opacity-70 tracking-[0.08em] ml-1',

@@ -7,11 +7,11 @@ import React, { useEffect, useRef } from 'react';
 
 // [B] 樣式常數（基礎在前，字串末端為 RWD）
 const STYLES = {
-  button:
+  wrapper:
     'fixed z-[70] group flex flex-col items-center right-6 bottom-8 transition-opacity duration-500 opacity-0 pointer-events-none',
   line:
     'w-px transition-all duration-500 bg-[rgba(230,57,70,0.5)] rounded-[1.5px] h-12 group-hover:h-16',
-  label: 'vertical-text uppercase mt-4 text-[8px] tracking-[0.4em] text-[var(--text-dim)]',
+  caption: 'vertical-text uppercase mt-4 text-[8px] tracking-[0.4em] text-[var(--text-dim)]',
 } as const;
 
 // [C] 元件主體
@@ -48,10 +48,10 @@ export const BackToTop: React.FC = () => {
       type="button"
       aria-label="回到最上面"
       onClick={scrollToTop}
-      className={STYLES.button}
+      className={STYLES.wrapper}
     >
       <div className={STYLES.line} aria-hidden="true" />
-      <span className={STYLES.label} aria-hidden="true">
+      <span className={STYLES.caption} aria-hidden="true">
         Top
       </span>
     </button>

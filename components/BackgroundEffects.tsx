@@ -7,7 +7,7 @@ import React from 'react';
 
 // [B] 樣式與位置資料
 const STYLES = {
-  glow: 'fixed rounded-full -z-10 pointer-events-none',
+  layer: 'fixed rounded-full -z-10 pointer-events-none',
 } as const;
 
 const GLOW_BLURS = [
@@ -40,7 +40,7 @@ export const BackgroundEffects: React.FC = () => (
     {GLOW_BLURS.map(({ key, style }) => (
       <div
         key={key}
-        className={STYLES.glow}
+        className={STYLES.layer}
         style={{
           ...GLOW_SURFACE,
           filter: `blur(var(--blur-bg-blur))`,

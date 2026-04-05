@@ -10,13 +10,13 @@ import { Philosophy } from './Philosophy';
 
 // [B] 樣式常數（RWD 類別置於字串末端）
 const STYLES = {
-  contentWrap: 'content-width-container flex flex-col md:gap-48',
+  container: 'content-width-container flex flex-col md:gap-48',
 } as const;
 
 // [C] 元件主體
 export const Home: React.FC = () => (
   <main>
-    <div className={STYLES.contentWrap}>
+    <div className={STYLES.container}>
       <Hero />
       <Works />
       <Philosophy />

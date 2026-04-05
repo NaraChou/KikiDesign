@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * [A] 視覺資訊備註
- * 手機全屏選單：isOpen 時自頂滑入；連結點擊後關閉並捲動至錨點（與導覽列相同邏輯）。色彩沿用 CSS 變數 --menu-bg、--menu-link-color。
+ * 手機全屏選單：根節點加 .is-open 時由 CSS 滑入（transform／過渡在 style.css）；JS 只負責開關與捲動錨點。
  */
 
 // [B] 資料與樣式常數
@@ -15,20 +15,12 @@ const menuLinks: Array<{ id: string; href: string; label: string }> = [
 ];
 
 const STYLES = {
-  nav: 'fixed inset-0 z-[60] flex flex-col justify-center items-center',
+  wrapper: 'mobile-menu',
   container: 'content-width-container w-full flex flex-col items-center space-y-8',
   linkRow: 'flex items-end gap-1 font-light italic tracking-[0.2em] transition-colors',
-  zh: 'text-sm md:text-lg',
-  en: 'text-xs md:text-base opacity-70 tracking-[0.08em] ml-1',
-  closeBtn: 'mt-12 text-[10px] tracking-[0.5em] opacity-40 uppercase hover:opacity-100 transition',
-} as const;
-
-const MENU_MOTION = {
-  base: {
-    background: 'var(--menu-bg, #0E0C0B)',
-    transition: 'transform 0.8s cubic-bezier(0.85, 0, 0.15, 1)',
-  },
-  linkColor: { color: 'var(--menu-link-color, #EAE2D6)' },
+  linkZh: 'text-sm md:text-lg',
+  linkEn: 'text-xs md:text-base opacity-70 tracking-[0.08em] ml-1',
+  close: 'mobile-menu__close mt-12 text-[10px] tracking-[0.5em] opacity-40 uppercase hover:opacity-100 transition',
 } as const;
 
 function splitLabel(label: string) {
@@ -68,18 +60,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const panelStyle: React.CSSProperties = {
-    ...MENU_MOTION.base,
-    transform: isOpen ? 'translateY(0)' : 'translateY(-100%)',
-  };
+  const rootClass = `${STYLES.wrapper}${isOpen ? ' is-open' : ''}`;
 
   return (
-    <nav
-      id="mobile-menu"
-      aria-label="手機導覽選單"
-      className={STYLES.nav}
-      style={panelStyle}
-    >
+    <nav id="mobile-menu" aria-label="手機導覽選單" className={rootClass}>
       <div className={STYLES.container}>
         {menuLinks.map((link) => {
           const { zh, en } = splitLabel(link.label);
@@ -89,18 +73,17 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               href={link.href}
               onClick={(e) => handleLinkClick(link.href, e)}
               className={STYLES.linkRow}
-              style={MENU_MOTION.linkColor}
               aria-label={`前往${zh}${en ? ` / ${en}` : ''}區塊`}
             >
-              <span className={STYLES.zh}>{zh}</span>
-              {en && <span className={STYLES.en}>{en}</span>}
+              <span className={STYLES.linkZh}>{zh}</span>
+              {en && <span className={STYLES.linkEn}>{en}</span>}
             </a>
           );
         })}
         <button
+          type="button"
           onClick={onClose}
-          className={STYLES.closeBtn}
-          style={MENU_MOTION.linkColor}
+          className={STYLES.close}
           aria-label="關閉導覽選單"
         >
           關閉選單 Close

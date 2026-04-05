@@ -59,8 +59,8 @@ body {
   padding-right: var(--container-padding-mobile);
 }
 
-/* ── E. 導覽列 ───────────────────────────────────────────── */
-nav {
+/* ── E. 導覽列（頂欄；排除手機全屏選單 #mobile-menu） ───────── */
+nav:not(#mobile-menu) {
   position: fixed;
   top: 0;
   left: 0;
@@ -71,6 +71,29 @@ nav {
   mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
   padding-top: var(--container-padding-mobile);
   padding-bottom: var(--container-padding-mobile);
+}
+
+/* 手機全屏選單：位移／過渡／底色全由 CSS 控制，JS 只切換 .is-open */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--menu-bg, #0e0c0b);
+  transform: translateY(-100%);
+  transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+  pointer-events: none;
+}
+.mobile-menu.is-open {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.mobile-menu a,
+.mobile-menu .mobile-menu__close {
+  color: var(--menu-link-color, #eae2d6);
 }
 
 /* ── F. Footer ───────────────────────────────────────────── */
@@ -216,7 +239,7 @@ nav {
     padding-left: var(--container-padding-desktop);
     padding-right: var(--container-padding-desktop);
   }
-  nav {
+  nav:not(#mobile-menu) {
     padding-top: var(--nav-padding-y);
     padding-bottom: var(--nav-padding-y);
   }

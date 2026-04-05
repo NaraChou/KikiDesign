@@ -19,8 +19,8 @@ import './types';
 
 // [B] 樣式常數（基礎在前，字串末端為 RWD）
 const STYLES = {
-  customCursor: 'custom-cursor pointer-events-none fixed z-[99] hidden md:block',
-  appShell: 'relative w-full',
+  cursor: 'custom-cursor pointer-events-none fixed z-[99] hidden md:block',
+  wrapper: 'relative w-full',
 } as const;
 
 // [C] 自訂游標：桌面顯示圓形游標並跟隨滑鼠（不攔截點擊）
@@ -40,7 +40,7 @@ export const CustomCursor: React.FC = () => {
     return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
 
-  return <div ref={cursorRef} className={STYLES.customCursor} aria-hidden="true" />;
+  return <div ref={cursorRef} className={STYLES.cursor} aria-hidden="true" />;
 };
 
 function AppContent() {
@@ -110,7 +110,7 @@ function AppContent() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <div className={STYLES.appShell}>
+    <div className={STYLES.wrapper}>
       <CustomCursor />
       <BackgroundEffects />
       <Loader />

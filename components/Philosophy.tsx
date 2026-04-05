@@ -7,8 +7,8 @@ import React from 'react';
 
 // [B] 樣式常數（字串末端為 RWD）
 const STYLES = {
-  inner: 'content-width-container w-full text-center',
-  quote: 'text-lg md:text-3xl leading-[2.2] font-extralight italic',
+  container: 'content-width-container w-full text-center',
+  description: 'text-lg md:text-3xl leading-[2.2] font-extralight italic',
   breakMd: 'hidden md:block',
 } as const;
 
@@ -18,7 +18,7 @@ const SECTION_SURFACE: React.CSSProperties = {
   background: 'var(--section-bg-philosophy, #0E0C0B)',
 };
 
-const QUOTE_TYPO: React.CSSProperties = {
+const DESCRIPTION_TYPO: React.CSSProperties = {
   color: 'var(--philosophy-text, rgba(255,255,255,0.8))',
   letterSpacing: 'var(--philosophy-letter-spacing, 0.15em)',
 };
@@ -26,8 +26,8 @@ const QUOTE_TYPO: React.CSSProperties = {
 // [C] 元件主體
 export const Philosophy: React.FC = () => (
   <section id="philosophy" style={SECTION_SURFACE}>
-    <div className={STYLES.inner}>
-      <p className={STYLES.quote} style={QUOTE_TYPO}>
+    <div className={STYLES.container}>
+      <p className={STYLES.description} style={DESCRIPTION_TYPO}>
         「設計不只是為了解決問題，更是一種溫度的傳遞。
         <br className={STYLES.breakMd} />
         我們在混亂中尋找秩序，在空白中賦予生命。」

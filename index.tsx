@@ -17,7 +17,7 @@ if ('scrollRestoration' in window.history) {
 
 // [B] 樣式常數
 const STYLES = {
-  rootShell: 'main-container',
+  wrapper: 'main-container',
 } as const;
 
 const rootElement = document.getElementById('root');
@@ -29,7 +29,7 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <div className={STYLES.rootShell}>
+    <div className={STYLES.wrapper}>
       <App />
     </div>
   </React.StrictMode>

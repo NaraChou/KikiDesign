@@ -20,23 +20,24 @@ const SOCIAL_LINKS = [
 ];
 
 const STYLES = {
-  footer: 'footer-frame border-t border-white/5',
-  row: 'max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end text-center md:text-left',
-  leftCol: 'mb-12 md:mb-0',
+  wrapper: 'footer-frame border-t border-white/5',
+  container:
+    'max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end text-center md:text-left',
+  columnLead: 'mb-12 md:mb-0',
   title: 'footer-title mb-4 serif-italic',
-  subtitle: 'footer-subtitle',
-  rightCol: 'flex flex-col items-center md:items-end space-y-4',
-  emailGroup: 'flex flex-col items-center md:items-end',
-  emailWrap: 'relative group',
-  emailBtn: 'footer-email cursor-copy flex items-center group',
-  emailTextVisible: 'transition-all duration-300 opacity-100',
-  emailTextHidden: 'transition-all duration-300 opacity-0',
-  copiedHint:
+  description: 'footer-subtitle',
+  columnEnd: 'flex flex-col items-center md:items-end space-y-4',
+  stack: 'flex flex-col items-center md:items-end',
+  email: 'relative group',
+  emailButton: 'footer-email cursor-copy flex items-center group',
+  emailTextOn: 'transition-all duration-300 opacity-100',
+  emailTextOff: 'transition-all duration-300 opacity-0',
+  feedback:
     'absolute left-0 right-0 text-center md:text-right transition-all duration-300 text-[10px] tracking-widest text-[#E63946] uppercase',
-  copiedHintOn: 'opacity-100',
-  copiedHintOff: 'opacity-0',
+  feedbackOn: 'opacity-100',
+  feedbackOff: 'opacity-0',
   socialList: 'flex space-x-6 mt-1',
-  copyrightWrap: 'border-t border-white/5 w-full md:w-auto text-center md:text-right pb-8 md:pb-0',
+  copyright: 'border-t border-white/5 w-full md:w-auto text-center md:text-right pb-8 md:pb-0',
   copyrightText:
     'text-[10px] md:text-[12px] tracking-[0.11em] md:tracking-[0.2em] leading-tight text-white/30 uppercase font-light whitespace-nowrap',
   copyrightBrand: 'text-white/50 font-medium',
@@ -55,27 +56,27 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="contact" className={STYLES.footer}>
-      <div className={STYLES.row}>
-        <div className={STYLES.leftCol}>
+    <footer id="contact" className={STYLES.wrapper}>
+      <div className={STYLES.container}>
+        <div className={STYLES.columnLead}>
           <h3 className={STYLES.title}>Create with Soul.</h3>
-          <p className={STYLES.subtitle}>Available for collaborations 2026</p>
+          <p className={STYLES.description}>Available for collaborations 2026</p>
         </div>
 
-        <div className={STYLES.rightCol}>
-          <div className={STYLES.emailGroup}>
-            <div className={STYLES.emailWrap}>
+        <div className={STYLES.columnEnd}>
+          <div className={STYLES.stack}>
+            <div className={STYLES.email}>
               <button
                 onClick={handleCopyEmail}
-                className={STYLES.emailBtn}
+                className={STYLES.emailButton}
                 aria-label="點擊複製 Email"
                 type="button"
               >
-                <span className={copied ? STYLES.emailTextHidden : STYLES.emailTextVisible}>
+                <span className={copied ? STYLES.emailTextOff : STYLES.emailTextOn}>
                   {email}
                 </span>
                 <span
-                  className={`${STYLES.copiedHint} ${copied ? STYLES.copiedHintOn : STYLES.copiedHintOff}`}
+                  className={`${STYLES.feedback} ${copied ? STYLES.feedbackOn : STYLES.feedbackOff}`}
                 >
                   Copied!
                 </span>
@@ -99,7 +100,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div className={STYLES.copyrightWrap}>
+          <div className={STYLES.copyright}>
             <p className={STYLES.copyrightText}>
               &copy;&nbsp;2026&nbsp;
               <span className={STYLES.copyrightBrand}>KIKI DESIGN</span>

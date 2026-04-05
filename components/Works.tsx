@@ -11,7 +11,7 @@ import aiLabCover from '../assets/images/ai-lab-cover.webp';
 
 /**
  * [A] 視覺資訊備註
- * 作品列表 #works；卡片光暈顏色、底色、光斑半徑等皆在 works.css 以變數管理，此檔只負責 data-work-id 與滑鼠座標（--mouse-x / --mouse-y）。
+ * 作品列表 #works；卡片光暈顏色、底色在 works.css 以變數管理；此檔負責 data-work-id 與滑鼠座標（--mouse-x / --mouse-y）。
  */
 
 // [B] 資料與樣式常數
@@ -78,28 +78,28 @@ const WORKS = [
 ] as const;
 
 const STYLES = {
-  cardBase: 'work-card group relative block',
-  linkOverlay: 'absolute inset-0 z-40',
-  cardInner: 'work-card-inner transition-all duration-500 group-hover:translate-y-[-2px]',
-  imageWrap: 'work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center',
+  wrapper: 'work-card group relative block',
+  overlay: 'absolute inset-0 z-40',
+  inner: 'work-card-inner transition-all duration-500 group-hover:translate-y-[-2px]',
+  media: 'work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center',
   image:
     'max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]',
-  arrowWrap:
+  arrow:
     'work-card-arrow-wrapper absolute right-4 top-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none',
-  info: 'work-card-info',
-  titleGroup: 'title-group',
-  titleZh: 'title-zh',
+  meta: 'work-card-info',
+  heading: 'title-group',
+  title: 'title-zh',
   titleDivider: 'title-divider',
-  titleEn: 'title-en',
-  subtitle: 'work-card-subtitle',
-  sectionInner: 'content-width-container mx-auto w-full',
+  titleSecondary: 'title-en',
+  description: 'work-card-subtitle',
+  container: 'content-width-container mx-auto w-full',
   grid: 'works-grid',
 } as const;
 
 type WorkType = (typeof WORKS)[number];
 
 const WorkCard: React.FC<{ work: WorkType }> = ({ work }) => {
-  // [畫面效果] 只更新滑鼠在卡片上的相對位置，讓 works.css 的 radial-gradient 光斑跟著游標走（發光顏色由 CSS 變數決定）
+  // [畫面效果] 只更新滑鼠在卡片上的相對位置，讓 works.css 的 radial-gradient 光斑跟著游標走
   const setPointerPosition = (target: HTMLDivElement, x: number, y: number) => {
     target.style.setProperty('--mouse-x', `${x}px`);
     target.style.setProperty('--mouse-y', `${y}px`);
@@ -116,11 +116,11 @@ const WorkCard: React.FC<{ work: WorkType }> = ({ work }) => {
     setPointerPosition(e.currentTarget, rect.width / 2, rect.height / 2);
   };
 
-  const cardRootClass = `${STYLES.cardBase} ${work.extraClass}`.trim();
+  const cardClass = `${STYLES.wrapper} ${work.extraClass}`.trim();
 
   return (
     <div
-      className={cardRootClass}
+      className={cardClass}
       data-work-id={work.id}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -133,12 +133,12 @@ const WorkCard: React.FC<{ work: WorkType }> = ({ work }) => {
     >
       <Link
         to={`/work/${work.id}`}
-        className={STYLES.linkOverlay}
+        className={STYLES.overlay}
         aria-label={`查看 ${work.titleZH} 作品詳情`}
       />
 
-      <div className={STYLES.cardInner}>
-        <div className={STYLES.imageWrap}>
+      <div className={STYLES.inner}>
+        <div className={STYLES.media}>
           <img
             src={work.img}
             alt={work.titleZH}
@@ -147,20 +147,20 @@ const WorkCard: React.FC<{ work: WorkType }> = ({ work }) => {
             decoding="async"
           />
         </div>
-        <div className={STYLES.arrowWrap}>
+        <div className={STYLES.arrow}>
           <span className="arrow-circle">↗</span>
         </div>
       </div>
 
-      <div className={`${STYLES.info} ${work.textAlign}`}>
+      <div className={`${STYLES.meta} ${work.textAlign}`}>
         <h3>
-          <div className={STYLES.titleGroup}>
-            <span className={STYLES.titleZh}>{work.titleZH}</span>
+          <div className={STYLES.heading}>
+            <span className={STYLES.title}>{work.titleZH}</span>
             <span className={STYLES.titleDivider}>/</span>
-            <span className={STYLES.titleEn}>{work.titleEN}</span>
+            <span className={STYLES.titleSecondary}>{work.titleEN}</span>
           </div>
         </h3>
-        <p className={STYLES.subtitle}>{work.subtitle}</p>
+        <p className={STYLES.description}>{work.subtitle}</p>
       </div>
     </div>
   );
@@ -192,7 +192,7 @@ export const Works: React.FC = () => {
 
   return (
     <section id="works" ref={sectionRef}>
-      <div className={STYLES.sectionInner}>
+      <div className={STYLES.container}>
         <header className="works-section-header">
           <h2 className="works-section-title">Portfolio</h2>
           <p className="works-section-label">Selected Fragments</p>

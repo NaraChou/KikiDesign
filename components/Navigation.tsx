@@ -21,23 +21,23 @@ const NAV_MENUS: MenuItem[] = [
 ];
 
 const STYLES = {
-  navBase: 'fixed top-0 left-0 w-full z-50 transition-all duration-300',
-  navScrolled: 'bg-gradient-to-b from-[#0E0C0B] via-[#0E0C0B]/90 to-transparent shadow-md',
-  navTop: 'bg-gradient-to-b from-black/20 to-transparent',
-  inner: 'main-container flex justify-between items-center py-4 md:py-6',
-  logoLink: 'flex items-center space-x-4 group',
-  logoBox: 'relative w-12 h-12 flex-shrink-0',
-  logoImg: 'w-full h-full object-contain transition-transform duration-500 group-hover:scale-110',
-  logoTextCol: 'flex flex-col items-start justify-center ml-0',
-  logoZh:
+  wrapper: 'fixed top-0 left-0 w-full z-50 transition-all duration-300',
+  toneScrolled: 'bg-gradient-to-b from-[#0E0C0B] via-[#0E0C0B]/90 to-transparent shadow-md',
+  toneTop: 'bg-gradient-to-b from-black/20 to-transparent',
+  container: 'main-container flex justify-between items-center py-4 md:py-6',
+  brand: 'flex items-center space-x-4 group',
+  brandMark: 'relative w-12 h-12 flex-shrink-0',
+  brandImage: 'w-full h-full object-contain transition-transform duration-500 group-hover:scale-110',
+  brandCopy: 'flex flex-col items-start justify-center ml-0',
+  title:
     'chinese-art text-base text-[var(--brand-accent)] leading-tight mt-0 tracking-[0.12em] -mr-[0.12em]',
-  logoEn:
+  subtitle:
     'uppercase font-light text-[var(--brand-accent)] leading-tight tracking-[0.12em] -mr-[0.12em] mb-0.5 opacity-90 text-[12px]',
-  desktopMenu: 'hidden md:flex space-x-12 tracking-main-nav',
-  desktopLink: 'text-[12px] text-[var(--text-dim)] hover:text-white transition italic',
-  menuToggle: 'md:hidden flex flex-col space-y-1.5 p-2 cursor-pointer',
-  barFull: 'w-6 h-px bg-white/80',
-  barShort: 'w-4 h-px bg-white/80 ml-auto',
+  menu: 'hidden md:flex space-x-12 tracking-main-nav',
+  menuLink: 'text-[12px] text-[var(--text-dim)] hover:text-white transition italic',
+  toggle: 'md:hidden flex flex-col space-y-1.5 p-2 cursor-pointer',
+  toggleBar: 'w-6 h-px bg-white/80',
+  toggleBarShort: 'w-4 h-px bg-white/80 ml-auto',
 } as const;
 
 interface NavigationProps {
@@ -78,35 +78,35 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     }
   };
 
-  const navClass = `${STYLES.navBase} ${scrolled ? STYLES.navScrolled : STYLES.navTop}`;
+  const navClass = `${STYLES.wrapper} ${scrolled ? STYLES.toneScrolled : STYLES.toneTop}`;
 
   return (
     <nav className={navClass}>
-      <div className={STYLES.inner}>
-        <Link to="/" className={STYLES.logoLink} aria-label="回到首頁">
-          <div className={STYLES.logoBox}>
+      <div className={STYLES.container}>
+        <Link to="/" className={STYLES.brand} aria-label="回到首頁">
+          <div className={STYLES.brandMark}>
             <img
               src="logo-kiki-sm.png"
               srcSet="logo-kiki-sm.png 1x, logo-kiki-md.png 2x"
               alt="Kiki Design 棠想視界"
-              className={STYLES.logoImg}
+              className={STYLES.brandImage}
               loading="eager"
               fetchPriority="high"
             />
           </div>
-          <div className={STYLES.logoTextCol}>
-            <span className={STYLES.logoZh}>棠想視界</span>
-            <span className={STYLES.logoEn}>Kiki Design</span>
+          <div className={STYLES.brandCopy}>
+            <span className={STYLES.title}>棠想視界</span>
+            <span className={STYLES.subtitle}>Kiki Design</span>
           </div>
         </Link>
 
-        <div className={STYLES.desktopMenu}>
+        <div className={STYLES.menu}>
           {NAV_MENUS.map((menu) => (
             <a
               key={menu.id}
               href={menu.id}
               onClick={(e) => handleNavClick(menu.id, e)}
-              className={STYLES.desktopLink}
+              className={STYLES.menuLink}
               aria-label={menu.srLabel}
             >
               {menu.label}
@@ -116,13 +116,13 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
 
         <button
           id="menu-toggle"
-          className={STYLES.menuToggle}
+          className={STYLES.toggle}
           onClick={onToggleMenu}
           type="button"
           aria-label="展開主選單"
         >
-          <div className={STYLES.barFull}></div>
-          <div className={STYLES.barShort}></div>
+          <div className={STYLES.toggleBar}></div>
+          <div className={STYLES.toggleBarShort}></div>
         </button>
       </div>
     </nav>

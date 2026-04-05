@@ -10,20 +10,19 @@ import { projectsRecord, ProjectImage } from '../data/projectData';
 
 // [B] 樣式常數（基礎類別在前，同一字串內 RWD 類別置於末端）
 const STYLES = {
-  notFoundMain: 'h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]',
-  pageMain: 'min-h-screen work-detail-wrapper',
-  innerSection: 'content-width-container mx-auto',
+  wrapperEmpty: 'h-screen flex items-center justify-center text-[var(--brand-subtle,#EAE2D6)]',
+  wrapper: 'min-h-screen work-detail-wrapper',
+  container: 'content-width-container mx-auto',
   header: 'mx-auto text-center detail-header-container',
-  categoryLabel: 'uppercase detail-label block mb-6',
-  waterfallGrid: 'columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid',
-  figureBase: 'waterfall-item group relative overflow-hidden waterfall-card cursor-pointer',
+  label: 'uppercase detail-label block mb-6',
+  grid: 'columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid',
+  figure: 'waterfall-item group relative overflow-hidden waterfall-card cursor-pointer',
   hoverMask:
     'absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 transition-opacity opacity-0 group-hover:opacity-100 waterfall-hover-mask',
-  backFooter: 'flex justify-center back-nav-footer',
-  backLink: 'group flex flex-col items-center',
+  footer: 'flex justify-center back-nav-footer',
+  footerLink: 'group flex flex-col items-center',
 } as const;
 
-/** 與 globals.css 的 body.scroll-lock 對應，勿改名以免鎖捲動失效 */
 const BODY_SCROLL_LOCK_CLASS = 'scroll-lock';
 
 // [C] 元件主體
@@ -93,7 +92,6 @@ export const WorkDetail: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
-  // [畫面效果] Lightbox 開啟時為 body 加上 scroll-lock（CSS 鎖捲動），關閉時移除
   useEffect(() => {
     if (lightbox) {
       document.body.classList.add(BODY_SCROLL_LOCK_CLASS);
@@ -145,18 +143,18 @@ export const WorkDetail: React.FC = () => {
   }, [id, project]);
 
   if (!project) {
-    return <main className={STYLES.notFoundMain}>資料不存在，請回首頁</main>;
+    return <main className={STYLES.wrapperEmpty}>資料不存在，請回首頁</main>;
   }
 
   return (
     <main
       ref={containerRef}
-      className={STYLES.pageMain}
+      className={STYLES.wrapper}
       style={{ '--detail-glow-color': project.visual.glow } as React.CSSProperties}
     >
-      <section className={STYLES.innerSection}>
+      <section className={STYLES.container}>
         <header id="detail-header" className={STYLES.header}>
-          <span className={STYLES.categoryLabel}>{project.category}</span>
+          <span className={STYLES.label}>{project.category}</span>
           <h1 className="chinese-art detail-main-title">{project.title}</h1>
           <h2 className="serif-italic italic detail-subtitle-text">{project.subtitle}</h2>
           <div className="detail-vertical-divider"></div>
@@ -180,13 +178,13 @@ export const WorkDetail: React.FC = () => {
 
         <section
           ref={gridRef}
-          className={STYLES.waterfallGrid}
+          className={STYLES.grid}
           aria-label="作品圖片瀑布流"
         >
           {filteredImages.map((image: ProjectImage, idx: number) => (
             <figure
               key={`${activeTab}-${idx}`}
-              className={`${STYLES.figureBase}${isPractice ? ' practice-image-card' : ''}`}
+              className={`${STYLES.figure}${isPractice ? ' practice-image-card' : ''}`}
               onClick={() => setLightbox(image)}
               role="button"
               tabIndex={0}
@@ -229,8 +227,8 @@ export const WorkDetail: React.FC = () => {
           )}
         </section>
 
-        <footer className={STYLES.backFooter}>
-          <Link to="/" className={STYLES.backLink}>
+        <footer className={STYLES.footer}>
+          <Link to="/" className={STYLES.footerLink}>
             <span className="back-line group-hover:w-24"></span>
             <span className="uppercase back-label group-hover:text-white">
               返回首頁 / Back to Home

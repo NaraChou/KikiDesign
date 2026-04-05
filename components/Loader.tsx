@@ -9,18 +9,18 @@ import kikiLogo from '../assets/images/logo-kiki-main.svg';
 
 // [B] 樣式常數（RWD 類別置於字串末端）
 const STYLES = {
-  inner: 'content-width-container w-full flex flex-col items-center text-center',
-  logoCluster: 'relative mb-12 flex items-center justify-center',
-  logoImg: 'w-16 h-16 relative z-10',
+  container: 'content-width-container w-full flex flex-col items-center text-center',
+  logoStack: 'relative mb-12 flex items-center justify-center',
+  logoImage: 'w-16 h-16 relative z-10',
 } as const;
 
 // [C] 元件主體
 export const Loader: React.FC = () => (
   <div id="loader" className="loader-wrapper">
-    <div className={STYLES.inner}>
-      <div className={STYLES.logoCluster}>
+    <div className={STYLES.container}>
+      <div className={STYLES.logoStack}>
         <div className="loader-glow" />
-        <img src={kikiLogo} className={STYLES.logoImg} alt="KiKi Design 品牌標誌" />
+        <img src={kikiLogo} className={STYLES.logoImage} alt="KiKi Design 品牌標誌" />
       </div>
 
       <div className="loader-bar-container">

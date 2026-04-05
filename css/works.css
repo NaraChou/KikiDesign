@@ -38,8 +38,8 @@
   font-size: 2.4rem;
   font-style: italic;
   font-family: 'Noto Serif TC', serif;
-  letter-spacing: 0.2em;
   font-weight: 200;
+  letter-spacing: 0.2em;
 }
 .works-section-label {
   text-transform: uppercase;
@@ -54,6 +54,79 @@
   grid-template-columns: 1fr;
   gap: 4rem;
   align-items: start;
+}
+
+/* ── D0. 作品卡「光暈／邊框發光」語意變數（集中維護） ─────────
+ * 想調整「所有卡」的發光手感：改 --work-card-glow-spot-radius、hover 透明度、陰影擴散即可。
+ * 想強制所有卡同一發光色：設定 --work-card-glow-force（例如 rgba(...)）；留空則用各專題 --work-glow-*。
+ */
+#works {
+  /*
+   * 全站作品卡發光「一鍵覆寫」（選填）：
+   * 在此定義 --work-card-glow-force 為任意 rgba/hsl 後，所有卡片 --card-glow-color 會優先採用此色。
+   * 不需要覆寫時，請勿定義此變數，各卡會沿用 --work-glow-* 專題色。
+   */
+
+  --work-card-glow-spot-radius: 350px;
+  --work-card-glow-spot-fade: 80%;
+  --work-card-glow-hover-opacity: 0.35;
+  --work-card-glow-shadow-near: 20px;
+  --work-card-glow-shadow-far: 50px;
+  --work-card-glow-shadow-depth: rgba(0, 0, 0, 0.5);
+
+  /* 各專題：聚光主色（邊框發光、hover 光斑、箭頭底色共用 --card-glow-color） */
+  --work-glow-personal-branding: rgba(59, 130, 246, 0.4);
+  --work-glow-logo-design: rgba(168, 85, 247, 0.4);
+  --work-glow-poster-design: rgba(255, 127, 80, 0.4);
+  --work-glow-ecommerce-visual-design: rgba(234, 179, 8, 0.4);
+  --work-glow-practice-lab: rgba(139, 92, 246, 0.4);
+  --work-glow-ai-lab: rgba(56, 189, 248, 0.4);
+
+  /* 各專題：卡片內層底色（對應原 Tailwind bg） */
+  --work-bg-personal-branding: rgba(26, 28, 46, 0.5);
+  --work-bg-logo-design: rgba(46, 26, 46, 0.5);
+  --work-bg-poster-design: rgba(46, 26, 26, 0.5);
+  --work-bg-ecommerce-visual-design: rgba(26, 46, 26, 0.5);
+  --work-bg-practice-lab: rgba(26, 26, 36, 0.5);
+  --work-bg-ai-lab: rgba(10, 20, 35, 0.55);
+}
+
+.work-card[data-work-id='personal-branding'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-personal-branding));
+}
+.work-card[data-work-id='logo-design'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-logo-design));
+}
+.work-card[data-work-id='poster-design'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-poster-design));
+}
+.work-card[data-work-id='ecommerce-visual-design'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-ecommerce-visual-design));
+}
+.work-card[data-work-id='practice-lab'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-practice-lab));
+}
+.work-card[data-work-id='ai-lab'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-ai-lab));
+}
+
+.work-card[data-work-id='personal-branding'] .work-card-inner {
+  background-color: var(--work-bg-personal-branding);
+}
+.work-card[data-work-id='logo-design'] .work-card-inner {
+  background-color: var(--work-bg-logo-design);
+}
+.work-card[data-work-id='poster-design'] .work-card-inner {
+  background-color: var(--work-bg-poster-design);
+}
+.work-card[data-work-id='ecommerce-visual-design'] .work-card-inner {
+  background-color: var(--work-bg-ecommerce-visual-design);
+}
+.work-card[data-work-id='practice-lab'] .work-card-inner {
+  background-color: var(--work-bg-practice-lab);
+}
+.work-card[data-work-id='ai-lab'] .work-card-inner {
+  background-color: var(--work-bg-ai-lab);
 }
 
 /* ── D. 作品卡片 / 光暈 ──────────────────────────────────── */
@@ -74,7 +147,7 @@
   --mouse-x: 50%;
   --mouse-y: 50%;
 }
-/* 聚光亮暈跟隨滑鼠 */
+/* 聚光亮暈跟隨滑鼠（位置由 Works.tsx 注入 --mouse-x / --mouse-y；顏色由上方 --card-glow-color） */
 .work-card-inner::before {
   content: '';
   position: absolute;
@@ -83,18 +156,20 @@
   z-index: 30;
   opacity: 0;
   background: radial-gradient(
-    350px circle at var(--mouse-x) var(--mouse-y),
+    var(--work-card-glow-spot-radius) circle at var(--mouse-x) var(--mouse-y),
     var(--card-glow-color),
-    transparent 80%
+    transparent var(--work-card-glow-spot-fade)
   );
   mix-blend-mode: screen;
   transition: opacity 0.5s ease;
 }
 .work-card:hover .work-card-inner {
-  box-shadow: 0 0 20px var(--card-glow-color), 0 0 50px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 var(--work-card-glow-shadow-near) var(--card-glow-color),
+    0 0 var(--work-card-glow-shadow-far) var(--work-card-glow-shadow-depth);
 }
 .work-card:hover .work-card-inner::before {
-  opacity: 0.35;
+  opacity: var(--work-card-glow-hover-opacity);
 }
 
 /* ── E. 卡片主圖層 ───────────────────────────────────────── */
@@ -104,15 +179,7 @@
   width: 100%;
   height: 100%;
 }
-.work-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  padding: 10%;
-  opacity: 0.9;
-  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s;
-}
+/* 注意：卡片圖片由 Works.tsx 內的 <img> 使用 Tailwind 控管，此處不重複定義 */
 
 /* ── F. 卡片資訊群 ───────────────────────────────────────── */
 .work-card-info {
@@ -169,10 +236,7 @@
 }
 
 /* ── H. 箭頭互動 ─────────────────────────────────────────── */
-.work-card .absolute.right-4.top-4 {
-  right: 1.25rem;
-  top: 1.25rem;
-}
+/* .work-card-arrow-wrapper 位置由 Works.tsx 的 absolute right-4 top-4 控管 */
 .arrow-circle {
   width: 2.2rem;
   height: 2.2rem;
@@ -207,10 +271,6 @@
   }
   .work-card-inner::before {
     border-radius: 1.5rem;
-  }
-  .work-card-image {
-    max-width: 90%;
-    max-height: 90%;
   }
 }
 

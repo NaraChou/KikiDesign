@@ -1,41 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './css/globals.css';
+import './css/style.css';
+import './css/works.css';
+import './css/work-detail.css';
 
-// [滾動控制] 禁用瀏覽器的自動滾動恢復功能，確保路由切換時由我們自己控制滾動位置
-// 這段代碼必須在應用程式啟動時就生效，放在最頂層
 if ('scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
 }
 
-// CSS 載入順序：globals（變數定義）必須在 style 之前，確保變數可用
-import './css/globals.css';        // CSS 變數定義（顏色、字型、間距）
-import './css/style.css';          // 全站結構樣式（依賴上方變數）
-import './css/works.css';          // 作品列表專區
-import './css/work-detail.css';    // 作品詳細頁專區
-
 /**
- * [中文註解]
- * ▍視覺化開發 — 內容統一包覆於 .main-container
- * - 「main-container」是一個最大寬且自帶左右 padding 的全站容器。所有頁面內容（含 Navigation、主內容、Footer）始終對齊，無需每頁重複定義。
- * - CSS 變數（如 --container-max-width, --container-padding-mobile）全部集中於 style.css 的 :root 管理，任何空間或寬度調整都能一站式同步。
- * - 實作重點：嚴禁在元件嵌套 hardcode px 或 margin，確保設計比例完全依 Kiki Design Style 共通規格。
- * 
- * ▍錯誤處理（視覺影響說明）
- * - 若無法找到 root 元素，整個畫面將無法顯示，需檢查 index.html 配置。
+ * [A] 視覺資訊備註
+ * 根節點外層 .main-container 與全站寬度／左右留白一致；路由換頁時 ScrollToTop 會一併重置此容器的捲動。
  */
+
+// [B] 樣式常數
+const STYLES = {
+  rootShell: 'main-container',
+} as const;
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
-  // 報錯時，畫面內容不會出現，需立即處理 DOM 結構
   throw new Error('找不到 root 元素，React App 無法掛載，畫面完全無法顯示');
 }
 
-// React 18 啟用 createRoot 掛載應用，App 統一包於 main-container
+// [C] 掛載應用
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <div className="main-container">
+    <div className={STYLES.rootShell}>
       <App />
     </div>
   </React.StrictMode>

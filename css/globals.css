@@ -75,6 +75,11 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* 作品詳情 Lightbox 開啟時：由 JS 在 body 加減 class，鎖定整頁捲動（不使用 inline style 改 overflow） */
+body.scroll-lock {
+  overflow: hidden;
+}
+
 /* ── Z. RWD 變數覆寫 ─────────────────────────────────────── */
 @media (min-width: 768px) {
   :root {

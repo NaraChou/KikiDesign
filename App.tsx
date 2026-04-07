@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 
 import { BackgroundEffects } from './components/BackgroundEffects';
 import { Loader } from './components/Loader';
@@ -133,6 +134,7 @@ export default function App() {
     <Router>
       <ScrollToTop />
       <AppContent />
+      <Analytics />
     </Router>
   );
 }

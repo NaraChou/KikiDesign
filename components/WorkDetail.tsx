@@ -21,7 +21,7 @@ const STYLES = {
   wrapper: 'min-h-screen work-detail-wrapper',
   container: LAYOUT.container,
   header: 'mx-auto text-center detail-header-container',
-  label: 'uppercase detail-label block mb-6',
+  label: 'label-xs detail-label block mb-6',
   grid: 'columns-1 md:columns-2 lg:columns-3 mx-auto waterfall-grid',
   figureUI: 'group relative overflow-hidden cursor-pointer',
   hoverMask:

@@ -7,16 +7,16 @@ import { LAYOUT } from '../styles/layout';
  */
 
 // [B] 樣式常數（基礎在前，字串末端為 RWD）
+// opacity-0 保留：GSAP 進場動畫初始狀態，不進語意 class
 const STYLES = {
   wrapper:
     'min-h-screen flex flex-col justify-center items-center pt-10 text-center relative bg-transparent',
   container: `${LAYOUT.colCenter} justify-center`,
-  tag: 'serif-italic block text-[10px] md:text-xs text-red-500/80 opacity-0 tracking-[0.5em] uppercase mb-8',
-  title: 'chinese-art text-4xl md:text-7xl opacity-0 leading-tight mb-12',
+  tag: 'hero-tag opacity-0',
+  title: 'hero-title opacity-0',
   titleAccent: 'font-normal opacity-90',
-  divider: 'h-[1px] w-0 bg-red-500/30 mb-12',
-  description:
-    'text-[rgba(234,226,214,0.5)] text-[11px] md:text-xs max-w-[280px] md:max-w-sm mx-auto leading-loose opacity-0 tracking-[0.2em] font-light',
+  divider: 'hero-divider',
+  description: 'hero-description opacity-0',
 } as const;
 
 // [C] 元件主體

@@ -1,0 +1,105 @@
+/**
+ * motion.css — Kiki Design Semantic Layer
+ * ============================================================
+ * 語意層：將高重複性、難讀的 Tailwind 串提取為語意 class。
+ * 這是進入 design system 的入口。
+ * ============================================================
+ * 規則：
+ * 1. 只放跨元件共用 或 Tailwind 串過長難讀的 class
+ * 2. GSAP 初始狀態（opacity-0）不在此處定義，保留在 STYLES
+ * 3. 動畫過渡屬性（transition/duration）屬 motion，可在此定義
+ * ============================================================
+ * 分區：
+ * A. Hero 區塊語意 class
+ * B. Navigation 語意 class
+ * C. 全站共用工具 class
+ * ============================================================
+ */
+
+/* ── A. Hero 區塊 ────────────────────────────────────────── */
+
+/* Hero tag：品牌標語小標（serif italic + 紅色 + 寬字距） */
+.hero-tag {
+  font-family: var(--font-family-serif-italic);
+  font-style: italic;
+  display: block;
+  font-size: 10px;
+  color: rgba(239, 68, 68, 0.8);  /* red-500/80 */
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .hero-tag {
+    font-size: 0.75rem; /* text-xs */
+  }
+}
+
+/* Hero title：主標題（書法細體 + 大字級） */
+.hero-title {
+  font-weight: var(--font-weight-chinese-art);
+  letter-spacing: var(--letter-spacing-chinese-art);
+  line-height: var(--line-height-chinese-art);
+  font-size: 2.25rem; /* text-4xl */
+  line-height: 1.25;  /* leading-tight */
+  margin-bottom: 3rem;
+}
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 4.5rem; /* text-7xl */
+  }
+}
+
+/* Hero divider：紅色細線分隔（GSAP 控制 width 從 0 展開） */
+.hero-divider {
+  height: 1px;
+  width: 0;
+  background-color: rgba(239, 68, 68, 0.3); /* red-500/30 */
+  margin-bottom: 3rem;
+}
+
+/* Hero description：副標語文字（淡色 + 寬字距 + 細字重） */
+.hero-description {
+  color: rgba(234, 226, 214, 0.5);
+  font-size: 11px;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 2;     /* leading-loose */
+  letter-spacing: 0.2em;
+  font-weight: 300;   /* font-light */
+}
+@media (min-width: 768px) {
+  .hero-description {
+    font-size: 0.75rem; /* text-xs */
+    max-width: 24rem;   /* max-w-sm */
+  }
+}
+
+/* ── B. Navigation ───────────────────────────────────────── */
+
+/* Nav link：導覽連結（細小字 + 淡色 + hover 白 + italic） */
+.nav-link {
+  font-size: 12px;
+  color: var(--text-dim, rgba(234, 226, 214, 0.5));
+  font-style: italic;
+  transition: color 0.15s ease;
+}
+.nav-link:hover {
+  color: #fff;
+}
+
+/* ── C. 全站共用工具 class ───────────────────────────────── */
+
+/* label-xs：全站最小標籤文字（uppercase + 超寬字距） */
+.label-xs {
+  text-transform: uppercase;
+  font-size: 8px;
+  letter-spacing: 0.4em;
+}
+@media (min-width: 768px) {
+  .label-xs {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+  }
+}

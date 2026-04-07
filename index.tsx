@@ -5,6 +5,7 @@ import './css/globals.css';
 import './css/style.css';
 import './css/works.css';
 import './css/work-detail.css';
+import './css/motion.css';
 
 if ('scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';

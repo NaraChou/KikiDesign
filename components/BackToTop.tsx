@@ -12,7 +12,7 @@ const STYLES = {
     'fixed flex flex-col items-center right-6 bottom-8 z-[70] group opacity-0 pointer-events-none transition-opacity duration-500',
   line:
     'w-px h-12 rounded-[1.5px] bg-[rgba(230,57,70,0.5)] transition-all duration-500 group-hover:h-16',
-  description: 'vertical-text mt-4 uppercase text-[8px] tracking-[0.4em] text-[var(--text-dim)]',
+  description: 'vertical-text mt-4 label-xs text-[var(--text-dim)]',
 } as const;
 
 // [C] 元件主體

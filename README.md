@@ -4,7 +4,8 @@
 
 🔗 **線上作品集：** [https://kiki-design.vercel.app/]
 
-這是 **Kiki Design** 的個人作品集網站。目前以極簡主義（Kiki Style）為視覺核心，並透過 AI 輔助開發（Vibe Coding），打造出高效能且具備豐富動態互動的視覺設計展示平台。
+這是 **Kiki Design** 的個人作品集網站。
+目前以極簡主義（Kiki Style）為視覺核心，並透過 AI 輔助開發（Vibe Coding），打造出高效能且具備豐富動態互動的視覺設計展示平台。
 
 ---
 
@@ -49,7 +50,7 @@ kikidesign/
 │       └── animationPresets.ts # GSAP 動畫參數預設集
 ├── index.html              # SEO Meta 標籤與字體預連線設定
 ├── DEVELOPER_GUIDE.md      # 團隊開發規範與維護指南
-└── package.json
+└── package.json```
 
 ---
 
@@ -71,7 +72,7 @@ kikidesign/
 npm install
 
 # 啟動開發伺服器
-npm run dev
+npm run dev```
 
 ---
 
@@ -81,7 +82,7 @@ npm run dev
 
 ```bash
 # 建置並自動推送至 gh-pages 分支
-npm run deploy
+npm run deploy```
 
 ---
 
@@ -95,9 +96,9 @@ npm run deploy
 
 ## 📝 維護筆記
 
-* [ ] **新增作品**：請直接修改 `src/data/projectData.ts`，UI 會自動根據資料動態渲染。
-* [ ] **動畫節奏**：若需調整全站動畫速度或 Ease 曲線，請修改 `src/utils/animationPresets.ts`。
-* [ ] **樣式修改**：請優先尋找 `src/css/globals.css` 中的 **CSS 變數** 進行全局調整，避免在組件內直接硬編碼（Hard-coded）樣式。
+* [x] **新增作品**：請直接修改 `src/data/projectData.ts`，UI 會自動根據資料動態渲染。
+* [x] **動畫節奏**：若需調整全站動畫速度或 Ease 曲線，請修改 `src/utils/animationPresets.ts`。
+* [x] **樣式修改**：請優先尋找 `src/css/globals.css` 中的 **CSS 變數** 進行全局調整，避免在組件內直接硬編碼（Hard-coded）樣式。
 
 ---
 

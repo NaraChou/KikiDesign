@@ -50,8 +50,8 @@ kikidesign/
 │       └── animationPresets.ts # GSAP 動畫參數預設集
 ├── index.html              # SEO Meta 標籤與字體預連線設定
 ├── DEVELOPER_GUIDE.md      # 團隊開發規範與維護指南
-└── package.json```
-
+└── package.json
+```
 ---
 
 ## 🎨 設計規範 (The Kiki Style)
@@ -73,7 +73,7 @@ npm install
 
 # 啟動開發伺服器
 npm run dev```
-
+```
 ---
 
 ### 部署流程
@@ -82,8 +82,8 @@ npm run dev```
 
 ```bash
 # 建置並自動推送至 gh-pages 分支
-npm run deploy```
-
+npm run deploy
+```
 ---
 
 ## 📬 聯絡設計師

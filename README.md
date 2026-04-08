@@ -25,32 +25,63 @@
 
 ```text
 kikidesign/
-├── src/
-│   ├── assets/             # 靜態資源（Logo, WebP 格式作品圖）
-│   ├── components/         # UI 元件庫
-│   │   ├── App.tsx         # 全站路由與全局動畫控制器
-│   │   ├── Home.tsx        # 首頁容器
-│   │   ├── Hero.tsx        # 品牌首屏
-│   │   ├── Works.tsx       # 作品列表區
-│   │   ├── WorkCard.tsx    # 單一作品卡片（含光暈特效）
-│   │   ├── WorkDetail.tsx  # 作品內頁（瀑布流與分頁籤）
-│   │   ├── Navigation.tsx  # 頂部導覽列
-│   │   ├── Loader.tsx      # 全屏進場動畫
-│   │   └── ...             # 其餘功能組件（Footer, BackToTop 等）
-│   ├── css/                # 三層樣式系統
-│   │   ├── globals.css     # Layer 1: 設計 Token (顏色、字體變數)
-│   │   ├── motion.css      # Layer 2: 語義化類名 (Hero-title 等)
-│   │   ├── style.css       # Layer 3: 結構與重置 (Cursor, Scrollbar)
-│   │   └── works.css       # 元件專屬樣式 (Works Grid 邏輯)
+├── .github/                # GitHub CI/CD 自動化部署設定
+│   └── workflows/
+│       └── deploy.yml      # 自動化部署腳本
+├── public/                 # 【靜態資源】不需編譯，由瀏覽器直接抓取
+│   ├── favicon.ico         # 網站標籤圖示
+│   ├── apple-touch-icon.png # iOS 主畫面圖示
+│   ├── og-image.png        # 社群分享預覽圖 (Open Graph)
+│   ├── robots.txt          # 搜尋引擎爬蟲指令
+│   └── site.webmanifest    # PWA 網站應用程式清單
+├── src/                    # 【核心原始碼】
+│   ├── assets/             # 【品牌識別與優化資源】
+│   │   ├── logo-kiki-main.svg # 主標誌 (參與 Vite 編譯優化)
+│   │   ├── logo-kiki-2025.webp # 年度標誌變體
+│   │   ├── logo-kiki-512.png  # 高解析度標誌
+│   │   └── images/         # 作品集 WebP 格式圖片
+│   ├── components/         # 【UI 元件庫】
+│   │   ├── common/         # 功能性與通用組件
+│   │   │   ├── BackgroundEffects.tsx # 背景光暈特效
+│   │   │   ├── BackToTop.tsx         # 返回頂部按鈕
+│   │   │   ├── Loader.tsx            # 進場動畫
+│   │   │   └── ScrollToTop.tsx       # 路由切換捲動重置
+│   │   ├── layout/         # 頁面框架組件
+│   │   │   ├── Navigation.tsx        # 頂部導覽
+│   │   │   ├── MobileMenu.tsx        # 行動版選單
+│   │   │   └── Footer.tsx            # 頁尾資訊
+│   │   ├── sections/       # 內容區塊組件
+│   │   │   ├── Hero.tsx              # 品牌首屏
+│   │   │   ├── Philosophy.tsx        # 設計理念
+│   │   │   ├── Works.tsx             # 作品清單
+│   │   │   ├── WorkCard.tsx          # 單一作品卡片
+│   │   │   └── WorkDetail.tsx        # 作品詳情頁
+│   │   └── Home.tsx        # 首頁容器 (組合 Hero, Works, Philosophy)
+│   ├── css/                # 【樣式系統】
+│   │   ├── globals.css     # Layer 1: 設計 Token 與變數
+│   │   ├── motion.css      # Layer 2: 語義化動畫類名
+│   │   ├── style.css       # Layer 3: 基礎結構與重置
+│   │   ├── works.css       # 作品清單專用樣式
+│   │   └── work-detail.css # 作品內頁專用樣式
 │   ├── data/
-│   │   └── projectData.ts  # 單一資料來源 (SSOT): 全站作品內容管理
+│   │   └── projectData.ts  # 單一資料來源 (SSOT): 管理全站作品內容
 │   ├── styles/
-│   │   └── layout.ts       # 佈局 Token: 統一全站容器寬度與間距
-│   └── utils/
-│       └── animationPresets.ts # GSAP 動畫參數預設集
-├── index.html              # SEO Meta 標籤與字體預連線設定
-├── DEVELOPER_GUIDE.md      # 團隊開發規範與維護指南
-└── package.json
+│   │   └── layout.ts       # 佈局 Token: 統一全站容器與間距規範
+│   ├── utils/
+│   │   └── animationPresets.ts # GSAP 動畫參數預設集
+│   ├── App.tsx             # 全站路由與總控中心
+│   ├── index.tsx           # React 掛載點
+│   ├── types.ts            # 全域 TypeScript 型別定義
+│   └── vite-env.d.ts       # Vite 環境定義
+├── .cursorrules            # Cursor AI 規則設定
+├── .env.local              # 本地環境變數
+├── .gitignore              # Git 忽略清單
+├── DEVELOPER_GUIDE.md      # 開發規範與維護指南
+├── index.html              # 基礎 HTML 入口
+├── metadata.json           # 專案元數據
+├── package.json            # 專案套件與指令管理
+├── tsconfig.json           # TypeScript 編譯配置
+└── vite.config.ts          # Vite 建置配置
 ```
 
 ---

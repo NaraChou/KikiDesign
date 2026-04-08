@@ -33,7 +33,7 @@ const STYLES = {
   emailTextOn: 'transition-all duration-300 opacity-100',
   emailTextOff: 'transition-all duration-300 opacity-0',
   feedback:
-    'absolute left-0 right-0 text-center md:text-right transition-all duration-300 text-[10px] tracking-widest text-[#E63946] uppercase',
+    'absolute left-0 right-0 text-center md:text-right transition-all duration-300 text-[10px] tracking-widest text-[var(--brand-accent-hover)] uppercase',
   feedbackOn: 'opacity-100',
   feedbackOff: 'opacity-0',
   socialList: 'flex space-x-6 mt-1',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';  
 import { LAYOUT } from '../styles/layout';
+import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註
@@ -23,7 +24,7 @@ const NAV_MENUS: MenuItem[] = [
 
 const STYLES = {
   wrapper: 'fixed top-0 left-0 w-full z-50 transition-all duration-300',
-  toneScrolled: 'bg-gradient-to-b from-[#0E0C0B] via-[#0E0C0B]/90 to-transparent shadow-md',
+  toneScrolled: 'bg-gradient-to-b from-[var(--bg-color)] via-[var(--bg-color)]/90 to-transparent shadow-md',
   toneTop: 'bg-gradient-to-b from-black/20 to-transparent',
   container: 'main-container flex justify-between items-center py-4 md:py-6',
   brand: 'flex items-center space-x-4 group',
@@ -63,7 +64,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
     e.preventDefault();
     if (isHome) {
       if (typeof window !== 'undefined' && typeof window.gsap !== 'undefined') {
-        window.gsap.to(window, { duration: 1.5, scrollTo: id, ease: 'power4.inOut' });
+        window.gsap.to(window, { ...SCROLL_SMOOTH, scrollTo: id });
       } else {
         window.location.hash = id;
       }
@@ -71,7 +72,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
       navigate('/');
       setTimeout(() => {
         if (typeof window !== 'undefined' && typeof window.gsap !== 'undefined') {
-          window.gsap.to(window, { duration: 0, scrollTo: id });
+          window.gsap.to(window, { ...SCROLL_INSTANT, scrollTo: id });
         } else {
           window.location.hash = id;
         }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { LAYOUT } from '../styles/layout';
+import { SCROLL_SMOOTH } from '../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註
@@ -11,7 +11,7 @@ const STYLES = {
   wrapper:
     'fixed flex flex-col items-center right-6 bottom-8 z-[70] group opacity-0 pointer-events-none transition-opacity duration-500',
   line:
-    'w-px h-12 rounded-[1.5px] bg-[rgba(230,57,70,0.5)] transition-all duration-500 group-hover:h-16',
+    'w-px h-12 rounded-[1.5px] bg-[var(--brand-accent-muted)] transition-all duration-500 group-hover:h-16',
   description: 'vertical-text mt-4 label-xs text-[var(--text-dim)]',
 } as const;
 
@@ -36,7 +36,7 @@ export const BackToTop: React.FC = () => {
 
   const scrollToTop = () => {
     if (window.gsap) {
-      window.gsap.to(window, { scrollTo: 0, duration: 1.5, ease: 'power4.inOut' });
+      window.gsap.to(window, { ...SCROLL_SMOOTH, scrollTo: 0 });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

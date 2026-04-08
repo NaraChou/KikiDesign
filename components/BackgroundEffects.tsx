@@ -31,7 +31,7 @@ const GLOW_SURFACE: React.CSSProperties = {
   width: 'var(--blur-bg-size)',
   height: 'var(--blur-bg-size)',
   aspectRatio: '1/1',
-  background: 'radial-gradient(circle, rgba(230, 57, 70, 0.05) 0%, transparent 70%)',
+  background: 'radial-gradient(circle, var(--brand-accent-glow) 0%, transparent 70%)',
 };
 
 // [C] 元件主體

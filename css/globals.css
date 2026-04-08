@@ -17,7 +17,12 @@
   /* 主要顏色 */
   --bg-color: #0E0C0B;
   --text-main: #EAE2D6;
+  --text-dim: rgba(234, 226, 214, 0.5);
   --brand-accent: #EF4444;
+  --brand-accent-hover: #E63946;
+  --brand-accent-muted: rgba(230, 57, 70, 0.5);
+  --brand-accent-glow: rgba(230, 57, 70, 0.05);
+  --brand-accent-line: rgba(230, 57, 70, 0.3);
   --brand-subtle: rgba(234, 226, 214, 0.72);
   --tang-pink: rgba(230, 57, 70, 0.12);
 

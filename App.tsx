@@ -10,6 +10,7 @@ import { WorkDetail } from './components/WorkDetail';
 import { Footer } from './components/Footer';
 import { BackToTop } from './components/BackToTop';
 import ScrollToTop from './components/ScrollToTop';
+import { FADE_OUT_LOADER, FADE_IN_UP } from './utils/animationPresets';
 import './types';
 
 /**
@@ -83,9 +84,9 @@ function AppContent() {
           mainTimeline.current = tl;
 
           tl.to("#loader-progress", { x: "0%", duration: 0.3 })
-            .to("#loader", { autoAlpha: 0, duration: 0.3 })
-            .to("#hero-tag", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2")
-            .to("#hero-title", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4")
+            .to("#loader", { ...FADE_OUT_LOADER, duration: 0.3 })
+            .to("#hero-tag",   { ...FADE_IN_UP, duration: 0.5 }, "-=0.2")
+            .to("#hero-title", { ...FADE_IN_UP, duration: 0.8 }, "-=0.4")
             .fromTo(
               "#hero-line",
               { scaleX: 0 },
@@ -97,12 +98,12 @@ function AppContent() {
               },
               "-=0.6"
             )
-            .to("#hero-desc", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6");
+            .to("#hero-desc", { ...FADE_IN_UP, duration: 0.8 }, "-=0.6");
         });
       });
       return () => cancelAnimationFrame(animationFrame);
     } else {
-      window.gsap.to("#loader", { autoAlpha: 0, duration: 0.5 });
+      window.gsap.to("#loader", { ...FADE_OUT_LOADER });
     }
   }, [location.pathname]);
 

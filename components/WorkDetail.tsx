@@ -2,6 +2,13 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { projectsRecord, ProjectImage } from '../data/projectData';
 import { LAYOUT } from '../styles/layout';
+import {
+  TAB_FADE_OUT,
+  TAB_FADE_IN,
+  STAGGER_WATERFALL,
+  FADE_IN_UP,
+  FADE_IN_UP_FROM,
+} from '../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註
@@ -62,13 +69,8 @@ export const WorkDetail: React.FC = () => {
     isTabSwitched.current = true;
     if (gridRef.current && window.gsap) {
       window.gsap.to(gridRef.current.querySelectorAll('.waterfall-item'), {
-        opacity: 0,
-        y: 10,
-        duration: 0.2,
-        stagger: 0.03,
-        onComplete: () => {
-          setActiveTab(tab);
-        },
+        ...TAB_FADE_OUT,
+        onComplete: () => { setActiveTab(tab); },
       });
     } else {
       setActiveTab(tab);
@@ -81,7 +83,7 @@ export const WorkDetail: React.FC = () => {
     window.gsap.fromTo(
       gridRef.current.querySelectorAll('.waterfall-item'),
       { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out' }
+      { ...TAB_FADE_IN }
     );
   }, [activeTab]);
 
@@ -117,11 +119,9 @@ export const WorkDetail: React.FC = () => {
     const timer = setTimeout(() => {
       const ctx = window.gsap.context(() => {
         window.gsap.from('#detail-header > *', {
-          y: 50,
-          opacity: 0,
-          duration: 1,
+          ...FADE_IN_UP_FROM,
+          ...FADE_IN_UP,
           stagger: 0.1,
-          ease: 'power3.out',
           delay: 0.2,
         });
         document.querySelectorAll('.waterfall-item').forEach(item => {
@@ -131,10 +131,7 @@ export const WorkDetail: React.FC = () => {
               start: 'top bottom-=100px',
               toggleActions: 'play none none reverse',
             },
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: 'power2.out',
+            ...STAGGER_WATERFALL,
           });
         });
         window.ScrollTrigger?.refresh();

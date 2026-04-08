@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LAYOUT } from '../styles/layout';
+import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註
@@ -45,7 +46,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     onClose();
     if (isHome) {
       if (window.gsap) {
-        window.gsap.to(window, { duration: 1.5, scrollTo: targetHref, ease: 'power4.inOut' });
+        window.gsap.to(window, { ...SCROLL_SMOOTH, scrollTo: targetHref });
       } else {
         window.location.hash = targetHref;
       }
@@ -53,7 +54,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       navigate('/');
       setTimeout(() => {
         if (window.gsap) {
-          window.gsap.to(window, { duration: 0, scrollTo: targetHref });
+          window.gsap.to(window, { ...SCROLL_INSTANT, scrollTo: targetHref });
         } else {
           window.location.hash = targetHref;
         }

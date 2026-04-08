@@ -1,7 +1,7 @@
 import React from 'react';
-import { Hero } from './Hero';
-import { Works } from './Works';
-import { Philosophy } from './Philosophy';
+import { Hero } from './sections/Hero';
+import { Works } from './sections/Works';
+import { Philosophy } from './sections/Philosophy';
 import { LAYOUT } from '../styles/layout';
 
 /**

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LAYOUT } from '../styles/layout';
-import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../utils/animationPresets';
+import { LAYOUT } from '../../styles/layout';
+import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註

@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { projectsRecord, ProjectImage } from '../data/projectData';
-import { LAYOUT } from '../styles/layout';
+import { projectsRecord, ProjectImage } from '../../data/projectData';
+import { LAYOUT } from '../../styles/layout';
 import {
   TAB_FADE_OUT,
   TAB_FADE_IN,
   STAGGER_WATERFALL,
   FADE_IN_UP,
   FADE_IN_UP_FROM,
-} from '../utils/animationPresets';
+} from '../../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註

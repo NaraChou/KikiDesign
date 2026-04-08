@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { SCROLL_SMOOTH } from '../utils/animationPresets';
+import { SCROLL_SMOOTH } from '../../utils/animationPresets';
 
 /**
  * [A] 視覺資訊備註

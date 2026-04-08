@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
-import kikiLogo from '../assets/images/logo-kiki-main.svg';
-import { LAYOUT } from '../styles/layout';
+import kikiLogo from '../../assets/logo-kiki-main.svg';
+import { LAYOUT } from '../../styles/layout';
 
 /**
  * [A] 視覺資訊備註

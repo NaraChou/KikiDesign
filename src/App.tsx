@@ -1,15 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
-import { BackgroundEffects } from './components/BackgroundEffects';
-import { Loader } from './components/Loader';
-import { Navigation } from './components/Navigation';
-import { MobileMenu } from './components/MobileMenu';
+import { BackgroundEffects } from './components/common/BackgroundEffects';
+import { Loader } from './components/common/Loader';
+import { Navigation } from './components/layout/Navigation';
+import { MobileMenu } from './components/layout/MobileMenu';
 import { Home } from './components/Home';
-import { WorkDetail } from './components/WorkDetail';
-import { Footer } from './components/Footer';
-import { BackToTop } from './components/BackToTop';
-import ScrollToTop from './components/ScrollToTop';
+import { WorkDetail } from './components/sections/WorkDetail';
+import { Footer } from './components/layout/Footer';
+import { BackToTop } from './components/common/BackToTop';
+import ScrollToTop from './components/common/ScrollToTop';
 import { FADE_OUT_LOADER, FADE_IN_UP } from './utils/animationPresets';
 import './types';
 

@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
-import '../css/works.css';
-import { LAYOUT } from '../styles/layout';
-import { STAGGER_WATERFALL } from '../utils/animationPresets';
+import '../../css/works.css';
+import { LAYOUT } from '../../styles/layout';
+import { STAGGER_WATERFALL } from '../../utils/animationPresets';
 import { WorkCard } from './WorkCard';
 
-import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
-import logoKiki2025Mockup from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
-import posterMockupMain from '../assets/images/poster-mockup-main.webp';
-import ecommerceMockup from '../assets/images/ecommerce-mockup.webp';
-import practiceLabCover from '../assets/images/practice-lab-cover.webp';
-import aiLabCover from '../assets/images/ai-lab-cover.webp';
+import brandingMockupMain from '../../assets/images/branding-mockup-main.webp';
+import logoKiki2025Mockup from '../../assets/images/namecard-kiki-2025-mockup-concrete.webp';
+import posterMockupMain from '../../assets/images/poster-mockup-main.webp';
+import ecommerceMockup from '../../assets/images/ecommerce-mockup.webp';
+import practiceLabCover from '../../assets/images/practice-lab-cover.webp';
+import aiLabCover from '../../assets/images/ai-lab-cover.webp';
 
 /**
  * [A] 視覺資訊備註

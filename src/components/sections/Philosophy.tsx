@@ -1,5 +1,5 @@
 import React from 'react';
-import { LAYOUT } from '../styles/layout';
+import { LAYOUT } from '../../styles/layout';
 
 /**
  * [A] 視覺資訊備註

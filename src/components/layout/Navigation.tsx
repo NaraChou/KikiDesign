@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';  
-import { LAYOUT } from '../styles/layout';
-import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../utils/animationPresets';
+import { LAYOUT } from '../../styles/layout';
+import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../../utils/animationPresets';
+import logoKikiMain from '../../assets/logo-kiki-main.svg';
+import logoKikiSm from '../../assets/logo-kiki-sm.png';
+import logoKikiMd from '../../assets/logo-kiki-md.png';
 
 /**
  * [A] 視覺資訊備註

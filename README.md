@@ -104,7 +104,7 @@ kikidesign/
 npm install
 
 # 啟動開發伺服器
-npm run dev```
+npm run dev
 ```
 
 ---

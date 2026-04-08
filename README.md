@@ -51,6 +51,8 @@ kikidesign/
 ├── DEVELOPER_GUIDE.md      # 團隊開發規範與維護指南
 └── package.json
 
+---
+
 ## 🎨 設計規範 (The Kiki Style)
 
 網站遵循特定的視覺約束，以確保「專業、冷靜、質感」的氛圍：

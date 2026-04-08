@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';  
 import { LAYOUT } from '../../styles/layout';
 import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../../utils/animationPresets';
-import logoKikiMain from '../../assets/logo-kiki-main.svg';
 import logoKikiSm from '../../assets/logo-kiki-sm.png';
 import logoKikiMd from '../../assets/logo-kiki-md.png';
 
@@ -91,8 +90,8 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
         <Link to="/" className={STYLES.brand} aria-label="回到首頁">
           <div className={STYLES.brandMark}>
             <img
-              src="logo-kiki-sm.png"
-              srcSet="logo-kiki-sm.png 1x, logo-kiki-md.png 2x"
+              src={logoKikiSm}
+              srcSet={`${logoKikiSm} 1x, ${logoKikiMd} 2x`}
               alt="Kiki Design 棠想視界"
               className={STYLES.brandImage}
               loading="eager"

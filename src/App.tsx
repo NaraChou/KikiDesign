@@ -117,12 +117,12 @@ function AppContent() {
       <Loader />
       <Navigation onToggleMenu={toggleMenu} />
       <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
-      <main>
+      <div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/work/:id" element={<WorkDetail />} />
         </Routes>
-      </main>
+      </div>
       <Footer />
       <BackToTop />
     </div>

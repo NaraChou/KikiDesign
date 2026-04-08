@@ -6,16 +6,15 @@ Create with Soul. — 視覺設計・品牌規劃・數位創作
 目前以極簡主義（Kiki Style）為視覺核心，並透過 AI 輔助開發（Vibe Coding），打造出高效能且具備豐富動態互動的視覺設計展示平台。
 
 🚀 技術棧與特性
-核心框架： React 18 + TypeScript (嚴格型別定義)。
-動態視覺： GSAP + ScrollTrigger 實現高性能滾動動畫與視差效果。
-樣式系統： Tailwind CSS 搭配 三層 CSS 結構（變數層、語義層、組件層）。
-效能優化： 採用單一資料來源（Single Source of Truth）管理作品，優化圖片加載與進場序列。
-開發範式： 遵循 DEVELOPER_GUIDE.md 規範，實現樣式與邏輯的高度解耦。
+●  核心框架： React 18 + TypeScript (嚴格型別定義)。
+●  動態視覺： GSAP + ScrollTrigger 實現高性能滾動動畫與視差效果。
+●  樣式系統： Tailwind CSS 搭配 三層 CSS 結構（變數層、語義層、組件層）。
+●  效能優化： 採用單一資料來源（Single Source of Truth）管理作品，優化圖片加載與進場序列。
+●  開發範式： 遵循 DEVELOPER_GUIDE.md 規範，實現樣式與邏輯的高度解耦。
 
 📂 專案架構 (Project Structure)
 本專案採用模組化結構，將設計系統、資料模型與 UI 組件嚴格分離。
 
-Plaintext
 kikidesign/
 ├── src/
 │   ├── assets/             # 靜態資源（Logo, WebP 格式作品圖）
@@ -46,36 +45,30 @@ kikidesign/
 
 🎨 設計規範 (The Kiki Style)
 網站遵循特定的視覺約束，以確保「專業、冷靜、質感」的氛圍：
-
-色調： 高對比黑白灰為基調，搭配 --brand-accent: #EF4444 作為點睛色。
-
-排版： 襯線體（Serif Italic）與無襯線體（Sans-serif）的交錯運用。
-
-互動： 所有的進場動畫皆經過微調（Ease: power4.inOut），確保體感流暢且具備呼吸感。
+●  色調： 高對比黑白灰為基調，搭配 --brand-accent: #EF4444 作為點睛色。
+●  排版： 襯線體（Serif Italic）與無襯線體（Sans-serif）的交錯運用。
+●  互動： 所有的進場動畫皆經過微調（Ease: power4.inOut），確保體感流暢且具備呼吸感。
 
 🛠️ 開發與部署
 本機開發
-Bash
 # 安裝依賴
 npm install
-
 # 啟動開發伺服器
 npm run dev
+
 部署流程
 本專案目前部署於 GitHub Pages (或 Vercel)。
-
-Bash
 # 建置並自動推送至 gh-pages 分支
 npm run deploy
 
 📬 聯絡設計師
-Email： exloe574@gmail.com
-Facebook： 棠想視界
-LINE： 0979-291-388
+●  Email： exloe574@gmail.com
+●  Facebook： 棠想視界
+●  LINE： 0979-291-388
 
 📝 維護筆記
-若要新增作品，請直接修改 src/data/projectData.ts。
-若要調整全局動畫節奏，請修改 src/utils/animationPresets.ts。
-樣式修改應優先尋找 globals.css 中的變數。
+●  若要新增作品，請直接修改 src/data/projectData.ts。
+●  若要調整全局動畫節奏，請修改 src/utils/animationPresets.ts。
+●  樣式修改應優先尋找 globals.css 中的變數。
 
 Built with AI Collaboration.

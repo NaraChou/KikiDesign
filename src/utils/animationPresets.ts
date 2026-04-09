@@ -51,13 +51,6 @@ export const FADE_IN_UP_FROM = {
 
 // ── C. Stagger 序列類 ─────────────────────────────────────
 
-/** Hero 進場序列（tag → title → line → desc） */
-export const STAGGER_HERO = {
-  stagger: 0.1,
-  duration: 1,
-  ease: 'power3.out',
-} as const;
-
 /** Waterfall 卡片序列（ScrollTrigger 觸發） */
 export const STAGGER_WATERFALL = {
   opacity: 0,

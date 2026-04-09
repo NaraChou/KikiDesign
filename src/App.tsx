@@ -11,7 +11,6 @@ import { Footer } from './components/layout/Footer';
 import { BackToTop } from './components/common/BackToTop';
 import ScrollToTop from './components/common/ScrollToTop';
 import { FADE_OUT_LOADER, FADE_IN_UP } from './utils/animationPresets';
-import './types';
 
 /**
  * [A] 視覺資訊備註
@@ -46,7 +45,6 @@ export const CustomCursor: React.FC = () => {
 
 function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const mainTimeline = useRef<any>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -78,11 +76,10 @@ function AppContent() {
   useEffect(() => {
     // [畫面效果] 首頁：Loader 進度條收合後淡出，Hero 標題／線條／說明依序淡入；其他頁僅淡出 Loader
     if (location.pathname === '/') {
+      let ctx: ReturnType<typeof window.gsap.context> | null = null;
       const animationFrame = requestAnimationFrame(() => {
-        window.gsap.context(() => {
+        ctx = window.gsap.context(() => {
           const tl = window.gsap.timeline();
-          mainTimeline.current = tl;
-
           tl.to("#loader-progress", { x: "0%", duration: 0.3 })
             .to("#loader", { ...FADE_OUT_LOADER, duration: 0.3 })
             .to("#hero-tag",   { ...FADE_IN_UP, duration: 0.5 }, "-=0.2")
@@ -101,7 +98,10 @@ function AppContent() {
             .to("#hero-desc", { ...FADE_IN_UP, duration: 0.8 }, "-=0.6");
         });
       });
-      return () => cancelAnimationFrame(animationFrame);
+      return () => {
+        cancelAnimationFrame(animationFrame);
+        ctx?.revert();
+      };
     } else {
       window.gsap.to("#loader", { ...FADE_OUT_LOADER });
     }

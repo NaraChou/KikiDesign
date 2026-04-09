@@ -86,6 +86,8 @@ export const WorkCard: React.FC<WorkCardProps> = ({
             src={img}
             alt={titleZH}
             className={STYLES.image}
+            width={800}
+            height={1000}
             loading="lazy"
             decoding="async"
           />

@@ -116,8 +116,10 @@ export const WorkDetail: React.FC = () => {
     if (!project) return;
     window.ScrollTrigger?.getAll().forEach(t => t.kill());
 
+    let ctx: ReturnType<typeof window.gsap.context> | null = null;
+
     const timer = setTimeout(() => {
-      const ctx = window.gsap.context(() => {
+      ctx = window.gsap.context(() => {
         window.gsap.from('#detail-header > *', {
           ...FADE_IN_UP_FROM,
           ...FADE_IN_UP,
@@ -137,11 +139,11 @@ export const WorkDetail: React.FC = () => {
         window.ScrollTrigger?.refresh();
       }, containerRef);
       setTimeout(() => window.ScrollTrigger?.refresh(), 300);
-      return () => ctx.revert();
     }, 100);
 
     return () => {
       clearTimeout(timer);
+      ctx?.revert();
       window.ScrollTrigger?.getAll().forEach(st => st.kill());
     };
   }, [id, project]);

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import '../../css/works.css';
 import { LAYOUT } from '../../styles/layout';
 import { STAGGER_WATERFALL } from '../../utils/animationPresets';
 import { WorkCard } from './WorkCard';

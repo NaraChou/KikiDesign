@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';  
-import { LAYOUT } from '../../styles/layout';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../../utils/animationPresets';
 import logoKikiSm from '../../assets/logo-kiki-sm.png';
 import logoKikiMd from '../../assets/logo-kiki-md.png';

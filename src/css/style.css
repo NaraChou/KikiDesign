@@ -31,8 +31,11 @@ body {
 }
 
 /* ── C. 自訂游標（桌機） ─────────────────────────────────── */
+/* translate3d 啟用 GPU 合成層，避免 top/left 觸發 layout reflow    */
+/* will-change: transform 讓瀏覽器提前分配獨立合成層，消除主線程阻塞  */
 .custom-cursor {
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 20px;
   height: 20px;
   border: 1px solid var(--text-main);
@@ -40,7 +43,9 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  /*transition: transform 0.1s ease-out;*/
+  /* 初始位置設為螢幕外，防止頁面載入瞬間游標閃爍在左上角原點 */
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  will-change: transform;
   mix-blend-mode: difference;
 }
 

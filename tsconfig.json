@@ -32,6 +32,9 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.d.ts",
-    "vite.config.ts"
-  ]
+    "vite.config.ts",
+    "src/types.ts",
+    "*.ts" // 涵蓋 vite.config.ts, tailwind.config.ts 等根目錄檔案
+  ],
+  "exclude": ["node_modules", "dist"] // 建議補上排除清單，提升效能
 }

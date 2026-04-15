@@ -6,6 +6,10 @@
   <title>棠想視界 KIKI DESIGN | Create with Soul - 視覺設計與品牌規劃</title>
   <meta name="google-site-verification" content="hvRHtmgU9VlKoN5RfrEjprCjDkAM-xC4TpPvGaWbljo" />
 
+  <!-- 🔴 修正：在所有 CSS/JS 載入前，優先預讀取首屏最關鍵的視覺資源 (LCP) -->
+  <!-- 確保 Hero 區塊的主圖在頁面解析之初就開始下載，縮短使用者看到核心視覺的等待時間 -->
+  <link rel="preload" as="image" href="/src/assets/images/branding-mockup-main.webp" fetchpriority="high">
+
   <!-- SEO 核心描述設定 -->
   <meta name="description" content="KIKI DESIGN 致力於創造富有靈魂的視覺體驗。專注於視覺設計、品牌識別規劃及數位影像創作，Available for collaborations 2026。透過細膩的排版與色彩，為每個品牌打造獨一無二的敘事風格。">
   <meta name="keywords" content="KIKI DESIGN, 視覺設計, 品牌設計, 平面設計, 網頁設計, Visual Design, Branding, Taiwan Designer">

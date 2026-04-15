@@ -23,20 +23,20 @@ const STYLES = {
   wrapper: 'relative w-full',
 } as const;
 
-// [C] 自訂游標：桌面顯示圓形游標並跟隨滑鼠（不攔截點擊）
+// [C] 自訂游標：桌面顯示圓形游標並使用 GPU 加速跟隨滑鼠（提升絲滑體驗）
 export const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // [畫面效果] 桌機游標移動時，品牌圓形游標跟著滑鼠在畫面上漂移（不影響點擊判定）
+    // [視覺體驗] 讓品牌圓形游標在畫面上像浮在頂層一樣絲滑漂移
+    // 使用 translate3d 啟用 GPU 合成層，避免觸發 Layout Reflow，確保 60/120fps 的極致跟隨感
     const moveCursor = (e: MouseEvent) => {
       if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
-        cursorRef.current.style.transform = `translate(-50%, -50%)`;
+        // 🔴 修正：將 left/top 座標轉化為 GPU 變換，徹底消除主線程計算壓力
+        cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
       }
     };
-    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
     return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
 

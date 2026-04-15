@@ -32,6 +32,7 @@ body {
 
 /* ── C. 自訂游標（桌機） ─────────────────────────────────── */
 .custom-cursor {
+  top: 0; left: 0;
   width: 20px;
   height: 20px;
   border: 1px solid var(--text-main);
@@ -39,7 +40,7 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.1s ease-out;
+  /*transition: transform 0.1s ease-out;*/
   mix-blend-mode: difference;
 }
 

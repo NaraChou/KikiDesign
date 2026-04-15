@@ -86,31 +86,33 @@ const STYLES = {
 
 type WorkType = (typeof WORKS)[number];
 
-// [C] 主區塊
+// [C] 主區塊，改用語意化 <section> Ref
 export const Works: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  // 👁️ 用於 gsap 物理範圍限制的 section 參考
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!window.gsap || !window.ScrollTrigger) return;
-    window.gsap.registerPlugin(window.ScrollTrigger);
-
+    // 💡 動畫觸發設計：依據畫面中 .works-grid 的出現來啟動淡入
+    // [視覺化說明] → 當作品清單區進入視窗下緣 85% 時，卡片群將如瀑布般一張張淡入浮現
     const ctx = window.gsap.context(() => {
-      window.gsap.utils.toArray('.work-card').forEach((card: any) => {
-        window.gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top bottom-=50px',
-            invalidateOnRefresh: true,
-          },
-          ...STAGGER_WATERFALL,
-          y: 30,
-        });
+      window.gsap.from('.work-card', {
+        scrollTrigger: {
+          trigger: '.works-grid',       // 以 works-grid 為集體出發點
+          start: 'top 85%',             // 進入畫面 15% 時啟動
+          toggleActions: 'play none none none', // 播放一次
+        },
+        opacity: 0,                     // 初始為透明
+        y: 40,                          // 略帶下方浮起感
+        ...STAGGER_WATERFALL,           // 應用瀑布序列淡入
       });
-    }, sectionRef);
+    }, sectionRef); // 🛡️ 限定 only 區塊內動畫，避免全站污染
+
+    // 🚮 頁面切換時，GSAP 動畫與觀察者自動一鍵清除，防止用戶切換頁面後動畫殘留或失靈
     return () => ctx.revert();
   }, []);
 
   return (
+    // 語意化標籤 & 視覺記憶載體（section）包覆
     <section id="works" ref={sectionRef}>
       <div className={STYLES.container}>
         <header className="works-section-header">
@@ -118,6 +120,10 @@ export const Works: React.FC = () => {
           <p className="works-section-label">Selected Fragments</p>
         </header>
         <div className={STYLES.grid}>
+          {/* 
+            [視覺邏輯] 逐筆渲染卡片元件，維持資料驅動。每張卡片即 portfolio 碎片的獨立視覺區塊。
+            - 關鍵設計：img/標題/說明文字由 map 產生，維持未來可擴充性
+          */}
           {WORKS.map((work) => (
             <WorkCard
               key={work.id}

@@ -23,24 +23,45 @@ const STYLES = {
   wrapper: 'relative w-full',
 } as const;
 
-// [C] 自訂游標：桌面顯示圓形游標並使用 GPU 加速跟隨滑鼠（提升絲滑體驗）
-export const CustomCursor: React.FC = () => {
+// [C] 自訂游標：導入 Lerp 演算法實現「呼吸感」跟隨體感
+const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+  // 滑鼠物理座標記憶（代表滑鼠實際移動點）
+  const mouse = useRef({ x: 0, y: 0 });
+  // 元件視覺游標當前位置（每幀插值漸進）
+  const pos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // [視覺體驗] 讓品牌圓形游標在畫面上像浮在頂層一樣絲滑漂移
-    // 使用 translate3d 啟用 GPU 合成層，避免觸發 Layout Reflow，確保 60/120fps 的極致跟隨感
-    const moveCursor = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        // 🔴 修正：將 left/top 座標轉化為 GPU 變換，徹底消除主線程計算壓力
-        cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
-      }
+    // [動態資訊連動] 監聽滑鼠座標，記錄當前位置（類比滑鼠「指向」的目標點）
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
     };
-    window.addEventListener('mousemove', moveCursor, { passive: true });
-    return () => window.removeEventListener('mousemove', moveCursor);
+
+    // [畫面動態渲染] 使用 Lerp 插值算法達到「滑動延遲 → 呼吸感浮動」效果
+    const updateCursor = () => {
+      // 每一幀僅移動剩餘距離 15%，營造出柔和減速的浮動感
+      pos.current.x += (mouse.current.x - pos.current.x) * 0.15;
+      pos.current.y += (mouse.current.y - pos.current.y) * 0.15;
+
+      if (cursorRef.current) {
+        // translate3d 啟用 GPU 硬體加速，-8px 居中（因 .custom-cursor 長寬預期 16px）
+        cursorRef.current.style.transform = `translate3d(${pos.current.x - 8}px, ${pos.current.y - 8}px, 0)`;
+      }
+      requestAnimationFrame(updateCursor);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    const rafId = requestAnimationFrame(updateCursor);
+
+    // 🧹 畫面離開清理：移除監聽與停止動畫（避免報錯或記憶體洩漏）
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
-  return <div ref={cursorRef} className={STYLES.cursor} aria-hidden="true" />;
+  // [UI回饋] 初始顯示游標節點，設 style={{ display: 'block' }} 以防止第一次渲染閃爍
+  return <div ref={cursorRef} className={STYLES.cursor} style={{ display: 'block' }} />;
 };
 
 function AppContent() {

@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 
 /**
  * [A] 視覺資訊備註
- * 獨立作品卡片元件，從 Works.tsx 拆出以利複用。
- * 滑鼠光斑座標（--mouse-x / --mouse-y）由此元件自行管理。
- * 卡片光暈顏色（--card-glow-color）由 works.css 以 data-work-id 注入。
+ * 獨立作品卡片元件。
+ * 核心修正：加入 aspectRatio 鎖定高度，解決圖片載入後的 CLS 跳動問題。
  */
 
-// [B] Props 介面（清晰定義，便於任何頁面複用）
+// [B] Props 介面（清晰定義，便於任何頁面複用，支援可選 aspectRatio）
 export interface WorkCardProps {
   id: string;
   titleZH: string;
@@ -17,18 +16,18 @@ export interface WorkCardProps {
   img: string;
   textAlign: 'text-left' | 'text-right';
   extraClass?: string;
+  aspectRatio?: string; // 💡 新增可選參數：外部可自定義寬高比
 }
 
-// [B] 樣式常數
+// [B] 樣式常數 — 回歸語意化命名、優化 media 值移除 h-full 便於 aspect-ratio 運作
 const STYLES = {
   wrapper: 'work-card group relative block',
   overlay: 'absolute inset-0 z-40',
   inner: 'work-card-inner transition-all duration-500 group-hover:translate-y-[-2px]',
-  media: 'work-card-image-wrapper relative z-20 w-full h-full flex items-center justify-center',
-  image:
-    'max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]',
-  arrow:
-    'work-card-arrow-wrapper absolute right-4 top-4 z-30 opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100',
+  // 💡 調整：移除 h-full，確保 aspect-ratio 能由內而外撐開
+  media: 'work-card-image-wrapper relative z-20 w-full flex items-center justify-center bg-neutral-900/10',
+  image: 'max-w-full max-h-full object-contain transition-transform duration-1000 group-hover:scale-[1.03]',
+  arrow: 'work-card-arrow-wrapper absolute right-4 top-4 z-30 opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100',
   meta: 'work-card-info',
   heading: 'title-group',
   title: 'title-zh',
@@ -46,8 +45,9 @@ export const WorkCard: React.FC<WorkCardProps> = ({
   img,
   textAlign,
   extraClass = '',
+  aspectRatio = '16/9', // 💡 預設比例，外部沒給預設 16:9，防 CLS
 }) => {
-  // [畫面效果] 只更新滑鼠在卡片上的相對位置，讓 works.css 的 radial-gradient 光斑跟著游標走
+  // [畫面互動邏輯] 滑鼠位置即時更新，讓 works.css 的 radial-gradient 光斑動態跟隨
   const setPointerPosition = (target: HTMLDivElement, x: number, y: number) => {
     target.style.setProperty('--mouse-x', `${x}px`);
     target.style.setProperty('--mouse-y', `${y}px`);
@@ -81,13 +81,17 @@ export const WorkCard: React.FC<WorkCardProps> = ({
       />
 
       <div className={STYLES.inner}>
-        <div className={STYLES.media}>
+        {/* 💡 CLS 防禦：外層 div 直接用 style 控制寬高比 */}
+        <div
+          className={STYLES.media}
+          style={{ aspectRatio: aspectRatio }}
+        >
           <img
             src={img}
             alt={titleZH}
             className={STYLES.image}
-            width={800}
-            height={1000}
+            width={800}  // 瀏覽器參考主流卡片寬度，防止預排空間失誤
+            height={450} // 按 16:9 比例給個經典例（可根據 props 調整）
             loading="lazy"
             decoding="async"
           />

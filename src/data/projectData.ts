@@ -11,6 +11,13 @@
  * - 僅負責資源載入，尺寸比例與 object-fit 行為交由元件層管理（維持 aspect-ratio，禁止拉伸）。
  */
 
+/**
+ * [中文註解]
+ * ▍CLS 優化說明
+ * - aspectRatio: 定義圖片視覺比例，防止圖片加載時造成的頁面跳動。
+ * - 比例建議：橫式封面用 "16/9"，直式或方圖依據 Mockup 比例設定。
+ */
+
 import brandingAICover from '../assets/images/branding-ai-portfolio-cover.webp';
 import brandingDarkUI from '../assets/images/branding-dark-ui-landing.webp';
 import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
@@ -61,6 +68,7 @@ import aiSlideBehaviorLogic from '../assets/images/ai-slide-behavior-logic.webp'
  * - title/subtitle/category/year/description：基本介紹
  * - images：陣列，順序即為展示順序
  * - visual：首頁卡片 bg 與 hover 光暈統合歸為一組，便於主題色切換與擴展
+ * - aspectRatio：定義圖片渲染時預留的高度比例，防止 CLS 跳動
  */
 export interface ProjectImage {
   src: string,
@@ -77,6 +85,7 @@ export interface ProjectData {
   year: string,
   description: string,
   images: ProjectImage[],
+  aspectRatio: string,   // 💡 新增：每個作品預設主封面比例
   tabs?: string[],  // 選填，有值則啟用頁內標籤篩選（練習專區專用）
   visual: {
     cardBg: string,
@@ -108,6 +117,7 @@ export const projectsList: ProjectData[] = [
         caption: '2025 年以 Vibe Coding 重新開發第二版，維持視覺品質的前提下，大幅降低每月平台費用。對創業初期的品牌而言，成本控制本身也是設計決策的一環。',
       },
     ],
+    aspectRatio: '16/9', // 📐 橫式主視覺比例，預防 CLS
     visual: {
       cardBg: 'bg-[rgba(26,28,46,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)]',
@@ -148,6 +158,7 @@ export const projectsList: ProjectData[] = [
         caption: 'Logo 應用延伸，燙印於杯墊 mockup，驗證圖形在實體物料上的耐用性。',
       },
     ],
+    aspectRatio: '4/5', // 📐 直式主視覺比例（名片 mockup）
     visual: {
       cardBg: 'bg-[rgba(46,26,46,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(168,85,247,0.3)]',
@@ -177,6 +188,7 @@ export const projectsList: ProjectData[] = [
         caption: '身心靈課程宣傳長圖，資訊量大但層次分明，藍色主調呼應品牌識別，引導讀者視線由上至下流動。'
       }
     ],
+    aspectRatio: '3/4', // 📐 直式（EDM/海報視覺以此預設，有偏移可微調）
     visual: {
       cardBg: 'bg-[rgba(46,26,26,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(255,127,80,0.3)]',
@@ -206,6 +218,7 @@ export const projectsList: ProjectData[] = [
         caption: '金色緞面背景強化精品感，舞台式產品陳列提升品牌價值感。',
       },
     ],
+    aspectRatio: '16/9', // 📐 電商首圖多為寬橫，取寬螢幕預估
     visual: {
       cardBg: 'bg-[rgba(26,46,26,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(234,179,8,0.3)]',
@@ -249,6 +262,7 @@ export const projectsList: ProjectData[] = [
       { src: practiceLayoutPoster01, practiceCategory: '排版設計', caption: '海報設計：「認養代替購買」公益活動。金色書法大字搭配深灰底，印章式構圖強化儀式感，練習中文字體設計在海報主視覺中的比重拿捏。' },
       { src: practiceLayoutPoster02, practiceCategory: '排版設計', caption: '機油產品包裝設計：日系賽車風格排版，中英日文資訊層次整合，紅黑底色搭配動感插圖，練習高密度資訊在視覺設計中的秩序感建立。' },
     ],
+    aspectRatio: '16/9', // 📐 實驗室封面多橫式，可依封面圖自行調整
     visual: {
       cardBg: 'bg-[rgba(26,26,36,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(139,92,246,0.3)]',
@@ -285,6 +299,7 @@ export const projectsList: ProjectData[] = [
         caption: '行韋邏輯品牌核心視覺提案：以扇形放射結構整合品牌創辦人學經歷、核心服務與品牌理念，運用 AI 輔助生成識別元素並以網格系統重新建構資訊層次，將複雜的品牌思維轉化為直覺且具說服力的商業演說架構。',
       },
     ],
+    aspectRatio: '16/9', // 📐 AI Lab 封面橫式為主
     visual: {
       cardBg: 'bg-[rgba(10,20,35,0.55)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(56,189,248,0.3)]',

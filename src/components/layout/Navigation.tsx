@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+// 🔴 統一從 npm import GSAP 主體與插件
+import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../../utils/animationPresets';
 import logoKikiSm from '../../assets/logo-kiki-sm.png';
 import logoKikiMd from '../../assets/logo-kiki-md.png';
+
+// 註冊 gsap 外掛（保證 scrollTo 使用時已掛載，避免 Runtime 報錯）
+// [視覺化開發] 元件初始化時，啟用動畫功能，讓元件隨時能執行錨點平滑滾動
+gsap.registerPlugin(ScrollToPlugin);
 
 /**
  * [A] 視覺資訊備註
@@ -55,28 +62,26 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    // [視覺化開發] 當捲軸移動超過 12px，導覽列出現背景變化，增強圖層分界
     const handleScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // [視覺化溝通] 當使用者點擊導覽錨點，提供平滑滾動動畫
   const handleNavClick = (id: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (isHome) {
-      if (typeof window !== 'undefined' && typeof window.gsap !== 'undefined') {
-        window.gsap.to(window, { ...SCROLL_SMOOTH, scrollTo: id });
-      } else {
-        window.location.hash = id;
-      }
+      // 🔴 修正：直接以 import 的 gsap 操縱頁面，不再混用 window.gsap
+      // [元件的記憶] 確認已在首頁，直接進行動畫滾動至對應區塊
+      gsap.to(window, { ...SCROLL_SMOOTH, scrollTo: id });
     } else {
+      // [場景切換] 如果不在首頁，先跳首頁後觸發滾動
       navigate('/');
       setTimeout(() => {
-        if (typeof window !== 'undefined' && typeof window.gsap !== 'undefined') {
-          window.gsap.to(window, { ...SCROLL_INSTANT, scrollTo: id });
-        } else {
-          window.location.hash = id;
-        }
+        // [元件的記憶] 回首頁之後，立即捲動到對應錨點
+        gsap.to(window, { ...SCROLL_INSTANT, scrollTo: id });
       }, 100);
     }
   };

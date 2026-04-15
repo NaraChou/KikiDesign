@@ -3,6 +3,10 @@ import { LAYOUT } from '../../styles/layout';
 import { STAGGER_WATERFALL } from '../../utils/animationPresets';
 import { WorkCard } from './WorkCard';
 
+// 🔴 修正：改為 npm import gsap 與 ScrollTrigger
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import brandingMockupMain from '../../assets/images/branding-mockup-main.webp';
 import logoKiki2025Mockup from '../../assets/images/namecard-kiki-2025-mockup-concrete.webp';
 import posterMockupMain from '../../assets/images/poster-mockup-main.webp';
@@ -91,10 +95,13 @@ export const Works: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!window.gsap) return;
-    const ctx = window.gsap.context(() => {
-      window.gsap.utils.toArray('.work-card').forEach((card: any) => {
-        window.gsap.from(card, {
+    // 🔴 修正：不再依賴 window.gsap，統一以 npm 方式取得 gsap + ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 視覺化開發說明：每當作品卡片進入畫面時，觸發進場動畫，使用「元件動態展示」強化空間感
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.work-card').forEach((card: any) => {
+        gsap.from(card, {
           scrollTrigger: {
             trigger: card,
             start: 'top bottom-=50px',
@@ -105,6 +112,7 @@ export const Works: React.FC = () => {
         });
       });
     }, sectionRef);
+    // 當組件卸載時，清潔動畫上下文，防止殘影（保護 UI 畫面一致性）
     return () => ctx.revert();
   }, []);
 

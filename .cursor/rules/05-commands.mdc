@@ -1,0 +1,26 @@
+---
+alwaysApply: true
+---
+# Kiki 專屬 AI 快捷指令庫 (Commands)
+
+當使用者在對話框輸入以下 `#自訂指令` 時，請嚴格執行對應的檢查與任務：
+
+## 🛠️ 效能與架構審計指令
+
+### `/AuditV5` (執行 Motion V5 效能審計)
+當觸發此指令時，AI 必須掃描當前檔案並回答：
+1. 所有的 `requestAnimationFrame` 是否都有 `Math.abs(dx) < 0.1` 的自動休眠機制？
+2. `useEffect` 中是否有遺漏的 `cancelAnimationFrame` 或 `ctx.revert()`？
+3. 動畫位移是否都使用了 `translate3d` (GPU 加速) 而非改變 `top/left`？
+
+### `/CheckCLS` (執行視覺穩定性防禦檢查)
+當觸發此指令時，AI 必須掃描當前元件的 HTML/JSX：
+1. 列出所有 `<img>` 標籤。
+2. 檢查是否每個圖片都有 `aspect-ratio` (或 Tailwind 的 `aspect-`) 保護。
+3. 檢查是否都有明確的 `width` 與 `height` 或 `object-cover` 屬性。
+
+### `/FormatKiki` (執行 Kiki Style 程式碼格式化)
+當觸發此指令時，AI 必須自動重構當前檔案：
+1. 將 Tailwind Class 嚴格依照 `Layout -> Visual -> State -> Responsive` 重新排序。
+2. 檢查 RWD 斷點，補齊遺漏的 `md:` 與 `lg:`。
+3. 把散落的字串樣式抽離到 `STYLES` 常數物件中。

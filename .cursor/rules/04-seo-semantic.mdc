@@ -1,0 +1,26 @@
+---
+globs: *.tsx
+alwaysApply: false
+---
+# SEO 與語意化佈局
+
+## 1. 語意化標籤
+- 頁面最外層必須是 `<main>`
+- 區塊標題使用 `<h2>`，卡片標題使用 `<h3>`
+- 導覽區域必須是 `<nav>`
+- 點擊跳轉必須是 `<a>`（附帶具體描述，禁用「點擊這裡」）
+- 觸發事件（開關 Menu）必須是 `<button>`
+
+## 2. 圖片與 CLS 防線
+圖片必須遵守以下格式，缺一不可：
+```tsx
+<img 
+  src={src} 
+  alt="具體的中文視覺描述（如：Kiki品牌手冊設計）" 
+  loading="lazy" // 首屏請改為 eager + fetchPriority="high"
+  decoding="async"
+  width={W} 
+  height={H} 
+  className="w-full h-full object-cover aspect-[4/3]" // 強制給定比例防跳動
+/>
+```

@@ -1,0 +1,46 @@
+---
+alwaysApply: true
+---
+# 架構與元件模板標準
+
+## 1. 元件標準結構 (Template)
+每個 React 元件必須嚴格遵循以下結構，將邏輯與樣式解耦：
+
+```tsx
+import React from 'react';
+import { LAYOUT } from '../../styles/layout';
+
+// [A] 視覺資訊備註 (中文註解)
+
+// [B-0] GSAP 動畫鉤子白名單 (永不與 UI 樣式混合)
+const GSAP_SELECTORS = {
+  item: 'work-item-trigger', 
+} as const;
+
+// [B] 樣式常數 (強制排序: Layout -> Visual -> State -> Responsive)
+const STYLES = {
+  wrapper: 'flex flex-col min-h-screen bg-black text-white',
+  container: LAYOUT.container, // 引用統一部局 Token
+  list: 'grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3', // RWD 必須完整
+} as const;
+
+// [C] 數據驅動 (DRY 嚴格執行)
+const WORK_ITEMS = [ ... ]; // 或從外部 import
+
+export const ComponentName: React.FC = () => (
+  <section className={STYLES.wrapper}>
+    <div className={STYLES.container}>
+      <ul className={STYLES.list}>
+        {WORK_ITEMS.map((item) => (
+          <li key={item.id} className={GSAP_SELECTORS.item}>
+            {/* 元件內容 */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+);
+```
+## 2. 環境穩定性
+零報錯：TS 編譯與 Linter 必須 0 警告、0 錯誤。
+全域宣告：`window.gsap` 等全域屬性必須在 `src/vite-env.d.ts` 定義，絕對禁止在元件內寫 `// @ts-ignore` 或使用 `any`。

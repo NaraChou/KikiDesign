@@ -1,0 +1,42 @@
+---
+globs: *.tsx, *.ts
+alwaysApply: false
+---
+# Motion V5 Standard
+
+## 1. 喚醒與休眠機制 (rAF)
+禁止全天候執行的 RequestAnimationFrame。
+```ts
+// 視覺體驗：當滑鼠靜止時，游標元件會進入休眠，停止消耗效能。
+const loop = () => {
+  if (Math.abs(target - current) < 0.1) {
+    isSleeping.current = true; // 進入休眠
+    return;
+  }
+  // ... 動畫邏輯 ...
+  rafId.current = requestAnimationFrame(loop);
+};
+```
+
+## 2. 徹底的 Cleanup (GSAP)
+`useEffect` 必須完美清理：
+```ts
+useEffect(() => {
+  let ctx: ReturnType<typeof window.gsap.context> | null = null;
+  
+  ctx = window.gsap.context(() => {
+    // gsap 邏輯
+  }, ref);
+
+  return () => {
+    ctx?.revert(); // 釋放記憶體
+    cancelAnimationFrame(rafId.current); // 停止 rAF
+  };
+},[]);
+```
+
+## 3. CSS 負責偏移
+JS 計算的游標/物體座標，必須透過 CSS 校正中心點：
+```ts
+style={{ transform: `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)` }}
+```

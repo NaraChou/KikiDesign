@@ -15,16 +15,22 @@
 * **動態視覺**：`GSAP` + `ScrollTrigger` 實現高性能滾動動畫與視差效果。
 * **樣式系統**：`Tailwind CSS` 搭配 **三層 CSS 結構**（變數層、語義層、組件層）。
 * **效能優化**：採用單一資料來源（Single Source of Truth）管理作品，優化圖片加載與進場序列。
-* **開發範式**：遵循 `DEVELOPER_GUIDE.md` 規範，實現樣式與邏輯的高度解耦。
+* **AI 開發護欄**：導入專屬的 `.cursor/rules` (MDC 機制)，強制約束 AI 遵守 Mobile First RWD、Motion V5 效能標準與 DRY 原則。
 
 ---
 
 ## 📂 專案架構 (Project Structure)
 
-本專案採用模組化結構，將設計系統、資料模型與 UI 組件嚴格分離。
+本專案採用模組化結構，將設計系統、資料模型與 UI 組件嚴格分離，並具備完善的 AI 開發規則。
 
 ```text
 kikidesign/
+├── .cursor/                # 【AI 防禦系統】Cursor 專案級規則
+│   └── rules/
+│       ├── 01-architecture.mdc  # 架構與元件模板標準
+│       ├── 02-tailwind-rwd.mdc  # Tailwind 排序與 RWD 強制規範
+│       ├── 03-motion-v5.mdc     # GSAP/rAF 效能與清理機制
+│       └── 04-seo-semantic.mdc  # 語意化標籤與圖片 SEO 防線
 ├── .github/                # GitHub CI/CD 自動化部署設定
 │   └── workflows/
 │       └── deploy.yml      # 自動化部署腳本
@@ -58,11 +64,11 @@ kikidesign/
 │   │   │   └── WorkDetail.tsx        # 作品詳情頁
 │   │   └── Home.tsx        # 首頁容器 (組合 Hero, Works, Philosophy)
 │   ├── css/                # 【樣式系統】
-│   │   ├── globals.css     # Layer 1: 設計 Token 與變數
-│   │   ├── motion.css      # Layer 2: 語義化動畫類名
-│   │   ├── style.css       # Layer 3: 基礎結構與重置
-│   │   ├── works.css       # 作品清單專用樣式
-│   │   └── work-detail.css # 作品內頁專用樣式
+│   │   ├── globals.css     # Layer 0: 設計 Token 與變數
+│   │   ├── motion.css      # Layer 1: 語義化動畫類名
+│   │   ├── style.css       # Layer 2: 基礎結構與重置
+│   │   ├── works.css       # Layer 3: 作品清單專用樣式
+│   │   └── work-detail.css # Layer 3: 作品內頁專用樣式
 │   ├── data/
 │   │   └── projectData.ts  # 單一資料來源 (SSOT): 管理全站作品內容
 │   ├── styles/
@@ -73,7 +79,7 @@ kikidesign/
 │   ├── index.tsx           # React 掛載點
 │   ├── types.ts            # 全域 TypeScript 型別定義
 │   └── vite-env.d.ts       # Vite 環境定義
-├── .cursorrules            # Cursor AI 規則設定
+├── .cursorrules            # Cursor 全局 AI 規則與最高指導指令
 ├── .env.local              # 本地環境變數
 ├── .gitignore              # Git 忽略清單
 ├── DEVELOPER_GUIDE.md      # 開發規範與維護指南
@@ -124,7 +130,7 @@ npm run deploy
 
 * **Email**：[exloe574@gmail.com](mailto:exloe574@gmail.com)
 * **Facebook**：[棠想視界](https://www.facebook.com/profile.php?id=100066728660644)
-* **LINE**：[0979-291-388](https://line.me/ti/p/0979291388)
+* **LINE**：[0979291388](https://line.me/ti/p/0979291388)
 
 ---
 
@@ -133,6 +139,7 @@ npm run deploy
 * [x] **新增作品**：請直接修改 `src/data/projectData.ts`，UI 會自動根據資料動態渲染。
 * [x] **動畫節奏**：若需調整全站動畫速度或 Ease 曲線，請修改 `src/utils/animationPresets.ts`。
 * [x] **樣式修改**：請優先尋找 `src/css/globals.css` 中的 **CSS 變數** 進行全局調整，避免在組件內直接硬編碼（Hard-coded）樣式。
+* [x] **AI 規範更新**：若發現 AI 開發時有偏離設計或效能標準，請至 `.cursor/rules/ `中更新對應的 `.mdc` 檔案來強化防禦機制。
 
 ---
 

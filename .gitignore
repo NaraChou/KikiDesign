@@ -12,6 +12,7 @@ node_modules
 dist
 dist-ssr
 kiki-rules
+app.py
 
 # C. 環境組態檔（.env files） Environment variables
 *.local

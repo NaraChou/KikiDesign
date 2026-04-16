@@ -15,22 +15,23 @@
 * **動態視覺**：`GSAP` + `ScrollTrigger` 實現高性能滾動動畫與視差效果。
 * **樣式系統**：`Tailwind CSS` 搭配 **三層 CSS 結構**（變數層、語義層、組件層）。
 * **效能優化**：採用單一資料來源（Single Source of Truth）管理作品，優化圖片加載與進場序列。
-* **AI 開發護欄**：導入專屬的 `.cursor/rules` (MDC 機制)，強制約束 AI 遵守 Mobile First RWD、Motion V5 效能標準與 DRY 原則。
+* **AI 開發護欄**：導入專屬的 `.cursor/rules` (MDC 機制) 與雙軌制規範，強制約束 AI 遵守 Mobile First RWD、Motion V5 效能標準與 DRY 原則。
 
 ---
 
 ## 📂 專案架構 (Project Structure)
 
-本專案採用模組化結構，將設計系統、資料模型與 UI 組件嚴格分離，並具備完善的 AI 開發規則。
+本專案採用模組化結構，將設計系統、資料模型與 UI 組件嚴格分離，並具備完善的 AI 開發雙軌防禦系統。
 
 ```text
 kikidesign/
-├── .cursor/                # 【AI 防禦系統】Cursor 專案級規則
+├── .cursor/                # 【AI 防禦系統】Cursor 專案級規則 (背景防禦網)
 │   └── rules/
 │       ├── 01-architecture.mdc  # 架構與元件模板標準
 │       ├── 02-tailwind-rwd.mdc  # Tailwind 排序與 RWD 強制規範
 │       ├── 03-motion-v5.mdc     # GSAP/rAF 效能與清理機制
-│       └── 04-seo-semantic.mdc  # 語意化標籤與圖片 SEO 防線
+│       ├── 04-seo-semantic.mdc  # 語意化標籤與圖片 SEO 防線
+│       └── 05-commands.mdc      # Kiki 專屬 AI 快捷指令庫
 ├── .github/                # GitHub CI/CD 自動化部署設定
 │   └── workflows/
 │       └── deploy.yml      # 自動化部署腳本
@@ -82,7 +83,8 @@ kikidesign/
 ├── .cursorrules            # Cursor 全局 AI 規則與最高指導指令
 ├── .env.local              # 本地環境變數
 ├── .gitignore              # Git 忽略清單
-├── DEVELOPER_GUIDE.md      # 開發規範與維護指南
+├── CURSOR_GUIDE.md         # Cursor Agent 協作手冊 (人類閱讀用)
+├── DEVELOPER_GUIDE.md      # 開發規範與維護指南 (AI 全局架構聖經)
 ├── index.html              # 基礎 HTML 入口
 ├── metadata.json           # 專案元數據
 ├── package.json            # 專案套件與指令管理

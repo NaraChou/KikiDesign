@@ -1,71 +1,69 @@
----
+﻿---
 globs: "*.tsx"
 alwaysApply: false
 ---
 # SEO 與語意化佈局防線
 
-## 1. 語意化標籤（零 `<div>` 佈局）
+## 規格資訊
+- Version：`2.0.0`
+- Last Updated：`2026-04-17`
+- Priority：`P1 MUST`
 
-| 標籤 | 用途 |
-|---|---|
-| `<main>` | 頁面主要內容最外層，每頁只能有一個 |
-| `<nav>` | 導覽列（主選單、麵包屑） |
-| `<header>` / `<footer>` | 頁首 / 頁尾 |
-| `<section>` | 有主題的內容區塊（需含標題） |
-| `<article>` | 獨立可複用的內容單元（卡片、文章） |
-| `<h1>` | 每頁唯一主標題 |
-| `<h2>` | 區塊標題 |
-| `<h3>` | 卡片、子區塊標題 |
-| `<button>` | 所有觸發事件（開關 Menu、互動操作），必須有 `aria-label` |
-| `<a>` | 點擊跳轉，必須有具體描述文字，禁用「點擊這裡」 |
+## 1. 語意化標籤（禁止全 div）
+- `<main>`：每頁主要內容唯一容器。
+- `<nav>`：導覽區（主選單、麵包屑）。
+- `<section>`：主題區塊，需有對應標題。
+- `<article>`：可獨立理解的內容單元。
+- `<h1>`：每頁唯一主標題；`h2/h3` 不可跳層。
+- `<button>`：觸發操作；圖示按鈕必填 `aria-label`。
+- `<a>`：導向連結；文案需具體，不用「點擊這裡」。
 
-> **標題不可斷層**：有 `<h2>` 才能有 `<h3>`，不能跳層使用。
+## 2. 圖片屬性用途與必填規則
+| 屬性 | 是否必填 | 用途 |
+|---|---|---|
+| `alt` | 必填 | 提供可及性文字與語意資訊 |
+| `width` / `height` | 必填 | 預留版位，降低 CLS |
+| `aspect-*` | 必填 | 鎖定視覺比例，防拉伸 |
+| `loading` | 必填 | 首屏 eager，非首屏 lazy |
+| `fetchPriority` | 條件必填 | 首屏主圖建議 `high` |
+| `decoding="async"` | 建議 | 降低主執行緒阻塞 |
 
-## 2. 圖片 CLS 防線（缺一不可）
-
-```tsx
-{/* ✅ 首屏圖片（LCP 優化） */}
-<img
-  src={src}
-  alt="具體的中文視覺描述（如：Kiki品牌手冊設計）"
-  loading="eager"
-  fetchPriority="high"
-  decoding="async"
-  width={800}
-  height={450}
-  className="w-full h-full object-contain aspect-[16/9]"
-/>
-
-{/* ✅ 非首屏圖片（防止 CLS 跳動） */}
-<img
-  src={src}
-  alt="具體描述"
-  loading="lazy"
-  decoding="async"
-  width={800}
-  height={1000}
-  className="w-full h-full object-contain aspect-[4/5]"
-/>
-```
-
-**必填欄位說明**：
-- `alt`：具體中文描述，不可留空，不可寫「圖片」
-- `width` / `height`：瀏覽器預留空間用，防止載入後頁面跳動（CLS）
-- `aspect-ratio`（className 內）：視覺比例鎖定，與 width/height 雙重保險
-- `loading="lazy"`：非首屏必須，減少初始載入壓力
-- `decoding="async"`：非同步解碼，不阻塞主線程
-
-## 3. index.html 必填 meta
+## 3. index.html 必填 meta 清單
+以下項目預設必備：
 
 ```html
-<!-- LCP 首屏圖片預載（放在所有 CSS/JS 之前） -->
-<link rel="preload" as="image" href="/首屏主圖.webp" fetchpriority="high">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>...</title>
+<meta name="description" content="..." />
+<meta name="robots" content="index,follow" />
+<link rel="canonical" href="https://yourdomain/..." />
 
-<!-- 社群分享 OG -->
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="..." />
+<meta property="og:description" content="..." />
+<meta property="og:url" content="https://yourdomain/..." />
+<meta property="og:image" content="https://yourdomain/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yourdomain/og-image.png">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="..." />
+<meta name="twitter:description" content="..." />
+<meta name="twitter:image" content="https://yourdomain/og-image.png" />
 ```
+
+## 4. 失敗訊號（Fail Signals）
+- 一個頁面出現多個 `<h1>` 或標題層級跳躍。
+- 大量主體內容落在無語意 `<div>`，缺 `main/section/article`。
+- 圖片缺 `alt`、`width/height` 或 `aspect-*` 任一項。
+- 首屏圖未標記 `loading="eager"` 且缺高優先載入策略。
+- `index.html` 缺 `description`、`canonical` 或主要 OG/Twitter meta。
+
+## 5. 最低可執行檢查
+- 檢查 heading 階層是否連續。
+- 檢查每張圖是否具備 CLS 防線四件組。
+- 檢查首頁 meta 是否齊全，分享卡是否可用。
+
+### Changelog
+- `v2.0.0`：補齊完整 meta 清單、圖片屬性用途表、Fail Signals 與可執行檢查。

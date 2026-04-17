@@ -1,4 +1,4 @@
-# Frontend Architecture Guide v2
+# Frontend Architecture Guide v2.0.0
 ### Kiki Design System — React + TypeScript + Tailwind CSS + GSAP
 ### AI 協作雙軌規範（Cursor 主力 / VS Code 輔助）
 
@@ -64,6 +64,7 @@ src/
 
 .cursor/
   rules/
+    00-governance.mdc     規則治理（SemVer、Gate、變更模板）
     01-architecture.mdc   架構與元件模板標準
     02-tailwind-rwd.mdc   Tailwind 排序與 RWD 強制規範
     03-motion-v5.mdc      GSAP/rAF 效能與清理機制
@@ -436,20 +437,35 @@ export const ComponentName: React.FC = () => (
 
 ---
 
-## 11. Pre-flight Checklist（AI 每次輸出前必跑）
+## 11. Pre-flight Checklist v2（AI 每次輸出前必跑）
 
-在每次提供完整程式碼前，AI 必須在內心執行以下檢查，未通過請重寫：
+在每次提供完整程式碼前，AI 必須執行以下 8 項檢查，未通過請重寫：
 
 ```
 [ ] 是否已處理 Mobile First RWD 斷點（flex-col 預設、md: lg: 均已補齊）？
 [ ] Tailwind 樣式是否嚴格遵守 Layout → Visual → State → Responsive 排序？
 [ ] 重複性 HTML 是否已重構為 .map() 資料驅動模式？
 [ ] 圖片是否具備防 CLS 保護（aspect-ratio, alt, width, height）？
-[ ] JS 動畫是否包含自動休眠（Math.abs < 0.1）？
+[ ] rAF 是否具備休眠機制與雙旗標（sleeping + rafActive）？
 [ ] useEffect cleanup 是否完整（revert + cancelAnimationFrame + removeEventListener）？
 [ ] 是否使用語意化標籤（main / nav / section / h1~h3）？
-[ ] 色值是否都使用 CSS 變數（var(--token)）？
 [ ] GSAP_SELECTORS 與 STYLES 是否完全分離？
+```
+
+交付時必須附上標準化結果：
+
+```txt
+[PRE-FLIGHT]
+RWD_MOBILE_FIRST: PASS|FAIL
+TAILWIND_ORDER: PASS|FAIL
+DRY_MAP_RENDER: PASS|FAIL
+CLS_IMAGE_GUARD: PASS|FAIL
+RAF_SLEEP_FLAGS: PASS|FAIL
+EFFECT_CLEANUP: PASS|FAIL
+SEMANTIC_HTML: PASS|FAIL
+GSAP_STYLE_SEPARATION: PASS|FAIL
+VERDICT: PASS|FAIL
+BLOCKERS: ...
 ```
 
 ---
@@ -465,6 +481,7 @@ export const ComponentName: React.FC = () => (
 | **`/CheckCLS`** | 新增圖片後 | 列出所有 `<img>`；確認 `aspect-ratio`、`width`、`height`、`alt` 是否齊備 |
 | **`/AuditV5`** | 寫完 GSAP / rAF 後 | 確認 rAF 休眠機制（`Math.abs < 0.1`）；cleanup 完整性（`revert` + `cancelAnimationFrame`）；位移使用 `translate3d` |
 | **`/AuditSEO`** | 區塊結構完成時 | 語意標籤檢查；標題階層無斷層；`<a>` 具體描述；`<button>` 有 `aria-label` |
+| **`/Preflight`** | 交付前最後一步 | 彙總 8 項檢查並輸出 PASS/FAIL；任一 FAIL 不可交付 |
 
 ---
 
@@ -498,4 +515,4 @@ animationPresets = 動畫參數（模組化）
 
 ---
 
-*Kiki Design System v2 — Last updated 2026*
+*Kiki Design System v2.0.0 — Last updated 2026-04-17*

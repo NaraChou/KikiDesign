@@ -13,6 +13,7 @@ dist
 dist-ssr
 kiki-rules
 app.py
+docs
 
 # C. 環境組態檔（.env files） Environment variables
 *.local

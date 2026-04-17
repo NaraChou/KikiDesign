@@ -1,33 +1,57 @@
----
+﻿---
 globs: "*.tsx,*.ts"
 alwaysApply: false
 ---
 # Tailwind 與 RWD 強制規範
 
-## 1. Tailwind 排序法則（絕對不可變）
+## 規格資訊
+- Version：`2.0.0`
+- Last Updated：`2026-04-17`
+- Priority：`P1 MUST`
 
-```
+## 1. Tailwind 排序法則（不可變）
+
+```txt
 [A] Layout      flex grid w- h- p- m- position z-
 [B] Visual      bg- text- border- rounded- shadow- opacity-
 [C] State       hover: focus: group-hover: transition- duration-
-[D] Responsive  md: lg: xl:（永遠放在最後）
+[D] Responsive  md: lg: xl:（永遠最後）
 ```
 
-**正確範例**：
+✅ 正確：
 ```ts
-'flex flex-col items-center w-full bg-black text-white opacity-0 transition-opacity hover:opacity-100 md:flex-row md:justify-between lg:gap-16'
+'flex flex-col w-full bg-black text-white transition-opacity hover:opacity-90 md:flex-row md:justify-between lg:gap-16'
+```
+
+❌ 錯誤：
+```ts
+'bg-black flex md:flex-row text-white hover:opacity-90 flex-col'
 ```
 
 ## 2. RWD 零妥協（Mobile First）
+- 預設 class 先服務手機。
+- 桌機/平板行為必須透過 `md:`、`lg:` 遞增補齊。
+- 並排佈局強制規則：
+  - ❌ `flex flex-row`
+  - ✅ `flex flex-col md:flex-row`
+- 版心與水平間距優先使用 `LAYOUT.container`，避免元件各自亂寫。
 
-- **預設即手機版**：所有 class 預設給手機看，桌機版在 `md:` / `lg:` 後補。
-- **並排佈局強制規則**：
-  - ❌ 錯誤：`flex flex-row`（手機直接並排）
-  - ✅ 正確：`flex flex-col md:flex-row`（手機垂直，桌機才並排）
-- **AI 防呆**：新增任何並排佈局時，必須主動補齊 `md:` 斷點，否則視為未完成任務。
-- **邊距統一**：使用 `LAYOUT.container` 統一左右 Padding。禁止在各元件內各自寫 `px-4 md:px-8`，造成各區塊邊距不對齊。
+## 3. 前提與禁止條件
+- 前提：只要新增 `flex/grid` 佈局，就必須同步檢查 breakpoint。
+- 前提：只要新增 hover/transition，就必須回到 `[C] State` 區。
+- 禁止：在同一 class 字串混入無序斷點（`lg:` 在 `md:` 前且語義衝突）。
+- 禁止：用 JS 事件改變純視覺 hover 狀態（改用 CSS/Tailwind）。
 
-## 3. 互動效果規範
+## 4. 失敗訊號（Fail Signals）
+- 出現 `flex-row`，但同區塊沒有 base `flex-col`。
+- 響應式 class 與基礎 class 混序，導致閱讀與維護困難。
+- 同頁多區塊左右邊距不一致（未使用統一 container token）。
+- hover 視覺以 `onMouseOver` 實作且無必要業務邏輯。
 
-- **Hover 效果**：優先使用 CSS `:hover` 或 Tailwind `group-hover:`，禁止用 JS `onMouseOver` 改變靜態樣式。
-- **Transition 位置**：`transition-` 與 `duration-` 屬於 `[C] State`，必須在 hover 類別前。
+## 5. 最低可執行檢查
+- 檢查所有 `flex` 佈局：是否滿足 `base=col, md=row`。
+- 檢查 Tailwind 字串順序：是否符合 `A→B→C→D`。
+- 檢查同頁 section：水平邊距是否一致。
+
+### Changelog
+- `v2.0.0`：新增錯誤範例、前提/禁止條件、Fail Signals 與最低可執行檢查。

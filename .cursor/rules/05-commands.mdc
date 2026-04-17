@@ -1,60 +1,144 @@
----
+﻿---
 alwaysApply: true
 ---
-# Kiki 專屬 AI 快捷指令庫
+# Kiki 專屬 AI 指令執行手冊
 
-當使用者在對話框輸入以下指令時，請嚴格執行對應的稽核任務。
-**使用原則：隨寫隨測，每完成一個元件立刻執行，不要等全站完成才檢查。**
+## 規格資訊
+- Version：`2.0.0`
+- Last Updated：`2026-04-17`
+- 原則：每個指令都必須有「執行前提、逐條檢查、阻斷條件、輸出格式」。
 
----
+## `/FormatKiki` — 結構與樣式格式化
 
-## `/FormatKiki` — Kiki Style 程式碼格式化
+### 執行前提
+- 當前檔案包含 JSX/Tailwind class。
 
-**執行時機**：元件剛寫完時。
+### 逐條檢查
+- [ ] Tailwind class 重排為 `Layout → Visual → State → Responsive`。
+- [ ] 所有並排佈局確認 `flex-col` base + `md:flex-row`。
+- [ ] JSX 字串樣式抽離到 `STYLES` 常數（保留必要動態 class）。
+- [ ] 動畫 selector 從 `STYLES` 拆回 `GSAP_SELECTORS`。
 
-AI 必須自動重構當前檔案，依序執行：
+### 阻斷條件（Fail）
+- 發現 `flex-row` 無 `flex-col` base。
+- `STYLES` 與 `GSAP_SELECTORS` 仍混寫。
 
-1. **Tailwind 重排**：將所有 class 嚴格依照 `Layout → Visual → State → Responsive` 重新排序。
-2. **RWD 補齊**：掃描所有 `flex` / `grid` 佈局，檢查是否有手機版直接並排（缺少 `flex-col`）；補齊遺漏的 `md:` 與 `lg:` 斷點。
-3. **STYLES 抽離**：將 JSX 中散落的字串樣式抽離到 `STYLES` 常數物件，確保 JSX 內只有 key 引用。
+### 輸出格式
+```txt
+[FormatKiki]
+TAILWIND_ORDER: PASS|FAIL
+MOBILE_FIRST: PASS|FAIL
+STYLES_EXTRACTION: PASS|FAIL
+SELECTOR_SEPARATION: PASS|FAIL
+VERDICT: PASS|FAIL
+```
 
----
+## `/CheckCLS` — 視覺穩定性檢查
 
-## `/CheckCLS` — 視覺穩定性防禦檢查
+### 執行前提
+- 當前檔案有 `<img>`、`<picture>` 或背景主視覺。
 
-**執行時機**：新增圖片或任何媒體元素後。
+### 逐條檢查
+- [ ] 列出所有圖片元素。
+- [ ] 每張圖具備 `alt`、`width`、`height`、`aspect-*`。
+- [ ] 首屏圖為 `loading="eager"` + `fetchPriority="high"`。
+- [ ] 非首屏圖為 `loading="lazy"`。
+- [ ] `alt` 為具體描述，非「圖片/圖示」。
 
-AI 必須掃描當前元件的 JSX，依序回答：
+### 阻斷條件（Fail）
+- 任一圖片缺少 CLS 四件組。
+- 首屏圖未使用高優先策略。
 
-1. **列出所有 `<img>` 標籤**及其當前屬性。
-2. **CLS 保護**：每個圖片是否有 `aspect-ratio` 保護（className 內的 `aspect-[X/Y]` 或外層 div 的 style）？
-3. **尺寸聲明**：是否都有明確的 `width` 與 `height` 屬性（數值，非百分比）？
-4. **alt 完整性**：`alt` 是否有具體中文描述？是否有留空或寫「圖片」？
-5. **載入策略**：首屏圖片是否為 `loading="eager" fetchPriority="high"`？非首屏是否為 `loading="lazy"`？
+### 輸出格式
+```txt
+[CheckCLS]
+IMAGE_INVENTORY: PASS|FAIL
+CLS_GUARD: PASS|FAIL
+LCP_PRIORITY: PASS|FAIL
+ALT_QUALITY: PASS|FAIL
+VERDICT: PASS|FAIL
+```
 
----
+## `/AuditV5` — Motion V5 稽核
 
-## `/AuditV5` — Motion V5 效能審計
+### 執行前提
+- 檔案含 GSAP、`requestAnimationFrame`、ResizeObserver 其一。
 
-**執行時機**：寫完任何 GSAP 動畫或 `requestAnimationFrame` 後。
+### 逐條檢查
+- [ ] rAF 有靜止判定與雙旗標。
+- [ ] cleanup 含 `ctx?.revert()` + `cancelAnimationFrame` + `removeEventListener`。
+- [ ] 位移以 `translate3d` 為主，避免 `top/left` 高頻更新。
+- [ ] ResizeObserver 使用 `disconnect → refresh → rAF observe`。
+- [ ] ResizeObserver 有 `debounce + threshold`。
 
-AI 必須掃描當前檔案，依序確認：
+### 阻斷條件（Fail）
+- callback 內直接 `ScrollTrigger.refresh()`。
+- rAF 缺停止條件或缺 cleanup。
 
-1. **rAF 休眠機制**：所有 `requestAnimationFrame` 是否有 `Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1` 的靜止判定與停止遞迴邏輯？
-2. **GSAP cleanup**：`useEffect` 是否有 `ctx?.revert()`？是否在 `return () => {}` 的頂層宣告 ctx（不在 setTimeout 內）？
-3. **rAF cleanup**：是否有 `cancelAnimationFrame(rafId.current)`？即使 rAF 自我停止，生命週期仍須強制終止。
-4. **GPU 優先**：動畫位移是否都使用 `translate3d(x, y, 0)` 而非直接改變 `top` / `left`？
-5. **ResizeObserver**（若有）：是否有 `disconnect → refresh → rAF observe` 的安全 Pipeline？是否有 debounce + 閾值守衛？
+### 輸出格式
+```txt
+[AuditV5]
+RAF_SLEEP: PASS|FAIL
+CLEANUP_COMPLETE: PASS|FAIL
+GPU_PATH: PASS|FAIL
+RO_SAFE_PIPELINE: PASS|FAIL
+VERDICT: PASS|FAIL
+```
 
----
+## `/AuditSEO` — SEO 與語意化稽核
 
-## `/AuditSEO` — SEO 與語意化架構審計
+### 執行前提
+- 當前檔案是頁面或主要區塊結構。
 
-**執行時機**：區塊結構完成時。
+### 逐條檢查
+- [ ] 是否有 `main/nav/section/article` 正確落位。
+- [ ] `h1~h3` 階層是否連續且每頁單一 `h1`。
+- [ ] `<a>` 文案是否具體可理解。
+- [ ] `<button>`（尤其圖示按鈕）是否具備 `aria-label`。
+- [ ] `index.html` meta 是否符合 04 規範。
 
-AI 必須以搜尋引擎爬蟲視角掃描當前檔案，依序確認：
+### 阻斷條件（Fail）
+- 結構只用 `<div>` 堆疊主要內容。
+- 標題層級斷裂或多 `h1`。
 
-1. **語意標籤**：是否過度使用 `<div>`？主要內容是否有 `<main>`？導覽是否有 `<nav>`？獨立單元是否有 `<article>`？
-2. **標題階層**：`<h1>` 到 `<h3>` 的使用是否符合邏輯層次，沒有跳層斷層？每頁是否只有一個 `<h1>`？
-3. **連結可及性**：所有 `<a>` 是否有具體描述文字？是否有使用「點擊這裡」、「了解更多」等模糊描述？
-4. **按鈕可及性**：所有 `<button>` 是否有 `aria-label`（特別是圖示按鈕、漢堡選單）？
+### 輸出格式
+```txt
+[AuditSEO]
+SEMANTIC_STRUCTURE: PASS|FAIL
+HEADING_HIERARCHY: PASS|FAIL
+LINK_ACCESSIBILITY: PASS|FAIL
+BUTTON_ACCESSIBILITY: PASS|FAIL
+META_COMPLETENESS: PASS|FAIL
+VERDICT: PASS|FAIL
+```
+
+## `/Preflight` — 最終交付總閘門
+
+### 執行前提
+- 準備交付 PR 或完整功能段落前。
+
+### 逐條檢查
+- [ ] 套用 `.cursorrules` 的 8 項 Pre-flight。
+- [ ] 所有相關命令卡結果均為 PASS。
+- [ ] 若有 FAIL，列出阻塞項與修復結果。
+
+### 阻斷條件（Fail）
+- 任一 Must 規則失敗仍嘗試交付。
+
+### 輸出格式
+```txt
+[PRE-FLIGHT]
+RWD_MOBILE_FIRST: PASS|FAIL
+TAILWIND_ORDER: PASS|FAIL
+DRY_MAP_RENDER: PASS|FAIL
+CLS_IMAGE_GUARD: PASS|FAIL
+RAF_SLEEP_FLAGS: PASS|FAIL
+EFFECT_CLEANUP: PASS|FAIL
+SEMANTIC_HTML: PASS|FAIL
+GSAP_STYLE_SEPARATION: PASS|FAIL
+VERDICT: PASS|FAIL
+BLOCKERS: ...
+```
+
+### Changelog
+- `v2.0.0`：所有命令新增執行前提、阻斷條件與標準化輸出，並新增 `/Preflight` 終閘門。

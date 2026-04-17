@@ -1,109 +1,90 @@
 # 🪄 Kiki Design x Cursor Agent: 專案級 AI 協作手冊
 
-> **核心理念**：Cursor 不是幫你寫扣的打字機，而是受你指揮的「首席前端工程師」。透過完善的規則系統（Rules），我們能將 AI 的能力限制在 Kiki Style 的極簡、高效能、高質感的框架內。
+> **核心理念**：Cursor 不是幫你寫扣的打字機，而是受你指揮的「首席前端工程師」。透過完善的雙軌規則系統，我們能將 AI 的能力限制在 Kiki Style 的極簡、高效能、高質感框架內。
 
 ---
 
 ## 🧠 核心概念：AI 協作的「雙軌制」
 
-在 Kiki Design 專案中，我們設計了市面頂級的「AI 雙軌制防禦架構」。了解這兩者的分工，能讓你的開發效率最大化：
+### 🚂 軌道一：背景自動防禦網（`.cursor/rules/*.mdc`）
+- **定位**：「交通警察 / 隨身警報器」
+- **運作方式**：精準觸發的強制規則。AI 打開 `.tsx` 時才讀 `02-tailwind-rwd.mdc`；你下達指令時才讀 `05-commands.mdc`。不佔用多餘 Token。
+- **優點**：你日常改 Code 時**完全不需理會它**，它在背景自動約束 AI 的 RWD、動畫清理與語意標籤。
 
-### 🚂 軌道一：背景自動防禦網 (`.cursor/rules/*.mdc`)
-* **定位**：「交通警察 / 隨身警報器」
-* **運作方式**：這是拆解成小塊的「強制觸發規則」。AI 只有在打開 `.tsx` 檔案時，才會去讀取 `02-tailwind-rwd.mdc`；只有在你下達指令時，才會去讀 `05-commands.mdc`。
-* **優點**：精準打擊、不佔用過多記憶體（Token）。你在日常改 Code 時**完全不需要理會它**，它會在背景自動約束 AI 乖乖寫好 RWD 和 GSAP 休眠。
-
-### 🚂 軌道二：全局架構聖經 (`DEVELOPER_GUIDE.md`)
-* **定位**：「國家憲法 / 維基百科」
-* **運作方式**：完整記錄專案的「所有脈絡與歷史架構」。
-* **使用時機**：當你要進行**「架構大改」**或**「一口氣生成多個新頁面」**時，在對話框手動 `@DEVELOPER_GUIDE.md`，強迫 AI 在動工前先閱讀全站邏輯，確保新生成的程式碼不偏離五層架構。
+### 🚂 軌道二：全局架構聖經（`DEVELOPER_GUIDE.md`）
+- **定位**：「國家憲法 / 維基百科」
+- **運作方式**：完整記錄全站脈絡、五層架構與所有工程原則。
+- **使用時機**：進行**架構大改**或**一口氣生成多個新頁面**時，在對話框手動 `@DEVELOPER_GUIDE.md`，強迫 AI 先閱讀全站邏輯再動工。
 
 ---
 
-## 📦 第一步：新專案的環境繼承 (Setup)
+## 📦 新專案環境繼承（Setup）
 
-當你開啟一個全新的專案時，請在第一時間完成以下「AI 腦內植入」動作：
+開啟全新專案時，第一時間完成「AI 腦內植入」：
 
-1. **複製雙軌規範**：將舊專案的 `.cursorrules`、`DEVELOPER_GUIDE.md` 與 `.cursor/rules/` 資料夾整個複製到新專案根目錄。
-2. **驗證載入**：打開 Cursor 的 Chat (按 `Cmd+L` 或 `Ctrl+L`)，輸入：「`請確認你是否已讀取 Kiki Design System 的開發規範？`」，確保 AI 進入狀況。
+1. **複製雙軌規範**：將 `.cursorrules`、`DEVELOPER_GUIDE.md`、`CURSOR_GUIDE.md` 與 `.cursor/rules/`（含 `01~05.mdc`）整個複製到新專案根目錄。
+2. **驗證載入**：開啟 Cursor Chat（`Cmd+L` / `Ctrl+L`），輸入：
+   > 「請確認你是否已讀取 Kiki Design System 的開發規範，並說明五層架構各層的職責。」
+3. **確認 AI 回答正確**後再開始開發。
 
 ---
 
-## 🗣️ 第二步：與 AI 的溝通心法 (Prompting Rules)
+## 🗣️ 與 AI 的溝通心法（Prompting Rules）
 
-為了防止 AI 偷懶或偏離設計，請遵循「**視覺化溝通與具體約束**」原則。
-
-### ❌ 錯誤的詠唱 (AI 會偷懶、亂寫 inline style、忘記 RWD)
+### ❌ 錯誤的詠唱（AI 會偷懶、忘記 RWD、亂寫 inline style）
 > 「幫我做一個作品列表，要有圖片跟標題，滑過去要有動畫。」
 
-### ✅ 正確的詠唱 (啟動防禦機制與規範)
-> 「請依照 `.cursor/rules` 的架構標準，幫我實作『作品列表元件』。
-> 1. 資料請用 array `.map()` 渲染 (DRY 原則)。
-> 2. 圖片必須具備防 CLS 保護。
-> 3. Hover 動畫請使用 Tailwind `group-hover`。
-> 4. 確保手機到桌機 (`md:`, `lg:`) 的佈局變化。」
+### ✅ 正確的詠唱（啟動防禦機制）
+> 「請依照 `.cursor/rules` 的架構標準，幫我實作『作品列表元件』：
+> 1. 資料用 array `.map()` 渲染（DRY 原則）。
+> 2. 圖片必須具備防 CLS 保護（aspect-ratio + width + height）。
+> 3. Hover 動畫使用 Tailwind `group-hover:`，禁止 JS onMouseOver。
+> 4. 手機垂直排列（`flex-col`），桌機才並排（`md:flex-row`）。」
 
 ---
 
-## 🚀 第三步：Cursor 核心功能實戰運用
+## 🚀 Cursor 核心功能實戰
 
-Cursor 提供三種主要的 AI 協作模式，請依情境切換：
+| 快捷鍵 | 模式 | 適合情境 |
+|---|---|---|
+| `Cmd+L` | Chat 聊天 | 架構討論、執行快捷指令、代碼健檢 |
+| `Cmd+I` | Composer 生成器 | 跨檔案大規模重構、一次建立多個元件 |
+| `Cmd+K` | Inline Edit 行內編輯 | 局部微調、重排 Tailwind class |
 
-### 1. `Cmd + L` (Chat) 聊天視窗 👉 **架構討論與審計**
-* **用途**：代碼健檢、詢問邏輯、執行我們設定的快捷指令。
-* **常用情境**：
-  * 「請向我解釋這段 GSAP 動畫在視覺上的意義。」
-  * 「幫我對 `@WorkCard.tsx` 執行 `/CheckCLS` 指令。」
-
-### 2. `Cmd + I` (Composer) 生成器 👉 **跨檔案大規模重構**
-* **用途**：一次建立或修改多個檔案。
-* **常用情境**：
-  * 「我要新增一個『關於我』頁面。請參考 `@DEVELOPER_GUIDE.md` 的架構，建立 `About.tsx`、新增假資料，並加入路由。」
-  * *(Composer 會自動依據聖經規範，產出完美結構的程式碼)*
-
-### 3. `Cmd + K` (Inline Edit) 行內編輯 👉 **局部微調**
-* **用途**：直接在編輯器內修改游標所在位置的代碼。
-* **常用情境**：
-  * 框選一行 Tailwind class，按下 `Cmd + K` 輸入：「`/FormatKiki` 重排順序並補上 `md:` 斷點」。
+**Composer 使用技巧**：大改時先 `@DEVELOPER_GUIDE.md`，讓 AI 讀完架構聖經再動工。
 
 ---
 
-## ⚡ 第四步：專屬快捷指令 (Kiki Commands) 說明書
+## ⚡ 快捷指令說明書（Kiki Commands）
 
-⚠️ **核心觀念：Kiki Commands 是「開發中即時防護罩」！** 
-請不要等網站全部做完才檢查。正確的用法是**「隨寫隨測」**——每寫完一個元件，立刻對著該檔案下達指令，把效能與排版錯誤扼殺在單一檔案內。
-
-在 Chat 視窗輸入以下指令，啟動 AI 嚴格稽核模式：
+⚠️ **核心觀念：隨寫隨測，不要等全站完成才檢查。**
 
 | 快捷指令 | 執行時機 | AI 執行的防禦任務 |
-| :--- | :--- | :--- |
-| **`/FormatKiki`** | 元件剛寫完時 | 強制將 Tailwind 排序為 `[佈局]->[視覺]->[狀態]->[RWD]`，並檢查是否遺漏 RWD 斷點（維護風險防禦）。 |
-| **`/CheckCLS`** | 新增圖片/媒體後 | 掃描 `<img>` 標籤，檢查是否有 `aspect-ratio` 與明確長寬，防止版面跳動變形（體驗風險防禦）。 |
-| **`/AuditV5`** | 寫完 GSAP/rAF 後 | 嚴格審核動畫是否有「休眠機制 (`Math.abs < 0.1`)」以及 `useEffect` 的 Cleanup (`revert()`) 是否完善（效能風險防禦）。 |
-| **`/AuditSEO`** | 區塊結構完成時 | 檢查是否過度依賴 `<div>`，強制套用 `<main>`, `<nav>`, `<article>` 等語意標籤；檢查標題階層 (`H1~H6`) 與無障礙 (`aria-label`, 連結描述)（SEO 降權風險防禦）。 |
+|:---|:---|:---|
+| **`/FormatKiki`** | 元件剛寫完時 | 強制 Tailwind 重排為 `Layout → Visual → State → Responsive`；補齊遺漏 RWD 斷點；抽離散落樣式到 `STYLES` |
+| **`/CheckCLS`** | 新增圖片後 | 列出所有 `<img>`；逐一確認 `aspect-ratio`、`width`、`height`、`alt`、`loading` 策略 |
+| **`/AuditV5`** | 寫完 GSAP / rAF 後 | 確認 rAF 休眠機制（`Math.abs < 0.1`）；cleanup 完整性（`revert` + `cancelAnimationFrame`）；位移使用 `translate3d` 非 `top/left` |
+| **`/AuditSEO`** | 區塊結構完成時 | 語意標籤（div 過度使用？`main`/`nav`/`article` 是否到位？）；標題階層無斷層；`<a>` 具體描述；`<button>` 有 `aria-label` |
 
 ---
 
-## 🚑 第五步：常見災情與 AI 應對指南 (Troubleshooting)
+## 🚑 常見災情與應對指南
 
-如果發現 AI 開始不受控，請用以下方式「馴服」它：
-
-* **災情 1：AI 開始亂寫 `style={{ ... }}` 行內樣式**
-  * **修正指令**：「停！你違反了規則禁絕 Inline Styles 的規定，請全部改用 Tailwind CSS 類別，或者寫入 `STYLES` 常數物件中。」
-* **災情 2：AI 給出的程式碼讓排版在手機上跑版**
-  * **修正指令**：「你忘記 Mobile First 規則了。請以手機版垂直佈局為預設，將並排邏輯移至 `md:flex-row` 中，重新生成程式碼。」
-* **災情 3：AI 給的 GSAP 讓網頁變超卡**
-  * **修正指令**：「對這個元件執行 `/AuditV5` 審查，你肯定漏寫了 `cancelAnimationFrame` 或是把位移寫在 `top/left` 而不是 `translate3d`。」
-* **災情 4：AI 忘記引用的檔案在哪裡 (幻覺)**
-  * **修正指令**：在對話框輸入 `@` 並選擇正確的檔案路徑（例如 `@layout.ts`），強迫它讀取正確的上下文。
+| 災情 | 修正指令 |
+|---|---|
+| AI 亂寫 `style={{...}}` | 「停！你違反了禁絕 Inline Styles 的規定。請全部改用 Tailwind 類別或寫入 `STYLES` 常數。」 |
+| 手機版排版跑版 | 「你忘記 Mobile First 規則了。以手機版垂直佈局為預設，將並排邏輯移至 `md:flex-row`，重新生成。」 |
+| GSAP 讓網頁變超卡 | 「對這個元件執行 `/AuditV5`，檢查是否漏寫 `cancelAnimationFrame` 或把位移寫在 `top/left`。」 |
+| AI 幻覺、找不到檔案 | 在對話框輸入 `@` 選擇正確的檔案路徑（如 `@layout.ts`），強迫讀取正確上下文。 |
+| 新元件偏離五層架構 | 「請先閱讀 `@DEVELOPER_GUIDE.md` 的 Section 1 和 Section 3，再重新生成這個元件。」 |
 
 ---
 
-## 💡 日常開發起手式 (Daily Workflow)
+## 💡 日常開發起手式（Daily Workflow）
 
-1. **理解全局（若是大改）**：`Cmd + I` ➜「請閱讀 `@DEVELOPER_GUIDE.md`，並幫我規劃新功能。」
-2. **建立元件（局部開發）**：`Cmd + I` ➜「依照 `.cursor/rules` 的 `01-architecture.mdc` 模板建立 `Hero.tsx`」
-3. **樣式開發**：`Cmd + K` ➜「加上 Kiki Style 的黑底白字與 1px 邊框」
-4. **加入動畫**：在 Chat 視窗討論 GSAP 邏輯，並貼入 `GSAP_SELECTORS`。
-5. **驗收防禦**：`Cmd + L` ➜「請對 `@Hero.tsx` 執行 `/FormatKiki`、`/CheckCLS` 與 `/AuditSEO`」。
-6. **完美收工**。
+1. **大改前**：`Cmd+I` ➜ 「請閱讀 `@DEVELOPER_GUIDE.md`，規劃新功能後再動工。」
+2. **建立元件**：`Cmd+I` ➜ 「依照 `01-architecture.mdc` 模板建立 `Hero.tsx`」
+3. **樣式開發**：`Cmd+K` ➜ 「加上 Kiki Style 的黑底白字」
+4. **加入動畫**：Chat 討論 GSAP 邏輯，selector 放進 `GSAP_SELECTORS`。
+5. **驗收**：`Cmd+L` ➜ 「對 `@Hero.tsx` 執行 `/FormatKiki`、`/CheckCLS`、`/AuditSEO`」
+6. **收工**。

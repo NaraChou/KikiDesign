@@ -4,34 +4,37 @@ alwaysApply: true
 # 架構與元件模板標準
 
 ## 1. 元件標準結構 (Template)
-每個 React 元件必須嚴格遵循以下結構，將邏輯與樣式解耦：
+每個 React 元件必須嚴格遵循以下四區塊結構（`[A][B-0][B][C]`，順序不可調換）：
 
 ```tsx
 import React from 'react';
 import { LAYOUT } from '../../styles/layout';
 
-// [A] 視覺資訊備註 (中文註解)
+/**
+ * [A] 視覺資訊備註（中文）
+ * 元件角色說明 + GSAP selector 白名單說明（若有動畫）
+ */
 
-// [B-0] GSAP 動畫鉤子白名單 (永不與 UI 樣式混合)
+// [B-0] GSAP 動畫鉤子白名單（有動畫才需要，永不與 UI 樣式混合，永不改名）
 const GSAP_SELECTORS = {
-  item: 'work-item-trigger', 
+  item: 'work-item-trigger',
 } as const;
 
-// [B] 樣式常數 (強制排序: Layout -> Visual -> State -> Responsive)
+// [B] 樣式常數（強制排序：Layout → Visual → State → Responsive）
 const STYLES = {
-  wrapper: 'flex flex-col min-h-screen bg-black text-white',
-  container: LAYOUT.container, // 引用統一部局 Token
-  list: 'grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3', // RWD 必須完整
+  wrapper:   'flex flex-col min-h-screen',           // [A] Layout 在前
+  container: LAYOUT.container,                       // 引用統一 Layout Token
+  list:      'grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3', // RWD 必須完整
 } as const;
 
-// [C] 數據驅動 (DRY 嚴格執行)
-const WORK_ITEMS = [ ... ]; // 或從外部 import
+// [C] 數據驅動（DRY 嚴格執行，重複結構必須 .map() 渲染）
+const ITEMS = [{ id: '...', label: '...' }];
 
 export const ComponentName: React.FC = () => (
   <section className={STYLES.wrapper}>
     <div className={STYLES.container}>
       <ul className={STYLES.list}>
-        {WORK_ITEMS.map((item) => (
+        {ITEMS.map((item) => (
           <li key={item.id} className={GSAP_SELECTORS.item}>
             {/* 元件內容 */}
           </li>
@@ -41,6 +44,21 @@ export const ComponentName: React.FC = () => (
   </section>
 );
 ```
-## 2. 環境穩定性
-零報錯：TS 編譯與 Linter 必須 0 警告、0 錯誤。
-全域宣告：`window.gsap` 等全域屬性必須在 `src/vite-env.d.ts` 定義，絕對禁止在元件內寫 `// @ts-ignore` 或使用 `any`。
+
+## 2. STYLES 命名系統
+
+| Key | 用途 |
+|---|---|
+| `wrapper` | 最外層容器 |
+| `container` | 寬度控制層（引用 LAYOUT token） |
+| `title` | 主標題 |
+| `description` | 輔助說明文字 |
+| `media` | 圖片 / 影片 |
+| `meta` | 次要資訊 |
+
+> 有命名衝突時才用情境前綴：`heroTitle`、`cardTitle`
+
+## 3. 環境穩定性
+- **零報錯**：TS 編譯與 Linter 必須 0 警告、0 錯誤。
+- **全域宣告**：`window.gsap` 等全域屬性必須在 `src/types.ts` 統一宣告，由 `tsconfig.json` include 自動拾取。絕對禁止在元件內寫 `// @ts-ignore` 或使用 `any`。
+- **CSS import**：每個 CSS 檔案只能被 import 一次，禁止重複載入。

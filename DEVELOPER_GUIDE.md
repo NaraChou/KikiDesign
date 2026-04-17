@@ -28,8 +28,8 @@
 設計系統五層架構：
 
 ```
-Layer 0  globals.css      Design Token（色彩 / 字體 / 間距）
-Layer 1  motion.css       語意 class（.hero-tag / .nav-link）
+Layer 0  globals.css      Design Token（色彩 / 字體 / 間距）← 唯一真相來源
+Layer 1  motion.css       語意 class（.hero-tag / .nav-link）← 設計系統入口
 Layer 2  layout.ts        Layout Token（LAYOUT.container）
 Layer 3  STYLES 常數      元件視覺層（per-component）
 Layer 4  GSAP_SELECTORS   動畫鉤子白名單（永不 refactor）
@@ -59,8 +59,8 @@ src/
     animationPresets.ts
   App.tsx
   index.tsx
-  types.ts
-  vite-env.d.ts
+  types.ts        ← Window interface 唯一宣告來源
+  vite-env.d.ts   ← 只放 /// <reference types="vite/client" />
 
 .cursor/
   rules/
@@ -71,22 +71,26 @@ src/
     05-commands.mdc       Kiki 專屬 AI 快捷指令庫
 
 .cursorrules              Cursor 全局 AI 規則（最高指導原則）
-DEVELOPER_GUIDE.md        本文件（人類可讀完整規範）
-CURSOR_GUIDE.md           Cursor Agent 協作手冊
+DEVELOPER_GUIDE.md        本文件（AI 全局架構聖經）
+CURSOR_GUIDE.md           Cursor Agent 協作手冊（人類閱讀用）
+README.md                 專案簡介（訪客 / 外部開發者用）
 ```
 
 ---
 
 ## 3. STYLES Layer Convention
 
-每個元件的固定結構（`[A][B-0][B][C]` 四區塊，順序不可調換）：
+每個元件的固定結構（`[A][B-0][B][C]` 四區塊，**順序不可調換**）：
 
 ```ts
-// [A] 視覺資訊備註（中文說明元件角色 + GSAP selector 說明）
+/**
+ * [A] 視覺資訊備註（中文）
+ * 元件角色說明 + GSAP selector 白名單說明（若有動畫）
+ */
 
-// [B-0] GSAP 動畫鉤子白名單（有動畫才需要，永不與 UI 樣式混合）
+// [B-0] GSAP 動畫鉤子白名單（有動畫才需要，永不與 UI 樣式混合，永不改名）
 const GSAP_SELECTORS = {
-  item: 'waterfall-item',  // 永不 refactor，永不改名
+  item: 'waterfall-item',
 } as const;
 
 // [B] 樣式常數（強制排序：Layout → Visual → State → Responsive）
@@ -105,7 +109,7 @@ const STYLES = {
 | Key | 用途 |
 |---|---|
 | `wrapper` | 最外層容器 |
-| `container` | 寬度控制層 |
+| `container` | 寬度控制層（引用 LAYOUT token） |
 | `title` | 主標題 |
 | `description` | 輔助說明文字 |
 | `media` | 圖片 / 影片 |
@@ -128,15 +132,15 @@ const STYLES = {
 
 範例：
 ```ts
-'flex items-center w-full bg-black text-white opacity-0 transition-opacity hover:opacity-100 md:flex-row md:justify-between'
+'flex flex-col items-center w-full bg-black text-white opacity-0 transition-opacity hover:opacity-100 md:flex-row md:justify-between'
 ```
 
 ### RWD 零妥協（Mobile First）
 
 - 預設 class 都是手機版。
 - 並排佈局預設 `flex-col`，在 `md:` 才改 `md:flex-row`。
-- 禁止在各元件亂寫 `px-4 md:px-8`，必須統一用 `LAYOUT.container`。
-- AI 防呆：新增並排佈局時，**必須主動補齊 `md:` 斷點**，否則視為未完成。
+- 禁止在各元件各自寫 `px-4 md:px-8`，必須統一用 `LAYOUT.container`。
+- **AI 防呆**：新增並排佈局時，必須主動補齊 `md:` 斷點，否則視為未完成。
 
 ---
 
@@ -181,13 +185,13 @@ cursor / scrollbar / container / nav 結構性 CSS
 ### GSAP 白名單規則
 
 ```ts
-// ✅ 正確做法
+// ✅ 正確做法：selector 與 UI class 完全分離
 const GSAP_SELECTORS = {
   waterfallItem: 'waterfall-item',  // 永不改名
 } as const;
 
 const STYLES = {
-  figureUI: 'group relative overflow-hidden cursor-pointer', // UI class 只放這裡
+  figureUI: 'group relative overflow-hidden cursor-pointer',
 } as const;
 
 // JSX 組合
@@ -206,8 +210,8 @@ useEffect(() => {
   }, ref);
 
   return () => {
-    ctx?.revert();              // 釋放 GSAP 記憶體
-    cancelAnimationFrame(rafId.current); // 停止 rAF（即使有自我停止邏輯，生命週期仍需強制終止）
+    ctx?.revert();               // 釋放 GSAP 記憶體
+    cancelAnimationFrame(rafId.current); // 即使 rAF 自我停止，生命週期仍須強制終止
   };
 }, []);
 ```
@@ -234,7 +238,7 @@ const loop = () => {
   if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
     rafActive.current = false;
     sleeping.current = true;
-    return; // 不再遞迴，節省效能
+    return;
   }
 
   rafId.current = requestAnimationFrame(loop);
@@ -243,7 +247,6 @@ const loop = () => {
 const handleMouseMove = (e: MouseEvent) => {
   target.x = e.clientX;
   target.y = e.clientY;
-  // 靜止後移動：喚醒 rAF
   if (sleeping.current && !rafActive.current) {
     sleeping.current = false;
     rafActive.current = true;
@@ -260,45 +263,35 @@ element.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
 
 // CSS 必須配合
 .cursor {
-  will-change: transform;
+  position: fixed;
   top: 0;
   left: 0;
+  will-change: transform;
 }
 ```
 
 ### ResizeObserver 安全模式（防死亡螺旋）
 
-在 `WorkDetail` 等瀑布流元件，`ResizeObserver` 與 `ScrollTrigger.refresh()` 並存時，必須遵守以下 Pipeline：
-
 ```ts
+// ❌ 禁止：在 callback 內直接呼叫 ScrollTrigger.refresh()
+// ✅ 正確：disconnect → refresh → rAF observe 的安全 Pipeline
+
 const executeRefreshPipeline = () => {
-  // 1. 物理斷路：先停止觀察，防止 refresh 觸發新的 resize 事件（死循環入口）
-  ro.disconnect();
-
-  // 2. 執行昂貴刷新
-  ScrollTrigger.refresh();
-
-  // 3. 記錄穩定高度快照
-  lastStableHeight.current = Math.round(gridEl.getBoundingClientRect().height);
-
-  // 4. 在 Paint 後再恢復觀察（不可同步）
-  requestAnimationFrame(() => {
-    ro.observe(gridEl);
-  });
+  ro.disconnect();                                           // 1. 物理斷路
+  ScrollTrigger.refresh();                                   // 2. 執行刷新
+  lastStableHeight.current = Math.round(
+    gridEl.getBoundingClientRect().height
+  );                                                         // 3. 記錄快照
+  requestAnimationFrame(() => ro.observe(gridEl));           // 4. Paint 後恢復
 };
 
-// 必須加 debounce（建議 150ms）+ 閾值守衛（2px），防止子像素抖動
-const DEBOUNCE_MS = 150;
-const THRESHOLD_PX = 2;
-
-// ❌ 禁止：在 ResizeObserver callback 內直接呼叫 ScrollTrigger.refresh()
-// ✅ 正確：透過 debounce + disconnect + rAF 的 Pipeline 處理
+// 必須加 debounce（150ms）+ 閾值守衛（2px）
 ```
 
 ### animationPresets.ts 規則
 
 ```
-1. 只放跨元件重複出現的動畫參數
+1. 只放跨元件重複出現的動畫參數（duration、ease、stagger 等）
 2. 不在此處呼叫 gsap，只匯出純參數物件
 3. selector 由各元件自行傳入
 4. 定義了就要用，禁止死碼 export
@@ -311,10 +304,10 @@ const THRESHOLD_PX = 2;
 ```ts
 // styles/layout.ts
 export const LAYOUT = {
-  container:    'content-width-container mx-auto w-full',
-  colCenter:    'content-width-container flex flex-col items-center w-full',
-  colCenterText:'content-width-container w-full text-center',
-  homeStack:    'content-width-container flex flex-col md:gap-48',
+  container:     'content-width-container mx-auto w-full',
+  colCenter:     'content-width-container flex flex-col items-center w-full',
+  colCenterText: 'content-width-container w-full text-center',
+  homeStack:     'content-width-container flex flex-col md:gap-48',
 } as const;
 ```
 
@@ -362,14 +355,14 @@ export const ComponentName: React.FC = () => (
 
 | 標籤 | 用途 |
 |---|---|
-| `<main>` | 頁面主要內容最外層 |
+| `<main>` | 頁面主要內容最外層，每頁唯一 |
 | `<nav>` | 導覽列 |
 | `<header>` / `<footer>` | 頁首 / 頁尾 |
-| `<section>` | 內容區塊（需有標題） |
+| `<section>` | 有主題的內容區塊（需含標題） |
 | `<article>` | 獨立可複用內容單元 |
-| `<h1>~<h3>` | 標題按層級，不可斷層 |
-| `<button>` | 所有觸發事件（開關 Menu 等），必須有 `aria-label` |
-| `<a>` | 點擊跳轉，禁用「點擊這裡」，必須有具體描述文字 |
+| `<h1>~<h3>` | 標題按層級，不可斷層，`<h1>` 每頁唯一 |
+| `<button>` | 所有觸發事件，必須有 `aria-label` |
+| `<a>` | 點擊跳轉，必須有具體描述文字，禁用「點擊這裡」 |
 
 ### img 必填屬性（CLS 防線）
 
@@ -381,8 +374,8 @@ export const ComponentName: React.FC = () => (
   loading="eager"
   fetchPriority="high"
   decoding="async"
-  width={W}
-  height={H}
+  width={800}
+  height={450}
   className="w-full h-full object-contain aspect-[16/9]"
 />
 
@@ -392,21 +385,22 @@ export const ComponentName: React.FC = () => (
   alt="具體描述"
   loading="lazy"
   decoding="async"
-  width={W}
-  height={H}
+  width={800}
+  height={1000}
   className="w-full h-full object-contain aspect-[4/5]"
 />
 ```
 
-> `aspect-ratio` 與明確 `width/height` 缺一不可，否則圖片載入時會產生佈局跳動（CLS）。
+> `aspect-ratio`（className）與明確 `width/height` 缺一不可。
 
 ### index.html 必填 meta
 
 ```html
 <link rel="preload" as="image" href="/首屏主圖.webp" fetchpriority="high">
-<meta name="twitter:image" content="...">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yourdomain/og-image.png">
 ```
 
 ### TypeScript 型別宣告原則
@@ -424,7 +418,7 @@ export const ComponentName: React.FC = () => (
 
 ```
 ❌ GSAP selector 混入 STYLES
-❌ 元件內硬編碼色值（應用 var(--token)）
+❌ 元件內硬編碼色值（必須使用 var(--token)）
 ❌ ctx 宣告在 setTimeout 內（cleanup 無效，記憶體洩漏）
 ❌ 定義但從未使用的 export（死碼）
 ❌ img 缺少 width / height 或 aspect-ratio（CLS 扣分）
@@ -435,8 +429,9 @@ export const ComponentName: React.FC = () => (
 ❌ rAF 永久循環不休眠（效能浪費）
 ❌ ResizeObserver callback 內直接呼叫 ScrollTrigger.refresh()（死亡螺旋）
 ❌ JS onMouseOver 改變靜態樣式（應用 CSS :hover / group-hover）
-❌ 不加 passive: true 的 scroll / mousemove 事件監聽
+❌ scroll / mousemove 事件監聽未加 passive: true
 ❌ RWD 斷點省略（Mobile First 不可妥協）
+❌ 並排佈局未設 flex-col 預設（手機直接橫排）
 ```
 
 ---
@@ -446,14 +441,15 @@ export const ComponentName: React.FC = () => (
 在每次提供完整程式碼前，AI 必須在內心執行以下檢查，未通過請重寫：
 
 ```
-[ ] 是否已處理 Mobile First RWD 斷點（md:, lg: 均已補齊）？
+[ ] 是否已處理 Mobile First RWD 斷點（flex-col 預設、md: lg: 均已補齊）？
 [ ] Tailwind 樣式是否嚴格遵守 Layout → Visual → State → Responsive 排序？
 [ ] 重複性 HTML 是否已重構為 .map() 資料驅動模式？
 [ ] 圖片是否具備防 CLS 保護（aspect-ratio, alt, width, height）？
 [ ] JS 動畫是否包含自動休眠（Math.abs < 0.1）？
 [ ] useEffect cleanup 是否完整（revert + cancelAnimationFrame + removeEventListener）？
-[ ] 是否使用了語意化標籤（main / nav / section / h1~h3）？
+[ ] 是否使用語意化標籤（main / nav / section / h1~h3）？
 [ ] 色值是否都使用 CSS 變數（var(--token)）？
+[ ] GSAP_SELECTORS 與 STYLES 是否完全分離？
 ```
 
 ---
@@ -461,14 +457,14 @@ export const ComponentName: React.FC = () => (
 ## 12. Kiki 專屬 AI 快捷指令庫
 
 在 Cursor Chat 視窗輸入以下指令，啟動嚴格稽核模式。  
-**正確用法：隨寫隨測，每完成一個元件立刻執行，不要等全站做完才檢查。**
+**正確用法：隨寫隨測，每完成一個元件立刻執行。**
 
 | 快捷指令 | 執行時機 | AI 執行任務 |
 |:---|:---|:---|
-| **`/FormatKiki`** | 元件剛寫完時 | 強制將 Tailwind 排序為 `Layout → Visual → State → Responsive`；補齊遺漏的 `md:` 斷點；將散落字串樣式抽離到 `STYLES` 常數 |
-| **`/CheckCLS`** | 新增圖片/媒體後 | 列出所有 `<img>`；檢查是否有 `aspect-ratio` 保護；確認 `width`、`height`、`alt` 是否齊備 |
-| **`/AuditV5`** | 寫完 GSAP / rAF 後 | 確認 rAF 有「`Math.abs < 0.1` 休眠機制」；確認 `useEffect` cleanup 有 `revert()` + `cancelAnimationFrame`；確認位移使用 `translate3d` 而非 `top/left` |
-| **`/AuditSEO`** | 區塊結構完成時 | 檢查是否過度使用 `<div>`；標題階層 `H1~H6` 是否無斷層；`<a>` 是否有具體描述；`<button>` 是否有 `aria-label` |
+| **`/FormatKiki`** | 元件剛寫完時 | 強制 Tailwind 重排；補齊 `md:` / `lg:` 斷點；抽離散落樣式到 `STYLES` |
+| **`/CheckCLS`** | 新增圖片後 | 列出所有 `<img>`；確認 `aspect-ratio`、`width`、`height`、`alt` 是否齊備 |
+| **`/AuditV5`** | 寫完 GSAP / rAF 後 | 確認 rAF 休眠機制（`Math.abs < 0.1`）；cleanup 完整性（`revert` + `cancelAnimationFrame`）；位移使用 `translate3d` |
+| **`/AuditSEO`** | 區塊結構完成時 | 語意標籤檢查；標題階層無斷層；`<a>` 具體描述；`<button>` 有 `aria-label` |
 
 ---
 

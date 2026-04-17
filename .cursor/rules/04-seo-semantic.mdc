@@ -1,26 +1,71 @@
 ---
-globs: *.tsx
+globs: "*.tsx"
 alwaysApply: false
 ---
-# SEO 與語意化佈局
+# SEO 與語意化佈局防線
 
-## 1. 語意化標籤
-- 頁面最外層必須是 `<main>`
-- 區塊標題使用 `<h2>`，卡片標題使用 `<h3>`
-- 導覽區域必須是 `<nav>`
-- 點擊跳轉必須是 `<a>`（附帶具體描述，禁用「點擊這裡」）
-- 觸發事件（開關 Menu）必須是 `<button>`
+## 1. 語意化標籤（零 `<div>` 佈局）
 
-## 2. 圖片與 CLS 防線
-圖片必須遵守以下格式，缺一不可：
+| 標籤 | 用途 |
+|---|---|
+| `<main>` | 頁面主要內容最外層，每頁只能有一個 |
+| `<nav>` | 導覽列（主選單、麵包屑） |
+| `<header>` / `<footer>` | 頁首 / 頁尾 |
+| `<section>` | 有主題的內容區塊（需含標題） |
+| `<article>` | 獨立可複用的內容單元（卡片、文章） |
+| `<h1>` | 每頁唯一主標題 |
+| `<h2>` | 區塊標題 |
+| `<h3>` | 卡片、子區塊標題 |
+| `<button>` | 所有觸發事件（開關 Menu、互動操作），必須有 `aria-label` |
+| `<a>` | 點擊跳轉，必須有具體描述文字，禁用「點擊這裡」 |
+
+> **標題不可斷層**：有 `<h2>` 才能有 `<h3>`，不能跳層使用。
+
+## 2. 圖片 CLS 防線（缺一不可）
+
 ```tsx
-<img 
-  src={src} 
-  alt="具體的中文視覺描述（如：Kiki品牌手冊設計）" 
-  loading="lazy" // 首屏請改為 eager + fetchPriority="high"
+{/* ✅ 首屏圖片（LCP 優化） */}
+<img
+  src={src}
+  alt="具體的中文視覺描述（如：Kiki品牌手冊設計）"
+  loading="eager"
+  fetchPriority="high"
   decoding="async"
-  width={W} 
-  height={H} 
-  className="w-full h-full object-cover aspect-[4/3]" // 強制給定比例防跳動
+  width={800}
+  height={450}
+  className="w-full h-full object-contain aspect-[16/9]"
 />
+
+{/* ✅ 非首屏圖片（防止 CLS 跳動） */}
+<img
+  src={src}
+  alt="具體描述"
+  loading="lazy"
+  decoding="async"
+  width={800}
+  height={1000}
+  className="w-full h-full object-contain aspect-[4/5]"
+/>
+```
+
+**必填欄位說明**：
+- `alt`：具體中文描述，不可留空，不可寫「圖片」
+- `width` / `height`：瀏覽器預留空間用，防止載入後頁面跳動（CLS）
+- `aspect-ratio`（className 內）：視覺比例鎖定，與 width/height 雙重保險
+- `loading="lazy"`：非首屏必須，減少初始載入壓力
+- `decoding="async"`：非同步解碼，不阻塞主線程
+
+## 3. index.html 必填 meta
+
+```html
+<!-- LCP 首屏圖片預載（放在所有 CSS/JS 之前） -->
+<link rel="preload" as="image" href="/首屏主圖.webp" fetchpriority="high">
+
+<!-- 社群分享 OG -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yourdomain/og-image.png">
 ```

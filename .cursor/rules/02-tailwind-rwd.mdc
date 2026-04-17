@@ -1,18 +1,33 @@
 ---
-globs: *.tsx, *.ts
+globs: "*.tsx,*.ts"
 alwaysApply: false
 ---
 # Tailwind 與 RWD 強制規範
 
-## 1. Tailwind 排序法則 (絕對不可變)
-1. **Layout (佈局)**: `flex`, `grid`, `w-`, `h-`, `p-`, `m-`, `absolute`, `z-`
-2. **Visual (視覺)**: `bg-`, `text-`, `border-`, `rounded-`, `opacity-`
-3. **State (狀態/互動)**: `hover:`, `group-hover:`, `transition-`, `duration-`
-4. **Responsive (響應式)**: `md:`, `lg:` **(永遠放在最後面)**
+## 1. Tailwind 排序法則（絕對不可變）
 
-*範例*：`flex items-center w-full bg-black text-white opacity-0 transition-opacity hover:opacity-100 md:flex-row md:justify-between`
+```
+[A] Layout      flex grid w- h- p- m- position z-
+[B] Visual      bg- text- border- rounded- shadow- opacity-
+[C] State       hover: focus: group-hover: transition- duration-
+[D] Responsive  md: lg: xl:（永遠放在最後）
+```
 
-## 2. RWD (響應式) 零妥協
-- **Mobile First**：預設的 class 都是給手機看的。
-- **AI 防呆檢查**：當新增一個並排佈局（如 `flex`）時，AI 必須預設為 `flex-col`，並在 `md:` 才加上 `md:flex-row`。
-- **邊距一致**：使用 `layout.ts` 中的 `LAYOUT.container` 統一左右 Padding，禁止在各元件內亂寫 `px-4 md:px-8` 導致不對齊。
+**正確範例**：
+```ts
+'flex flex-col items-center w-full bg-black text-white opacity-0 transition-opacity hover:opacity-100 md:flex-row md:justify-between lg:gap-16'
+```
+
+## 2. RWD 零妥協（Mobile First）
+
+- **預設即手機版**：所有 class 預設給手機看，桌機版在 `md:` / `lg:` 後補。
+- **並排佈局強制規則**：
+  - ❌ 錯誤：`flex flex-row`（手機直接並排）
+  - ✅ 正確：`flex flex-col md:flex-row`（手機垂直，桌機才並排）
+- **AI 防呆**：新增任何並排佈局時，必須主動補齊 `md:` 斷點，否則視為未完成任務。
+- **邊距統一**：使用 `LAYOUT.container` 統一左右 Padding。禁止在各元件內各自寫 `px-4 md:px-8`，造成各區塊邊距不對齊。
+
+## 3. 互動效果規範
+
+- **Hover 效果**：優先使用 CSS `:hover` 或 Tailwind `group-hover:`，禁止用 JS `onMouseOver` 改變靜態樣式。
+- **Transition 位置**：`transition-` 與 `duration-` 屬於 `[C] State`，必須在 hover 類別前。

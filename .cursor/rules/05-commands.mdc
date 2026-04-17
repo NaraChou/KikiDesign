@@ -1,32 +1,60 @@
 ---
 alwaysApply: true
 ---
-# Kiki 專屬 AI 快捷指令庫 (Commands)
+# Kiki 專屬 AI 快捷指令庫
 
-當使用者在對話框輸入以下 `#自訂指令` 時，請嚴格執行對應的檢查與任務：
+當使用者在對話框輸入以下指令時，請嚴格執行對應的稽核任務。
+**使用原則：隨寫隨測，每完成一個元件立刻執行，不要等全站完成才檢查。**
 
-## 🛠️ 效能與架構審計指令
+---
 
-### `/AuditV5` (執行 Motion V5 效能審計)
-當觸發此指令時，AI 必須掃描當前檔案並回答：
-1. 所有的 `requestAnimationFrame` 是否都有 `Math.abs(dx) < 0.1` 的自動休眠機制？
-2. `useEffect` 中是否有遺漏的 `cancelAnimationFrame` 或 `ctx.revert()`？
-3. 動畫位移是否都使用了 `translate3d` (GPU 加速) 而非改變 `top/left`？
+## `/FormatKiki` — Kiki Style 程式碼格式化
 
-### `/CheckCLS` (執行視覺穩定性防禦檢查)
-當觸發此指令時，AI 必須掃描當前元件的 HTML/JSX：
-1. 列出所有 `<img>` 標籤。
-2. 檢查是否每個圖片都有 `aspect-ratio` (或 Tailwind 的 `aspect-`) 保護。
-3. 檢查是否都有明確的 `width` 與 `height` 或 `object-cover` 屬性。
+**執行時機**：元件剛寫完時。
 
-### `/FormatKiki` (執行 Kiki Style 程式碼格式化)
-當觸發此指令時，AI 必須自動重構當前檔案：
-1. 將 Tailwind Class 嚴格依照 `Layout -> Visual -> State -> Responsive` 重新排序。
-2. 檢查 RWD 斷點，補齊遺漏的 `md:` 與 `lg:`。
-3. 把散落的字串樣式抽離到 `STYLES` 常數物件中。
+AI 必須自動重構當前檔案，依序執行：
 
-### `/AuditSEO` (執行 SEO 與語意化架構審計)
-當觸發此指令時，AI 必須以搜尋引擎爬蟲的視角掃描當前檔案：
-1. **語意標籤**：檢查是否過度使用 `<div>`？主要內容是否有 `<main>`、`<article>`？導覽是否有 `<nav>`？
-2. **標題階層**：檢查 `<h1>` 到 `<h6>` 的使用是否符合邏輯結構，沒有斷層。
-3. **可及性 (a11y)**：檢查所有的 `<a>` 是否有具體的文字內容（禁用「點擊這裡」），所有的 `<button>` 是否有 `aria-label`。
+1. **Tailwind 重排**：將所有 class 嚴格依照 `Layout → Visual → State → Responsive` 重新排序。
+2. **RWD 補齊**：掃描所有 `flex` / `grid` 佈局，檢查是否有手機版直接並排（缺少 `flex-col`）；補齊遺漏的 `md:` 與 `lg:` 斷點。
+3. **STYLES 抽離**：將 JSX 中散落的字串樣式抽離到 `STYLES` 常數物件，確保 JSX 內只有 key 引用。
+
+---
+
+## `/CheckCLS` — 視覺穩定性防禦檢查
+
+**執行時機**：新增圖片或任何媒體元素後。
+
+AI 必須掃描當前元件的 JSX，依序回答：
+
+1. **列出所有 `<img>` 標籤**及其當前屬性。
+2. **CLS 保護**：每個圖片是否有 `aspect-ratio` 保護（className 內的 `aspect-[X/Y]` 或外層 div 的 style）？
+3. **尺寸聲明**：是否都有明確的 `width` 與 `height` 屬性（數值，非百分比）？
+4. **alt 完整性**：`alt` 是否有具體中文描述？是否有留空或寫「圖片」？
+5. **載入策略**：首屏圖片是否為 `loading="eager" fetchPriority="high"`？非首屏是否為 `loading="lazy"`？
+
+---
+
+## `/AuditV5` — Motion V5 效能審計
+
+**執行時機**：寫完任何 GSAP 動畫或 `requestAnimationFrame` 後。
+
+AI 必須掃描當前檔案，依序確認：
+
+1. **rAF 休眠機制**：所有 `requestAnimationFrame` 是否有 `Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1` 的靜止判定與停止遞迴邏輯？
+2. **GSAP cleanup**：`useEffect` 是否有 `ctx?.revert()`？是否在 `return () => {}` 的頂層宣告 ctx（不在 setTimeout 內）？
+3. **rAF cleanup**：是否有 `cancelAnimationFrame(rafId.current)`？即使 rAF 自我停止，生命週期仍須強制終止。
+4. **GPU 優先**：動畫位移是否都使用 `translate3d(x, y, 0)` 而非直接改變 `top` / `left`？
+5. **ResizeObserver**（若有）：是否有 `disconnect → refresh → rAF observe` 的安全 Pipeline？是否有 debounce + 閾值守衛？
+
+---
+
+## `/AuditSEO` — SEO 與語意化架構審計
+
+**執行時機**：區塊結構完成時。
+
+AI 必須以搜尋引擎爬蟲視角掃描當前檔案，依序確認：
+
+1. **語意標籤**：是否過度使用 `<div>`？主要內容是否有 `<main>`？導覽是否有 `<nav>`？獨立單元是否有 `<article>`？
+2. **標題階層**：`<h1>` 到 `<h3>` 的使用是否符合邏輯層次，沒有跳層斷層？每頁是否只有一個 `<h1>`？
+3. **連結可及性**：所有 `<a>` 是否有具體描述文字？是否有使用「點擊這裡」、「了解更多」等模糊描述？
+4. **按鈕可及性**：所有 `<button>` 是否有 `aria-label`（特別是圖示按鈕、漢堡選單）？

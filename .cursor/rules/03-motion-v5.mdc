@@ -1,42 +1,136 @@
 ---
-globs: *.tsx, *.ts
+globs: "*.tsx,*.ts"
 alwaysApply: false
 ---
-# Motion V5 Standard
+# Motion V5 Standard — GSAP & rAF 效能規範
 
-## 1. 喚醒與休眠機制 (rAF)
-禁止全天候執行的 RequestAnimationFrame。
+## 1. rAF 喚醒與休眠機制（Demand-Driven）
+
+禁止全天候執行的 `requestAnimationFrame`。必須實作「靜止休眠 + 移動喚醒」：
+
 ```ts
-// 視覺體驗：當滑鼠靜止時，游標元件會進入休眠，停止消耗效能。
+// [視覺體驗] 游標靜止時進入休眠，停止消耗效能；移動時自動喚醒。
+const sleeping = useRef(false);
+const rafActive = useRef(false);
+const rafId = useRef<number>(0);
+
 const loop = () => {
-  if (Math.abs(target - current) < 0.1) {
-    isSleeping.current = true; // 進入休眠
-    return;
+  const dx = target.x - current.x;
+  const dy = target.y - current.y;
+
+  current.x += dx * 0.15; // Lerp 插值，15% 趨近
+  current.y += dy * 0.15;
+
+  // ★ 靜止休眠判定：差距極小時停止 rAF，節省 CPU/GPU
+  if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+    rafActive.current = false;
+    sleeping.current = true;
+    return; // 不再遞迴
   }
-  // ... 動畫邏輯 ...
+
   rafId.current = requestAnimationFrame(loop);
+};
+
+const handleMouseMove = (e: MouseEvent) => {
+  target.x = e.clientX;
+  target.y = e.clientY;
+  // 靜止後移動：喚醒 rAF（防止重複啟動）
+  if (sleeping.current && !rafActive.current) {
+    sleeping.current = false;
+    rafActive.current = true;
+    requestAnimationFrame(loop);
+  }
 };
 ```
 
-## 2. 徹底的 Cleanup (GSAP)
-`useEffect` 必須完美清理：
+## 2. GSAP useEffect 徹底 Cleanup
+
+`useEffect` 必須完美清理，**ctx 必須在頂層宣告**，cleanup 才能正確拿到：
+
 ```ts
 useEffect(() => {
   let ctx: ReturnType<typeof window.gsap.context> | null = null;
-  
+
   ctx = window.gsap.context(() => {
-    // gsap 邏輯
+    // gsap 動畫邏輯
   }, ref);
 
   return () => {
-    ctx?.revert(); // 釋放記憶體
-    cancelAnimationFrame(rafId.current); // 停止 rAF
+    ctx?.revert();                       // 釋放 GSAP 記憶體
+    cancelAnimationFrame(rafId.current); // ★ 即使 rAF 有自我停止，生命週期仍須強制終止
+    window.removeEventListener('mousemove', handleMouseMove);
   };
-},[]);
+}, []);
 ```
 
-## 3. CSS 負責偏移
-JS 計算的游標/物體座標，必須透過 CSS 校正中心點：
+> ⚠️ **嚴禁**將 `ctx` 宣告在 `setTimeout` 內，cleanup 拿不到，導致記憶體洩漏。
+
+## 3. GPU 優先：座標輸出規範
+
+JS 只負責輸出座標數值，幾何中心與硬體加速交給 CSS 處理：
+
 ```ts
-style={{ transform: `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)` }}
+// ✅ 正確：translate3d 啟用 GPU，translate(-50%,-50%) 校正中心點
+element.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+
+// ❌ 錯誤：改變 top/left 觸發 Layout Reflow，效能極差
+element.style.top = `${y}px`;
+element.style.left = `${x}px`;
+```
+
+CSS 必須配合：
+```css
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  will-change: transform; /* 提前分配 GPU 合成層 */
+}
+```
+
+## 4. ResizeObserver 安全模式（防死亡螺旋）
+
+`ResizeObserver` 與 `ScrollTrigger.refresh()` 並存時，必須嚴格遵守以下 Pipeline，
+禁止在 callback 內直接呼叫 `refresh()`（會觸發 resize → refresh → resize 無限循環）：
+
+```ts
+const DEBOUNCE_MS = 150;  // 防抖：使用者停止縮放後才觸發
+const THRESHOLD_PX = 2;   // 閾值守衛：忽略子像素級抖動
+
+const executeRefreshPipeline = () => {
+  // 1. 物理斷路：先停止觀察，阻斷死循環入口
+  ro.disconnect();
+
+  // 2. 執行昂貴刷新
+  ScrollTrigger.refresh();
+
+  // 3. 記錄穩定高度快照
+  lastStableHeight.current = Math.round(gridEl.getBoundingClientRect().height);
+
+  // 4. 在 Paint 後才恢復觀察（不可同步執行）
+  requestAnimationFrame(() => {
+    ro.observe(gridEl);
+  });
+};
+
+const observer = new ResizeObserver((entries) => {
+  const nextH = Math.round(entries[0].borderBoxSize[0].blockSize);
+  const prevH = lastStableHeight.current;
+
+  // 閾值守衛：變化太小不觸發
+  if (prevH >= 0 && Math.abs(nextH - prevH) <= THRESHOLD_PX) return;
+
+  // 防抖：停止縮放後才執行
+  clearTimeout(debounceTimer.current);
+  debounceTimer.current = setTimeout(executeRefreshPipeline, DEBOUNCE_MS);
+});
+```
+
+## 5. animationPresets.ts 規則
+
+```
+1. 只放跨元件重複出現的動畫參數（duration、ease、stagger 等）
+2. 不在此處呼叫 gsap，只匯出純參數物件
+3. selector（id/class）由各元件自行傳入
+4. 定義了就要用，禁止死碼 export
 ```

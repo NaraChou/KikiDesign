@@ -1,147 +1,107 @@
-# 棠想視界 KIKI DESIGN (2026 Refactored)
+# 棠想視界 KIKI DESIGN (2026)
 
 > **Create with Soul.** — 視覺設計・品牌規劃・數位創作
 
-🔗 **線上作品集：** [https://kiki-design.vercel.app/]
+🔗 **線上作品集**：[https://kiki-design.vercel.app/]
 
-這是 **Kiki Design** 的個人作品集網站。
 目前以極簡主義（Kiki Style）為視覺核心，並透過 AI 輔助開發（Vibe Coding），打造出高效能且具備豐富動態互動的視覺設計展示平台。
 
 ---
 
 ## 🚀 技術棧與特性
 
-* **核心框架**：`React 18` + `TypeScript` (嚴格型別定義)。
-* **動態視覺**：`GSAP` + `ScrollTrigger` 實現高性能滾動動畫與視差效果。
-* **樣式系統**：`Tailwind CSS` 搭配 **三層 CSS 結構**（變數層、語義層、組件層）。
-* **效能優化**：採用單一資料來源（Single Source of Truth）管理作品，優化圖片加載與進場序列。
-* **AI 開發護欄**：導入專屬的 `.cursor/rules` (MDC 機制) 與雙軌制規範，強制約束 AI 遵守 Mobile First RWD、Motion V5 效能標準與 DRY 原則。
+- **核心框架**：React 18 + TypeScript（嚴格型別定義）
+- **動態視覺**：GSAP + ScrollTrigger，高性能滾動動畫與視差效果
+- **樣式系統**：Tailwind CSS 搭配五層 CSS 架構（Token → 語意 → Layout → 元件 → 動畫）
+- **效能優化**：單一資料來源（SSOT）管理作品、圖片 CLS 防禦、rAF 休眠機制
+- **AI 開發護欄**：雙軌制 AI 規範（`.cursorrules` + `.cursor/rules/*.mdc`），強制 Mobile First、Motion V5 效能標準與 DRY 原則
 
 ---
 
-## 📂 專案架構 (Project Structure)
-
-本專案採用模組化結構，將設計系統、資料模型與 UI 組件嚴格分離，並具備完善的 AI 開發雙軌防禦系統。
+## 📂 專案架構
 
 ```text
 kikidesign/
-├── .cursor/                # 【AI 防禦系統】Cursor 專案級規則 (背景防禦網)
+├── .cursor/                     # AI 防禦系統（背景防禦網）
 │   └── rules/
 │       ├── 01-architecture.mdc  # 架構與元件模板標準
 │       ├── 02-tailwind-rwd.mdc  # Tailwind 排序與 RWD 強制規範
 │       ├── 03-motion-v5.mdc     # GSAP/rAF 效能與清理機制
 │       ├── 04-seo-semantic.mdc  # 語意化標籤與圖片 SEO 防線
 │       └── 05-commands.mdc      # Kiki 專屬 AI 快捷指令庫
-├── .github/                # GitHub CI/CD 自動化部署設定
+├── .github/
 │   └── workflows/
-│       └── deploy.yml      # 自動化部署腳本
-├── public/                 # 【靜態資源】不需編譯，由瀏覽器直接抓取
-│   ├── favicon.ico         # 網站標籤圖示
-│   ├── apple-touch-icon.png # iOS 主畫面圖示
-│   ├── og-image.png        # 社群分享預覽圖 (Open Graph)
-│   ├── robots.txt          # 搜尋引擎爬蟲指令
-│   └── site.webmanifest    # PWA 網站應用程式清單
-├── src/                    # 【核心原始碼】
-│   ├── assets/             # 【品牌識別與優化資源】
-│   │   ├── logo-kiki-main.svg # 主標誌 (參與 Vite 編譯優化)
-│   │   ├── logo-kiki-2025.webp # 年度標誌變體
-│   │   ├── logo-kiki-512.png  # 高解析度標誌
-│   │   └── images/         # 作品集 WebP 格式圖片
-│   ├── components/         # 【UI 元件庫】
-│   │   ├── common/         # 功能性與通用組件
-│   │   │   ├── BackgroundEffects.tsx # 背景光暈特效
-│   │   │   ├── BackToTop.tsx         # 返回頂部按鈕
-│   │   │   ├── Loader.tsx            # 進場動畫
-│   │   │   └── ScrollToTop.tsx       # 路由切換捲動重置
-│   │   ├── layout/         # 頁面框架組件
-│   │   │   ├── Navigation.tsx        # 頂部導覽
-│   │   │   ├── MobileMenu.tsx        # 行動版選單
-│   │   │   └── Footer.tsx            # 頁尾資訊
-│   │   ├── sections/       # 內容區塊組件
-│   │   │   ├── Hero.tsx              # 品牌首屏
-│   │   │   ├── Philosophy.tsx        # 設計理念
-│   │   │   ├── Works.tsx             # 作品清單
-│   │   │   ├── WorkCard.tsx          # 單一作品卡片
-│   │   │   └── WorkDetail.tsx        # 作品詳情頁
-│   │   └── Home.tsx        # 首頁容器 (組合 Hero, Works, Philosophy)
-│   ├── css/                # 【樣式系統】
-│   │   ├── globals.css     # Layer 0: 設計 Token 與變數
-│   │   ├── motion.css      # Layer 1: 語義化動畫類名
-│   │   ├── style.css       # Layer 2: 基礎結構與重置
-│   │   ├── works.css       # Layer 3: 作品清單專用樣式
-│   │   └── work-detail.css # Layer 3: 作品內頁專用樣式
+│       └── deploy.yml           # CI/CD 自動化部署
+├── public/                      # 靜態資源（不經 Vite 編譯）
+│   ├── og-image.png
+│   ├── favicon.ico
+│   └── site.webmanifest
+├── src/
+│   ├── assets/                  # 品牌識別與作品圖片（WebP）
+│   ├── components/
+│   │   ├── common/              # BackgroundEffects, BackToTop, Loader, ScrollToTop
+│   │   ├── layout/              # Navigation, MobileMenu, Footer
+│   │   └── sections/            # Hero, Works, WorkCard, WorkDetail, Philosophy
+│   ├── css/
+│   │   ├── globals.css          # Layer 0：Design Token
+│   │   ├── motion.css           # Layer 1：語意 class
+│   │   ├── style.css            # Layer 2：結構與重置
+│   │   ├── works.css            # Layer 3：作品清單
+│   │   └── work-detail.css      # Layer 3：作品內頁
 │   ├── data/
-│   │   └── projectData.ts  # 單一資料來源 (SSOT): 管理全站作品內容
+│   │   └── projectData.ts       # 單一資料來源（SSOT）
 │   ├── styles/
-│   │   └── layout.ts       # 佈局 Token: 統一全站容器與間距規範
+│   │   └── layout.ts            # 佈局 Token
 │   ├── utils/
-│   │   └── animationPresets.ts # GSAP 動畫參數預設集
-│   ├── App.tsx             # 全站路由與總控中心
-│   ├── index.tsx           # React 掛載點
-│   ├── types.ts            # 全域 TypeScript 型別定義
-│   └── vite-env.d.ts       # Vite 環境定義
-├── .cursorrules            # Cursor 全局 AI 規則與最高指導指令
-├── .env.local              # 本地環境變數
-├── .gitignore              # Git 忽略清單
-├── CURSOR_GUIDE.md         # Cursor Agent 協作手冊 (人類閱讀用)
-├── DEVELOPER_GUIDE.md      # 開發規範與維護指南 (AI 全局架構聖經)
-├── index.html              # 基礎 HTML 入口
-├── metadata.json           # 專案元數據
-├── package.json            # 專案套件與指令管理
-├── tsconfig.json           # TypeScript 編譯配置
-└── vite.config.ts          # Vite 建置配置
+│   │   └── animationPresets.ts  # GSAP 動畫參數模組
+│   ├── App.tsx
+│   ├── index.tsx
+│   ├── types.ts                 # Window interface 唯一宣告來源
+│   └── vite-env.d.ts
+├── .cursorrules                 # Cursor 全局 AI 規則（最高指導原則）
+├── CURSOR_GUIDE.md              # Cursor Agent 協作手冊（給你自己看）
+├── DEVELOPER_GUIDE.md           # 架構聖經（給 AI 研讀）
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ---
 
-## 🎨 設計規範 (The Kiki Style)
+## 🎨 設計規範（Kiki Style）
 
-網站遵循特定的視覺約束，以確保「專業、冷靜、質感」的氛圍：
-
-* **色調**：高對比黑白灰為基調，搭配 `--brand-accent: #EF4444` 作為點睛色。
-* **排版**：襯線體（*Serif Italic*）與無襯線體（Sans-serif）的交錯運用。
-* **互動**：所有的進場動畫皆經過微調（Ease: `power4.inOut`），確保體感流暢且具備呼吸感。
+- **色調**：高對比黑白灰為基調，`--brand-accent: #EF4444` 作為點睛色
+- **排版**：Serif Italic（Playfair Display）與 Sans-serif（Noto Sans TC）交錯運用
+- **動畫**：Ease `power4.inOut`，確保體感流暢且具備呼吸感
 
 ---
 
 ## 🛠️ 開發與部署
 
-### 本機開發
 ```bash
-# 安裝依賴
-npm install
-
-# 啟動開發伺服器
-npm run dev
+npm install      # 安裝依賴
+npm run dev      # 啟動開發伺服器
+npm run build    # 建置
+npm run deploy   # 建置並推送至 GitHub Pages
 ```
-
----
-
-### 部署流程
-
-本專案目前部署於 **GitHub Pages** (或 Vercel)。
-
-```bash
-# 建置並自動推送至 gh-pages 分支
-npm run deploy
-```
-
----
-
-## 📬 聯絡設計師
-
-* **Email**：[exloe574@gmail.com](mailto:exloe574@gmail.com)
-* **Facebook**：[棠想視界](https://www.facebook.com/profile.php?id=100066728660644)
-* **LINE**：[0979291388](https://line.me/ti/p/0979291388)
 
 ---
 
 ## 📝 維護筆記
 
-* [x] **新增作品**：請直接修改 `src/data/projectData.ts`，UI 會自動根據資料動態渲染。
-* [x] **動畫節奏**：若需調整全站動畫速度或 Ease 曲線，請修改 `src/utils/animationPresets.ts`。
-* [x] **樣式修改**：請優先尋找 `src/css/globals.css` 中的 **CSS 變數** 進行全局調整，避免在組件內直接硬編碼（Hard-coded）樣式。
-* [x] **AI 規範更新**：若發現 AI 開發時有偏離設計或效能標準，請至 `.cursor/rules/ `中更新對應的 `.mdc` 檔案來強化防禦機制。
+- **新增作品**：修改 `src/data/projectData.ts`，UI 自動渲染
+- **調整動畫**：修改 `src/utils/animationPresets.ts`
+- **全站樣式**：優先修改 `src/css/globals.css` 的 CSS 變數
+- **AI 規範更新**：發現 AI 偏離標準時，更新 `.cursor/rules/` 對應的 `.mdc` 檔案
+
+---
+
+## 📬 聯絡設計師
+
+- **Email**：[exloe574@gmail.com](mailto:exloe574@gmail.com)
+- **Facebook**：[棠想視界](https://www.facebook.com/profile.php?id=100066728660644)
+- **LINE**：[0979291388](https://line.me/ti/p/0979291388)
 
 ---
 

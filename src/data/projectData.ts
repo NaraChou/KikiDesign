@@ -108,7 +108,7 @@ export const projectsList: ProjectData[] = [
   // ══════════════════════════════════════════════════════════
   {
     id: 'personal-branding',
-    title: 'Behavior Logic｜品牌視覺建置',
+    title: '品牌視覺建置｜Behavior Logic',
     subtitle: '顧問品牌形象規劃 × Logo × 名片 × 網站 × EDM',
     category: 'Brand Identity / Website / EDM',
     year: '2024 – 2025',
@@ -164,9 +164,9 @@ export const projectsList: ProjectData[] = [
   // ══════════════════════════════════════════════════════════
   {
     id: 'rabbit-bear',
-    title: '小兔熊｜親子教育品牌視覺設計',
+    title: '品牌視覺設計｜小兔熊',
     subtitle: '幼兒教育品牌 × Logo × 海報 × 名片 × 落地應用',
-    category: 'Parenting Education Brand',
+    category: 'Brand Identity / Print',
     year: '2023',
     description:
       '為 0–6 歲親子教育品牌「小兔熊」建立整體視覺識別，' +
@@ -178,7 +178,7 @@ export const projectsList: ProjectData[] = [
       {
         src: posterRabbitBearStrategyCompare,
         caption:
-          '設計前後／策略對照：以「親和度、識別度、延展性」三個維度整理小兔熊品牌調整方向，建立後續名片與海報的一致視覺基準。（目前先以識別規範版面呈現，後續可替換為完整前後對照圖）',
+          '設計前後／策略對照：以「親和度、識別度、延展性」三個維度整理小兔熊品牌調整方向，並落實到名片與海報的整體視覺基準。',
       },
 
       {
@@ -222,16 +222,16 @@ export const projectsList: ProjectData[] = [
   },
 
   // ══════════════════════════════════════════════════════════
-  // 3｜品牌識別提案｜合家小食屋
+  // 3｜品牌識別提案｜小琉球合家麻花捲
   // ══════════════════════════════════════════════════════════
   {
     id: 'hejia-branding',
-    title: '品牌識別提案｜合家小食屋',
+    title: '品牌識別提案｜小琉球合家麻花捲',
     subtitle: 'Logo 與包裝標籤的視覺系統規劃（提案）',
     category: 'Brand Identity / Packaging',
     year: '2018',
     description:
-      '為零食品牌「合家小食屋」規劃品牌識別提案，包含主品牌 Logo 設計與五種口味的包裝標籤延伸系統。' +
+      '為零食品牌「小琉球合家麻花捲」規劃品牌識別提案，包含主品牌 Logo 設計與五種口味的包裝標籤延伸系統。' +
       '設計核心在於「一致性」與「差異化」的平衡：' +
       '鎖定 Logo 位置、品名字體、底部條紋圖案三個不變元素，' +
       '再透過主色調差異讓各口味清楚區分，讓消費者一眼辨識品牌，同時快速找到想要的口味。' +
@@ -239,7 +239,7 @@ export const projectsList: ProjectData[] = [
     images: [
       {
         src: practiceLogoHejia,
-        caption: '合家小食屋品牌 Logo 設計：以傳統印鑑風格融合現代排版，傳遞品牌的在地溫度與手作質感。',
+        caption: '小琉球合家麻花捲 品牌 Logo 設計：以傳統印鑑風格融合現代排版，傳遞品牌的在地溫度與手作質感。',
       },
       // 📌 待備圖（備妥後依序加入）：
       // { src: hejiaLabelOriginal,       caption: '原味包裝標籤' }

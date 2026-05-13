@@ -36,8 +36,8 @@ const WORKS = [
   {
     id: 'personal-branding',
     titleZH: '品牌視覺建置｜Behavior Logic',
-    titleEN: 'Brand Identity & Website',
-    subtitle: 'BRAND VISUAL SYSTEM / 2024–2025',
+    titleEN: 'Brand Identity / Website',
+    subtitle: 'BRAND IDENTITY / 2024–2025',
     img: brandingDarkUI,
     extraClass: '',
     ...ALIGN_CONFIG.left,
@@ -46,8 +46,8 @@ const WORKS = [
   {
     id: 'rabbit-bear',
     titleZH: '品牌視覺設計｜小兔熊',
-    titleEN: 'Parenting Education Brand',
-    subtitle: 'PARENTING EDUCATION / 2023',
+    titleEN: 'Brand Identity / Print',
+    subtitle: 'BRAND IDENTITY / 2023',
     img: posterMockupMain,
     extraClass: 'lg:mt-32',
     ...ALIGN_CONFIG.right,
@@ -55,7 +55,7 @@ const WORKS = [
   // ③ 提案：合家小食屋 Logo + 包裝標籤系統
   {
     id: 'hejia-branding',
-    titleZH: '品牌識別提案｜合家小食屋',
+    titleZH: '品牌識別提案｜小琉球合家麻花捲',
     titleEN: 'Brand Identity Proposal',
     subtitle: 'BRAND PROPOSAL / 2018',
     img: practiceLogoHejia,

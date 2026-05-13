@@ -1,320 +1,470 @@
 // src/data/projectData.ts
-
 /**
- * [中文註解]
- * ▍資料單一來源新規範
- * - 僅提供純靜態資料，不含任何排版、寬度、樣式等邏輯。
- * - 所有作品統一資料結構，欄位分組排列，方便維護與擴充。
- * - 項目僅存在一份，所有需要 map 或查詢，皆引用同一陣列，杜絕重複來源與欄位歧義。
+ * ▍資料單一來源
+ * - 純靜態資料，不含排版、寬度、樣式邏輯
+ * - 所有作品統一資料結構，欄位分組排列
  *
- * ▍圖片說明
- * - 僅負責資源載入，尺寸比例與 object-fit 行為交由元件層管理（維持 aspect-ratio，禁止拉伸）。
+ * ▍2026.05 最終結構
+ * 首頁顯示 4 個專案（projectsList 前4筆）：
+ *   1. personal-branding  品牌視覺建置｜Behavior Logic
+ *   2. rabbit-bear        品牌視覺設計｜小兔熊
+ *   3. hejia-branding     品牌識別提案｜合家小食屋
+ *   4. practice-lab       設計練習｜Redesign & Lab
+ *
+ * 隱藏路由（保留，可從 Footer / About 連結）：
+ *   - logo-design         個人商標與名片｜KikiDesign
+ *   - ai-lab              AI 數位效率實驗室
  */
 
-/**
- * [中文註解]
- * ▍CLS 優化說明
- * - aspectRatio: 定義圖片視覺比例，防止圖片加載時造成的頁面跳動。
- * - 比例建議：橫式封面用 "16/9"，直式或方圖依據 Mockup 比例設定。
- */
+// ── Behavior Logic 品牌視覺建置 ─────────────────────────────
+import brandingDarkUI           from '../assets/images/branding-dark-ui-landing.webp';
+import brandingMockupMain       from '../assets/images/branding-mockup-main.webp';
+import brandingResponsive       from '../assets/images/branding-responsive-showcase.webp';
+import brandingBehaviorLogicLogo     from '../assets/images/branding-behavior-logic-logo.webp';
+import brandingBehaviorLogicNamecard from '../assets/images/branding-behavior-logic-namecard.webp';
+import edmBehaviorLogic         from '../assets/images/edm-behavior-logic.webp';
+import aiSlideBehaviorLogic     from '../assets/images/ai-slide-behavior-logic.webp';
 
-import brandingAICover from '../assets/images/branding-ai-portfolio-cover.webp';
-import brandingDarkUI from '../assets/images/branding-dark-ui-landing.webp';
-import brandingMockupMain from '../assets/images/branding-mockup-main.webp';
-import brandingResponsive from '../assets/images/branding-responsive-showcase.webp';
-import brandingUIEducation from '../assets/images/branding-ui-education-app.webp';
-import logoKiki2025Brand from '../assets/images/logo-kiki-2025-brand.webp';
-import logoKiki2020 from '../assets/images/logo-kiki-2020.webp';
-import namecardKiki2020 from '../assets/images/namecard-kiki-2020.webp';
-import namecardMockupConcrete from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
-import namecardMockupFoam from '../assets/images/namecard-kiki-2025-mockup-foam.webp';
-import logoKikiCoasterMockup from '../assets/images/logo-kiki-coaster-mockup.webp';
+// ── 小兔熊 品牌視覺設計 ──────────────────────────────────────
+import posterMockupMain         from '../assets/images/poster-mockup-main.webp';
+import posterRabbitBearLogo     from '../assets/images/poster-rabbit-bear-logo.webp';
+import posterRabbitBearNamecard from '../assets/images/poster-rabbit-bear-namecard.webp';
 import posterRabbitBearRecruitment from '../assets/images/poster-rabbit-bear-recruitment.webp';
-import posterRabbitBearOnsite from '../assets/images/poster-rabbit-bear-onsite.webp';
-import edmBehaviorLogic from '../assets/images/edm-behavior-logic.webp';
-import ecommerceHomeConvenience from '../assets/images/ecommerce-home-convenience-landscape.webp';
-import ecommerceFemininePink from '../assets/images/ecommerce-feminine-pink-portrait.webp';
-import ecommerceLuxuryGold from '../assets/images/ecommerce-luxury-gold-landscape.webp';
-import practiceComp01 from '../assets/images/practice-comp-01.webp';
-import practiceComp02 from '../assets/images/practice-comp-02.webp';
-import practiceCompCloud from '../assets/images/practice-comp-cloud.webp';
-import practiceCompElephant from '../assets/images/practice-comp-elephant.webp';
-import practiceLabCover from '../assets/images/practice-lab-cover.webp';
-import practiceLogoHejia from '../assets/images/practice-logo-hejia.webp';
-import practiceIllustZodiac from '../assets/images/practice-illust-zodiac.webp';
-import practiceIllustRabbit from '../assets/images/practice-illust-rabbit.webp';
-import practiceFontLight from '../assets/images/practice-font-light.webp';
-import practiceFontAudi from '../assets/images/practice-font-audi.webp';
-import practiceUiCharacter from '../assets/images/practice-ui-character.webp';
-import practiceUiGame from '../assets/images/practice-ui-game.webp';
-import practiceLayoutDmFront from '../assets/images/practice-layout-dm-front.webp';
-import practiceLayoutDmBack from '../assets/images/practice-layout-dm-back.webp';
-import practiceLayoutCol2_01 from '../assets/images/practice-layout-col2-01.webp';
-import practiceLayoutCol2_02 from '../assets/images/practice-layout-col2-02.webp';
-import practiceLayoutCol3_01 from '../assets/images/practice-layout-col3-01.webp';
-import practiceLayoutPoster01 from '../assets/images/practice-layout-poster-01.webp';
-import practiceLayoutPoster02 from '../assets/images/practice-layout-poster-02.webp';
-import aiLabCover from '../assets/images/ai-lab-cover.webp';
-import aiToolFortune from '../assets/images/ai-tool-fortune.webp';
-import aiToolAccounting from '../assets/images/ai-tool-accounting.webp';
-import aiSlideBehaviorLogic from '../assets/images/ai-slide-behavior-logic.webp';
+import posterRabbitBearOnsite   from '../assets/images/poster-rabbit-bear-onsite.webp';
+import posterRabbitBearLogoRound from '../assets/images/poster-rabbit-bear-logo-round.webp';
 
+// ── 合家小食屋 品牌識別提案 ──────────────────────────────────
+import practiceLogoHejia        from '../assets/images/practice-logo-hejia.webp';
+// 待備：hejia-label-original.webp / hejia-label-seaweed.webp
+//       hejia-label-blacksugar.webp / hejia-label-condensedmilk.webp / hejia-label-strawberry.webp
 
-/**
- * [中文註解] 
- * ▍作品清單主資料（唯一來源，所有顯示均來自此處）
- * - 每個作品物件欄位依主題分組：基本資訊、圖片、主題視覺設定，嚴格歸類，減少冗餘。
- * - id：唯一識別（對應路由）
- * - title/subtitle/category/year/description：基本介紹
- * - images：陣列，順序即為展示順序
- * - visual：首頁卡片 bg 與 hover 光暈統合歸為一組，便於主題色切換與擴展
- * - aspectRatio：定義圖片渲染時預留的高度比例，防止 CLS 跳動
- */
+// ── 設計練習｜Redesign & Lab ─────────────────────────────────
+import practiceLabCover         from '../assets/images/practice-lab-cover.webp';
+// Redesign
+import brandingUiEducationApp   from '../assets/images/branding-ui-education-app.webp';
+// 影像合成
+import practiceComp01           from '../assets/images/practice-comp-01.webp';
+import practiceComp02           from '../assets/images/practice-comp-02.webp';
+import practiceCompCloud        from '../assets/images/practice-comp-cloud.webp';
+import practiceCompElephant     from '../assets/images/practice-comp-elephant.webp';
+// 字體
+import practiceFontAudi         from '../assets/images/practice-font-audi.webp';
+import practiceFontLight        from '../assets/images/practice-font-light.webp';
+// UI
+import practiceUiCharacter      from '../assets/images/practice-ui-character.webp';
+import practiceUiGame           from '../assets/images/practice-ui-game.webp';
+// Logo
+import ecommerceJingshengLogo   from '../assets/images/ecommerce-jingsheng-logo.webp';
+
+// ── 隱藏路由：KikiDesign 個人商標 ────────────────────────────
+import logoKiki2025Brand        from '../assets/images/logo-kiki-2025-brand.webp';
+import logoKiki2020             from '../assets/images/logo-kiki-2020.webp';
+import namecardKiki2020         from '../assets/images/namecard-kiki-2020.webp';
+import namecardMockupConcrete   from '../assets/images/namecard-kiki-2025-mockup-concrete.webp';
+import namecardMockupFoam       from '../assets/images/namecard-kiki-2025-mockup-foam.webp';
+import logoKikiCoasterMockup    from '../assets/images/logo-kiki-coaster-mockup.webp';
+
+// ── 隱藏路由：AI 數位效率實驗室 ──────────────────────────────
+import aiLabCover               from '../assets/images/ai-lab-cover.webp';
+import aiToolAccounting         from '../assets/images/ai-tool-accounting.webp';
+import aiToolFortune            from '../assets/images/ai-tool-fortune.webp';
+import brandingUiEducationAppAI from '../assets/images/branding-ui-education-app.webp';
+
+// ════════════════════════════════════════════════════════════
+// 型別定義
+// ════════════════════════════════════════════════════════════
 export interface ProjectImage {
-  src: string,
-  caption?: string,       // 選填說明文字，有值才在 lightbox 顯示
-  coverOnly?: boolean,    // true = 只用於首頁卡片封面，作品詳情頁不顯示
-  practiceCategory?: string, // 練習專區分類標籤（如 'composition'、'ui'、'typography'...）
+  src: string;
+  caption?: string;
+  coverOnly?: boolean;
+  practiceCategory?: string;
 }
 
 export interface ProjectData {
-  id: string,
-  title: string,
-  subtitle: string,
-  category: string,
-  year: string,
-  description: string,
-  images: ProjectImage[],
-  aspectRatio: string,   // 💡 新增：每個作品預設主封面比例
-  tabs?: string[],  // 選填，有值則啟用頁內標籤篩選（練習專區專用）
+  id: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  year: string;
+  description: string;
+  images: ProjectImage[];
+  aspectRatio: string;
+  tabs?: string[];
   visual: {
-    cardBg: string,
-    hoverGlow: string,
-    glow: string,
-  }
+    cardBg: string;
+    hoverGlow: string;
+    glow: string;
+  };
 }
 
-// [單一資料陣列 — 所有元件 map 直接來源]
+// ════════════════════════════════════════════════════════════
+// 主資料陣列（唯一來源）
+// ════════════════════════════════════════════════════════════
 export const projectsList: ProjectData[] = [
+
+  // ══════════════════════════════════════════════════════════
+  // 1｜品牌視覺建置｜Behavior Logic（主力）
+  // ══════════════════════════════════════════════════════════
   {
     id: 'personal-branding',
-    title: '個人品牌形象官網',
-    subtitle: 'Personal Branding Website',
-    category: 'Brand Identity / UI/UX',
-    year: '2024',
+    title: '品牌視覺建置｜Behavior Logic',
+    subtitle: '從品牌定位到網站視覺的整體規劃與一致性建立',
+    category: 'Brand Identity / Website / EDM',
+    year: '2024 – 2025',
     description:
-      '為身心靈教育品牌「行韋邏輯」建立一套找到自己的視覺語言。品牌核心為協助個人探索天賦、找尋自我定位，視覺以藍色為主調——象徵正義、和平與自我價值，輔以深色背景提升質感，在活潑與穩重之間建立屬於品牌的視覺平衡。',
+      '從 Logo 到名片、網站到 EDM，為「行韋邏輯」顧問品牌建立完整視覺識別系統。' +
+      '品牌核心為協助個人探索天賦、找尋自我定位，視覺以藍色為主調，象徵理性與自我價值。' +
+      '2025 年在維持視覺品質的前提下，將平台從 Wix 遷移至自建版本，大幅降低每月費用——' +
+      '對創業初期的品牌而言，成本控制本身也是設計決策的一環。',
     images: [
       { src: brandingMockupMain, coverOnly: true },
-      { src: brandingAICover, coverOnly: true },
+      {
+        src: brandingBehaviorLogicLogo,
+        caption: '行韋邏輯品牌 Logo 設計：以藍色為主調，象徵理性分析與自我定位的品牌核心價值。',
+      },
+      {
+        src: brandingBehaviorLogicNamecard,
+        caption: '品牌名片設計，正反面版面配置延續 Logo 視覺語言，確保品牌在各接觸點的一致性。',
+      },
       {
         src: brandingResponsive,
-        caption: '2024 年以 Wix 建置初版，讓品牌快速完成視覺落地。',
+        caption: '2024 年第一版：以 Wix 建置，讓品牌快速完成視覺落地，桌機與手機版均保持一致體驗。',
       },
-      { src: brandingUIEducation, coverOnly: true },
       {
         src: brandingDarkUI,
-        caption: '2025 年以 Vibe Coding 重新開發第二版，維持視覺品質的前提下，大幅降低每月平台費用。對創業初期的品牌而言，成本控制本身也是設計決策的一環。',
-      },
-    ],
-    aspectRatio: '16/9', // 📐 橫式主視覺比例，預防 CLS
-    visual: {
-      cardBg: 'bg-[rgba(26,28,46,0.50)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)]',
-      glow: 'rgba(59,130,246,0.28)'
-    }
-  },
-  {
-    id: 'logo-design',
-    title: '個人商標與名片',
-    subtitle: 'Logo & Business Card',
-    category: 'Visual Design / Print',
-    year: '2020 – 2025',
-    description:
-      '以女兒英文名 Kiki 與自身溫和如兔的個性為起點，將「K」字母與兔子造型融合，打造棠想視界的品牌標誌。2020 年初版採活潑的橙紅漸層，傳遞熱情與創造力；2025 年重新優化，以書法筆觸融合兔子側臉，褪去裝飾、保留神韻，讓品牌隨著設計者一同成長。',
-    images: [
-      {
-        src: namecardMockupConcrete,
-        caption: '2025 名片正/反面，置於深黑底色，細邊框設計增添精緻感。',
-      },
-      {
-        src: namecardMockupFoam,
-        caption: '2025 名片正/反面，置於淺白底色，更增添視覺上的層次感。',
-      },
-      {
-        src: logoKiki2025Brand,
-        caption: '2025 優化版 Logo，書法筆觸融合兔子側臉，線條更精練，霓虹光暈強化識別記憶點。',
-      },
-      {
-        src: namecardKiki2020,
-        caption: '2020 名片設計，正面 Logo 置中，背面以大 K 字裁切構圖，資訊層次分明。',
-      },
-      {
-        src: logoKiki2020,
-        caption: '2020 初版 Logo，K 字融合兔子造型，橙紅漸層傳遞熱情與活力。',
-      },
-      {
-        src: logoKikiCoasterMockup,
-        caption: 'Logo 應用延伸，燙印於杯墊 mockup，驗證圖形在實體物料上的耐用性。',
-      },
-    ],
-    aspectRatio: '4/5', // 📐 直式主視覺比例（名片 mockup）
-    visual: {
-      cardBg: 'bg-[rgba(46,26,46,0.50)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(168,85,247,0.3)]',
-      glow: 'rgba(168,85,247,0.25)'
-    }
-  },
-  {
-    id: 'poster-design',
-    title: '海報設計',
-    subtitle: 'Poster Design',
-    category: 'Graphic Design / Print',
-    year: '2025',
-    // [中文註解] 本段敘述了視覺素材如何根據客戶、產業、溝通目的做出對應調整，強調設計因應不同品牌和目標的動態性，目的是讓畫面呈現「內容服務於視覺，視覺服務於溝通」的流動感
-    description:
-      '為不同產業客戶量身設計宣傳物料，根據品牌調性與目標受眾調整視覺語言。從親子教育機構的活潑招生海報，到身心靈課程的資訊型長圖 EDM，每一份設計都從溝通目的出發，讓視覺服務於內容。',
-    images: [
-      {
-        src: posterRabbitBearRecruitment,
-        caption: '親子工作室招生海報，以暖黃色調搭配卡通角色，傳遞親切感與活力，吸引目標客群注意。'
-      },
-      {
-        src: posterRabbitBearOnsite,
-        caption: '實際張貼於店面玻璃門，驗證設計在真實場景中的辨識度與視覺效果。'
+        caption: '2025 年第二版：以自建方式重新開發，深色科技感強化品牌「數字分析、邏輯系統」的定位，同時大幅降低每月平台費用。',
       },
       {
         src: edmBehaviorLogic,
-        caption: '身心靈課程宣傳長圖，資訊量大但層次分明，藍色主調呼應品牌識別，引導讀者視線由上至下流動。'
-      }
+        caption: '課程宣傳 EDM：直式版面適合手機閱讀，用色塊和圖標做資訊分層，引導視線由上至下流動。',
+      },
+      {
+        src: aiSlideBehaviorLogic,
+        caption: '品牌核心架構圖：以扇形放射結構整合創辦人學經歷、服務項目與品牌理念，將複雜資訊轉化為直覺的視覺呈現。',
+      },
     ],
-    aspectRatio: '3/4', // 📐 直式（EDM/海報視覺以此預設，有偏移可微調）
+    aspectRatio: '16/9',
     visual: {
-      cardBg: 'bg-[rgba(46,26,26,0.50)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(255,127,80,0.3)]',
-      glow: 'rgba(255,127,80,0.3)'
-    }
+      cardBg: 'bg-[rgba(26,28,46,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)]',
+      glow: 'rgba(59,130,246,0.28)',
+    },
   },
-  // ...若有更多作品，請依此格式持續新增
+
+  // ══════════════════════════════════════════════════════════
+  // 2｜品牌視覺設計｜小兔熊（次主力）
+  // ══════════════════════════════════════════════════════════
   {
-    id: 'ecommerce-visual-design',
-    title: '電商視覺設計',
-    subtitle: 'E-commerce Visual Design',
-    category: 'Graphic Design / E-commerce',
-    year: '2025',
+    id: 'rabbit-bear',
+    title: '小兔熊｜親子教育品牌視覺設計',
+    subtitle: '幼兒教育品牌 × Logo × 海報 × 名片 × 落地應用',
+    category: 'Parenting Education Brand',
+    year: '2023',
     description:
-      '同一產品、三種視覺語言——這是電商設計的核心挑戰。為精省便利館設計同款產品的多風格素材，從居家藍調的生活感、女性粉嫩的夢幻感，到質感精品的奢華感，用色彩、排版與氛圍精準對應不同受眾的購買心理。',
+      '為 0–6 歲親子教育品牌「小兔熊」建立整體視覺識別，' +
+      '從 Logo 設計延伸至名片、招生海報與實際展示應用，' +
+      '透過暖色調與圓潤角色形象建立親和感，' +
+      '並整合課程資訊、招生內容與 QR Code，提升品牌一致性與資訊閱讀效率。',
+    images: [
+      { src: posterMockupMain, coverOnly: true },
+
+      {
+        src: posterRabbitBearLogo,
+        caption:
+          '品牌識別規範：整理品牌色彩、字型與灰階版本，建立不同媒材下的視覺一致性。',
+      },
+
+      {
+        src: posterRabbitBearLogoRound,
+        caption:
+          '品牌主視覺 Logo：以兔子與熊作為核心角色，搭配圍棋元素與愛心圖形，傳達陪伴、互動與成長的品牌氛圍。',
+      },
+
+      {
+        src: posterRabbitBearNamecard,
+        caption:
+          '品牌名片設計：延伸主視覺元素，整合聯絡資訊與 QR Code，維持清晰閱讀與品牌一致性。',
+      },
+
+      {
+        src: posterRabbitBearRecruitment,
+        caption:
+          '招生主視覺海報：整合課程資訊、招生對象與 QR Code，透過色彩分區與版面層級提升閱讀效率。',
+      },
+
+      {
+        src: posterRabbitBearOnsite,
+        caption:
+          '實際落地應用：模擬海報於現場展示情境，確認版面在真實空間中的辨識度與視覺效果。',
+      },
+    ],
+
+    aspectRatio: '3/4',
+
+    visual: {
+      cardBg: 'bg-[rgba(46,36,16,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(255,180,50,0.3)]',
+      glow: 'rgba(255,180,50,0.3)',
+    },
+  },
+
+  // ══════════════════════════════════════════════════════════
+  // 3｜品牌識別提案｜合家小食屋
+  // ══════════════════════════════════════════════════════════
+  {
+    id: 'hejia-branding',
+    title: '品牌識別提案｜合家小食屋',
+    subtitle: 'Logo 與包裝標籤的視覺系統規劃（提案）',
+    category: 'Brand Identity / Packaging',
+    year: '2018',
+    description:
+      '為零食品牌「合家小食屋」規劃品牌識別提案，包含主品牌 Logo 設計與五種口味的包裝標籤延伸系統。' +
+      '設計核心在於「一致性」與「差異化」的平衡：' +
+      '鎖定 Logo 位置、品名字體、底部條紋圖案三個不變元素，' +
+      '再透過主色調差異讓各口味清楚區分，讓消費者一眼辨識品牌，同時快速找到想要的口味。' +
+      '本作品為提案階段。',
     images: [
       {
-        src: ecommerceHomeConvenience,
-        caption: '藍灰色調呈現生活實用感，版面清晰理性，訴求母嬰日用品的信賴感。',
+        src: practiceLogoHejia,
+        caption: '合家小食屋品牌 Logo 設計：以傳統印鑑風格融合現代排版，傳遞品牌的在地溫度與手作質感。',
       },
-      {
-        src: ecommerceFemininePink,
-        caption: '粉色系搭配飄逸翅膀意象，營造夢幻輕盈氛圍，吸引女性消費者的情感共鳴。',
-      },
-      {
-        src: ecommerceLuxuryGold,
-        caption: '金色緞面背景強化精品感，舞台式產品陳列提升品牌價值感。',
-      },
+      // 📌 待備圖（備妥後依序加入）：
+      // { src: hejiaLabelOriginal,       caption: '原味包裝標籤' }
+      // { src: hejiaLabelSeaweed,        caption: '海苔包裝標籤' }
+      // { src: hejiaLabelBlacksugar,     caption: '黑糖包裝標籤' }
+      // { src: hejiaLabelCondensedmilk,  caption: '煉乳包裝標籤' }
+      // { src: hejiaLabelStrawberry,     caption: '草莓包裝標籤' }
     ],
-    aspectRatio: '16/9', // 📐 電商首圖多為寬橫，取寬螢幕預估
+    aspectRatio: '1/1',
     visual: {
-      cardBg: 'bg-[rgba(26,46,26,0.50)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(234,179,8,0.3)]',
-      glow: 'rgba(234,179,8,0.3)',
-    }
+      cardBg: 'bg-[rgba(46,26,16,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(220,120,40,0.3)]',
+      glow: 'rgba(220,120,40,0.3)',
+    },
   },
+
+  // ══════════════════════════════════════════════════════════
+  // 4｜設計練習｜Redesign & Lab（收尾）
+  // ══════════════════════════════════════════════════════════
   {
     id: 'practice-lab',
-    title: '視覺實驗室',
-    subtitle: 'Visual Lab',
+    title: '設計練習｜Redesign & Lab',
+    subtitle: '網站改版與版面優化練習，強化資訊整理能力',
     category: 'Practice / Experiment',
     year: '2017 – 2026',
     description:
-      '持續練習是設計師的核心修煉。這裡收錄各類視覺實驗與自主練習作品，橫跨影像合成、UI 設計、排版、字體、Logo 與插圖等領域，記錄每一次嘗試與突破的過程。',
-    tabs: ['Logo', '插圖', '排版設計', '字體', '影像合成', 'UI'],
+      '持續練習是設計師的核心修煉。' +
+      '這裡收錄各類視覺實驗、自主練習與改版練習作品，' +
+      '聚焦影像合成、字體設計、UI 介面與網站 Redesign，' +
+      '記錄每一次嘗試與突破的過程。',
+    tabs: ['Redesign', '影像合成', '字體', 'UI', 'Logo'],
     images: [
-      // 首頁卡片封面（待替換為專屬封面圖）
       { src: practiceLabCover, coverOnly: true },
-      // 影像合成
-      { src: practiceComp01, practiceCategory: '影像合成', caption: '「影武者」手遊宣傳視覺：以武俠風格為核心，運用水墨煙霧特效與角色動態捕捉進行合成，練習虛實結合的氛圍營造與強烈明暗對比。' },
-      { src: practiceComp02, practiceCategory: '影像合成', caption: '「幽湖古塔」場景合成：練習多圖層光影融合技術，以冷調月光與精準的水面倒影模擬，營造沉靜且具神祕感的超現實夜景空間。' },
-      { src: practiceCompCloud, practiceCategory: '影像合成', caption: '「雲端夢境」奇幻敘事視覺：運用粉紫色調的光感擴散與柔焦處理，將夢境意象具象化，練習高動態範圍（HDR）色彩調和與多媒材元素統整。' },
-      { src: practiceCompElephant, practiceCategory: '影像合成', caption: '「大地之靈」解構視覺實驗：以流沙粒子特效呈現大象主體，運用細節筆刷與遮罩技術模擬沙化過程，探索自然生命力與解構美學的視覺張力。' },
-      // Logo
-      { src: practiceLogoHejia, practiceCategory: 'Logo', caption: '合家小食屋品牌識別設計：以篆書圓形印章為概念，融合「小琉球」為核心標誌，搭配傳統條紋圖騰，同步延伸五款產品包裝配色（原味、黑糖、海苔、煉乳、草莓），建立完整的視覺識別系統。' },
-      // 插圖
-      { src: practiceIllustRabbit, practiceCategory: '插圖', caption: '「2017 野餐樂天地」活動插圖：以手繪風格描繪兔子角色與野餐場景，融合童趣插畫與活動資訊，傳遞輕鬆歡樂的品牌氛圍。' },
-      { src: practiceIllustZodiac, practiceCategory: '插圖', caption: '「猜猜我們是什麼星座？」12 星座系列插圖：以一致的黑色小妖怪「歐罵罵O-mama」造型詮釋十二星座特徵，每個角色透過細節差異傳遞各星座個性，兼顧系列感與辨識度。' },
-      // 字體
-      { src: practiceFontAudi, practiceCategory: '字體', caption: 'PS 字體設計：以奧迪車燈尾燈的格紋材質為靈感，結合金屬邊框與鏡面倒影，詮釋 AUDI 品牌的高規格質感。' },
-      { src: practiceFontLight, practiceCategory: '字體', caption: 'PS 光效字體設計：運用星際光暈與霓虹發光效果，呈現「NaRa Chou」文字的夢幻宇宙感，練習圖層混合模式與光效控制。' },
-      // UI
-      { src: practiceUiCharacter, practiceCategory: 'UI', caption: '手遊 UI 設計：「禮包酷」角色屬性頁面。以清新海灘場景為背景，搭配 3D 萌系忍者主角，練習遊戲系統介面的角色展示版面與按鈕配置。' },
-      { src: practiceUiGame, practiceCategory: 'UI', caption: '手遊設定介面 UI 設計：以森林奇幻場景為背景，設計圓角餅乾色系的 SETTINGS 彈窗，包含音效音樂滑桿與語言選擇，練習遊戲 UI 的色彩系統與互動元件規格。' },
-      // 排版設計
-      { src: practiceLayoutDmFront, practiceCategory: '排版設計', caption: '品茶三折頁 DM 正面：以水墨茶湯意象為主視覺，中式書法標題搭配留白構圖，練習傳統文化品牌的版面氛圍營造。' },
-      { src: practiceLayoutDmBack, practiceCategory: '排版設計', caption: '品茶三折頁 DM 背面：資訊密集型排版練習，三欄佈局整合圖文說明、功效介紹與聯絡資訊，練習閱讀動線的引導與視覺層次的建立。' },
-      { src: practiceLayoutCol2_01, practiceCategory: '排版設計', caption: '甜心蛋糕兩欄版式（明亮版）：左側主視覺照片、右側品牌文字，粉色系配色搭配裝飾字體，練習食品品牌的輕盈活潑排版風格。' },
-      { src: practiceLayoutCol2_02, practiceCategory: '排版設計', caption: '甜心蛋糕兩欄版式（深色版）：深棕底色搭配書法字體，與明亮版形成明暗對比，練習同一品牌在不同調性下的視覺語言轉換。' },
-      { src: practiceLayoutCol3_01, practiceCategory: '排版設計', caption: '品茶三欄版式：封面主視覺、品牌 Logo 與資訊文字三欄並排，以水墨插圖貫穿整體，練習中式風格排版的比例分配與裝飾元素整合。' },
-      { src: practiceLayoutPoster01, practiceCategory: '排版設計', caption: '海報設計：「認養代替購買」公益活動。金色書法大字搭配深灰底，印章式構圖強化儀式感，練習中文字體設計在海報主視覺中的比重拿捏。' },
-      { src: practiceLayoutPoster02, practiceCategory: '排版設計', caption: '機油產品包裝設計：日系賽車風格排版，中英日文資訊層次整合，紅黑底色搭配動感插圖，練習高密度資訊在視覺設計中的秩序感建立。' },
+
+      // ── Redesign ─────────────────────────────────────────
+      {
+        src: brandingUiEducationApp,
+        practiceCategory: 'Redesign',
+        caption:
+          '補習班「星育文理 H-Academy」網站視覺改版練習：' +
+          '原網站資訊較分散，重新整理資訊架構，強化主標層級與版面配置，' +
+          '提升使用者的閱讀動線與理解效率。（進行中）',
+      },
+      // 📌 待備：redesign-hacademy-before.webp（改版前）
+      // 📌 待備：redesign-hacademy-after.webp（改版後）
+
+      // ── 影像合成 ──────────────────────────────────────────
+      {
+        src: practiceComp01,
+        practiceCategory: '影像合成',
+        caption:
+          '「影武者」手遊宣傳視覺：以武俠風格為核心，' +
+          '運用水墨煙霧特效與角色動態捕捉進行合成，' +
+          '練習虛實結合的氛圍營造與強烈明暗對比。',
+      },
+      {
+        src: practiceComp02,
+        practiceCategory: '影像合成',
+        caption:
+          '「幽湖古塔」場景合成：練習多圖層光影融合技術，' +
+          '以冷調月光與精準的水面倒影模擬，' +
+          '營造沉靜且具神祕感的超現實夜景空間。',
+      },
+      {
+        src: practiceCompCloud,
+        practiceCategory: '影像合成',
+        caption:
+          '「雲端夢境」奇幻敘事視覺：運用粉紫色調的光感擴散與柔焦處理，' +
+          '將夢境意象具象化，練習高動態範圍色彩調和與多媒材元素統整。',
+      },
+      {
+        src: practiceCompElephant,
+        practiceCategory: '影像合成',
+        caption:
+          '「大地之靈」解構視覺實驗：以流沙粒子特效呈現大象主體，' +
+          '運用細節筆刷與遮罩技術模擬沙化過程，' +
+          '探索自然生命力與解構美學的視覺張力。',
+      },
+
+      // ── 字體 ──────────────────────────────────────────────
+      {
+        src: practiceFontAudi,
+        practiceCategory: '字體',
+        caption:
+          'PS 字體設計：以奧迪車燈尾燈的格紋材質為靈感，' +
+          '結合金屬邊框與鏡面倒影，詮釋 AUDI 品牌的高規格質感。',
+      },
+      {
+        src: practiceFontLight,
+        practiceCategory: '字體',
+        caption:
+          'PS 光效字體設計：運用星際光暈與霓虹發光效果，' +
+          '呈現「NaRa Chou」文字的夢幻宇宙感，練習圖層混合模式與光效控制。',
+      },
+
+      // ── UI ────────────────────────────────────────────────
+      {
+        src: practiceUiCharacter,
+        practiceCategory: 'UI',
+        caption:
+          '手遊 UI 設計：「禮包酷」角色屬性頁面。' +
+          '以清新海灘場景為背景，搭配 3D 萌系忍者主角，' +
+          '練習遊戲系統介面的角色展示版面與按鈕配置。',
+      },
+      {
+        src: practiceUiGame,
+        practiceCategory: 'UI',
+        caption:
+          '手遊設定介面 UI：以森林奇幻場景為背景，' +
+          '設計圓角餅乾色系的 SETTINGS 彈窗，' +
+          '包含音效音樂滑桿與語言選擇，練習遊戲 UI 的色彩系統與互動元件規格。',
+      },
+
+      // ── Logo ──────────────────────────────────────────────
+      {
+        src: ecommerceJingshengLogo,
+        practiceCategory: 'Logo',
+        caption:
+          '精省便利屋品牌 Logo 設計：以卡通印章風格設計，' +
+          '融合寶石與喜慶元素，傳遞趣味感與品牌個性。（品牌標誌設計）',
+      },
+      {
+        src: practiceLogoHejia,
+        practiceCategory: 'Logo',
+        caption:
+          '合家小食屋品牌 Logo 設計：以傳統印鑑風格融合現代排版，' +
+          '傳遞品牌的在地溫度與手作質感。（品牌識別提案）',
+      },
     ],
-    aspectRatio: '16/9', // 📐 實驗室封面多橫式，可依封面圖自行調整
+    aspectRatio: '16/9',
     visual: {
       cardBg: 'bg-[rgba(26,26,36,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(139,92,246,0.3)]',
       glow: 'rgba(139,92,246,0.3)',
-    }
+    },
   },
+
+  // ══════════════════════════════════════════════════════════
+  // ★ 隱藏路由：首頁不顯示，路由可訪問
+  //   可從 Footer 或 About 頁加連結
+  // ══════════════════════════════════════════════════════════
+
+  // ── 個人商標與名片｜KikiDesign ───────────────────────────
+  {
+    id: 'logo-design',
+    title: '個人商標與名片｜KikiDesign',
+    subtitle: '品牌識別演進與印刷落地應用',
+    category: 'Logo / Brand Identity',
+    year: '2020 – 2025',
+    description:
+      '棠想視界「KikiDesign」個人品牌識別，歷經兩次視覺迭代。' +
+      '2020 年以橘色系K字兔造型建立初始形象；' +
+      '2025 年重新設計，以書法感的R字融合兔子側臉，' +
+      '深色系呈現更沉穩成熟的品牌個性。' +
+      '從設計稿到名片印刷、杯墊 Mockup，完整驗證品牌識別在實物載體上的一致性。',
+    images: [
+      { src: namecardMockupConcrete, coverOnly: true },
+      {
+        src: logoKiki2025Brand,
+        caption: '2025 年新版 Logo：書法感R字融合兔子側臉，深色系傳遞沉穩成熟的品牌個性。',
+      },
+      {
+        src: logoKiki2020,
+        caption: '2020 年初版 Logo：橘色系K字兔造型，活潑明亮，適合接案初期的親切形象。',
+      },
+      {
+        src: namecardMockupConcrete,
+        caption: '2025 年名片設計：水泥板 Mockup，驗證黑底紅兔 Logo 在印刷材質上的視覺效果。',
+      },
+      {
+        src: namecardMockupFoam,
+        caption: '2025 年名片設計：泡棉板 Mockup，確認名片在不同背景質感下的辨識度。',
+      },
+      {
+        src: namecardKiki2020,
+        caption: '2020 年版名片：橘色系品牌識別延伸至名片版面，正反面配置清楚呈現聯絡資訊。',
+      },
+      {
+        src: logoKikiCoasterMockup,
+        caption: '品牌應用延伸：杯墊 Mockup，展示 Logo 在日常物件上的識別效果與品牌延展性。',
+      },
+    ],
+    aspectRatio: '3/4',
+    visual: {
+      cardBg: 'bg-[rgba(36,16,16,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(200,80,60,0.3)]',
+      glow: 'rgba(200,80,60,0.3)',
+    },
+  },
+
+  // ── AI 數位效率實驗室 ────────────────────────────────────
   {
     id: 'ai-lab',
     title: 'AI 數位效率實驗室',
-    subtitle: 'AI Technology Lab',
-    category: 'AI Application / Business Presentation',
-    year: '2025 – Now',
+    subtitle: '以 AI 為輔助，探索設計與數位工具的整合應用',
+    category: 'AI Application / UI Design',
+    year: '2025 – 2026',
     description:
-      '設計師不只是執行視覺——更是定義流程的人。這裡記錄以 AI 為協作核心的實驗成果：從數字密碼排盤 Web App 的指令優化，到客製化記帳系統的前後端串接，再到商業簡報的視覺邏輯重構。每個作品都是一次「設計思維 × 開發能力 × AI 協作」的實戰探索。',
-    tabs: ['數位工具開發', '商業簡報視覺'],
+      '記錄以 AI 為輔助的設計實驗：' +
+      '從顧問品牌的數字分析工具介面規劃，到個人財務 App 的視覺系統設計，' +
+      '再到商業簡報的資訊視覺化重構。' +
+      '每個作品都在探索如何讓設計產出更有效率、更貼近使用者需求。',
     images: [
-      // 首頁卡片封面
       { src: aiLabCover, coverOnly: true },
-      // 數位工具開發
-      {
-        src: aiToolFortune,
-        practiceCategory: '數位工具開發',
-        caption: '數字密碼排盤 Web App：行為邏輯品牌專屬工具。透過 AI 指令優化複雜邏輯推演，實現輸入生日資訊後即時產生命盤解析結果，大幅縮短人工計算時間，提升服務效率與客戶體驗。',
-      },
       {
         src: aiToolAccounting,
-        practiceCategory: '數位工具開發',
-        caption: '個人客製化記帳系統 App 介面：「Family Finance」以使用者行為為核心設計，透過 AI 協作撰寫前端邏輯並串接 Supabase 雲端資料庫，解決市售軟體無法精準對接個人財務分類的痛點，圓餅圖即時呈現各支出類別比例。',
+        caption:
+          '家庭財務記帳 App UI：Family Finance 介面設計，' +
+          '以清晰的數字層級與圓餅圖視覺化呈現收支結構，' +
+          '讓使用者不用花時間找資訊就能掌握財務狀況。',
       },
-      // 商業簡報視覺
       {
-        src: aiSlideBehaviorLogic,
-        practiceCategory: '商業簡報視覺',
-        caption: '行韋邏輯品牌核心視覺提案：以扇形放射結構整合品牌創辦人學經歷、核心服務與品牌理念，運用 AI 輔助生成識別元素並以網格系統重新建構資訊層次，將複雜的品牌思維轉化為直覺且具說服力的商業演說架構。',
+        src: aiToolFortune,
+        caption:
+          '生日密碼分析工具 UI：行韋邏輯平台功能介面，' +
+          '清楚的輸入欄位分層讓使用者快速完成資料輸入，' +
+          '降低操作門檻，提升使用流暢度。',
+      },
+      {
+        src: brandingUiEducationAppAI,
+        caption:
+          '教育 App 資訊架構圖：以卡片式版面整理課程邏輯與功能模組，' +
+          '練習複雜資訊的視覺化整理與層次規劃。',
       },
     ],
-    aspectRatio: '16/9', // 📐 AI Lab 封面橫式為主
+    aspectRatio: '16/9',
     visual: {
-      cardBg: 'bg-[rgba(10,20,35,0.55)]',
-      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(56,189,248,0.3)]',
-      glow: 'rgba(56,189,248,0.3)',
-    }
+      cardBg: 'bg-[rgba(16,26,36,0.50)]',
+      hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(0,200,180,0.25)]',
+      glow: 'rgba(0,200,180,0.25)',
+    },
   },
+
 ];
 
-/**
- * [中文註解]
- * ▍查詢方便：匯出單獨 map 用、id 查詢用
- * - 取代以往 object + 陣列雙結構。
- * - 元件如需 id -> 資料物件：projectsRecord[查詢id]
- * - 僅 projectsList 可用於 map，杜絕重複資料結構。
- */
+// ════════════════════════════════════════════════════════════
+// 查詢用（id → ProjectData）
+// ════════════════════════════════════════════════════════════
 export const projectsRecord: Record<string, ProjectData> = Object.fromEntries(
   projectsList.map(proj => [proj.id, proj])
 );

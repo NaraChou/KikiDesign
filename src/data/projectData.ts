@@ -28,6 +28,7 @@ import aiSlideBehaviorLogic     from '../assets/images/ai-slide-behavior-logic.w
 // ── 小兔熊 品牌視覺設計 ──────────────────────────────────────
 import posterMockupMain         from '../assets/images/poster-mockup-main.webp';
 import posterRabbitBearLogo     from '../assets/images/poster-rabbit-bear-logo.webp';
+import posterRabbitBearStrategyCompare from '../assets/images/poster-rabbit-bear-strategy-compare.webp';
 import posterRabbitBearNamecard from '../assets/images/poster-rabbit-bear-namecard.webp';
 import posterRabbitBearRecruitment from '../assets/images/poster-rabbit-bear-recruitment.webp';
 import posterRabbitBearOnsite   from '../assets/images/poster-rabbit-bear-onsite.webp';
@@ -107,40 +108,47 @@ export const projectsList: ProjectData[] = [
   // ══════════════════════════════════════════════════════════
   {
     id: 'personal-branding',
-    title: '品牌視覺建置｜Behavior Logic',
-    subtitle: '從品牌定位到網站視覺的整體規劃與一致性建立',
+    title: 'Behavior Logic｜品牌視覺建置',
+    subtitle: '顧問品牌形象規劃 × Logo × 名片 × 網站 × EDM',
     category: 'Brand Identity / Website / EDM',
     year: '2024 – 2025',
     description:
-      '從 Logo 到名片、網站到 EDM，為「行韋邏輯」顧問品牌建立完整視覺識別系統。' +
-      '品牌核心為協助個人探索天賦、找尋自我定位，視覺以藍色為主調，象徵理性與自我價值。' +
-      '2025 年在維持視覺品質的前提下，將平台從 Wix 遷移至自建版本，大幅降低每月費用——' +
-      '對創業初期的品牌而言，成本控制本身也是設計決策的一環。',
+      '為顧問品牌「Behavior Logic（行韋邏輯）」建立整體視覺識別，' +
+      '從 Logo 重塑與名片設計延伸至官網介面與 EDM 視覺應用。' +
+      '以藍色為主調，聚焦「理性、信任、專業」的品牌印象，' +
+      '並依據實際營運需求完成 Wix 到自建版本的網站升級，' +
+      '在維持視覺品質下同步優化長期平台成本。',
     images: [
       { src: brandingMockupMain, coverOnly: true },
       {
         src: brandingBehaviorLogicLogo,
-        caption: '行韋邏輯品牌 Logo 設計：以藍色為主調，象徵理性分析與自我定位的品牌核心價值。',
+        caption:
+          '品牌 Logo 重塑：以 Before / After 對照呈現識別優化過程，從原有圓章樣式轉為心智圖像符號，並建立雙藍主色系（#114DA0 / #44ADE0），強化辨識度與專業形象。',
       },
       {
         src: brandingBehaviorLogicNamecard,
-        caption: '品牌名片設計，正反面版面配置延續 Logo 視覺語言，確保品牌在各接觸點的一致性。',
+        caption:
+          '品牌名片設計：延續 Logo 視覺語言與字體規範，統一線上線下接觸點的品牌辨識。',
       },
       {
         src: brandingResponsive,
-        caption: '2024 年第一版：以 Wix 建置，讓品牌快速完成視覺落地，桌機與手機版均保持一致體驗。',
+        caption:
+          '官網第一版（Wix）：快速完成品牌上線，並兼顧桌機與手機版的閱讀節奏與視覺一致性。',
       },
       {
         src: brandingDarkUI,
-        caption: '2025 年第二版：以自建方式重新開發，深色科技感強化品牌「數字分析、邏輯系統」的定位，同時大幅降低每月平台費用。',
+        caption:
+          '官網第二版（自建）：強化深色系與資訊層級，提升專業感，同時降低長期平台使用成本。',
       },
       {
         src: edmBehaviorLogic,
-        caption: '課程宣傳 EDM：直式版面適合手機閱讀，用色塊和圖標做資訊分層，引導視線由上至下流動。',
+        caption:
+          '課程宣傳 EDM：以直式版面與色塊分區整理重點資訊，提升手機閱讀效率與轉換引導。',
       },
       {
         src: aiSlideBehaviorLogic,
-        caption: '品牌核心架構圖：以扇形放射結構整合創辦人學經歷、服務項目與品牌理念，將複雜資訊轉化為直覺的視覺呈現。',
+        caption:
+          '品牌簡報視覺：將服務架構與品牌理念圖像化，協助在提案與課程說明中快速建立理解。',
       },
     ],
     aspectRatio: '16/9',
@@ -167,6 +175,11 @@ export const projectsList: ProjectData[] = [
       '並整合課程資訊、招生內容與 QR Code，提升品牌一致性與資訊閱讀效率。',
     images: [
       { src: posterMockupMain, coverOnly: true },
+      {
+        src: posterRabbitBearStrategyCompare,
+        caption:
+          '設計前後／策略對照：以「親和度、識別度、延展性」三個維度整理小兔熊品牌調整方向，建立後續名片與海報的一致視覺基準。（目前先以識別規範版面呈現，後續可替換為完整前後對照圖）',
+      },
 
       {
         src: posterRabbitBearLogo,

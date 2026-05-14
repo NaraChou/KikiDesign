@@ -76,6 +76,8 @@
 
   /* 各專題：聚光主色（邊框發光、hover 光斑、箭頭底色共用 --card-glow-color） */
   --work-glow-personal-branding: rgba(59, 130, 246, 0.4);
+  --work-glow-rabbit-bear: rgba(255, 180, 50, 0.4);
+  --work-glow-hejia-branding: rgba(220, 120, 40, 0.4);
   --work-glow-logo-design: rgba(168, 85, 247, 0.4);
   --work-glow-poster-design: rgba(255, 127, 80, 0.4);
   --work-glow-ecommerce-visual-design: rgba(234, 179, 8, 0.4);
@@ -84,6 +86,8 @@
 
   /* 各專題：卡片內層底色（對應原 Tailwind bg） */
   --work-bg-personal-branding: rgba(26, 28, 46, 0.5);
+  --work-bg-rabbit-bear: rgba(46, 36, 16, 0.5);
+  --work-bg-hejia-branding: rgba(46, 26, 16, 0.5);
   --work-bg-logo-design: rgba(46, 26, 46, 0.5);
   --work-bg-poster-design: rgba(46, 26, 26, 0.5);
   --work-bg-ecommerce-visual-design: rgba(26, 46, 26, 0.5);
@@ -97,11 +101,11 @@
 .work-card[data-work-id='logo-design'] {
   --card-glow-color: var(--work-card-glow-force, var(--work-glow-logo-design));
 }
-.work-card[data-work-id='poster-design'] {
-  --card-glow-color: var(--work-card-glow-force, var(--work-glow-poster-design));
+.work-card[data-work-id='rabbit-bear'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-rabbit-bear));
 }
-.work-card[data-work-id='ecommerce-visual-design'] {
-  --card-glow-color: var(--work-card-glow-force, var(--work-glow-ecommerce-visual-design));
+.work-card[data-work-id='hejia-branding'] {
+  --card-glow-color: var(--work-card-glow-force, var(--work-glow-hejia-branding));
 }
 .work-card[data-work-id='practice-lab'] {
   --card-glow-color: var(--work-card-glow-force, var(--work-glow-practice-lab));
@@ -116,11 +120,11 @@
 .work-card[data-work-id='logo-design'] .work-card-inner {
   background-color: var(--work-bg-logo-design);
 }
-.work-card[data-work-id='poster-design'] .work-card-inner {
-  background-color: var(--work-bg-poster-design);
+.work-card[data-work-id='rabbit-bear'] .work-card-inner {
+  background-color: var(--work-bg-rabbit-bear);
 }
-.work-card[data-work-id='ecommerce-visual-design'] .work-card-inner {
-  background-color: var(--work-bg-ecommerce-visual-design);
+.work-card[data-work-id='hejia-branding'] .work-card-inner {
+  background-color: var(--work-bg-hejia-branding);
 }
 .work-card[data-work-id='practice-lab'] .work-card-inner {
   background-color: var(--work-bg-practice-lab);

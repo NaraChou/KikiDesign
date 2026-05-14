@@ -4,7 +4,7 @@ import { STAGGER_WATERFALL } from '../../utils/animationPresets';
 import { WorkCard } from './WorkCard';
 
 // ── 封面圖（首頁卡片用）──────────────────────────────────────
-import brandingDarkUI      from '../../assets/images/branding-dark-ui-landing.webp';
+import brandingMockupMain  from '../../assets/images/branding-mockup-main.webp';
 import posterMockupMain    from '../../assets/images/poster-mockup-main.webp';
 import practiceLogoHejia  from '../../assets/images/practice-logo-hejia.webp';
 import practiceComp01     from '../../assets/images/practice-comp-01.webp';
@@ -20,7 +20,7 @@ import practiceComp01     from '../../assets/images/practice-comp-01.webp';
  * - 封面圖全部更換，提升首頁視覺衝擊力
  *
  * ▍封面圖對應說明
- * 1. Behavior Logic → branding-dark-ui-landing（深色科技感，視覺衝擊強）
+ * 1. Behavior Logic → branding-mockup-main（Logo + 三螢幕響應式，品牌完整度高）
  * 2. 小兔熊         → poster-mockup-main（暖黃色調，角色明確）
  * 3. 合家小食屋     → practice-logo-hejia（黑底Logo，視覺乾淨）
  * 4. 設計練習       → practice-comp-01（武俠風影像合成，技術感高）
@@ -38,7 +38,7 @@ const WORKS = [
     titleZH: '品牌視覺建置｜Behavior Logic',
     titleEN: 'Brand Identity / Website',
     subtitle: 'BRAND IDENTITY / 2024–2025',
-    img: brandingDarkUI,
+    img: brandingMockupMain,
     extraClass: '',
     ...ALIGN_CONFIG.left,
   },

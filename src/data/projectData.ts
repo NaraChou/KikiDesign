@@ -35,7 +35,6 @@ import posterRabbitBearOnsite   from '../assets/images/poster-rabbit-bear-onsite
 import posterRabbitBearLogoRound from '../assets/images/poster-rabbit-bear-logo-round.webp';
 
 // ── 小琉球合家麻花捲 品牌識別提案 ──────────────────────────────────
-import practiceLogoHejia        from '../assets/images/practice-logo-hejia.webp';
 import hejiaLogo                from '../assets/images/hojia_logo.webp';
 import hejiaLogoMockup          from '../assets/images/hojia_logo_mockup.webp';
 import hejiaCapMockupAll        from '../assets/images/hojia_cap_mockup_all.webp';
@@ -394,14 +393,7 @@ export const projectsList: ProjectData[] = [
         caption:
           '精省便利屋品牌 Logo 設計：以卡通印章風格設計，' +
           '融合寶石與喜慶元素，傳遞趣味感與品牌個性。（品牌標誌設計）',
-      },
-      {
-        src: practiceLogoHejia,
-        practiceCategory: 'Logo',
-        caption:
-          '合家小食屋品牌 Logo 設計：以傳統印鑑風格融合現代排版，' +
-          '傳遞品牌的在地溫度與手作質感。（品牌識別提案）',
-      },
+      },    
     ],
     aspectRatio: '16/9',
     visual: {

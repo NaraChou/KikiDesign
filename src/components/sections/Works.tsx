@@ -6,7 +6,7 @@ import { WorkCard } from './WorkCard';
 // ── 封面圖（首頁卡片用）──────────────────────────────────────
 import brandingMockupMain  from '../../assets/images/branding-mockup-main.webp';
 import posterMockupMain    from '../../assets/images/poster-mockup-main.webp';
-import practiceLogoHejia  from '../../assets/images/practice-logo-hejia.webp';
+import hejiaDisplayMockup from '../../assets/images/hojia_display_mockup.webp';
 import practiceComp01     from '../../assets/images/practice-comp-01.webp';
 
 /**
@@ -56,9 +56,9 @@ const WORKS = [
   {
     id: 'hejia-branding',
     titleZH: '品牌識別提案｜小琉球合家麻花捲',
-    titleEN: 'Brand Identity Proposal',
-    subtitle: 'BRAND PROPOSAL / 2018',
-    img: practiceLogoHejia,
+    titleEN: 'Local Gift Snack Brand',
+    subtitle: 'PACKAGING SYSTEM / 2018',
+    img: hejiaDisplayMockup,
     extraClass: '',
     ...ALIGN_CONFIG.left,
   },

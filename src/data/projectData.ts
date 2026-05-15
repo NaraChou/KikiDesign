@@ -36,6 +36,10 @@ import posterRabbitBearLogoRound from '../assets/images/poster-rabbit-bear-logo-
 
 // ── 合家小食屋 品牌識別提案 ──────────────────────────────────
 import practiceLogoHejia        from '../assets/images/practice-logo-hejia.webp';
+import hejiaLogo                from '../assets/images/LOGO.webp';
+import hejiaLogoMockup          from '../assets/images/hojia_logo_mockup.webp';
+import hejiaCapMockupAll        from '../assets/images/hojia_cap_mockup_all.webp';
+import hejiaMockupAll           from '../assets/images/hojia_mockup_all.webp';
 // 待備：hejia-label-original.webp / hejia-label-seaweed.webp
 //       hejia-label-blacksugar.webp / hejia-label-condensedmilk.webp / hejia-label-strawberry.webp
 
@@ -240,28 +244,34 @@ export const projectsList: ProjectData[] = [
   {
     id: 'hejia-branding',
     title: '品牌識別提案｜小琉球合家麻花捲',
-    subtitle: 'Logo 與包裝標籤的視覺系統規劃（提案）',
+    subtitle: '在地伴手禮品牌 × Logo × 包裝標籤 × 口味系統 × 陳列應用',
     category: 'Brand Identity / Packaging',
     year: '2018',
     description:
-      '為零食品牌「小琉球合家麻花捲」規劃品牌識別提案，包含主品牌 Logo 設計與五種口味的包裝標籤延伸系統。' +
-      '設計核心在於「一致性」與「差異化」的平衡：' +
-      '鎖定 Logo 位置、品名字體、底部條紋圖案三個不變元素，' +
-      '再透過主色調差異讓各口味清楚區分，讓消費者一眼辨識品牌，同時快速找到想要的口味。' +
-      '本作品為提案階段。',
+      '以「傳承手作，獻禮心意」為核心，為小琉球合家麻花捲建立品牌識別與包裝系統提案。' +
+      '從圓章式 Logo、五種口味色彩策略，到罐身與瓶蓋貼標的系列化規格，' +
+      '在保留在地手作溫度的同時，提升貨架辨識與禮贈情境的整體質感。' +
+      '本作品為品牌提案，聚焦視覺系統與商業陳列可行性。',
     images: [
+      { src: hejiaMockupAll, coverOnly: true },
       {
-        src: practiceLogoHejia,
-        caption: '小琉球合家麻花捲 品牌 Logo 設計：以傳統印鑑風格融合現代排版，傳遞品牌的在地溫度與手作質感。',
+        src: hejiaLogo,
+        caption: '品牌 Logo 設計：以印章圓章結構結合手作字感，強化「在地、職人、傳承」的品牌印象。',
       },
-      // 📌 待備圖（備妥後依序加入）：
-      // { src: hejiaLabelOriginal,       caption: '原味包裝標籤' }
-      // { src: hejiaLabelSeaweed,        caption: '海苔包裝標籤' }
-      // { src: hejiaLabelBlacksugar,     caption: '黑糖包裝標籤' }
-      // { src: hejiaLabelCondensedmilk,  caption: '煉乳包裝標籤' }
-      // { src: hejiaLabelStrawberry,     caption: '草莓包裝標籤' }
+      {
+        src: hejiaLogoMockup,
+        caption: 'Logo 應用提案：延伸至名片、信封與品牌物件，建立伴手禮品牌的識別一致性與信任感。',
+      },
+      {
+        src: hejiaCapMockupAll,
+        caption: '瓶蓋貼標系統：以五色對應五種風味（原味、黑糖、海苔、煉乳、梅子），提升系列辨識效率。',
+      },
+      {
+        src: hejiaMockupAll,
+        caption: '罐身包裝系統：固定品牌骨架與資訊層級，透過口味色彩差異化，兼顧一致性與陳列辨識。',
+      },
     ],
-    aspectRatio: '1/1',
+    aspectRatio: '16/9',
     visual: {
       cardBg: 'bg-[rgba(46,26,16,0.50)]',
       hoverGlow: 'group-hover:shadow-[0_0_50px_rgba(220,120,40,0.3)]',

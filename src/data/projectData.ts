@@ -34,12 +34,13 @@ import posterRabbitBearRecruitment from '../assets/images/poster-rabbit-bear-rec
 import posterRabbitBearOnsite   from '../assets/images/poster-rabbit-bear-onsite.webp';
 import posterRabbitBearLogoRound from '../assets/images/poster-rabbit-bear-logo-round.webp';
 
-// ── 合家小食屋 品牌識別提案 ──────────────────────────────────
+// ── 小琉球合家麻花捲 品牌識別提案 ──────────────────────────────────
 import practiceLogoHejia        from '../assets/images/practice-logo-hejia.webp';
-import hejiaLogo                from '../assets/images/LOGO.webp';
+import hejiaLogo                from '../assets/images/hojia_logo.webp';
 import hejiaLogoMockup          from '../assets/images/hojia_logo_mockup.webp';
 import hejiaCapMockupAll        from '../assets/images/hojia_cap_mockup_all.webp';
 import hejiaMockupAll           from '../assets/images/hojia_mockup_all.webp';
+import hejiaDisplayMockup       from '../assets/images/hojia_display_mockup.webp';
 // 待備：hejia-label-original.webp / hejia-label-seaweed.webp
 //       hejia-label-blacksugar.webp / hejia-label-condensedmilk.webp / hejia-label-strawberry.webp
 
@@ -253,22 +254,32 @@ export const projectsList: ProjectData[] = [
       '在保留在地手作溫度的同時，提升貨架辨識與禮贈情境的整體質感。' +
       '本作品為品牌提案，聚焦視覺系統與商業陳列可行性。',
     images: [
-      { src: hejiaMockupAll, coverOnly: true },
+      { src: hejiaDisplayMockup, coverOnly: true },
       {
         src: hejiaLogo,
-        caption: '品牌 Logo 設計：以印章圓章結構結合手作字感，強化「在地、職人、傳承」的品牌印象。',
+        caption:
+          '品牌 Logo 設計提案：以傳統迴紋邊框為外框，融合雲紋圖騰與「手工」字樣，' +
+          '核心以書法風「合家」二字傳遞家的溫度，' +
+          '並標註品牌英文名「homcha」與產地「小琉球」，建立在地識別與職人感。',
       },
       {
         src: hejiaLogoMockup,
-        caption: 'Logo 應用提案：延伸至名片、信封與品牌物件，建立伴手禮品牌的識別一致性與信任感。',
-      },
-      {
-        src: hejiaCapMockupAll,
-        caption: '瓶蓋貼標系統：以五色對應五種風味（原味、黑糖、海苔、煉乳、梅子），提升系列辨識效率。',
+        caption:
+          'Logo 應用延伸：將識別系統落地至名片、信封與木盒燙金，' +
+          '驗證品牌視覺在不同材質與尺寸下的一致性，強化伴手禮情境的整體質感。',
       },
       {
         src: hejiaMockupAll,
-        caption: '罐身包裝系統：固定品牌骨架與資訊層級，透過口味色彩差異化，兼顧一致性與陳列辨識。',
+        caption:
+          '罐身包裝系統：鎖定 Logo 位置、品名字體、條紋圖案三個不變元素，' +
+          '僅以底色區分五種口味（原味、黑糖、海苔、煉乳、梅子），' +
+          '讓消費者一眼辨識品牌，同時快速找到想要的口味。',
+      },
+      {
+        src: hejiaCapMockupAll,
+        caption:
+          '瓶蓋貼標系統：延續罐身的五色口味策略，以圓形貼標完整呈現品牌識別與口味名稱，' +
+          '確保產品在貨架陳列與禮盒包裝中皆能維持清楚的視覺辨識。',
       },
     ],
     aspectRatio: '16/9',

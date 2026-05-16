@@ -40,8 +40,6 @@ import hejiaLogoMockup          from '../assets/images/hojia_logo_mockup.webp';
 import hejiaCapMockupAll        from '../assets/images/hojia_cap_mockup_all.webp';
 import hejiaMockupAll           from '../assets/images/hojia_mockup_all.webp';
 import hejiaDisplayMockup       from '../assets/images/hojia_display_mockup.webp';
-// 待備：hejia-label-original.webp / hejia-label-seaweed.webp
-//       hejia-label-blacksugar.webp / hejia-label-condensedmilk.webp / hejia-label-strawberry.webp
 
 // ── 設計練習｜Redesign & Lab ─────────────────────────────────
 import practiceLabCover         from '../assets/images/practice-lab-cover.webp';
@@ -59,7 +57,7 @@ import practiceFontLight        from '../assets/images/practice-font-light.webp'
 import practiceUiCharacter      from '../assets/images/practice-ui-character.webp';
 import practiceUiGame           from '../assets/images/practice-ui-game.webp';
 // Logo
-import ecommerceJingshengLogo   from '../assets/images/ecommerce-jingsheng-logo.webp';
+// （Logo 類別已移除，合家已升級為正式 Case Study）
 
 // ── 隱藏路由：KikiDesign 個人商標 ────────────────────────────
 import logoKiki2025Brand        from '../assets/images/logo-kiki-2025-brand.webp';
@@ -303,7 +301,7 @@ export const projectsList: ProjectData[] = [
       '這裡收錄各類視覺實驗、自主練習與改版練習作品，' +
       '聚焦影像合成、字體設計、UI 介面與網站 Redesign，' +
       '記錄每一次嘗試與突破的過程。',
-    tabs: ['Redesign', '影像合成', '字體', 'UI', 'Logo'],
+    tabs: ['Redesign', '影像合成', '字體', 'UI'],
     images: [
       { src: practiceLabCover, coverOnly: true },
 
@@ -337,13 +335,6 @@ export const projectsList: ProjectData[] = [
           '營造沉靜且具神祕感的超現實夜景空間。',
       },
       {
-        src: practiceCompCloud,
-        practiceCategory: '影像合成',
-        caption:
-          '「雲端夢境」奇幻敘事視覺：運用粉紫色調的光感擴散與柔焦處理，' +
-          '將夢境意象具象化，練習高動態範圍色彩調和與多媒材元素統整。',
-      },
-      {
         src: practiceCompElephant,
         practiceCategory: '影像合成',
         caption:
@@ -360,23 +351,8 @@ export const projectsList: ProjectData[] = [
           'PS 字體設計：以奧迪車燈尾燈的格紋材質為靈感，' +
           '結合金屬邊框與鏡面倒影，詮釋 AUDI 品牌的高規格質感。',
       },
-      {
-        src: practiceFontLight,
-        practiceCategory: '字體',
-        caption:
-          'PS 光效字體設計：運用星際光暈與霓虹發光效果，' +
-          '呈現「NaRa Chou」文字的夢幻宇宙感，練習圖層混合模式與光效控制。',
-      },
 
       // ── UI ────────────────────────────────────────────────
-      {
-        src: practiceUiCharacter,
-        practiceCategory: 'UI',
-        caption:
-          '手遊 UI 設計：「禮包酷」角色屬性頁面。' +
-          '以清新海灘場景為背景，搭配 3D 萌系忍者主角，' +
-          '練習遊戲系統介面的角色展示版面與按鈕配置。',
-      },
       {
         src: practiceUiGame,
         practiceCategory: 'UI',
@@ -385,15 +361,6 @@ export const projectsList: ProjectData[] = [
           '設計圓角餅乾色系的 SETTINGS 彈窗，' +
           '包含音效音樂滑桿與語言選擇，練習遊戲 UI 的色彩系統與互動元件規格。',
       },
-
-      // ── Logo ──────────────────────────────────────────────
-      {
-        src: ecommerceJingshengLogo,
-        practiceCategory: 'Logo',
-        caption:
-          '精省便利屋品牌 Logo 設計：以卡通印章風格設計，' +
-          '融合寶石與喜慶元素，傳遞趣味感與品牌個性。（品牌標誌設計）',
-      },    
     ],
     aspectRatio: '16/9',
     visual: {

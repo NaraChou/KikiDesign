@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
       <div className={STYLES.container}>
         <div className={STYLES.columnLead}>
           <h3 className={STYLES.title}>Create with Soul.</h3>
-          <p className={STYLES.description}>Available for collaborations 2026</p>
+          <p className={STYLES.description}>Open to New Opportunities in 2026</p>
         </div>
 
         <div className={STYLES.columnEnd}>

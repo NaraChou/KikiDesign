@@ -42,7 +42,6 @@ import hejiaMockupAll           from '../assets/images/hojia_mockup_all.webp';
 import hejiaDisplayMockup       from '../assets/images/hojia_display_mockup.webp';
 
 // ── 設計練習｜Visual Lab ─────────────────────────────────────
-import practiceLabCover         from '../assets/images/practice-lab-cover.webp';
 // 影像合成
 import practiceComp01           from '../assets/images/practice-comp-01.webp';
 import practiceComp02           from '../assets/images/practice-comp-02.webp';
@@ -64,7 +63,6 @@ import logoKikiCoasterMockup    from '../assets/images/logo-kiki-coaster-mockup.
 import aiLabCover               from '../assets/images/ai-lab-cover.webp';
 import aiToolAccounting         from '../assets/images/ai-tool-accounting.webp';
 import aiToolFortune            from '../assets/images/ai-tool-fortune.webp';
-import aiEducationAppUI         from '../assets/images/branding-ui-education-app.webp';
 
 // ════════════════════════════════════════════════════════════
 // 型別定義
@@ -295,7 +293,6 @@ export const projectsList: ProjectData[] = [
       '記錄每一次視覺探索與技術突破的過程。',
     tabs: ['影像合成', '字體', 'UI'],
     images: [
-      { src: practiceLabCover, coverOnly: true },
 
       // ── 影像合成 ──────────────────────────────────────────
       {
@@ -431,12 +428,6 @@ export const projectsList: ProjectData[] = [
           '生日密碼分析工具 UI：行韋邏輯平台功能介面，' +
           '清楚的輸入欄位分層讓使用者快速完成資料輸入，' +
           '降低操作門檻，提升使用流暢度。',
-      },
-      {
-        src: aiEducationAppUI,
-        caption:
-          '教育 App 資訊架構圖：以卡片式版面整理課程邏輯與功能模組，' +
-          '練習複雜資訊的視覺化整理與層次規劃。',
       },
     ],
     aspectRatio: '16/9',

@@ -411,7 +411,6 @@ export const projectsList: ProjectData[] = [
     description:
       '記錄以 AI 為輔助的設計實驗：' +
       '從顧問品牌的數字分析工具介面規劃，到個人財務 App 的視覺系統設計，' +
-      '再到商業簡報的資訊視覺化重構。' +
       '每個作品都在探索如何讓設計產出更有效率、更貼近使用者需求。',
     images: [
       { src: aiLabCover, coverOnly: true },

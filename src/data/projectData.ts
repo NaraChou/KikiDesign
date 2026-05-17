@@ -41,23 +41,16 @@ import hejiaCapMockupAll        from '../assets/images/hojia_cap_mockup_all.webp
 import hejiaMockupAll           from '../assets/images/hojia_mockup_all.webp';
 import hejiaDisplayMockup       from '../assets/images/hojia_display_mockup.webp';
 
-// ── 設計練習｜Redesign & Lab ─────────────────────────────────
+// ── 設計練習｜Visual Lab ─────────────────────────────────────
 import practiceLabCover         from '../assets/images/practice-lab-cover.webp';
-// Redesign
-import brandingUiEducationApp   from '../assets/images/branding-ui-education-app.webp';
 // 影像合成
 import practiceComp01           from '../assets/images/practice-comp-01.webp';
 import practiceComp02           from '../assets/images/practice-comp-02.webp';
-import practiceCompCloud        from '../assets/images/practice-comp-cloud.webp';
 import practiceCompElephant     from '../assets/images/practice-comp-elephant.webp';
 // 字體
 import practiceFontAudi         from '../assets/images/practice-font-audi.webp';
-import practiceFontLight        from '../assets/images/practice-font-light.webp';
 // UI
-import practiceUiCharacter      from '../assets/images/practice-ui-character.webp';
 import practiceUiGame           from '../assets/images/practice-ui-game.webp';
-// Logo
-// （Logo 類別已移除，合家已升級為正式 Case Study）
 
 // ── 隱藏路由：KikiDesign 個人商標 ────────────────────────────
 import logoKiki2025Brand        from '../assets/images/logo-kiki-2025-brand.webp';
@@ -71,7 +64,7 @@ import logoKikiCoasterMockup    from '../assets/images/logo-kiki-coaster-mockup.
 import aiLabCover               from '../assets/images/ai-lab-cover.webp';
 import aiToolAccounting         from '../assets/images/ai-tool-accounting.webp';
 import aiToolFortune            from '../assets/images/ai-tool-fortune.webp';
-import brandingUiEducationAppAI from '../assets/images/branding-ui-education-app.webp';
+import aiEducationAppUI         from '../assets/images/branding-ui-education-app.webp';
 
 // ════════════════════════════════════════════════════════════
 // 型別定義
@@ -440,7 +433,7 @@ export const projectsList: ProjectData[] = [
           '降低操作門檻，提升使用流暢度。',
       },
       {
-        src: brandingUiEducationAppAI,
+        src: aiEducationAppUI,
         caption:
           '教育 App 資訊架構圖：以卡片式版面整理課程邏輯與功能模組，' +
           '練習複雜資訊的視覺化整理與層次規劃。',

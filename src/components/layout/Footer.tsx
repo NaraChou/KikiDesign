@@ -19,6 +19,19 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const HIDDEN_WORKS = [
+  {
+    href: '/#/work/kikidesign-identity',
+    label: 'Kiki Identity',
+    srLabel: '查看 KikiDesign 品牌識別作品',
+  },
+  {
+    href: '/#/work/ai-lab',
+    label: 'AI Lab',
+    srLabel: '查看 AI 數位效率實驗室作品',
+  },
+];
+
 const STYLES = {
   wrapper: 'footer-frame border-t border-white/5',
   container:
@@ -36,8 +49,9 @@ const STYLES = {
     'absolute left-0 right-0 text-center md:text-right transition-all duration-300 text-[10px] tracking-widest text-[var(--brand-accent-hover)] uppercase',
   feedbackOn: 'opacity-100',
   feedbackOff: 'opacity-0',
-  socialList: 'flex space-x-6 mt-1',
-  copyright: 'border-t border-white/5 w-full md:w-auto text-center md:text-right pb-8 md:pb-0',
+  socialList: 'flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 mt-1',
+  bottomBar:
+    'max-w-screen-2xl mx-auto mt-8 pt-6 border-t border-white/5 flex justify-center',
   copyrightText:
     'text-[10px] md:text-[12px] tracking-[0.11em] md:tracking-[0.2em] leading-tight text-white/30 uppercase font-light whitespace-nowrap',
   copyrightBrand: 'text-white/50 font-medium',
@@ -57,6 +71,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer id="contact" className={STYLES.wrapper}>
+      {/* 上層：左右欄 */}
       <div className={STYLES.container}>
         <div className={STYLES.columnLead}>
           <h3 className={STYLES.title}>Create with Soul.</h3>
@@ -83,7 +98,8 @@ export const Footer: React.FC = () => {
               </button>
             </div>
 
-            <ul className={STYLES.socialList} aria-label="社群連結">
+            {/* 社群連結 + 隱藏作品連結並排 */}
+            <ul className={STYLES.socialList} aria-label="連結">
               {SOCIAL_LINKS.map((link) => (
                 <li key={link.label}>
                   <a
@@ -97,17 +113,29 @@ export const Footer: React.FC = () => {
                   </a>
                 </li>
               ))}
+              {HIDDEN_WORKS.map((work) => (
+                <li key={work.label}>
+                  <a
+                    href={work.href}
+                    className="footer-social-link opacity-40 hover:opacity-70"
+                    aria-label={work.srLabel}
+                  >
+                    {work.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-
-          <div className={STYLES.copyright}>
-            <p className={STYLES.copyrightText}>
-              &copy;&nbsp;2026&nbsp;
-              <span className={STYLES.copyrightBrand}>KIKI DESIGN</span>
-              &nbsp;All Rights Reserved.
-            </p>
-          </div>
         </div>
+      </div>
+
+      {/* 下層：Copyright 橫跨全寬 */}
+      <div className={STYLES.bottomBar}>
+        <p className={STYLES.copyrightText}>
+          &copy;&nbsp;2026&nbsp;
+          <span className={STYLES.copyrightBrand}>KIKI DESIGN</span>
+          &nbsp;All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

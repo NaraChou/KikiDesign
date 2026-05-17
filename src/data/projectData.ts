@@ -6,14 +6,14 @@
  *
  * ▍2026.05 最終結構
  * 首頁顯示 4 個專案（projectsList 前4筆）：
- *   1. personal-branding  品牌視覺建置｜Behavior Logic
- *   2. rabbit-bear        品牌視覺設計｜小兔熊
- *   3. hejia-branding     品牌識別提案｜合家小食屋
- *   4. practice-lab       設計練習｜Redesign & Lab
+ *   1. personal-branding      品牌視覺建置｜Behavior Logic
+ *   2. rabbit-bear            品牌視覺設計｜小兔熊
+ *   3. hejia-branding         品牌識別提案｜合家小食屋
+ *   4. practice-lab           Visual Lab｜設計練習
  *
  * 隱藏路由（保留，可從 Footer / About 連結）：
- *   - logo-design         個人商標與名片｜KikiDesign
- *   - ai-lab              AI 數位效率實驗室
+ *   - kikidesign-identity     KikiDesign 品牌識別
+ *   - ai-lab                  AI 數位效率實驗室
  */
 
 // ── Behavior Logic 品牌視覺建置 ─────────────────────────────
@@ -288,34 +288,21 @@ export const projectsList: ProjectData[] = [
   },
 
   // ══════════════════════════════════════════════════════════
-  // 4｜設計練習｜Redesign & Lab（收尾）
+  // 4｜Visual Lab｜設計練習（收尾）
   // ══════════════════════════════════════════════════════════
   {
     id: 'practice-lab',
-    title: '設計練習｜Redesign & Lab',
-    subtitle: '網站改版與版面優化練習，強化資訊整理能力',
+    title: 'Visual Lab｜設計練習',
+    subtitle: '影像合成・字體設計・UI 介面，持續累積的視覺能力',
     category: 'Practice / Experiment',
     year: '2017 – 2026',
     description:
       '持續練習是設計師的核心修煉。' +
-      '這裡收錄各類視覺實驗、自主練習與改版練習作品，' +
-      '聚焦影像合成、字體設計、UI 介面與網站 Redesign，' +
-      '記錄每一次嘗試與突破的過程。',
-    tabs: ['Redesign', '影像合成', '字體', 'UI'],
+      '這裡收錄影像合成、字體設計與 UI 介面的自主練習作品，' +
+      '記錄每一次視覺探索與技術突破的過程。',
+    tabs: ['影像合成', '字體', 'UI'],
     images: [
       { src: practiceLabCover, coverOnly: true },
-
-      // ── Redesign ─────────────────────────────────────────
-      {
-        src: brandingUiEducationApp,
-        practiceCategory: 'Redesign',
-        caption:
-          '補習班「星育文理 H-Academy」網站視覺改版練習：' +
-          '原網站資訊較分散，重新整理資訊架構，強化主標層級與版面配置，' +
-          '提升使用者的閱讀動線與理解效率。（進行中）',
-      },
-      // 📌 待備：redesign-hacademy-before.webp（改版前）
-      // 📌 待備：redesign-hacademy-after.webp（改版後）
 
       // ── 影像合成 ──────────────────────────────────────────
       {
@@ -375,19 +362,20 @@ export const projectsList: ProjectData[] = [
   //   可從 Footer 或 About 頁加連結
   // ══════════════════════════════════════════════════════════
 
-  // ── 個人商標與名片｜KikiDesign ───────────────────────────
+  // ── KikiDesign 品牌識別 ────────────────────────────────
   {
-    id: 'logo-design',
-    title: '個人商標與名片｜KikiDesign',
-    subtitle: '品牌識別演進與印刷落地應用',
-    category: 'Logo / Brand Identity',
+    id: 'kikidesign-identity',
+    title: 'KikiDesign 品牌識別',
+    subtitle: '個人品牌演化 × 名片設計 × 印刷應用',
+    category: 'Self Branding / Identity',
     year: '2020 – 2025',
     description:
-      '棠想視界「KikiDesign」個人品牌識別，歷經兩次視覺迭代。' +
-      '2020 年以橘色系K字兔造型建立初始形象；' +
-      '2025 年重新設計，以書法感的R字融合兔子側臉，' +
-      '深色系呈現更沉穩成熟的品牌個性。' +
-      '從設計稿到名片印刷、杯墊 Mockup，完整驗證品牌識別在實物載體上的一致性。',
+      'KikiDesign 個人品牌識別演化紀錄。' +
+      '從 2020 年的橘色系 K 字兔造型，' +
+      '到 2025 年重新設計的書法感兔形識別，' +
+      '逐步建立更成熟的品牌語言與視覺個性。' +
+      '作品涵蓋 Logo 演進、名片設計與實體印刷 Mockup，' +
+      '呈現個人品牌在不同階段的識別思考與應用延展。',
     images: [
       { src: namecardMockupConcrete, coverOnly: true },
       {

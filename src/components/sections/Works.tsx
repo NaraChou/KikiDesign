@@ -62,11 +62,11 @@ const WORKS = [
     extraClass: '',
     ...ALIGN_CONFIG.left,
   },
-  // ④ 練習收尾：Redesign & Lab（影像合成 / 字體 / UI / Logo / Redesign）
+  // ④ 練習收尾：Visual Lab（影像合成 / 字體 / UI）
   {
     id: 'practice-lab',
-    titleZH: '設計練習｜Redesign & Lab',
-    titleEN: 'Visual Lab / Redesign',
+    titleZH: 'Visual Lab｜設計',
+    titleEN: 'Visual Composition / UI',
     subtitle: 'PRACTICE / 2017–2026',
     img: practiceComp01,
     extraClass: 'lg:mt-32',

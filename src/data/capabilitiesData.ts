@@ -38,14 +38,14 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
     ],
   },
   {
-    id: 'frontend',
-    title: '數位實作',
-    titleEn: 'Digital Production',
+    id: 'digital',
+    title: 'AI 協作與數位應用',
+    titleEn: 'AI & Digital Production',
     items: [
-      { id: 'fe-1', label: '網站視覺切版與 RWD 響應式排版' },
-      { id: 'fe-2', label: 'Figma 設計稿到網頁的完整交付' },
-      { id: 'fe-3', label: '動態視覺效果與頁面互動設計' },
-      { id: 'fe-4', label: 'SEO 基礎與圖片效能優化' },
+      { id: 'fe-1', label: 'AI 輔助設計發想、文案與視覺延伸' },
+      { id: 'fe-2', label: '網站視覺規劃與多裝置版面適配' },
+      { id: 'fe-3', label: '數位媒體視覺設計與動態效果呈現' },
+      { id: 'fe-4', label: '數位資產管理與圖片效能優化' },
     ],
   },
 ];

@@ -10,8 +10,6 @@ const STYLES = {
   container: LAYOUT.colCenterText,
   description: 'text-lg font-extralight italic leading-[2.2] md:text-3xl',
   breakMd: 'hidden md:block',
-  supporting:
-    'mx-auto mt-8 max-w-2xl text-sm font-extralight not-italic leading-relaxed opacity-70 md:text-base',
 } as const;
 
 const SECTION_SURFACE: React.CSSProperties = {
@@ -30,12 +28,9 @@ export const Philosophy: React.FC = () => (
   <section id="philosophy" style={SECTION_SURFACE}>
     <div className={STYLES.container}>
       <p className={STYLES.description} style={DESCRIPTION_TYPO}>
-        「設計不只是為了解決問題，更是一種溫度的傳遞。
+        「讓品牌在每個接觸點都維持一致，
         <br className={STYLES.breakMd} />
-        我們在混亂中尋找秩序，在空白中賦予生命。」
-      </p>
-      <p className={STYLES.supporting} style={DESCRIPTION_TYPO}>
-        我相信好的畫面來自清楚的訊息層級：誰在看、要先讀什麼、品牌想留下什麼印象。無論是紙本油墨或螢幕上的版面，都用同一套色彩與字級說話；在送印與交付前多一道校稿，讓成品貼近腦中的樣子。
+        是我做視覺設計最重要的原則。」
       </p>
     </div>
   </section>

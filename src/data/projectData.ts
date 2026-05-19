@@ -103,6 +103,7 @@ export interface ProjectData {
     goal: string;
     solution: string;
     application: string;
+    style?: string;
   };
   responsibility?: string[];
   tools?: string[];
@@ -138,16 +139,14 @@ export const projectsList: ProjectData[] = [
     category: 'Brand Identity / Website / EDM',
     year: '2024 – 2025',
     description:
-      '為顧問品牌「Behavior Logic（行韋邏輯）」建立整體視覺識別，' +
-      '從 Logo 重塑與名片設計延伸至官網介面與 EDM 視覺應用。' +
-      '以藍色為主調，聚焦「理性、信任、專業」的品牌印象，' +
-      '並依營運節奏完成官網改版，讓內容更新與版面調整更貼近課程推進，' +
-      '在維持視覺一致的前提下，讓長期維運更輕鬆。',
+      '整合 Logo、名片、官網與 EDM，建立顧問品牌一致視覺。' +
+      '以雙藍色系與清楚版面提升專業感，讓後續宣傳素材更容易延伸。',
     caseStudy: {
       problem: '顧問品牌初期缺乏一致識別，官網內容節奏與長期維運彈性不足。',
       goal: '建立可延展的品牌視覺系統，並讓線上內容更好配合課程推進。',
       solution: '重新設計 Logo 與視覺語言，並完成官網改版與版面節奏重整。',
       application: '應用於名片、官網、EDM、簡報等品牌接觸點。',
+      style: '理性、專業、乾淨的雙藍視覺語言。',
     },
     responsibility: [
       '品牌識別設計',
@@ -186,37 +185,43 @@ export const projectsList: ProjectData[] = [
         id: 'bl-logo-ba',
         src: brandingBehaviorLogicLogo,
         caption:
-          '識別升級後，專業感與延展性同步提升。從圓章樣式重塑為心智圖像符號，建立雙藍主色系。',
+          '識別升級後，品牌更專業也更好延展。' +
+          '從圓章樣式重塑為心智圖像符號，並建立雙藍主色系。',
       },
       {
         id: 'bl-namecard',
         src: brandingBehaviorLogicNamecard,
         caption:
-          '名片成為品牌第一個實體接觸點。整合 QR、服務項目與舊版圓章識別排版。',
+          '名片成為品牌第一個實體接觸點。' +
+          '整合 QR 與服務資訊，維持識別一致性。',
       },
       {
         id: 'bl-responsive',
         src: brandingResponsive,
         caption:
-          '第一版官網先求上線與閱讀一致。以既有平台完成多裝置版面與內容節奏配置。',
+          '第一版官網以快速上線與清楚閱讀為優先。' +
+          '完成多裝置版面配置，維持內容節奏一致。',
       },
       {
         id: 'bl-dark-ui',
         src: brandingDarkUI,
         caption:
-          '改版後降低平台限制並強化資訊層級。深色系介面延續識別色彩，版面層次更清楚。',
+          '改版後降低平台限制並強化資訊層級。' +
+          '延續深藍識別語言，讓版面重點更清楚。',
       },
       {
         id: 'bl-edm',
         src: edmBehaviorLogic,
         caption:
-          '複雜課程資訊收斂為單欄行動閱讀。色塊分層 + 條列結構，導向報名重點。',
+          '複雜課程資訊收斂成手機友善版面。' +
+          '用色塊分層與條列結構，快速導向報名重點。',
       },
       {
         id: 'bl-slide',
         src: aiSlideBehaviorLogic,
         caption:
-          '顧問架構一頁視覺化，加速提案信任建立。半圓扇形資訊圖整合服務與講師背景。',
+          '顧問架構以一頁圖像化呈現，更快建立信任。' +
+          '半圓資訊圖整合講師背景與服務重點。',
       },
     ],
     aspectRatio: '16/9',
@@ -237,15 +242,14 @@ export const projectsList: ProjectData[] = [
     category: 'Brand Identity / Print',
     year: '2023',
     description:
-      '為 0–6 歲親子教育品牌「小兔熊」建立整體視覺識別，' +
-      '從 Logo 設計延伸至名片、招生海報與實際展示應用，' +
-      '透過暖色調與圓潤角色形象建立親和感，' +
-      '並整合課程資訊、招生內容與 QR Code，提升品牌一致性與資訊閱讀效率。',
+      '完成 Logo、名片、招生海報與門市展示，建立完整親子品牌識別。' +
+      '以暖色與角色化設計提高親和力，並讓招生資訊更好閱讀。',
     caseStudy: {
       problem: '親子教育品牌缺乏一致視覺識別，招生資訊分散且接觸點不連貫。',
       goal: '建立兼具親和力與辨識度的品牌形象，讓家長快速理解課程與報名方式。',
       solution: '以兔子與熊角色建立核心識別，並延伸至招生海報與名片系統。',
       application: '應用於海報、名片、門市展示與社群導流。',
+      style: '暖色、圓潤、親和的親子教育視覺調性。',
     },
     responsibility: [
       '品牌識別設計',
@@ -278,37 +282,43 @@ export const projectsList: ProjectData[] = [
         id: 'rb-strategy',
         src: posterRabbitBearStrategyCompare,
         caption:
-          '角色線條圓潤化，親和與辨識同步提升。手稿到 Illustrator 完稿，三維度策略對照。',
+          '角色線條圓潤化，親和感與辨識度同步提升。' +
+          '從手稿到完稿，對照三個核心策略方向。',
       },
       {
         id: 'rb-logo-spec',
         src: posterRabbitBearLogo,
         caption:
-          '主色與字型規範落地，跨媒材一致。定義玫瑰/深棕主色、雙層標準字與灰階版。',
+          '主色與字型規範落地，跨媒材視覺更一致。' +
+          '定義主色、標準字與灰階版本，方便後續延伸。',
       },
       {
         id: 'rb-logo-round',
         src: posterRabbitBearLogoRound,
         caption:
-          '主視覺一眼傳達課程情境與陪伴感。角色 + 課程象徵元素環繞圓形識別。',
+          '主視覺一眼傳達親子課程與陪伴感。' +
+          '角色搭配課程元素，完整包進圓形識別。',
       },
       {
         id: 'rb-namecard',
         src: posterRabbitBearNamecard,
         caption:
-          '聯絡資訊層級清楚，延續海報色調。正反面分工：印象建立 + QR/社群導流。',
+          '名片資訊層級清楚，延續整體暖色調。' +
+          '正反面分工呈現品牌印象與聯絡導流。',
       },
       {
         id: 'rb-recruitment',
         src: posterRabbitBearRecruitment,
         caption:
-          '招生重點無需讀全文即可掌握。彩色按鈕分類六項課程 + 三組 QR Code。',
+          '招生重點不用讀全文也能快速掌握。' +
+          '以課程分區與 QR 導流提升閱讀效率。',
       },
       {
         id: 'rb-onsite',
         src: posterRabbitBearOnsite,
         caption:
-          '現場張貼驗證可讀性與識別度。門市玻璃門實際應用紀錄。',
+          '現場張貼後仍保有清楚可讀性與辨識度。' +
+          '門市實際應用驗證設計可落地。',
       },
     ],
 
@@ -331,15 +341,14 @@ export const projectsList: ProjectData[] = [
     category: 'Brand Identity / Packaging',
     year: '2018',
     description:
-      '以「傳承手作，獻禮心意」為核心，為小琉球合家麻花捲建立品牌識別與包裝系統提案。' +
-      '從圓章式 Logo、五種口味色彩策略，到罐身與瓶蓋貼標的系列化規格，' +
-      '在保留在地手作溫度的同時，提升貨架辨識與禮贈情境的整體質感。' +
-      '本作品為品牌提案，聚焦視覺系統與商業陳列可行性。',
+      '提出在地伴手禮品牌的識別與包裝系統。' +
+      '以統一骨架搭配五色口味策略，兼顧系列感與貨架辨識。',
     caseStudy: {
       problem: '傳統伴手禮包裝缺乏系列辨識，口味資訊容易混亂。',
       goal: '建立兼具在地感與禮贈質感的品牌包裝系統。',
       solution: '以統一 Logo 架構搭配五色口味策略，建立系列化視覺規範。',
       application: '應用於罐身、瓶蓋貼標與陳列展示。',
+      style: '在地手作感結合禮贈質感，溫暖且易辨識。',
     },
     responsibility: [
       '品牌識別提案',
@@ -372,25 +381,29 @@ export const projectsList: ProjectData[] = [
         id: 'hj-logo',
         src: hejiaLogo,
         caption:
-          '在地手作與禮贈質感並重的識別核心。圓章邊框 + 書法「合家」+ homcha 英文標示。',
+          '識別核心同時傳達在地手作感與禮贈質感。' +
+          '以圓章結構搭配書法字建立品牌記憶點。',
       },
       {
         id: 'hj-logo-mockup',
         src: hejiaLogoMockup,
         caption:
-          '跨材質驗證識別一致性。名片、信封、木盒燙金延伸提案。',
+          '跨材質應用後仍維持識別一致。' +
+          '名片、信封與木盒燙金同步延伸。',
       },
       {
         id: 'hj-pack-all',
         src: hejiaMockupAll,
         caption:
-          '五口味系列化，貨架辨識效率提升。固定 Logo/品名/條紋骨架 + 底色分口味。',
+          '五口味系列化後，貨架辨識更快速。' +
+          '固定包裝骨架搭配底色分味，兼顧一致與差異。',
       },
       {
         id: 'hj-cap-all',
         src: hejiaCapMockupAll,
         caption:
-          '瓶蓋延續罐身五色策略。圓標確保陳列與禮盒情境皆可辨識。',
+          '瓶蓋延續罐身五色策略，系列感更完整。' +
+          '圓形貼標讓陳列與禮盒情境都好辨識。',
       },
     ],
     aspectRatio: '16/9',
@@ -411,14 +424,14 @@ export const projectsList: ProjectData[] = [
     category: 'Practice / Experiment',
     year: '2017 – 2026',
     description:
-      '收錄影像合成、字體設計與 UI 介面等自主練習作品，' +
-      '聚焦於光影氛圍、材質表現、資訊層級與互動介面的視覺探索。' +
-      '透過不同媒材的持續實驗，累積畫面控制與風格轉譯能力。',
+      '收錄影像、字體與 UI 的視覺研究，' +
+      '用不同題目持續訓練畫面控制與風格轉譯能力。',
     caseStudy: {
       problem: '單一商業案無法完整呈現跨媒材視覺能力。',
       goal: '補強影像、字體與介面三類核心基礎能力，建立穩定輸出。',
       solution: '以主題化練習拆解光影、材質、排版與互動元件等視覺課題。',
       application: '反哺品牌案與 UI 專案中的構圖、層級與風格控制。',
+      style: '以氛圍、材質與層級為核心的實驗式視覺語言。',
     },
     responsibility: ['自主研究專案規劃', '視覺實驗執行', '版面與風格驗證'],
     tools: ['Photoshop', 'Illustrator', 'Figma'],
@@ -445,21 +458,24 @@ export const projectsList: ProjectData[] = [
         src: practiceComp01,
         practiceCategory: '影像合成',
         caption:
-          '武俠氛圍與角色張力強化宣傳視覺。水墨煙霧特效結合角色動態，以明暗對比堆疊緊張感。',
+          '以武俠氛圍強化角色宣傳張力。' +
+          '透過水墨煙霧與明暗對比堆疊視覺節奏。',
       },
       {
         id: 'pl-comp-02',
         src: practiceComp02,
         practiceCategory: '影像合成',
         caption:
-          '冷調夜景的空間沉靜感。多圖層光影融合與水面倒影模擬。',
+          '冷調夜景呈現沉靜而神祕的空間感。' +
+          '以多圖層光影融合與倒影模擬完成畫面。',
       },
       {
         id: 'pl-comp-elephant',
         src: practiceCompElephant,
         practiceCategory: '影像合成',
         caption:
-          '解構美學探索自然生命力。以流沙消散效果呈現主體，營造壯闊與脆弱並存的視覺張力。',
+          '以解構手法探索自然生命力。' +
+          '流沙消散效果呈現壯闊與脆弱並存的張力。',
       },
 
       // ── 字體 ──────────────────────────────────────────────
@@ -468,7 +484,8 @@ export const projectsList: ProjectData[] = [
         src: practiceFontAudi,
         practiceCategory: '字體',
         caption:
-          '車燈格紋材質轉化為字體語言，金屬光感呼應品牌高規格調性。',
+          '將車燈格紋材質轉化為字體語言。' +
+          '金屬光感呼應高規格品牌調性。',
       },
 
       // ── UI ────────────────────────────────────────────────
@@ -477,7 +494,8 @@ export const projectsList: ProjectData[] = [
         src: practiceUiGame,
         practiceCategory: 'UI',
         caption:
-          '遊戲設定彈窗資訊層級清楚，操作路徑直覺。圓角餅乾色系搭配奇幻場景，維持沉浸感又不失易讀性。',
+          '遊戲設定彈窗維持清楚層級與直覺操作。' +
+          '柔和色系搭配奇幻背景，兼顧沉浸感與易讀性。',
       },
     ],
     aspectRatio: '16/9',
@@ -578,14 +596,14 @@ export const projectsList: ProjectData[] = [
     category: 'AI Application / UI Design',
     year: '2025 – 2026',
     description:
-      '以 AI 工具情境為主題，練習資訊視覺化與操作流程設計。' +
-      '從家庭財務、數字分析到教育應用，' +
-      '探索複雜資訊在數位介面中的閱讀效率與互動體驗。',
+      '以 AI 協作輔助設計發想與版面提案，聚焦工具介面的視覺編排。' +
+      '重點在讓資訊更清楚、流程更直覺。',
     caseStudy: {
       problem: 'AI 工具常見資訊密度高、操作門檻高，使用者容易迷失。',
       goal: '降低理解成本，讓使用者快速完成輸入、閱讀與決策。',
       solution: '以表單分層、數據視覺化與任務導向版面優化操作流程。',
       application: '應用於財務分析、數字工具與教育情境的介面設計。',
+      style: '清楚、直覺、以資訊可讀性為優先的數位版面。',
     },
     responsibility: [
       'UI 介面規劃',

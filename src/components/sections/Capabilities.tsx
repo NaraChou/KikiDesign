@@ -3,7 +3,7 @@ import { LAYOUT } from '../../styles/layout';
 import { CAPABILITIES_SECTION, CAPABILITY_GROUPS } from '../../data/capabilitiesData';
 
 /**
- * [A] 能力區 #capabilities：面試用總覽，三欄由資料驅動；手機直向、平板以上三欄橫排。
+ * [A] 能力區 #capabilities：面試用總覽，由資料驅動；手機單欄、平板兩欄、大螢幕三欄。
  */
 
 const STYLES = {
@@ -12,8 +12,13 @@ const STYLES = {
   header: 'mb-10 text-center md:mb-14',
   title: 'text-2xl font-light tracking-[0.2em] md:text-4xl',
   label: 'mt-2 text-[10px] uppercase tracking-[0.35em] opacity-50 md:text-xs',
-  grid: 'grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-3 md:gap-6',
-  card: 'flex flex-col rounded-sm border border-white/10 bg-white/[0.02] p-6 md:p-7',
+  grid:
+    'grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-7 lg:grid-cols-3 lg:gap-6',
+  card:
+    'flex min-w-0 flex-col rounded-sm border border-white/10 bg-white/[0.02] p-6 md:p-7',
+  /** 平板第三張獨占一行並置中，大螢幕回到一般欄寬 */
+  cardLastRow:
+    'md:col-span-2 md:mx-auto md:max-w-xl lg:col-span-1 lg:max-w-none lg:mx-0',
   cardTitle: 'mb-1 text-sm tracking-[0.18em]',
   cardTitleEn: 'mb-5 text-[10px] tracking-[0.12em] opacity-45 md:text-xs',
   list: 'flex flex-col gap-3',
@@ -41,8 +46,14 @@ export const Capabilities: React.FC = () => (
       </header>
 
       <div className={STYLES.grid}>
-        {CAPABILITY_GROUPS.map((group) => (
-          <article key={group.id} className={STYLES.card} aria-labelledby={`cap-${group.id}`}>
+        {CAPABILITY_GROUPS.map((group, index) => (
+          <article
+            key={group.id}
+            className={`${STYLES.card}${
+              index === CAPABILITY_GROUPS.length - 1 ? ` ${STYLES.cardLastRow}` : ''
+            }`}
+            aria-labelledby={`cap-${group.id}`}
+          >
             <h3 id={`cap-${group.id}`} className={STYLES.cardTitle}>
               {group.title}
             </h3>

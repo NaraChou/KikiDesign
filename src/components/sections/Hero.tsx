@@ -11,7 +11,6 @@ const GSAP_SELECTORS = {
   tag: 'hero-tag opacity-0',
   title: 'hero-title opacity-0',
   description: 'hero-description opacity-0',
-  actions: 'hero-actions opacity-0',
 } as const;
 
 // [B] 版面與按鈕外觀（不混入動畫專用 class）
@@ -21,8 +20,6 @@ const STYLES = {
   container: `${LAYOUT.colCenter} justify-center`,
   titleAccent: 'font-normal opacity-90',
   divider: 'hero-divider',
-  resumeBtn:
-    'inline-block border border-white/25 px-6 py-2.5 text-[11px] uppercase tracking-[0.2em] text-white/80 transition-colors hover:border-white/50 hover:text-white',
 } as const;
 
 // [C] 元件主體
@@ -31,7 +28,7 @@ export const Hero: React.FC = () => {
     <section id="home" className={STYLES.wrapper}>
       <div className={STYLES.container}>
         <span id="hero-tag" className={GSAP_SELECTORS.tag}>
-          平面與品牌視覺設計｜面試作品集
+          品牌視覺｜平面設計｜AI 協作
         </span>
 
         <h1 id="hero-title" className={GSAP_SELECTORS.title}>
@@ -43,21 +40,10 @@ export const Hero: React.FC = () => {
         <div id="hero-line" className={STYLES.divider}></div>
 
         <p id="hero-desc" className={GSAP_SELECTORS.description}>
-          專注識別系統、印刷物與主視覺延展，讓品牌在同一套色彩與字級裡說話。
+          品牌視覺與平面設計為主，
           <br />
-          亦涵蓋網頁與數位版面的視覺編排，讓線上閱讀維持與實體文宣一致的氣質。
+          結合 AI 協作提升設計效率與視覺延展。
         </p>
-
-        <div className={GSAP_SELECTORS.actions}>
-          <a
-            href="/resume.pdf"
-            className={STYLES.resumeBtn}
-            aria-label="下載履歷 PDF（請將檔案置於 public/resume.pdf）"
-            title="待補：請將 resume.pdf 放入 public 資料夾"
-          >
-            下載履歷
-          </a>
-        </div>
       </div>
     </section>
   );

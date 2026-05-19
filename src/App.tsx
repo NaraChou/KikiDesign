@@ -152,7 +152,8 @@ function AppContent() {
               },
               "-=0.6"
             )
-            .to("#hero-desc", { ...FADE_IN_UP, duration: 0.8 }, "-=0.6");
+            .to("#hero-desc", { ...FADE_IN_UP, duration: 0.8 }, "-=0.6")
+            .to(".hero-actions", { ...FADE_IN_UP, duration: 0.6 }, "-=0.5");
         });
       });
       return () => {

@@ -17,11 +17,14 @@ interface MenuItem {
 }
 
 const NAV_MENUS: MenuItem[] = [
-  { id: '#home', label: '01 / Index', srLabel: '回到首頁區塊' },
-  { id: '#works', label: '02 / Works', srLabel: '瀏覽作品區' },
-  { id: '#philosophy', label: '03 / Vision', srLabel: '品牌理念 Vision' },
-  { id: '#contact', label: '04 / Contact', srLabel: '聯絡方式 Contact' },
+  { id: '#home', label: '01 / 首頁', srLabel: '回到首頁區塊' },
+  { id: '#works', label: '02 / 作品', srLabel: '瀏覽作品選集' },
+  { id: '#capabilities', label: '03 / 設計範疇', srLabel: '前往設計範疇與流程' },
+  { id: '#philosophy', label: '04 / 理念', srLabel: '設計理念與工作觀' },
+  { id: '#contact', label: '05 / 聯絡', srLabel: '頁尾與聯絡方式' },
 ];
+
+const RESUME_HREF = '/resume.pdf';
 
 const STYLES = {
   wrapper: 'fixed top-0 left-0 w-full z-50 transition-all duration-300',
@@ -36,8 +39,10 @@ const STYLES = {
     'chinese-art text-base text-[var(--brand-accent)] leading-tight mt-0 tracking-[0.12em] -mr-[0.12em]',
   subtitle:
     'uppercase font-light text-[var(--brand-accent)] leading-tight tracking-[0.12em] -mr-[0.12em] mb-0.5 opacity-90 text-[12px]',
-  menu: 'hidden md:flex space-x-12 tracking-main-nav',
+  menu: 'hidden md:flex items-center space-x-8 lg:space-x-12 tracking-main-nav',
   menuLink: 'nav-link',
+  resumeLink:
+    'nav-link opacity-80 hover:opacity-100 border border-white/20 px-3 py-1 text-[10px] tracking-[0.2em]',
   toggle: 'flex flex-col space-y-1.5 p-2 cursor-pointer md:hidden',
   toggleBar: 'w-6 h-px bg-white/80',
   toggleBarShort: 'w-4 h-px bg-white/80 ml-auto',
@@ -113,6 +118,14 @@ export const Navigation: React.FC<NavigationProps> = ({ onToggleMenu }) => {
               {menu.label}
             </a>
           ))}
+          <a
+            href={RESUME_HREF}
+            className={STYLES.resumeLink}
+            title="待補：請將 resume.pdf 放入 public 資料夾"
+            aria-label="下載履歷 PDF"
+          >
+            履歷
+          </a>
         </div>
 
         <button

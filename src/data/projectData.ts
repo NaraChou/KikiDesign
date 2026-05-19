@@ -67,7 +67,20 @@ import aiToolFortune            from '../assets/images/ai-tool-fortune.webp';
 // ════════════════════════════════════════════════════════════
 // 型別定義
 // ════════════════════════════════════════════════════════════
+export interface ProjectLinks {
+  live?: string;
+  github?: string;
+}
+
+/** 三裝置截圖預留結構（路徑待補，不憑空造圖） */
+export interface DeviceScreenshots {
+  mobile?: string;
+  tablet?: string;
+  desktop?: string;
+}
+
 export interface ProjectImage {
+  id: string;
   src: string;
   caption?: string;
   coverOnly?: boolean;
@@ -81,6 +94,25 @@ export interface ProjectData {
   category: string;
   year: string;
   description: string;
+  team?: string[];
+  links?: ProjectLinks;
+  technicalNotes?: string[];
+  deviceScreenshots?: DeviceScreenshots;
+  caseStudy?: {
+    problem: string;
+    goal: string;
+    solution: string;
+    application: string;
+  };
+  responsibility?: string[];
+  tools?: string[];
+  outcomes?: string[];
+  process?: string[];
+  meta?: {
+    duration?: string;
+    type?: string;
+    status?: string;
+  };
   images: ProjectImage[];
   aspectRatio: string;
   tabs?: string[];
@@ -109,44 +141,82 @@ export const projectsList: ProjectData[] = [
       '為顧問品牌「Behavior Logic（行韋邏輯）」建立整體視覺識別，' +
       '從 Logo 重塑與名片設計延伸至官網介面與 EDM 視覺應用。' +
       '以藍色為主調，聚焦「理性、信任、專業」的品牌印象，' +
-      '並依據實際營運需求完成 Wix 到自建版本的網站升級，' +
-      '在維持視覺品質下同步降低長期平台成本。',
+      '並依營運節奏完成官網改版，讓內容更新與版面調整更貼近課程推進，' +
+      '在維持視覺一致的前提下，讓長期維運更輕鬆。',
+    caseStudy: {
+      problem: '顧問品牌初期缺乏一致識別，官網內容節奏與長期維運彈性不足。',
+      goal: '建立可延展的品牌視覺系統，並讓線上內容更好配合課程推進。',
+      solution: '重新設計 Logo 與視覺語言，並完成官網改版與版面節奏重整。',
+      application: '應用於名片、官網、EDM、簡報等品牌接觸點。',
+    },
+    responsibility: [
+      '品牌識別設計',
+      '網站介面與版面規劃',
+      '網頁視覺落地與多裝置閱讀節奏',
+      'EDM 視覺設計',
+    ],
+    tools: ['Illustrator', 'Photoshop', 'Figma', '網頁視覺製作'],
+    outcomes: [
+      '各接觸點改以同一套色票與字級說話，品牌第一印象更一致。',
+      '官網改版後版面可依課程節奏調整，內容更新更順手。',
+      'EDM 與簡報版型可沿用，活動宣傳的製作時間明顯縮短。',
+    ],
+    process: [
+      '品牌現況盤點與痛點釐清',
+      '識別方向與色彩策略定義',
+      '官網資訊層級與版面設計',
+      '多接觸點應用與交付檢核',
+    ],
+    team: ['獨立承接（品牌與網頁視覺）', '客戶端：Behavior Logic 顧問團隊'],
+    links: {},
+    technicalNotes: [
+      '舊站內容與識別節奏較分散，改版後改以同一套主視覺與字級規範貫穿官網與 EDM。',
+      '新版官網延續品牌藍調與資訊層級，閱讀動線更清楚，亦方便後續換圖與換文案。',
+      '手機、平板到桌機的版面會自動重排，維持舒適的閱讀節奏（見多裝置展示圖）。',
+    ],
+    deviceScreenshots: {},
+    meta: {
+      duration: '約 6 個月（分階段）',
+      type: '商業委託',
+      status: '已上線／持續使用',
+    },
     images: [
-      { src: brandingMockupMain, coverOnly: true },
+      { id: 'bl-cover', src: brandingMockupMain, coverOnly: true },
       {
+        id: 'bl-logo-ba',
         src: brandingBehaviorLogicLogo,
         caption:
-          '品牌 Logo 重塑：以 Before / After 對照呈現識別優化過程，從原有圓章樣式轉為心智圖像符號，並建立雙藍主色系（#114DA0 / #44ADE0），強化辨識度與專業形象。',
+          '識別升級後，專業感與延展性同步提升。從圓章樣式重塑為心智圖像符號，建立雙藍主色系。',
       },
       {
+        id: 'bl-namecard',
         src: brandingBehaviorLogicNamecard,
         caption:
-          '品牌名片設計（舊版 Logo 時期）：以圓章識別為基礎，整合顧問姓名、服務項目與 QR Code，' +
-          '建立初期品牌與客戶之間的第一個實體接觸點。',
+          '名片成為品牌第一個實體接觸點。整合 QR、服務項目與舊版圓章識別排版。',
       },
       {
+        id: 'bl-responsive',
         src: brandingResponsive,
         caption:
-          '官網第一版（Wix）：配合品牌快速上線需求，在 Wix 平台完成響應式網站建置，' +
-          '兼顧桌機、平板與手機三個斷點的閱讀節奏與視覺一致性。',
+          '第一版官網先求上線與閱讀一致。以既有平台完成多裝置版面與內容節奏配置。',
       },
       {
+        id: 'bl-dark-ui',
         src: brandingDarkUI,
         caption:
-          '官網第二版（自建）：因應客戶實際營運需求，從 Wix 遷移至自建版本。' +
-          '以深色系強化專業感與資訊層級，在維持視覺品質的前提下同步降低長期平台成本。',
+          '改版後降低平台限制並強化資訊層級。深色系介面延續識別色彩，版面層次更清楚。',
       },
       {
+        id: 'bl-edm',
         src: edmBehaviorLogic,
         caption:
-          '課程宣傳 EDM：將「生命靈數、數字 DNA、易學八卦」三個複雜概念整合進單一直式版面，' +
-          '以色塊與條列結構區分重點層次，提升手機閱讀效率與報名轉換引導。',
+          '複雜課程資訊收斂為單欄行動閱讀。色塊分層 + 條列結構，導向報名重點。',
       },
       {
+        id: 'bl-slide',
         src: aiSlideBehaviorLogic,
         caption:
-          '品牌簡報視覺：以半圓扇形資訊圖整合講師背景、職業歷程、服務項目與品牌核心價值，' +
-          '將複雜的顧問品牌架構一頁視覺化，協助在提案與課程說明中快速建立信任感。',
+          '顧問架構一頁視覺化，加速提案信任建立。半圓扇形資訊圖整合服務與講師背景。',
       },
     ],
     aspectRatio: '16/9',
@@ -171,50 +241,74 @@ export const projectsList: ProjectData[] = [
       '從 Logo 設計延伸至名片、招生海報與實際展示應用，' +
       '透過暖色調與圓潤角色形象建立親和感，' +
       '並整合課程資訊、招生內容與 QR Code，提升品牌一致性與資訊閱讀效率。',
+    caseStudy: {
+      problem: '親子教育品牌缺乏一致視覺識別，招生資訊分散且接觸點不連貫。',
+      goal: '建立兼具親和力與辨識度的品牌形象，讓家長快速理解課程與報名方式。',
+      solution: '以兔子與熊角色建立核心識別，並延伸至招生海報與名片系統。',
+      application: '應用於海報、名片、門市展示與社群導流。',
+    },
+    responsibility: [
+      '品牌識別設計',
+      '印刷物版面規劃',
+      '招生資訊視覺整合',
+      '門市落地應用確認',
+    ],
+    tools: ['Illustrator', 'Photoshop', 'InDesign'],
+    outcomes: [
+      'Before：招生資訊分散、視覺不統一；After：海報、名片、門市展示共用角色與色票系統。',
+      '家長在 3 秒內可掌握課程分類與 QR 報名入口，降低現場詢問成本。',
+      '門市實際張貼驗證可讀性，遠距離仍可辨識品牌角色與主色。',
+    ],
+    process: [
+      '品牌現況與受眾分析',
+      '角色識別與色彩系統定義',
+      '招生內容資訊分層與版面測試',
+      '印刷輸出與現場應用檢核',
+    ],
+    team: ['獨立承接（品牌與印刷設計）', '客戶端：小兔熊親子教育'],
+    links: {},
+    meta: {
+      duration: '約 1.5 個月',
+      type: '商業委託',
+      status: '已落地使用',
+    },
     images: [
-      { src: posterMockupMain, coverOnly: true },
+      { id: 'rb-cover', src: posterMockupMain, coverOnly: true },
       {
+        id: 'rb-strategy',
         src: posterRabbitBearStrategyCompare,
         caption:
-          '設計前後對照／品牌策略分析：從手稿概念到 Adobe Illustrator 數位完稿，' +
-          '以「親和度、識別度、延展性」三個維度驅動設計決策。' +
-          '將原本較生硬的線條轉化為圓潤色塊，建立獨特的品牌記憶點，' +
-          '並確保角色在名片、海報等不同媒材上皆能清楚呈現。',
+          '角色線條圓潤化，親和與辨識同步提升。手稿到 Illustrator 完稿，三維度策略對照。',
       },
       {
+        id: 'rb-logo-spec',
         src: posterRabbitBearLogo,
         caption:
-          '品牌識別規範：定義品牌主色（玫瑰 #ED5D7F、深棕 #5C4E3D、粉、黑）、' +
-          '字型層級（小兔熊／親子工作室雙層標準字）與灰階版本，' +
-          '建立品牌在不同媒材與背景下的視覺一致性基準。',
+          '主色與字型規範落地，跨媒材一致。定義玫瑰/深棕主色、雙層標準字與灰階版。',
       },
       {
+        id: 'rb-logo-round',
         src: posterRabbitBearLogoRound,
         caption:
-          '品牌主視覺 Logo：以兔子與熊作為核心角色，搭配愛心傳達陪伴與互動的品牌個性。' +
-          '外圍環繞積木、音符、拼圖、幼苗等元素，對應感統遊戲、音樂律動、教具操作、親子手作等課程內容，' +
-          '讓家長一眼感受品牌的教育情境。',
+          '主視覺一眼傳達課程情境與陪伴感。角色 + 課程象徵元素環繞圓形識別。',
       },
       {
+        id: 'rb-namecard',
         src: posterRabbitBearNamecard,
         caption:
-          '品牌名片設計：正面以角色主視覺建立第一印象，' +
-          '背面整合老師姓名、電話、社群帳號與 QR Code，資訊層次由主到次清楚排列，' +
-          '延續海報的暖黃色調維持整體品牌一致性。',
+          '聯絡資訊層級清楚，延續海報色調。正反面分工：印象建立 + QR/社群導流。',
       },
       {
+        id: 'rb-recruitment',
         src: posterRabbitBearRecruitment,
         caption:
-          '招生主視覺海報：在單一版面整合三個社群 QR Code、招生對象說明與六項課程資訊。' +
-          '以彩色按鈕區分課程類別，讓家長不需閱讀全文即可快速掌握重點，' +
-          '角色主視覺與暖黃底色強化親子氛圍與視覺吸引力。',
+          '招生重點無需讀全文即可掌握。彩色按鈕分類六項課程 + 三組 QR Code。',
       },
       {
+        id: 'rb-onsite',
         src: posterRabbitBearOnsite,
         caption:
-          '實際落地應用：海報於門市玻璃門展示使用，' +
-          '驗證版面在真實環境中的識別度與視覺效果。' +
-          '是本作品集中唯一有現場使用紀錄的印刷品。',
+          '現場張貼驗證可讀性與識別度。門市玻璃門實際應用紀錄。',
       },
     ],
 
@@ -241,33 +335,62 @@ export const projectsList: ProjectData[] = [
       '從圓章式 Logo、五種口味色彩策略，到罐身與瓶蓋貼標的系列化規格，' +
       '在保留在地手作溫度的同時，提升貨架辨識與禮贈情境的整體質感。' +
       '本作品為品牌提案，聚焦視覺系統與商業陳列可行性。',
+    caseStudy: {
+      problem: '傳統伴手禮包裝缺乏系列辨識，口味資訊容易混亂。',
+      goal: '建立兼具在地感與禮贈質感的品牌包裝系統。',
+      solution: '以統一 Logo 架構搭配五色口味策略，建立系列化視覺規範。',
+      application: '應用於罐身、瓶蓋貼標與陳列展示。',
+    },
+    responsibility: [
+      '品牌識別提案',
+      '包裝系統規劃',
+      '口味色彩策略設計',
+      '情境陳列視覺提案',
+    ],
+    tools: ['Illustrator', 'Photoshop'],
+    outcomes: [
+      'Before：口味資訊易混淆、包裝缺乏系列感；After：五色策略＋固定骨架，貨架 2 秒可辨口味。',
+      '新品口味僅需替換底色與文案，降低包裝延伸設計成本。',
+      '提案含陳列 Mockup，可直接用於商業簡報與禮贈情境說明。',
+    ],
+    process: [
+      '市場品類視覺盤點',
+      '品牌語彙與識別骨架建立',
+      '口味系統與包裝版型延展',
+      '陳列情境模擬與提案呈現',
+    ],
+    team: ['課程／提案專案（個人執行）'],
+    links: {},
+    meta: {
+      duration: '約 1 個月',
+      type: '品牌提案',
+      status: '提案完成',
+    },
     images: [
-      { src: hejiaDisplayMockup, coverOnly: true },
+      { id: 'hj-cover', src: hejiaDisplayMockup, coverOnly: true },
       {
+        id: 'hj-logo',
         src: hejiaLogo,
         caption:
-          '品牌 Logo 設計提案：以傳統迴紋邊框為外框，融合雲紋圖騰與「手工」字樣，' +
-          '核心以書法風「合家」二字傳遞家的溫度，' +
-          '並標註品牌英文名「homcha」與產地「小琉球」，建立在地識別與職人感。',
+          '在地手作與禮贈質感並重的識別核心。圓章邊框 + 書法「合家」+ homcha 英文標示。',
       },
       {
+        id: 'hj-logo-mockup',
         src: hejiaLogoMockup,
         caption:
-          'Logo 應用延伸：將識別系統落地至名片、信封與木盒燙金，' +
-          '驗證品牌視覺在不同材質與尺寸下的一致性，強化伴手禮情境的整體質感。',
+          '跨材質驗證識別一致性。名片、信封、木盒燙金延伸提案。',
       },
       {
+        id: 'hj-pack-all',
         src: hejiaMockupAll,
         caption:
-          '罐身包裝系統：鎖定 Logo 位置、品名字體、條紋圖案三個不變元素，' +
-          '僅以底色區分五種口味（原味、黑糖、海苔、煉乳、梅子），' +
-          '讓消費者一眼辨識品牌，同時快速找到想要的口味。',
+          '五口味系列化，貨架辨識效率提升。固定 Logo/品名/條紋骨架 + 底色分口味。',
       },
       {
+        id: 'hj-cap-all',
         src: hejiaCapMockupAll,
         caption:
-          '瓶蓋貼標系統：延續罐身的五色口味策略，以圓形貼標完整呈現品牌識別與口味名稱，' +
-          '確保產品在貨架陳列與禮盒包裝中皆能維持清楚的視覺辨識。',
+          '瓶蓋延續罐身五色策略。圓標確保陳列與禮盒情境皆可辨識。',
       },
     ],
     aspectRatio: '16/9',
@@ -283,60 +406,78 @@ export const projectsList: ProjectData[] = [
   // ══════════════════════════════════════════════════════════
   {
     id: 'practice-lab',
-    title: 'Visual Lab｜設計練習',
-    subtitle: '影像合成・字體設計・UI 介面，持續累積的視覺能力',
+    title: 'Visual Exploration｜視覺研究',
+    subtitle: '聚焦光影、材質與 UI 結構的視覺實驗',
     category: 'Practice / Experiment',
     year: '2017 – 2026',
     description:
-      '持續練習是設計師的核心修煉。' +
-      '這裡收錄影像合成、字體設計與 UI 介面的自主練習作品，' +
-      '記錄每一次視覺探索與技術突破的過程。',
+      '收錄影像合成、字體設計與 UI 介面等自主練習作品，' +
+      '聚焦於光影氛圍、材質表現、資訊層級與互動介面的視覺探索。' +
+      '透過不同媒材的持續實驗，累積畫面控制與風格轉譯能力。',
+    caseStudy: {
+      problem: '單一商業案無法完整呈現跨媒材視覺能力。',
+      goal: '補強影像、字體與介面三類核心基礎能力，建立穩定輸出。',
+      solution: '以主題化練習拆解光影、材質、排版與互動元件等視覺課題。',
+      application: '反哺品牌案與 UI 專案中的構圖、層級與風格控制。',
+    },
+    responsibility: ['自主研究專案規劃', '視覺實驗執行', '版面與風格驗證'],
+    tools: ['Photoshop', 'Illustrator', 'Figma'],
+    outcomes: [
+      '建立跨媒材視覺語彙，提升商業案的畫面控制穩定性。',
+      '累積可重用的光影、材質與 UI 元件設計方法。',
+    ],
+    process: ['主題定義', '風格拆解', '視覺實驗', '回收至商業專案'],
+    team: ['個人自主研究'],
+    links: {
+      live: 'https://kiki-design.vercel.app/',
+    },
+    meta: {
+      duration: '長期持續',
+      type: '自主研究',
+      status: '持續更新',
+    },
     tabs: ['影像合成', '字體', 'UI'],
     images: [
 
       // ── 影像合成 ──────────────────────────────────────────
       {
+        id: 'pl-comp-01',
         src: practiceComp01,
         practiceCategory: '影像合成',
         caption:
-          '「影武者」手遊宣傳視覺：以武俠風格為核心，' +
-          '運用水墨煙霧特效與角色動態捕捉進行合成，' +
-          '練習虛實結合的氛圍營造與強烈明暗對比。',
+          '武俠氛圍與角色張力強化宣傳視覺。水墨煙霧特效結合角色動態，以明暗對比堆疊緊張感。',
       },
       {
+        id: 'pl-comp-02',
         src: practiceComp02,
         practiceCategory: '影像合成',
         caption:
-          '「幽湖古塔」場景合成：練習多圖層光影融合技術，' +
-          '以冷調月光與精準的水面倒影模擬，' +
-          '營造沉靜且具神祕感的超現實夜景空間。',
+          '冷調夜景的空間沉靜感。多圖層光影融合與水面倒影模擬。',
       },
       {
+        id: 'pl-comp-elephant',
         src: practiceCompElephant,
         practiceCategory: '影像合成',
         caption:
-          '「大地之靈」解構視覺實驗：以流沙粒子特效呈現大象主體，' +
-          '運用細節筆刷與遮罩技術模擬沙化過程，' +
-          '探索自然生命力與解構美學的視覺張力。',
+          '解構美學探索自然生命力。以流沙消散效果呈現主體，營造壯闊與脆弱並存的視覺張力。',
       },
 
       // ── 字體 ──────────────────────────────────────────────
       {
+        id: 'pl-font-audi',
         src: practiceFontAudi,
         practiceCategory: '字體',
         caption:
-          'PS 字體設計：以奧迪車燈尾燈的格紋材質為靈感，' +
-          '結合金屬邊框與鏡面倒影，詮釋 AUDI 品牌的高規格質感。',
+          '車燈格紋材質轉化為字體語言，金屬光感呼應品牌高規格調性。',
       },
 
       // ── UI ────────────────────────────────────────────────
       {
+        id: 'pl-ui-game',
         src: practiceUiGame,
         practiceCategory: 'UI',
         caption:
-          '手遊設定介面 UI：以森林奇幻場景為背景，' +
-          '設計圓角餅乾色系的 SETTINGS 彈窗，' +
-          '包含音效音樂滑桿與語言選擇，練習遊戲 UI 的色彩系統與互動元件規格。',
+          '遊戲設定彈窗資訊層級清楚，操作路徑直覺。圓角餅乾色系搭配奇幻場景，維持沉浸感又不失易讀性。',
       },
     ],
     aspectRatio: '16/9',
@@ -366,31 +507,59 @@ export const projectsList: ProjectData[] = [
       '逐步建立更成熟的品牌語言與視覺個性。' +
       '作品涵蓋 Logo 演進、名片設計與實體印刷 Mockup，' +
       '呈現個人品牌在不同階段的識別思考與應用延展。',
+    caseStudy: {
+      problem: '初期品牌識別偏可愛風格，難以對應後期接案方向。',
+      goal: '建立更成熟、可長期延展的個人品牌語言。',
+      solution: '重新設計 Logo 與色彩系統，調整品牌調性與識別細節。',
+      application: '延伸至名片、杯墊與品牌印刷物。',
+    },
+    responsibility: ['個人品牌策略', 'Logo 迭代設計', '印刷物應用設計'],
+    tools: ['Illustrator', 'Photoshop', 'InDesign'],
+    outcomes: [
+      '品牌調性由早期可愛風格轉為可承接商業案的成熟視覺。',
+      '建立可長期延伸的識別系統與印刷應用基準。',
+    ],
+    process: ['舊版識別檢視', '新定位定義', 'Logo 迭代', '印刷應用驗證'],
+    team: ['個人品牌（獨立執行）'],
+    links: {
+      live: 'https://kiki-design.vercel.app/',
+    },
+    meta: {
+      duration: '多階段（2020–2025）',
+      type: '自有品牌',
+      status: '持續使用',
+    },
     images: [
-      { src: namecardMockupConcrete, coverOnly: true },
+      { id: 'kk-cover', src: namecardMockupConcrete, coverOnly: true },
       {
+        id: 'kk-logo-2025',
         src: logoKiki2025Brand,
-        caption: '2025 年新版 Logo：書法感R字融合兔子側臉，深色系傳遞沉穩成熟的品牌個性。',
+        caption: '識別調性轉向成熟商用。書法感 R 字 + 兔側臉，深色系。',
       },
       {
+        id: 'kk-logo-2020',
         src: logoKiki2020,
-        caption: '2020 年初版 Logo：橘色系K字兔造型，活潑明亮，適合接案初期的親切形象。',
+        caption: '早期親和形象建立市場入口。橘色 K 字兔，適合初期接觸。',
       },
       {
+        id: 'kk-namecard-concrete',
         src: namecardMockupConcrete,
-        caption: '2025 年名片設計：水泥板 Mockup，驗證黑底紅兔 Logo 在印刷材質上的視覺效果。',
+        caption: '黑底印刷對比度實測。水泥板 Mockup 驗證 Logo 材質表現。',
       },
       {
+        id: 'kk-namecard-foam',
         src: namecardMockupFoam,
-        caption: '2025 年名片設計：泡棉板 Mockup，確認名片在不同背景質感下的辨識度。',
+        caption: '不同背景質感下的辨識確認。泡棉板 Mockup 對照測試。',
       },
       {
+        id: 'kk-namecard-2020',
         src: namecardKiki2020,
-        caption: '2020 年版名片：橘色系品牌識別延伸至名片版面，正反面配置清楚呈現聯絡資訊。',
+        caption: '識別系統延伸至名片接觸點。橘系版面 + 正反面聯絡資訊配置。',
       },
       {
+        id: 'kk-coaster',
         src: logoKikiCoasterMockup,
-        caption: '品牌應用延伸：杯墊 Mockup，展示 Logo 在日常物件上的識別效果與品牌延展性。',
+        caption: '日常物件延展品牌能見度。杯墊 Mockup 檢視小尺寸識別。',
       },
     ],
     aspectRatio: '3/4',
@@ -405,28 +574,56 @@ export const projectsList: ProjectData[] = [
   {
     id: 'ai-lab',
     title: 'AI 數位效率實驗室',
-    subtitle: '以 AI 為輔助，探索設計與數位工具的整合應用',
+    subtitle: 'AI 工具介面 × 資訊視覺化 × 使用流程設計',
     category: 'AI Application / UI Design',
     year: '2025 – 2026',
     description:
-      '記錄以 AI 為輔助的設計實驗：' +
-      '從顧問品牌的數字分析工具介面規劃，到個人財務 App 的視覺系統設計，' +
-      '每個作品都在探索如何讓設計產出更有效率、更貼近使用者需求。',
+      '以 AI 工具情境為主題，練習資訊視覺化與操作流程設計。' +
+      '從家庭財務、數字分析到教育應用，' +
+      '探索複雜資訊在數位介面中的閱讀效率與互動體驗。',
+    caseStudy: {
+      problem: 'AI 工具常見資訊密度高、操作門檻高，使用者容易迷失。',
+      goal: '降低理解成本，讓使用者快速完成輸入、閱讀與決策。',
+      solution: '以表單分層、數據視覺化與任務導向版面優化操作流程。',
+      application: '應用於財務分析、數字工具與教育情境的介面設計。',
+    },
+    responsibility: [
+      'UI 介面規劃',
+      '資訊層級設計',
+      '操作流程定義',
+      '視覺化元件設計',
+    ],
+    tools: ['Figma', 'Illustrator', 'Photoshop', '介面視覺原型'],
+    outcomes: [
+      '複雜資訊改為任務導向版面後，閱讀與操作路徑更清楚。',
+      '建立可複用的 AI 工具介面樣式與資訊視覺化模式。',
+    ],
+    process: [
+      '使用情境定義',
+      '欄位與資訊架構規劃',
+      'Wireframe 到高擬真介面迭代',
+      '流程驗證與樣式收斂',
+    ],
+    team: ['個人 UI 研究'],
+    links: {},
+    meta: {
+      duration: '約 2–4 週／每個題目',
+      type: '概念驗證 + 實作練習',
+      status: '持續迭代',
+    },
     images: [
-      { src: aiLabCover, coverOnly: true },
+      { id: 'ai-cover', src: aiLabCover, coverOnly: true },
       {
+        id: 'ai-finance',
         src: aiToolAccounting,
         caption:
-          '家庭財務記帳 App UI：Family Finance 介面設計，' +
-          '以清晰的數字層級與圓餅圖視覺化呈現收支結構，' +
-          '讓使用者不用花時間找資訊就能掌握財務狀況。',
+          '收支結構一眼掌握，降低查找成本。圓餅圖 + 數字層級的 Family Finance UI。',
       },
       {
+        id: 'ai-fortune',
         src: aiToolFortune,
         caption:
-          '生日密碼分析工具 UI：行韋邏輯平台功能介面，' +
-          '清楚的輸入欄位分層讓使用者快速完成資料輸入，' +
-          '降低操作門檻，提升使用流暢度。',
+          '輸入流程精簡，完成分析更順。表單分層的行韋邏輯工具介面。',
       },
     ],
     aspectRatio: '16/9',

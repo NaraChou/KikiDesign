@@ -2,6 +2,7 @@ import React from 'react';
 import { Hero } from './sections/Hero';
 import { Works } from './sections/Works';
 import { Philosophy } from './sections/Philosophy';
+import { Capabilities } from './sections/Capabilities';
 import { LAYOUT } from '../styles/layout';
 
 /**
@@ -21,6 +22,7 @@ export const Home: React.FC = () => (
       <Hero />
       <Works />
       <Philosophy />
+      <Capabilities />
     </div>
   </main>
 );

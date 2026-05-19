@@ -36,7 +36,7 @@ const WORKS = [
   {
     id: 'personal-branding',
     titleZH: '品牌視覺建置｜Behavior Logic',
-    titleEN: 'Brand Identity / Website',
+    titleEN: '識別／網頁視覺',
     subtitle: 'BRAND IDENTITY / 2024–2025',
     img: brandingMockupMain,
     extraClass: '',
@@ -46,7 +46,7 @@ const WORKS = [
   {
     id: 'rabbit-bear',
     titleZH: '品牌視覺設計｜小兔熊',
-    titleEN: 'Brand Identity / Print',
+    titleEN: '識別／印刷',
     subtitle: 'BRAND IDENTITY / 2023',
     img: posterMockupMain,
     extraClass: 'lg:mt-32',
@@ -56,7 +56,7 @@ const WORKS = [
   {
     id: 'hejia-branding',
     titleZH: '品牌識別提案｜小琉球合家麻花捲',
-    titleEN: 'Local Gift Snack Brand',
+    titleEN: '在地品牌／包裝',
     subtitle: 'PACKAGING SYSTEM / 2018',
     img: hejiaDisplayMockup,
     extraClass: '',
@@ -65,8 +65,8 @@ const WORKS = [
   // ④ 練習收尾：Visual Lab（影像合成 / 字體 / UI）
   {
     id: 'practice-lab',
-    titleZH: 'Visual Lab｜設計',
-    titleEN: 'Visual Composition / UI',
+    titleZH: '視覺探索｜研究與實驗',
+    titleEN: '合成／字體／介面',
     subtitle: 'PRACTICE / 2017–2026',
     img: practiceComp01,
     extraClass: 'lg:mt-32',
@@ -103,8 +103,8 @@ export const Works: React.FC = () => {
     <section id="works" ref={sectionRef}>
       <div className={STYLES.container}>
         <header className="works-section-header">
-          <h2 className="works-section-title">Portfolio</h2>
-          <p className="works-section-label">Selected Fragments</p>
+          <h2 className="works-section-title">作品選集</h2>
+          <p className="works-section-label">精選片段</p>
         </header>
         <div className={STYLES.grid}>
           {WORKS.map((work) => (

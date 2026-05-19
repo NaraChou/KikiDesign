@@ -2,15 +2,16 @@ import React from 'react';
 import { LAYOUT } from '../../styles/layout';
 
 /**
- * [A] 視覺資訊備註
- * 理念區 #philosophy：上下留白與背景色由 CSS 變數控制；內文斷行在 md 以上才插入換行，手機維持連貫閱讀。
+ * [A] 理念區 #philosophy：說明設計觀與工作價值；桌機版才在句中斷行，手機維持連貫閱讀。
  */
 
-// [B] 樣式常數（字串末端為 RWD）
+// [B] 樣式常數（版面在前，字級與 RWD 在後）
 const STYLES = {
   container: LAYOUT.colCenterText,
-  description: 'text-lg md:text-3xl leading-[2.2] font-extralight italic',
+  description: 'text-lg font-extralight italic leading-[2.2] md:text-3xl',
   breakMd: 'hidden md:block',
+  supporting:
+    'mx-auto mt-8 max-w-2xl text-sm font-extralight not-italic leading-relaxed opacity-70 md:text-base',
 } as const;
 
 const SECTION_SURFACE: React.CSSProperties = {
@@ -32,6 +33,9 @@ export const Philosophy: React.FC = () => (
         「設計不只是為了解決問題，更是一種溫度的傳遞。
         <br className={STYLES.breakMd} />
         我們在混亂中尋找秩序，在空白中賦予生命。」
+      </p>
+      <p className={STYLES.supporting} style={DESCRIPTION_TYPO}>
+        我相信好的畫面來自清楚的訊息層級：誰在看、要先讀什麼、品牌想留下什麼印象。無論是紙本油墨或螢幕上的版面，都用同一套色彩與字級說話；在送印與交付前多一道校稿，讓成品貼近腦中的樣子。
       </p>
     </div>
   </section>

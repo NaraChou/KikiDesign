@@ -3,7 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projectsRecord, ProjectImage } from '../../data/projectData';
+import { DEFAULT_TECHNICAL_NOTES } from '../../data/technicalNotes';
 import { LAYOUT } from '../../styles/layout';
+import { projectImageAlt } from '../../utils/imageAlt';
 import {
   TAB_FADE_OUT,
   TAB_FADE_IN,
@@ -33,6 +35,11 @@ const STYLES = {
   hoverMask: 'absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 transition-opacity opacity-0 group-hover:opacity-100 waterfall-hover-mask',
   footer: 'flex justify-center back-nav-footer',
   footerLink: 'group flex flex-col items-center',
+  linkRow: 'mt-8 flex flex-col sm:flex-row items-center justify-center gap-4',
+  linkBtn:
+    'inline-block px-5 py-2.5 text-[11px] tracking-[0.18em] uppercase border border-white/25 text-[rgba(234,226,214,0.92)] hover:border-white/50 hover:text-white transition-colors',
+  teamList: 'mb-5 grid gap-1',
+  teamItem: 'text-[13px] leading-6 tracking-[0.05em] text-[rgba(234,226,214,0.9)]',
 } as const;
 
 export const WorkDetail: React.FC = () => {
@@ -48,8 +55,9 @@ export const WorkDetail: React.FC = () => {
   const roRafIdRef = useRef<number | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tabTweenRef = useRef<gsap.core.Tween | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
-  const [lightbox, setLightbox] = useState<ProjectImage | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<string>('全部');
   const isTabSwitched = useRef(false);
 
@@ -63,6 +71,8 @@ export const WorkDetail: React.FC = () => {
     if (!isPractice || activeTab === '全部') return visible;
     return visible.filter(img => img.practiceCategory === activeTab);
   }, [project, activeTab, isPractice]);
+
+  const lightboxImage = lightboxIndex !== null ? filteredImages[lightboxIndex] : null;
 
   const handleTabChange = (tab: string) => {
     if (tab === activeTab) return;
@@ -192,18 +202,54 @@ export const WorkDetail: React.FC = () => {
   }, [id, project]);
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null); };
+    const handleKey = (e: KeyboardEvent) => {
+      if (lightboxIndex === null) return;
+      if (e.key === 'Escape') {
+        setLightboxIndex(null);
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setLightboxIndex((prev) => {
+          if (prev === null || filteredImages.length === 0) return null;
+          return (prev - 1 + filteredImages.length) % filteredImages.length;
+        });
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setLightboxIndex((prev) => {
+          if (prev === null || filteredImages.length === 0) return null;
+          return (prev + 1) % filteredImages.length;
+        });
+      }
+    };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+  }, [lightboxIndex, filteredImages]);
 
   useEffect(() => {
-    if (lightbox) document.body.classList.add('scroll-lock');
+    if (lightboxImage) document.body.classList.add('scroll-lock');
     else document.body.classList.remove('scroll-lock');
     return () => { document.body.classList.remove('scroll-lock'); };
-  }, [lightbox]);
+  }, [lightboxImage]);
+
+  useEffect(() => {
+    if (lightboxImage) closeBtnRef.current?.focus();
+  }, [lightboxImage]);
+
+  useEffect(() => {
+    setLightboxIndex(null);
+  }, [activeTab, id]);
 
   if (!project) return <main className={STYLES.wrapperEmpty}>資料不存在，請回首頁</main>;
+
+  const liveUrl = project.links?.live?.trim();
+  const githubUrl = project.links?.github?.trim();
+  const technicalNotes = [
+    ...DEFAULT_TECHNICAL_NOTES,
+    ...(project.technicalNotes ?? []),
+  ];
 
   return (
     <main
@@ -218,6 +264,157 @@ export const WorkDetail: React.FC = () => {
           <h2 className="serif-italic italic detail-subtitle-text">{project.subtitle}</h2>
           <div className="detail-vertical-divider"></div>
           <p className="font-light detail-description-text">{project.description}</p>
+
+          {(liveUrl || githubUrl) && (
+            <div className={STYLES.linkRow}>
+              {liveUrl && (
+                <a
+                  href={liveUrl}
+                  className={STYLES.linkBtn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  觀看線上呈現
+                </a>
+              )}
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  className={STYLES.linkBtn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub 專頁備份
+                </a>
+              )}
+            </div>
+          )}
+
+          {project.caseStudy && (
+            <section className="mt-10 mx-auto max-w-[42rem] text-left">
+              <div className="grid gap-4">
+                <div>
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-1">課題背景</h3>
+                  <p className="text-[13px] leading-7 tracking-[0.06em] text-[rgba(234,226,214,0.9)]">{project.caseStudy.problem}</p>
+                </div>
+                <div>
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-1">期望成果</h3>
+                  <p className="text-[13px] leading-7 tracking-[0.06em] text-[rgba(234,226,214,0.9)]">{project.caseStudy.goal}</p>
+                </div>
+                <div>
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-1">設計做法</h3>
+                  <p className="text-[13px] leading-7 tracking-[0.06em] text-[rgba(234,226,214,0.9)]">{project.caseStudy.solution}</p>
+                </div>
+                <div>
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-1">實際應用</h3>
+                  <p className="text-[13px] leading-7 tracking-[0.06em] text-[rgba(234,226,214,0.9)]">{project.caseStudy.application}</p>
+                </div>
+              </div>
+            </section>
+          )}
+          {(project.meta ||
+            project.team ||
+            project.responsibility ||
+            project.tools ||
+            project.process ||
+            project.outcomes ||
+            technicalNotes.length > 0) && (
+            <section className="mt-8 mx-auto max-w-[42rem] text-left">
+              {project.team && project.team.length > 0 && (
+                <div className="mb-5">
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-2">
+                    團隊與分工
+                  </h3>
+                  <div className={STYLES.teamList}>
+                    {project.team.map((member) => (
+                      <p key={member} className={STYLES.teamItem}>
+                        {member}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {project.meta && (
+                <div className="mb-5 grid gap-2 sm:grid-cols-3">
+                  {project.meta.duration && (
+                    <p className="text-[11px] tracking-[0.12em] uppercase text-[rgba(255,255,255,0.65)]">
+                      製作期間 <span className="normal-case tracking-[0.05em] text-[rgba(234,226,214,0.92)]">{project.meta.duration}</span>
+                    </p>
+                  )}
+                  {project.meta.type && (
+                    <p className="text-[11px] tracking-[0.12em] uppercase text-[rgba(255,255,255,0.65)]">
+                      專案類型 <span className="normal-case tracking-[0.05em] text-[rgba(234,226,214,0.92)]">{project.meta.type}</span>
+                    </p>
+                  )}
+                  {project.meta.status && (
+                    <p className="text-[11px] tracking-[0.12em] uppercase text-[rgba(255,255,255,0.65)]">
+                      目前狀態 <span className="normal-case tracking-[0.05em] text-[rgba(234,226,214,0.92)]">{project.meta.status}</span>
+                    </p>
+                  )}
+                </div>
+              )}
+              {project.responsibility && (
+                <div className="mb-5">
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-2">我的角色範圍</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.responsibility.map((item) => (
+                      <span key={item} className="text-[12px] tracking-[0.05em] px-2.5 py-1 rounded border border-[rgba(255,255,255,0.2)] text-[rgba(234,226,214,0.92)]">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {project.tools && (
+                <div className="mb-5">
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-2">使用工具</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tools.map((tool) => (
+                      <span key={tool} className="text-[12px] tracking-[0.05em] px-2.5 py-1 rounded border border-[rgba(255,255,255,0.2)] text-[rgba(234,226,214,0.92)]">
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {project.process && (
+                <div className="mb-5">
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-2">製作流程</h3>
+                  <div className="grid gap-2">
+                    {project.process.map((step, idx) => (
+                      <p key={step} className="text-[13px] leading-6 tracking-[0.05em] text-[rgba(234,226,214,0.9)]">
+                        {idx + 1}. {step}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {project.outcomes && (
+                <div className="mb-5">
+                  <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-2">專案成果</h3>
+                  <div className="grid gap-2">
+                    {project.outcomes.map((outcome) => (
+                      <p key={outcome} className="text-[13px] leading-6 tracking-[0.05em] text-[rgba(234,226,214,0.9)]">
+                        {outcome}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div>
+                <h3 className="text-[11px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.58)] mb-2">
+                  製作與交付說明
+                </h3>
+                <div className="grid gap-2">
+                  {technicalNotes.map((note) => (
+                    <p key={note} className="text-[13px] leading-6 tracking-[0.05em] text-[rgba(234,226,214,0.85)]">
+                      {note}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
         </header>
 
         {isPractice && (
@@ -238,27 +435,29 @@ export const WorkDetail: React.FC = () => {
         <section
           ref={gridRef}
           className={STYLES.grid}
-          aria-label="作品圖片瀑布流"
+          aria-label="作品圖像展示"
         >
           {filteredImages.map((image: ProjectImage, idx: number) => (
             <figure
-              key={`${activeTab}-${idx}`}
+              key={`${activeTab}-${image.id}`}
               className={`waterfall-item group relative overflow-hidden cursor-pointer${isPractice ? ' practice-image-card' : ''}`}
-              onClick={() => setLightbox(image)}
+              onClick={() => setLightboxIndex(idx)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') setLightbox(image);
+                if (e.key === 'Enter') setLightboxIndex(idx);
               }}
             >
               <figcaption className={STYLES.hoverMask}>
-                <span className="uppercase waterfall-hover-btn">View</span>
+                <span className="uppercase waterfall-hover-btn">放大</span>
                 {image.caption && <span className="waterfall-caption-dot" aria-hidden="true"></span>}
               </figcaption>
               <img
                 src={image.src}
-                alt={`${project.title} 作品圖片 ${idx + 1}`}
+                alt={projectImageAlt(image, project.title)}
                 className={`waterfall-image-main${isPractice ? ' practice-grayscale' : ''}`}
+                width={1600}
+                height={1000}
                 loading={idx === 0 ? 'eager' : 'lazy'}
                 decoding="async"
                 fetchPriority={idx === 0 ? 'high' : 'low'}
@@ -278,27 +477,68 @@ export const WorkDetail: React.FC = () => {
         <footer className={STYLES.footer}>
           <Link to="/" className={STYLES.footerLink}>
             <span className="back-line group-hover:w-24"></span>
-            <span className="uppercase back-label group-hover:text-white">
-              返回首頁 / Back to Home
+            <span className="back-label group-hover:text-white">
+              返回首頁
             </span>
           </Link>
         </footer>
       </section>
 
-      {lightbox && (
+      {lightboxImage && (
         <div
           className="lightbox-overlay"
-          onClick={() => setLightbox(null)}
+          onClick={() => setLightboxIndex(null)}
           role="dialog"
           aria-modal="true"
           aria-label="圖片放大檢視"
         >
           <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close" onClick={() => setLightbox(null)} aria-label="關閉">
+            <button
+              ref={closeBtnRef}
+              className="lightbox-close"
+              onClick={() => setLightboxIndex(null)}
+              aria-label="關閉"
+            >
               ✕
             </button>
-            <img src={lightbox.src} alt="作品圖片放大檢視" className="lightbox-image" />
-            {lightbox.caption && <p className="lightbox-caption">{lightbox.caption}</p>}
+            {filteredImages.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="lightbox-nav lightbox-prev"
+                  onClick={() => {
+                    setLightboxIndex((prev) => {
+                      if (prev === null) return null;
+                      return (prev - 1 + filteredImages.length) % filteredImages.length;
+                    });
+                  }}
+                  aria-label="上一張"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  className="lightbox-nav lightbox-next"
+                  onClick={() => {
+                    setLightboxIndex((prev) => {
+                      if (prev === null) return null;
+                      return (prev + 1) % filteredImages.length;
+                    });
+                  }}
+                  aria-label="下一張"
+                >
+                  ›
+                </button>
+              </>
+            )}
+            <img
+              src={lightboxImage.src}
+              alt={projectImageAlt(lightboxImage, project.title)}
+              className="lightbox-image"
+              width={1600}
+              height={1000}
+            />
+            {lightboxImage.caption && <p className="lightbox-caption">{lightboxImage.caption}</p>}
           </div>
         </div>
       )}

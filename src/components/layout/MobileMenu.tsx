@@ -10,10 +10,11 @@ import { SCROLL_SMOOTH, SCROLL_INSTANT } from '../../utils/animationPresets';
 
 // [B] 資料與樣式常數
 const menuLinks: Array<{ id: string; href: string; label: string }> = [
-  { id: 'home', href: '#home', label: '首頁 Index' },
-  { id: 'works', href: '#works', label: '設計作品 Works' },
-  { id: 'philosophy', href: '#philosophy', label: '設計理念 Vision' },
-  { id: 'contact', href: '#contact', label: '聯絡方式 Contact' },
+  { id: 'home', href: '#home', label: '首頁' },
+  { id: 'works', href: '#works', label: '作品選集' },
+  { id: 'capabilities', href: '#capabilities', label: '設計範疇與流程' },
+  { id: 'philosophy', href: '#philosophy', label: '設計理念' },
+  { id: 'contact', href: '#contact', label: '聯絡方式' },
 ];
 
 const STYLES = {
@@ -88,7 +89,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           className={STYLES.close}
           aria-label="關閉導覽選單"
         >
-          關閉選單 Close
+          關閉選單
         </button>
       </div>
     </nav>

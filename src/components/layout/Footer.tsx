@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
 /**
- * [A] 視覺資訊備註
- * 頁尾聯絡區 #contact（與 style.css 內錨點樣式對應）；Email 可一鍵複製並短暫顯示 Copied!；社群連結另開分頁。
+ * [A] 頁尾 #contact：左側為自我介紹標語，右側為聯絡方式；Email 點擊後複製到剪貼簿並短暫顯示已複製提示。
  */
 
-// [B] 資料與樣式常數
+// [B] 連結資料：另開分頁、附無障礙標籤
 const SOCIAL_LINKS = [
   {
     href: 'https://www.facebook.com/profile.php?id=100066728660644&locale=zh_TW',
@@ -35,26 +34,25 @@ const HIDDEN_WORKS = [
 const STYLES = {
   wrapper: 'footer-frame border-t border-white/5',
   container:
-    'max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end text-center md:text-left',
+    'mx-auto flex max-w-screen-2xl flex-col items-center justify-between text-center md:flex-row md:items-end md:text-left',
   columnLead: 'mb-12 md:mb-0',
-  title: 'footer-title mb-4 serif-italic',
+  title: 'footer-title serif-italic mb-4',
   description: 'footer-subtitle',
-  columnEnd: 'flex flex-col items-center md:items-end space-y-4',
+  columnEnd: 'flex flex-col items-center space-y-4 md:items-end',
   stack: 'flex flex-col items-center md:items-end',
   email: 'relative group',
-  emailButton: 'footer-email cursor-copy flex items-center group',
-  emailTextOn: 'transition-all duration-300 opacity-100',
-  emailTextOff: 'transition-all duration-300 opacity-0',
+  emailButton: 'footer-email group flex cursor-copy items-center',
+  emailTextOn: 'opacity-100 transition-all duration-300',
+  emailTextOff: 'opacity-0 transition-all duration-300',
   feedback:
-    'absolute left-0 right-0 text-center md:text-right transition-all duration-300 text-[10px] tracking-widest text-[var(--brand-accent-hover)] uppercase',
+    'absolute left-0 right-0 text-center text-[10px] uppercase tracking-widest text-[var(--brand-accent-hover)] transition-all duration-300 md:text-right',
   feedbackOn: 'opacity-100',
   feedbackOff: 'opacity-0',
-  socialList: 'flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 mt-1',
-  bottomBar:
-    'max-w-screen-2xl mx-auto mt-8 pt-6 border-t border-white/5 flex justify-center',
+  socialList: 'mt-1 flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-end',
+  bottomBar: 'mx-auto mt-8 flex max-w-screen-2xl justify-center border-t border-white/5 pt-6',
   copyrightText:
-    'text-[10px] md:text-[12px] tracking-[0.11em] md:tracking-[0.2em] leading-tight text-white/30 uppercase font-light whitespace-nowrap',
-  copyrightBrand: 'text-white/50 font-medium',
+    'text-[10px] font-light uppercase leading-tight tracking-[0.11em] text-white/30 whitespace-nowrap md:text-[12px] md:tracking-[0.2em]',
+  copyrightBrand: 'font-medium text-white/50',
 } as const;
 
 // [C] 元件主體
@@ -62,6 +60,7 @@ export const Footer: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const email = 'exloe574@gmail.com';
 
+  // 點擊後把信箱寫入剪貼簿，畫面上短暫顯示「已複製」回饋
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault();
     navigator.clipboard.writeText(email);
@@ -71,11 +70,10 @@ export const Footer: React.FC = () => {
 
   return (
     <footer id="contact" className={STYLES.wrapper}>
-      {/* 上層：左右欄 */}
       <div className={STYLES.container}>
         <div className={STYLES.columnLead}>
-          <h3 className={STYLES.title}>Create with Soul.</h3>
-          <p className={STYLES.description}>Open to New Opportunities in 2026</p>
+          <h3 className={STYLES.title}>品牌視覺與印刷應用</h3>
+          <p className={STYLES.description}>面試作品集 · 僅作品展示用途</p>
         </div>
 
         <div className={STYLES.columnEnd}>
@@ -93,12 +91,11 @@ export const Footer: React.FC = () => {
                 <span
                   className={`${STYLES.feedback} ${copied ? STYLES.feedbackOn : STYLES.feedbackOff}`}
                 >
-                  Copied!
+                  已複製
                 </span>
               </button>
             </div>
 
-            {/* 社群連結 + 隱藏作品連結並排 */}
             <ul className={STYLES.socialList} aria-label="連結">
               {SOCIAL_LINKS.map((link) => (
                 <li key={link.label}>
@@ -129,7 +126,6 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* 下層：Copyright 橫跨全寬 */}
       <div className={STYLES.bottomBar}>
         <p className={STYLES.copyrightText}>
           &copy;&nbsp;2026&nbsp;

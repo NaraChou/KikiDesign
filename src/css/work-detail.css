@@ -18,6 +18,7 @@
   background: var(--detail-bg, #0E0C0B);
   padding-top: calc(var(--nav-height, 5rem) + var(--section-padding-y, 4rem));
   padding-bottom: var(--section-padding-y, 8rem);
+  overflow-x: clip;
 }
 
 /* === 標題(主/副)、標籤、Header 統整 === */
@@ -39,7 +40,7 @@
 /* 主/副標，整併共同字重，細分尺寸/顏色 */
 .detail-main-title,
 .detail-subtitle-text {
-  font-weight: 300;
+  font-weight: 500;
 }
 .detail-main-title {
   font-size: var(--workdetail-title-size, 2rem);
@@ -49,7 +50,7 @@
 }
 .detail-subtitle-text {
   font-size: var(--workdetail-subtitle-size, 1.25rem);
-  color: var(--workdetail-subtitle-color, rgba(255,255,255,0.4));
+  color: var(--workdetail-subtitle-color, rgba(255,255,255,0.62));
   margin-bottom: var(--workdetail-subtitle-mb, 3rem);
 }
 
@@ -66,7 +67,7 @@
   font-size: var(--workdetail-desc-size, 0.82rem);
   line-height: var(--workdetail-desc-leading, 1.8);
   letter-spacing: var(--workdetail-desc-tracking, 0.15em);
-  color: var(--workdetail-desc-color, #EAE2D6B2);
+  color: var(--workdetail-desc-color, rgba(234,226,214,0.88));
   max-width: var(--workdetail-desc-max-w, 36rem);
   margin: 0 auto;
 }

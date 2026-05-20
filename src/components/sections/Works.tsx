@@ -3,70 +3,48 @@ import { LAYOUT } from '../../styles/layout';
 import { STAGGER_WATERFALL } from '../../utils/animationPresets';
 import { WorkCard } from './WorkCard';
 
-// ── 封面圖（首頁卡片用）──────────────────────────────────────
-import brandingMockupMain  from '../../assets/images/branding-mockup-main.webp';
-import posterMockupMain    from '../../assets/images/poster-mockup-main.webp';
+import brandingMockupMain from '../../assets/images/branding-mockup-main.webp';
 import hejiaDisplayMockup from '../../assets/images/hojia_display_mockup.webp';
-import practiceComp01     from '../../assets/images/practice-comp-01.webp';
-
-/**
- * [A] 視覺資訊備註
- * 作品列表 #works；卡片光暈顏色、底色在 works.css 以變數管理；
- * 此檔負責 data-work-id 與滑鼠座標（--mouse-x / --mouse-y）。
- *
- * ▍2026.05 最終結構（4 張卡片）
- * - 移除數位視覺設計卡片（素材暫無安全來源，待補）
- * - ai-lab / logo-design 保留路由，可從 Footer 或 About 頁連結進入
- * - 封面圖全部更換，提升首頁視覺衝擊力
- *
- * ▍封面圖對應說明
- * 1. Behavior Logic → branding-mockup-main（Logo + 三螢幕響應式，品牌完整度高）
- * 2. 小兔熊         → poster-mockup-main（暖黃色調，角色明確）
- * 3. 合家小食屋     → practice-logo-hejia（黑底Logo，視覺乾淨）
- * 4. 設計練習       → practice-comp-01（武俠風影像合成，技術感高）
- */
+import posterMockupMain from '../../assets/images/poster-mockup-main.webp';
+import practiceComp01 from '../../assets/images/practice-comp-01.webp';
 
 const ALIGN_CONFIG = {
-  left:  { textAlign: 'text-left'  as const },
+  left: { textAlign: 'text-left' as const },
   right: { textAlign: 'text-right' as const },
 };
 
 const WORKS = [
-  // ① 主力：Behavior Logic 完整品牌案
   {
     id: 'personal-branding',
-    titleZH: '品牌視覺建置｜Behavior Logic',
-    titleEN: '識別／網頁視覺',
+    titleZH: '品牌視覺設計｜Behavior Logic',
+    titleEN: 'Brand Identity / Consultant Brand',
     subtitle: 'BRAND IDENTITY / 2024–2025',
     img: brandingMockupMain,
     extraClass: '',
     ...ALIGN_CONFIG.left,
   },
-  // ② 次主力：小兔熊完整品牌識別（Logo + 名片 + 海報，有現場使用照）
   {
     id: 'rabbit-bear',
     titleZH: '品牌視覺設計｜小兔熊',
-    titleEN: '識別／印刷',
-    subtitle: 'BRAND IDENTITY / 2023',
+    titleEN: 'Parenting Education Brand',
+    subtitle: 'BRAND IDENTITY / 2025',
     img: posterMockupMain,
     extraClass: 'lg:mt-32',
     ...ALIGN_CONFIG.right,
   },
-  // ③ 提案：合家小食屋 Logo + 包裝標籤系統
   {
     id: 'hejia-branding',
-    titleZH: '品牌識別提案｜小琉球合家麻花捲',
-    titleEN: '在地品牌／包裝',
-    subtitle: 'PACKAGING SYSTEM / 2018',
+    titleZH: '品牌提案｜合家咔脆條',
+    titleEN: 'Brand Proposal / Packaging Visual',
+    subtitle: 'BRAND PROPOSAL / 2018',
     img: hejiaDisplayMockup,
     extraClass: '',
     ...ALIGN_CONFIG.left,
   },
-  // ④ 練習收尾：Visual Lab（影像合成 / 字體 / UI）
   {
     id: 'practice-lab',
-    titleZH: '視覺探索｜研究與實驗',
-    titleEN: '合成／字體／介面',
+    titleZH: '視覺探索｜Visual Exploration',
+    titleEN: 'Visual Exploration',
     subtitle: 'PRACTICE / 2017–2026',
     img: practiceComp01,
     extraClass: 'lg:mt-32',
@@ -103,8 +81,8 @@ export const Works: React.FC = () => {
     <section id="works" ref={sectionRef}>
       <div className={STYLES.container}>
         <header className="works-section-header">
-          <h2 className="works-section-title">作品選集</h2>
-          <p className="works-section-label">精選片段</p>
+          <h2 className="works-section-title">作品精選</h2>
+          <p className="works-section-label">Portfolio</p>
         </header>
         <div className={STYLES.grid}>
           {WORKS.map((work) => (

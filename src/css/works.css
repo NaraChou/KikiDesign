@@ -18,6 +18,7 @@
   padding-top: var(--section-padding-y, 6rem);
   padding-bottom: var(--section-padding-y, 6rem);
   background: var(--section-bg-works, transparent);
+  overflow-x: clip;
 }
 
 /* ── B. 標題群組 ─────────────────────────────────────────── */
@@ -299,9 +300,9 @@
   }
   .title-zh {
     font-size: 1.5rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   .title-en {
     font-size: 1.1rem;
